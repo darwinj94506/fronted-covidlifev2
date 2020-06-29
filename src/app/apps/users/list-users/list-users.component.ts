@@ -5,7 +5,6 @@ import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../user';
 
-
 @Component({
     selector: 'app-list-users',
     templateUrl: './list-users.component.html',

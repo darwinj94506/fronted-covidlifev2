@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { ROUTES } from './menu-items';
+import { ROUTES_ADMIN, ROUTES_ROOT, ROUTES_DOCTOR, ROUTES_DIRECTOR, ROUTES_PATIENT } from './menu-by-rol';
 import { RouteInfo } from './sidebar.metadata';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -43,6 +44,32 @@ export class SidebarComponent implements OnInit {
 
   // End open close
   ngOnInit() {
-    this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem);
+    // this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem); solo esta línea estaba
+    this.sidebarnavItems = this.getMenu(['ROOT_ROLE', 'ADMIN_ROLE', 'DOCTOR_ROLE','DIRECTOR_ROLE', 'PATIENT_ROLE']);
+  }
+
+  getMenu(roles:string[]): RouteInfo[]{
+    let menu:RouteInfo[] = [];
+    roles.forEach(rol=> {
+      switch (rol) {
+        case 'ROOT_ROLE' :
+          menu = [ ...menu, ...ROUTES_ROOT ]
+          break;
+        case 'ADMIN_ROLE':
+          menu = [ ...menu, ...ROUTES_ADMIN ]
+          break;
+        case 'DOCTOR_ROLE':
+          menu = [...menu, ...ROUTES_DOCTOR ]
+          break;
+        case 'DIRECTOR_ROLE':
+          menu = [...menu, ...ROUTES_DIRECTOR ]
+          break;
+        case 'PATIENT_ROLE':
+          menu = [ ...menu, ...ROUTES_PATIENT ]
+          break;
+      }
+    })
+    return menu
+   
   }
 }

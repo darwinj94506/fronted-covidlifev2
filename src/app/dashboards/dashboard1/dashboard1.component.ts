@@ -6,6 +6,7 @@ declare var require: any;
 const data: any = require('./data.json');
 
 @Component({
+	selector:'app-dashboard1',
 	templateUrl: './dashboard1.component.html',
 	styleUrls: ['./dashboard1.component.css']
 })

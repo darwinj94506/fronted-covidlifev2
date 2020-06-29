@@ -41,10 +41,10 @@ import { UserService } from './users/userService.service';
         ReactiveFormsModule,
         NgbModule,
         NgbModalModule,
-        CalendarModule.forRoot({
-            provide: DateAdapter,
-            useFactory: adapterFactory
-        }),
+        // CalendarModule.forRoot({
+        //     provide: DateAdapter,
+        //     useFactory: adapterFactory
+        // }),
         QuillModule.forRoot(),
         DragulaModule.forRoot(),
         RouterModule.forChild(AppsRoutes),
@@ -59,7 +59,7 @@ import { UserService } from './users/userService.service';
         TodosComponent,
         ContactComponent,
         ContactsComponent,
-        FullcalendarComponent,
+        // FullcalendarComponent,
         NotesComponent,
         TimeAgoPipe,
         ListUsersComponent,

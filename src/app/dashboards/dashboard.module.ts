@@ -28,8 +28,34 @@ import { EarningComponent } from './dashboard-components/earning-report/earning-
 import { ActivityComponent } from './dashboard-components/activity-timeline/activity.component';
 
 @NgModule({
-  imports: [FormsModule, CommonModule, NgbModule, ChartsModule, ChartistModule, RouterModule.forChild(DashboardRoutes), PerfectScrollbarModule],
+  imports: [  FormsModule, 
+    CommonModule, 
+    NgbModule, 
+    ChartsModule, 
+    ChartistModule, 
+    RouterModule.forChild(DashboardRoutes), 
+    PerfectScrollbarModule],
   declarations: [
+    Dashboard1Component,
+    Dashboard2Component,
+    Dashboard3Component,
+    IncomeCounterComponent,
+    ProjectCounterComponent,
+    ProjectComponent,
+    RecentcommentComponent,
+    RecentmessageComponent,
+    SocialSliderComponent,
+    TodoComponent,
+    ProfileComponent,
+    PageAnalyzerComponent,
+    WidgetComponent,
+    CustomerSupportComponent,
+    TotalEarningComponent,
+    FeedsComponent,
+    EarningComponent,
+    ActivityComponent
+  ],
+  exports:[
     Dashboard1Component,
     Dashboard2Component,
     Dashboard3Component,
