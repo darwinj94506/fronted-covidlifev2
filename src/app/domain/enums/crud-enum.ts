@@ -7,3 +7,4 @@ export enum CRUDEnum {
     SEARCH_BY_FIELD="search_by_field",
     SEARCH_BY_FIELD_LIKE="search_by_field_like"
 }
+

@@ -14,13 +14,12 @@ import { PatientsComponent, TaskboardComponent } from './pages';
 import { DailyStatusComponent } from './pages/daily-status/daily-status.component';
 import { VideoCallComponent } from './pages/video-call/video-call.component';
 
-
-
+import { AppsModule } from '../../apps/apps.module';
+import { CallDashModule } from '../video-chat/call-dash/call-dash.module';
 @NgModule({
   declarations: [PatientsComponent, TaskboardComponent, DailyStatusComponent, VideoCallComponent],
   imports: [
     CommonModule,
-    
     NgbModule,
     NgbModalModule,
     FlatpickrModule.forRoot(),
@@ -30,8 +29,10 @@ import { VideoCallComponent } from './pages/video-call/video-call.component';
     }),
     DoctorRoutingModule,
     Ng2SearchPipeModule, 
-    QuillModule.forRoot(),   
-    DragulaModule.forRoot()
+    QuillModule.forRoot(),
+    AppsModule,   
+    DragulaModule.forRoot(),
+    CallDashModule
   ],
   providers:[
     DatePipe, 

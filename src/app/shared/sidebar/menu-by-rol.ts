@@ -31,6 +31,16 @@ export const ROUTES_ROOT: RouteInfo[] = [
 				extralink: false,
 				submenu: []
 			},
+			{
+				path: '/root/lugares',
+				title: 'Lugares',
+				icon: 'mdi mdi-adjust',
+				class: '',
+				label: '',
+				labelClass: '',
+				extralink: false,
+				submenu: []
+			},
 			
 		]
 	},
@@ -59,8 +69,8 @@ export const ROUTES_DOCTOR: RouteInfo[] = [
 				extralink: false,
 				submenu: []
 			},
-			{
-				path: '/doctor/pacientes',
+			{ 
+				path: '/apps/users',
 				title: 'Pacientes',
 				icon: 'mdi mdi-adjust',
 				class: '',
@@ -69,9 +79,29 @@ export const ROUTES_DOCTOR: RouteInfo[] = [
 				extralink: false,
 				submenu: []
 			},
+			{ 
+				path: '/doctor/estado-diario',
+				title: 'Estado diario',
+				icon: 'mdi mdi-adjust',
+				class: '',
+				label: '',
+				labelClass: '',
+				extralink: false,
+				submenu: []
+			},
 			{
-				path: '/doctor/agenda',
+				path: '/apps/fullcalendar',
 				title: 'Agenda',
+				icon: 'mdi mdi-adjust',
+				class: '',
+				label: '',
+				labelClass: '',
+				extralink: false,
+				submenu: []
+			},
+			{
+				path: '/doctor/video-llamada',
+				title: 'Video llamada',
 				icon: 'mdi mdi-adjust',
 				class: '',
 				label: '',
@@ -93,7 +123,7 @@ export const ROUTES_ADMIN: RouteInfo[] = [
 	
 	{
 		path: '',
-		title: 'Root',
+		title: 'Administrador',
 		icon: 'mdi mdi-gauge',
 		class: 'has-arrow',
 		label: '3',
@@ -101,8 +131,8 @@ export const ROUTES_ADMIN: RouteInfo[] = [
 		extralink: false,
 		submenu: [
 			{
-				path: '/root/administradores',
-				title: 'Modern',
+				path: '/admin/personal',
+				title: 'Personal',
 				icon: 'mdi mdi-adjust',
 				class: '',
 				label: '',
@@ -111,8 +141,8 @@ export const ROUTES_ADMIN: RouteInfo[] = [
 				submenu: []
 			},
 			{
-				path: '/root/hospitales',
-				title: 'Classic',
+				path: '/admin/hospital',
+				title: 'Hospital',
 				icon: 'mdi mdi-adjust',
 				class: '',
 				label: '',
@@ -141,7 +171,7 @@ export const ROUTES_DIRECTOR: RouteInfo[] = [
 		submenu: [
 			{
 				path: '/director/mapas',
-				title: 'Modern',
+				title: 'Mapas',
 				icon: 'mdi mdi-adjust',
 				class: '',
 				label: '',
@@ -151,7 +181,7 @@ export const ROUTES_DIRECTOR: RouteInfo[] = [
 			},
 			{
 				path: '/director/estadisticas',
-				title: 'Classic',
+				title: 'Estadísticas',
 				icon: 'mdi mdi-adjust',
 				class: '',
 				label: '',
@@ -179,7 +209,7 @@ export const ROUTES_PATIENT: RouteInfo[] = [
 		submenu: [
 			{
 				path: '/paciente/citas',
-				title: 'Modern',
+				title: 'Citas',
 				icon: 'mdi mdi-adjust',
 				class: '',
 				label: '',
@@ -188,8 +218,18 @@ export const ROUTES_PATIENT: RouteInfo[] = [
 				submenu: []
 			},
 			{
-				path: '/director/video-llamada',
-				title: 'Classic',
+				path: '/paciente/video-llamada',
+				title: 'Video llamada',
+				icon: 'mdi mdi-adjust',
+				class: '',
+				label: '',
+				labelClass: '',
+				extralink: false,
+				submenu: []
+			},
+			{
+				path: '/apps/chat',
+				title: 'Chat',
 				icon: 'mdi mdi-adjust',
 				class: '',
 				label: '',

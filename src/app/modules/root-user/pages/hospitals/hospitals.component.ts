@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ProvinceService } from '../../services'; 
 @Component({
   selector: 'app-hospitals',
   templateUrl: './hospitals.component.html',
@@ -7,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HospitalsComponent implements OnInit {
 
-  constructor() { }
+  constructor( private _province: ProvinceService ) { }
 
   ngOnInit(): void {
+    this._province.getProvinces().subscribe(console.log)
   }
 
 }

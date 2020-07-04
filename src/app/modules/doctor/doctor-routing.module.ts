@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PatientsComponent, TaskboardComponent,FullcalendarComponent } from './pages';
+import { PatientsComponent, TaskboardComponent,
+   FullcalendarComponent, VideoCallComponent, DailyStatusComponent} from './pages';
 
 const routes: Routes = [
   {
@@ -32,6 +33,24 @@ const routes: Routes = [
                 { title: 'Taskboard' }
             ]
           }
+      },
+      { path:'estado-diario', component : DailyStatusComponent,
+      data: {
+        title: 'Estado diario de pacientes',
+        urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Taskboard' }
+        ]
+      }
+    },
+      { path:'video-llamada', component : VideoCallComponent,
+        data: {
+          title: 'Video llamada',
+          urls: [
+              { title: 'Dashboard', url: '/dashboard' },
+              { title: 'Taskboard' }
+          ]
+        }
       },
       
     ]

@@ -50,7 +50,7 @@ export const Approutes: Routes = [
 			},
 			// nuevos módulos
 			{ path: 'root', loadChildren: () => import('./modules/root-user/root-user.module').then(m => m.RootUserModule) },
-			{ path: 'administrador', loadChildren: () => import('./modules/administrator/administrator.module').then(m => m.AdministratorModule) },
+			{ path: 'admin', loadChildren: () => import('./modules/administrator/administrator.module').then(m => m.AdministratorModule) },
 			{ path: 'doctor', loadChildren: () => import('./modules/doctor/doctor.module').then(m => m.DoctorModule) },
 			{ path: 'paciente', loadChildren: () => import('./modules/patient/patient.module').then(m => m.PatientModule) },
 			{ path: 'director', loadChildren: () => import('./modules/director/director.module').then(m => m.DirectorModule) },

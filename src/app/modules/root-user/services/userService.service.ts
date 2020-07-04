@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class UserService {
 
+
     constructor( private repository: userFDBRepository ){}
 
     // public users: IUser[] = users;
@@ -22,5 +23,7 @@ export class UserService {
         this.users = this.repository.all();
         return this.repository.all()
     }
+
+   
 
 }

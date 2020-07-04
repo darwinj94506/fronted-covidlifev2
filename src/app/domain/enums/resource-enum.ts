@@ -1,13 +1,13 @@
-export enum ResourceEnum {    
-    TEST = "test",
-    SPACE="space",
-    HOSPITAL="hospital",
-    DOCTOR="doctor",
-    PATIENT="patient",
-    PROVINCE="provincia",
-    CANTON="canton",
-    PARROQUIA="parroquia",
-    ROOT="root",
-    USER="user",
-    PERFIL="perfil"    
+export interface Operations {
+    create:string;
+    delete:string;
+    update:string;
+    all:string;
+}
+
+export interface ProvinceOperations extends Operations {
+    create : "addProvince",
+    delete : "deleteProvince",
+    update : "updateProvince",
+    all : "allProvincel"
 }

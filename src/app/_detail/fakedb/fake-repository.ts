@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IGenericRepository } from '../../aplication';
-import { IEntity, ResourceEnum, CRUDEnum, IUser} from '../../domain';
+import { IEntity, IUser} from '../../domain';
 import { Observable, of } from 'rxjs';
 const users: IUser[] =[
     {
@@ -37,10 +37,7 @@ const users: IUser[] =[
 export class FakeDbRepository< T extends IEntity > implements IGenericRepository<T> {
     
 
-    // private resource: ResourceEnum;
-    constructor(private resource: ResourceEnum){
-        // this.resource = resource;
-    }
+    
 
     save(entity:T): Observable<T | null> {
         return null;
@@ -52,7 +49,7 @@ export class FakeDbRepository< T extends IEntity > implements IGenericRepository
         return null;
     }
     all(): Observable<any[] | null> {
-        console.log(this.resource);
+        // console.log(this.resource);
         return of(users);
     }
 

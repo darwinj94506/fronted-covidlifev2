@@ -3,7 +3,6 @@ import { UserService } from '../../services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { UserOutput, BaseOutput } from '../../../../domain/interfaces/responses';
 import { IUser } from '../../../../domain';
 import { Observable } from 'rxjs';
 //
@@ -60,9 +59,9 @@ export class AdministratorsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.apollo
-        .watchQuery({query: allProvince})
-        .valueChanges.pipe(map(( {data} : any ) => data.allProvincel)).subscribe(console.log)
+        // this.apollo
+        // .watchQuery({query: allProvince})
+        // .valueChanges.pipe(map(( {data} : any ) => data.allProvincel)).subscribe(console.log)
 
 
         this.editUser = this.fb.group({
