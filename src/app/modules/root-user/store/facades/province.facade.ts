@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as actionsProvinces from '../actions/province.actions';
-import { getProvinceState } from '../reducers/province.reducers';
-// import { PaymentMethod, PaymentMethods } from './payment-method.model';
-// import * as PaymentMethodSelectors from './payment-method.selectors';
-
+// import { getProvinceState } from '../reducers/province.reducers';
+import { selectProvinceState} from '../root-user.reducer';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +13,9 @@ export class ProvinceFacade {
   public loadProvinces() {
     this.store.dispatch(actionsProvinces.loadProvinces());
   }
+  public loadProvinceSuccess(provinces){
+    this.store.dispatch(actionsProvinces.loadProvincesSuccess({provinces}))
+  }
 
   public addProvince(newProvince: any) {
     this.store.dispatch(
@@ -22,37 +23,26 @@ export class ProvinceFacade {
     );
   }
 
-  public openModal( targetHtml, province ){
+  public updateProvince(province){
     this.store.dispatch(
-      actionsProvinces.openModal({ targetHtml })
+      actionsProvinces.updateProvince({ province: { ...province } })
+    );
+  }
+
+  public openModalCreateUpdate(province){
+    this.store.dispatch(
+      actionsProvinces.openModalCreateUpdate({province})
     )
   }
 
-  public closeModal(){
+  public openModalConfirmation(province){
     this.store.dispatch(
-      actionsProvinces.closeModal()
+      actionsProvinces.openModalConfirmation({province})
     )
   }
-
-
-//   public selectPreferredPaymentMethod(preferredId: string) {
-//     this.store.dispatch(
-//       provinceActions.selectPreferredPaymentMethod({ preferredId })
-//     );
-//   }
-//   public setExpirationPaymentMethod(updatedPaymentMethod: PaymentMethod) {
-//     this.store.dispatch(
-//       provinceActions.setExpirationPaymentMethod({
-//         updatedPaymentMethod: { ...updatedPaymentMethod }
-//       })
-//     );
-//   }
-
-  public getPaymentMethodsList(): Observable<any> {
-    return this.store.select(getProvinceState)
+  
+  public getProvinceList(): Observable<any> {
+    return this.store.select(selectProvinceState)
   }
 
-//   public getPreferredPaymentMethod$(): Observable<string> {
-//     return this.store.select(PaymentMethodSelectors.getPreferredPaymentMethod);
-//   }
 }

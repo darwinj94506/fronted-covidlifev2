@@ -8,9 +8,8 @@ import { IProvince } from '../../domain';
 @Injectable({ providedIn:'root'})
 export class ProvinceMDBRepository extends MongoDBRepository<IProvince> implements IProvinceRepository{
     
-     
     constructor(injector: Injector){
-        super(PROVINCE_OPERATIONS, injector);
+        super(PROVINCE_OPERATIONS,null, injector);
     }
 
     customMethod(): void {

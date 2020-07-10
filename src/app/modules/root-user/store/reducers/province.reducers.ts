@@ -1,8 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as actionsProvinces  from '../actions/province.actions';
 
-// export const exchangeRateFeatureKey = 'exchangeRate';
-
 export interface ProvinceState {
   provinces: any;
   isLoading:boolean;
@@ -48,11 +46,40 @@ const provinceReducer = createReducer(
     error: payload.error,
     isLoading:false
   })),
-  // on(actionsProvinces.createProvinceError, (state, payload) => ({
-  //   ...state,
-  //   error: payload.error,
-  //   isLoading:false
-  // })),
+  on(actionsProvinces.updateProvince, state => ({
+    ...state,
+    error:'',
+    isLoading:true
+  })),
+  on(actionsProvinces.updateProvinceSuccess, (state) => ({
+    ...state,
+    error:'',
+    isLoading:false
+  })),
+  on(actionsProvinces.updateProvinceError, (state, payload) => ({
+    ...state,
+    error: payload.error,
+    isLoading:false
+  })),
+  on(actionsProvinces.deleteProvince, state => ({
+    ...state,
+    error:'',
+    isLoading:true
+  })),
+  on(actionsProvinces.deleteProvinceSuccess, (state) => ({
+    ...state,
+    error:'',
+    isLoading:false
+  })),
+  on(actionsProvinces.deleteProvinceError, (state, payload) => ({
+    ...state,
+    error: payload.error,
+    isLoading:false
+  })),
+  
+  
+  
+ 
 
 );
 

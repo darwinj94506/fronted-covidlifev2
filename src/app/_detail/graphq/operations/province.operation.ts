@@ -1,5 +1,5 @@
 import { IOperations } from '../interfaces/operation.interface';
-import { ALL, CREATE, UPDATE, DELETE } from '../gpl/province';
+import { ALL, CREATE, UPDATE, DELETE } from '../gql/province';
 
 export const PROVINCE_OPERATIONS : IOperations = {
     all: {
@@ -19,6 +19,5 @@ export const PROVINCE_OPERATIONS : IOperations = {
         gpl: DELETE
     }
 
-    
 }
 

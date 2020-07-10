@@ -3,10 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { FullComponent } from './layouts/full/full.component';
 import { BlankComponent } from './layouts/blank/blank.component';
+import { LoginGuard } from './login.guard';
 
 export const Approutes: Routes = [
 	{
 		path: '',
+		canActivate:[ LoginGuard ],
 		component: FullComponent,
 		children: [
 			{ path: '', redirectTo: '/dashboard/dashboard1', pathMatch: 'full' },

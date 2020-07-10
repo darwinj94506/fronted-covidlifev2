@@ -1,86 +1,14 @@
 <div class="row">
     <div class="col-12">
-        <div class="card card-body">
-            <h4 class="card-title">Tabla de administradores de provincias</h4>
-            <h5 class="card-subtitle">Se muestran las provincias registradas</h5>
-            <div class="d-flex mb-3 mt-3">
-                <input type="text" class="form-control w-25" placeholder="Search by Name or Email" [(ngModel)]='searchTerm'>
-                <button class="btn btn-primary ml-auto" (click)="openModal(editProvinceModal, null)">Nuevo</button>
-            </div>
-            <div class="table-responsive table-bordered">
-                <table class="table table-striped mb-0 no-wrap v-middle">
-                    <thead>
-                        <tr>
-                            <th class="text-center" scope="col">#</th>
-                            <th scope="col">Nombre</th>
-                            <th> Acciones </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let province of provinces; let i=index">
-
-                            <td class="text-center">
-                                {{ i + 1}}
-                            </td>
-
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="ml-3">
-                                        <p class="font-bold mb-0">{{ province.name }}</p>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td>
-                                <a href="javascript: void(0);" (click)="openModal(editProvinceModal, province)" class="link mr-2" placement="top" ngbTooltip="Edit">
-                                    <i class="mdi mdi-pencil"></i>
-                                </a>
-                                <a href="javascript: void(0);" class="link" (click)="deleteUser(user.id)" placement="top" ngbTooltip="Delete">
-                                    <i class="mdi mdi-delete"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="d-flex justify-content-center mt-5">
-                <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="provinces.length"></ngb-pagination>
-            </div>
-        </div>
+        <app-province-table> </app-province-table>
     </div>
 </div>
 
-<ng-template #editProvinceModal let-modal>
-
-    <div class="modal-header">
-
-        <h5 class="modal-title" id="editProvinceLabel">Editar</h5>
-
-        <button type="button" class="close" (click)="closeBtnClick()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-
+<div class="row">
+    <div class="col-lg-6">
+        <app-canton-table> </app-canton-table>
     </div>
-
-    <div class="modal-body">
-
-        <form [formGroup]="editProvince" (ngSubmit)="onSubmit()">
-
-            <div class="form-group row">
-                <label for="name" class="col-sm-4 col-form-label">Nombre</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" formControlName="name" id="name" (blur)=logValidationErrors(editProvince)>
-                    <span class="help-block" *ngIf="formsErrors.name">
-                        {{formsErrors.name}}
-                    </span>
-                </div>
-            </div>
-
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closeBtnClick()">Cancelar</button>
-                <button type="submit" class="btn btn-primary" [disabled]="editProvince.invalid">Guardar</button>
-            </div>
-        </form>
+    <div class="col-lg-6">
+        <app-parroquia-table> </app-parroquia-table>
     </div>
-</ng-template>
+</div>

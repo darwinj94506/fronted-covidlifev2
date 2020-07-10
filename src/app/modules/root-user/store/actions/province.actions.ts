@@ -38,15 +38,39 @@ export const updateProvinceSuccess = createAction(
 );
 
 export const updateProvinceError = createAction(
-  '[Province] Update Province Error'
+  '[Province] Update Province Error',
+  props<{ error: any }>()
 );
 
-export const openModal = createAction(
+export const deleteProvince = createAction(
+  '[Province] Delete Province',
+  props<{ province: any }>()
+);
+
+export const deleteProvinceSuccess = createAction(
+  '[Province] Delete Province Success'
+);
+
+export const deleteProvinceError = createAction(
+  '[Province] Delete Province Error',
+  props<{error:any}>()
+);
+
+export const deleteProvinceCancel = createAction(
+  '[Province] Delete Province Cancel'
+);
+
+export const openModalConfirmation = createAction(
+  '[Province] Open Modal Confirmation',
+  props<{ province }>()
+);
+
+export const openModalCreateUpdate = createAction(
   '[Province] Open Modal',
-  props<{ targetHtml:any }> ()
+  props<{province:any}>()
 )
 
-export const closeModal = createAction(
+export const closeModalCreateUpdate = createAction(
   '[Province] Close Modal'
-)
+) 
 

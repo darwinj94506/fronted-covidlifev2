@@ -7,29 +7,8 @@ import { IUser } from '../../../../domain';
 import { Observable } from 'rxjs';
 //
 import {Apollo} from 'apollo-angular';
-import {map} from 'rxjs/operators';
-import gql from 'graphql-tag';
 
-const allProvince = gql`
-    query allProvinces{
-        allProvincel{
-        _id
-        name
-        cantons{
-            _id
-            name
-            idProvincia
-            parroquias{
-            _id
-            name
-            idCanton
-            }
-            idParroquias
-        }
-        idCantons
-        }
-    }  
-`;
+
 
 //
 
@@ -59,11 +38,7 @@ export class AdministratorsComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.apollo
-        // .watchQuery({query: allProvince})
-        // .valueChanges.pipe(map(( {data} : any ) => data.allProvincel)).subscribe(console.log)
-
-
+      
         this.editUser = this.fb.group({
             id: [''],
             name: ['', Validators.required],

@@ -4,28 +4,28 @@ import { IEntity, IUser} from '../../domain';
 import { Observable, of } from 'rxjs';
 const users: IUser[] =[
     {
-        id:'1',
+        _id:'1',
         name:'Darwin',
         lastname:'Guailla',
         email:'darwin@espe.ec',
         role:['ADMIN','PATIENT','DOCTOR']
     },
     {
-        id:'2',
+        _id:'2',
         name:'Fernanda',
         lastname:'Espinoza',
         email:'fernanda@espe.ec',
         role:['DOCTOR']
     },
     {
-        id:'3',
+        _id:'3',
         name:'Mateo',
         lastname:'Casco',
         email:'mateo@espe.ec',
         role:['ADMIN','PATIENT','DOCTOR']
     },
     {
-        id:'4',
+        _id:'4',
         name:'Meghan',
         lastname:'Cuvi',
         email:'meghan@espe.ec',
@@ -39,7 +39,7 @@ export class FakeDbRepository< T extends IEntity > implements IGenericRepository
 
     
 
-    save(entity:T): Observable<T | null> {
+    create(entity:T): Observable<T | null> {
         return null;
     }
     update(entity:T): Observable<T | null> {
