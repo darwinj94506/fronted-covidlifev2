@@ -17,6 +17,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducer } from './store/auth.reducers';
 import { AuthEffects } from './store/auth.effects';
 import { AuthService } from './auth.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -36,7 +37,7 @@ import { AuthService } from './auth.service';
     Signup2Component
   ],
   providers:[
-    AuthService
+   
   ]
 })
 export class AuthenticationModule {}

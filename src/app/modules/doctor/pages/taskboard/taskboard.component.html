@@ -3,23 +3,11 @@
         <div class="taskboard page-height">
             <div class="taskboard-wrapper">
                 <div class="taskboard-list">
-                    <h6 class="taskboard-header">En espera</h6>
-                    <div class="taskboard-cards" [dragula]='"task-group"'>
-                        <div class="taskboard-task">
-                            <div class="taskboard-task-title task-status-success">José Luis Carrillo</div>
-                            <small class="card-text text-muted">No tengo apetito</small>
-                        </div>
-                        <div class="taskboard-task">
-                            <div class="taskboard-task-title task-status-danger">Daniel Salas</div>
-                            <small class="card-text text-muted">No puedo respirar</small>
-                        </div>
-                        <div class="taskboard-task task-status-info">
-                            <div class="taskboard-task-title">Melany Cuvi</div>
-                            <small class="card-text text-muted">Desde ayer me duele la cabeza</small>
-                        </div>
-                        <div class="taskboard-task task-status-success">
-                            <div class="taskboard-task-title  task-status-danger">Mathias Lema</div>
-                            <small class="card-text text-muted">Desde ayer perdí el olfato y me duele la cabeza </small>
+                    <h6 class="taskboard-header">Seguimientos</h6>
+                    <div class="taskboard-cards" id="regulares" dragula="SEGUIMIENTOS" [(dragulaModel)]="regulares">
+                        <div class="taskboard-task task-status-success" *ngFor="let seg of regulares" [ngClass]="getCssClass(seg)">
+                            <div class="taskboard-task-title">{{seg.patient.name}} {{seg.patient.lastname}}</div>
+                            <!-- <small class="card-text text-muted">{{seg.description}}</small> -->
                         </div>
                     </div>
                 </div>
@@ -27,24 +15,11 @@
 
             <div class="taskboard-wrapper">
                 <div class="taskboard-list">
-                    <h6 class="taskboard-header">Agendadas</h6>
-                    <div class="taskboard-cards" [dragula]='"task-group"'>
-                        <div class="taskboard-task">
-                            <div class="taskboard-task-title task-status-danger">Julio Hugo</div>
-                            <small class="card-text text-muted">No puedo respirar</small>
-                        </div>
-                        <div class="taskboard-task task-status-info">
-                            <div class="taskboard-task-title">Kevin Gomez</div>
-                            <small class="card-text text-muted">Desde ayer me duele la cabeza</small>
-                        </div>
-                        <div class="taskboard-task">
-                            <div class="taskboard-task-title task-status-success">Mateo Casco</div>
-                            <small class="card-text text-muted">No tengo apetito</small>
-                        </div>
-
-                        <div class="taskboard-task task-status-success">
-                            <div class="taskboard-task-title  task-status-danger">María Lema</div>
-                            <small class="card-text text-muted">Desde ayer perdí el olfato y me duele la cabeza </small>
+                    <h6 class="taskboard-header">Solicitudes de llamada</h6>
+                    <div class="taskboard-cards" id="videollamada" dragula="SEGUIMIENTOS" [(dragulaModel)]="videollamada">
+                        <div class="taskboard-task task-status-danger" *ngFor="let seg of videollamada" [ngClass]="getCssClass(seg)">
+                            <div class="taskboard-task-title">{{seg.patient.name}} {{seg.patient.lastname}}</div>
+                            <!-- <small class="card-text text-muted">{{seg.description}}</small> -->
                         </div>
                     </div>
                 </div>
@@ -52,25 +27,27 @@
 
             <div class="taskboard-wrapper">
                 <div class="taskboard-list">
-                    <h6 class="taskboard-header">Realizadas</h6>
-                    <div class="taskboard-cards" [dragula]='"task-group"'>
-                        <div class="taskboard-task">
-                            <div class="taskboard-task-title task-status-danger">Juan Perez</div>
-                            <small class="card-text text-muted">No puedo respirar</small>
+                    <h6 class="taskboard-header">Agendadas por mí</h6>
+                    <div class="taskboard-cards" id="agendadas" dragula="SEGUIMIENTOS" [(dragulaModel)]="agendadas">
+                        <div class="taskboard-task task-status-danger" *ngFor="let seg of agendadas" [ngClass]="getCssClass(seg)">
+                            <div class="taskboard-task-title">{{seg.patient.name}} {{seg.patient.lastname}}</div>
+                            <!-- <small class="card-text text-muted">{{seg.description}}</small> -->
                         </div>
-                        <div class="taskboard-task task-status-info">
-                            <div class="taskboard-task-title">Lariza Lema</div>
-                            <small class="card-text text-muted">Desde ayer me duele la cabeza</small>
-                        </div>
-                        <div class="taskboard-task">
-                            <div class="taskboard-task-title task-status-success">Susana Guailla</div>
-                            <small class="card-text text-muted">No tengo apetito</small>
-                        </div>
-
                     </div>
                 </div>
             </div>
 
+            <div class="taskboard-wrapper">
+                <div class="taskboard-list">
+                    <h6 class="taskboard-header">Atendidas por mí</h6>
+                    <div class="taskboard-cards" id="atendidas" dragula="SEGUIMIENTOS" [(dragulaModel)]="atendidas">
+                        <div class="taskboard-task" *ngFor="let seg of atendidas" [ngClass]="getCssClass(seg.patientState)">
+                            <div class="taskboard-task-title task-status-danger">{{seg.patient.name}} {{seg.patient.lastname}}</div>
+                            <!-- <small class="card-text text-muted">{{seg.description}}</small> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

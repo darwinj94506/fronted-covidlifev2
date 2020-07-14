@@ -4,17 +4,20 @@ import { catchError, map, switchMap, mergeMap, tap, flatMap, exhaustMap} from 'r
 import { Observable, from, of} from 'rxjs';
 import { AuthService } from '../auth.service';
 import * as authActions  from './auth.actions';
+import { UserRegisterUsecase, LoginUsecase } from '../../core/usecases'
 
 @Injectable()
 export class AuthEffects {
 
     constructor( private actions$: Actions, 
-        private _authService: AuthService ) { }
+        private _authService: AuthService,
+        private _loginUseCase: LoginUsecase,
+        private _userRegisterUseCase: UserRegisterUsecase) { }
         
     @Effect()
     login: Observable<any> = this.actions$.pipe(
         ofType(authActions.login),
-        exhaustMap(({user}) => this._authService.login(user).pipe(
+        exhaustMap(({user}) => this._loginUseCase.execute(user).pipe(
             map((userLogged) => {
                 return authActions.loginSuccess({userLogged})
             }),
@@ -27,26 +30,25 @@ export class AuthEffects {
     @Effect({dispatch:false})
     loginSuccess: Observable<any> = this.actions$.pipe(
         ofType(authActions.loginSuccess),
-        tap(({userLogged})=>{
+        tap(({userLogged})=>{         
             this._authService.saveLocalStorage({...userLogged})
             this._authService.navigateToDashboard()})
     )     
 
     @Effect({dispatch:false})
     loginError: Observable<any> = this.actions$.pipe(
-        ofType(authActions.loginSuccess),
+        ofType(authActions.loginError),
         tap((err)=>{this._authService.showError(err)})
     )   
 
     @Effect()
     register: Observable<any> = this.actions$.pipe(
         ofType(authActions.register),
-        exhaustMap(({user}) => this._authService.register(user).pipe(
+        exhaustMap(({user}) => this._userRegisterUseCase.execute(user).pipe(
             map((user) => {
                 return authActions.registerSuccess({user})
             }),
             catchError( (err) => {
-                console.log("error en el el registrar")
                 return of( authActions.registerError({error:err.message}) )
             })
         )),
@@ -56,7 +58,7 @@ export class AuthEffects {
     registerSuccess: Observable<any> = this.actions$.pipe(
         ofType(authActions.registerSuccess),
         tap(({user})=>{
-            this._authService.showSuccess(`${user.name} ${user.lastname} Se ha registrado exitosamente, por favor inicie sesión`)
+            this._authService.showSuccess(`${user.name} ${user.lastname} usted se ha registrado exitosamente, por favor inicie sesión`)
             this._authService.navigateToLogin()})
     ) 
 

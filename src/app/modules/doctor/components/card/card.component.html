@@ -1,0 +1,4 @@
+<div class="taskboard-task task-status-success" *ngFor="let seg of regulares" [ngClass]="getCssClass(seg)">
+    <div class="taskboard-task-title">{{seg.patient.name}} {{seg.patient.lastname}}</div>
+    <!-- <small class="card-text text-muted">{{seg.description}}</small> -->
+</div>

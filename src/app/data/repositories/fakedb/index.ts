@@ -1,0 +1,1 @@
+export { FollowUpFkDBRepository } from './follow-up.fk.repository';

@@ -1,0 +1,124 @@
+{
+    "seguimientos": [{
+            "_id": 1,
+            "temperatura": 30,
+            "saturacionOxigeno": 90,
+            "presionArterial": 99,
+            "patientId": 1,
+            "patient": {
+                "name": "Meghan",
+                "lastname": "Cuvi"
+            },
+            "type": "REGULAR",
+            "state": "NO_ATENDIDO",
+            "patientState": "IGUAL_EVOLUCION",
+            "patientNote": "Me duele la garganta"
+        },
+        {
+            "_id": 2,
+            "temperatura": 30,
+            "saturacionOxigeno": 90,
+            "presionArterial": 99,
+            "patientId": 2,
+            "patient": {
+                "name": "Fernanda",
+                "lastname": "Valencia"
+            },
+            "type": "VIDEOLLAMADA",
+            "state": "NO_ATENDIDO",
+            "patientState": "IGUAL_EVOLUCION",
+            "patientNote": "Me duele la cabeza"
+        },
+        {
+            "_id": 3,
+            "temperatura": 28,
+            "saturacionOxigeno": 70,
+            "presionArterial": 110,
+            "patientId": 3,
+            "patient": {
+                "name": "David",
+                "lastname": "Casco"
+            },
+            "type": "REGULAR",
+            "state": "NO_ATENDIDO",
+            "patientState": "EMPEORANDO",
+            "patientNote": "Perdí el sentido del olfato y el gusto"
+        },
+        {
+            "_id": 4,
+            "temperatura": 33,
+            "saturacionOxigeno": 99,
+            "presionArterial": 110,
+            "patientId": 4,
+            "patient": {
+                "name": "Roxana",
+                "lastname": "Alvarado"
+            },
+            "type": "REGULAR",
+            "state": "NO_ATENDIDO",
+            "patientState": "MEJORANDO",
+            "patientNote": "Ha bajado del dolor de garganta con la medición que me resetó"
+        },
+        {
+            "_id": 5,
+            "temperatura": 35,
+            "saturacionOxigeno": 80,
+            "presionArterial": 90,
+            "patientId": 5,
+            "patient": {
+                "name": "Juliet",
+                "lastname": "Cuvi"
+            },
+            "type": "REGULAR",
+            "state": "NO_ATENDIDO",
+            "patientState": "MEJORANDO",
+            "patientNote": "No siento ningún síntoma"
+        },
+        {
+            "_id": 6,
+            "temperatura": 36,
+            "saturacionOxigeno": 85,
+            "presionArterial": 100,
+            "patientId": 6,
+            "patient": {
+                "name": "Mathias",
+                "lastname": "Lema"
+            },
+            "type": "REGULAR",
+            "state": "NO_ATENDIDO",
+            "patientState": "IGUAL_EVOLUCIÓN",
+            "patientNote": "Estoy bien no presento síntomas"
+        },
+        {
+            "_id": 7,
+            "temperatura": 36,
+            "saturacionOxigeno": 85,
+            "presionArterial": 100,
+            "patientId": 6,
+            "patient": {
+                "name": "Magaly",
+                "lastname": "Salazar"
+            },
+            "type": "REGULAR",
+            "state": "ATENDIDO",
+            "patientState": "IGUAL_EVOLUCIÓN",
+            "patientNote": "Estoy bien no presento síntomas"
+        },
+        {
+            "_id": 8,
+            "temperatura": 36,
+            "saturacionOxigeno": 85,
+            "presionArterial": 100,
+            "patientId": 6,
+            "patient": {
+                "name": "Marina",
+                "lastname": "Bonila"
+            },
+            "type": "VIDEOLLAMADA",
+            "state": "NO_ATENDIDO",
+            "patientState": "IGUAL_EVOLUCIÓN",
+            "patientNote": "Estoy bien no presento síntomas"
+        }
+
+    ]
+}

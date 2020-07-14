@@ -15,9 +15,9 @@ export class AuthFacade {
     console.log("auth facade");
   }
 
-  login(user) {
-    this.store.dispatch(authActions.login({user}))
-  }
+  // login(user) {
+  //   this.store.dispatch(authActions.login({user}))
+  // }
 
   loadUserLoggedSuccess(userLogged){
     this.store.dispatch(authActions.loadUserLoggedSuccess({userLogged}))

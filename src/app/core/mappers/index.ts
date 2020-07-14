@@ -1,0 +1,1 @@
+export { FollowUpRepositoryMapper } from './follow-up-mapper';

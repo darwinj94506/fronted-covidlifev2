@@ -1,0 +1,7 @@
+export enum FollowUpStateEnum {    
+    ATENDIDO = "ATENDIDO",
+    NO_ATENDIDO = "NO_ATENDIDO",
+    AGENDADO = "AGENDADO",
+    CANCELADO = "CANCELADO",
+    REALIZADO = "REALIZADO"
+}

@@ -44,9 +44,9 @@ export class SidebarComponent implements OnInit {
 
   // End open close
   ngOnInit() {
-    this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem);
+    // this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem);
     console.log(this.sidebarnavItems)
-    // this.sidebarnavItems = this.getMenu(['ROOT_ROLE', 'ADMIN_ROLE', 'DOCTOR_ROLE','DIRECTOR_ROLE', 'PATIENT_ROLE']);
+    this.sidebarnavItems = this.getMenu(['ROOT_ROLE', 'ADMIN_ROLE', 'DOCTOR_ROLE','DIRECTOR_ROLE', 'PATIENT_ROLE']);
   }
 
   getMenu(roles:string[]): RouteInfo[]{

@@ -1,6 +1,6 @@
 
 export { IEntity } from './interfaces/entities/entity';
-export { IUser} from './interfaces/entities/user';
+export { IUser } from './interfaces/entities/user';
 
 export { IProvince } from './interfaces/entities/province'
 export { ICanton } from './interfaces/entities/canton';

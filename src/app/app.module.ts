@@ -30,7 +30,6 @@ import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { GraphQLModule } from './graphql.module';
 // store ngrx
-
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -38,6 +37,13 @@ import { environment } from '../environments/environment';
 import { AuthEffects } from './store/auth/auth.effects';
 import { AppReducers } from './store/app.reducers';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { UserMDBRepository } from './data/repositories/mongodb/user/user-mdb-repository';
+import { FollowUpFkDBRepository } from './data/repositories/fakedb';
+import { UserRepository, FollowUpRepository } from './core/repositories';
+
+
+
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 1,
@@ -78,6 +84,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
+    { provide: UserRepository, useClass: UserMDBRepository },
+    { provide: FollowUpRepository, useClass: FollowUpFkDBRepository},
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

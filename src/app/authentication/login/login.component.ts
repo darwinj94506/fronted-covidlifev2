@@ -2,10 +2,7 @@ import { Component, OnInit, OnDestroy, Injector} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthFacade } from '../store/auth.facade';
 import { FormValidation } from '../../domain'
-// import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable } from 'rxjs';
-
-
+import { ICredentialsInput } from '../../core/domain/inputs';
 const ValidationMessage = {
   email: { required: 'El Nombre es obligatorio', email:'El correo ingresado es inválido' },
   password: { required: 'La contraseña es obligatoria', minlength:'Una contraseña tiene al menos 6 caracteres' }
@@ -16,9 +13,7 @@ const ValidationMessage = {
   templateUrl: './login.component.html'
 })
 export class LoginComponent extends FormValidation implements OnInit, OnDestroy{
-
   loginForm: FormGroup;
-  // suscription: Subscription;
   
   constructor( private fb: FormBuilder, private _authFacade: AuthFacade, injector: Injector) {
     super({...ValidationMessage}, injector)
@@ -35,11 +30,10 @@ export class LoginComponent extends FormValidation implements OnInit, OnDestroy{
       email: [ '', [Validators.required, Validators.email] ],
       password: [ '', [Validators.required, Validators.minLength(6)] ]         
     });
-    console.log(this.loginForm.get('email'))
   }
 
   onSubmit(){
-    let userToLogin = {
+    let userToLogin : ICredentialsInput = {
       email: this.loginForm.get('email').value,
       password: this.loginForm.get('password').value
     }
