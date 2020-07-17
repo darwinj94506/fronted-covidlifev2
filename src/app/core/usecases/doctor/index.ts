@@ -1,0 +1,7 @@
+export { MacarSeguimientoComoAgendado } from './marcar-seg-como-agendado.usecase';
+export { MacarSeguimientoComoAtendido } from './marcar-seg-como-atendido.usecase';
+
+export { VerSeguimientosNoAtendidosSinLLamadaUseCase } from './ver-seg-no-atendidos-sin-llamada.usecase';
+export { VerSeguimientosNoAtendidosConLLamadaUseCase } from './ver-seg-no-atendidos-con-llamada.usecase';
+export { VerSeguimientosAgendadosUseCase } from './ver-seg-agendados.usecase';
+export { VerSeguimientosAtendidosUseCase } from './ver-seg-atendidos.usecase';

@@ -1,0 +1,33 @@
+<div class="flex">
+    <div class="container" id="segSinLlamada" dragula="SEGUIMIENTOS" [(dragulaModel)]="segSinLlamada">
+        Seguimiento
+        <div class="vamp" *ngFor="let seg of segSinLlamada">
+            <h5> {{ seg?.paciente?.nombre }} {{ seg?.paciente?.apellido }}</h5>
+            <p>{{seg.nota_paciente}}</p>
+        </div>
+    </div>
+    <div class="container" id="segConLlamada" dragula="SEGUIMIENTOS" [(dragulaModel)]="segConLlamada">
+        Solicitando llamada
+        <div class="vamp" *ngFor="let seg of segConLlamada">
+            <h5> {{ seg?.paciente?.nombre }} {{ seg?.paciente?.apellido }}</h5>
+            <p>{{seg.nota_paciente}}</p>
+        </div>
+    </div>
+
+    <div class="container" id="segAgendados" dragula="SEGUIMIENTOS" [(dragulaModel)]="segAgendados">
+        agendadas
+        <div class="vamp" *ngFor="let seg of segAgendados">
+            <h5> {{ seg?.paciente?.nombre }} {{ seg?.paciente?.apellido }}</h5>
+            <p>{{seg.nota_paciente}}</p>
+        </div>
+    </div>
+
+    <div class="container" id="segAtendidos" dragula="SEGUIMIENTOS" [(dragulaModel)]="segAtendidos">
+        atendidas
+        <div class="vamp" *ngFor="let seg of segAtendidos">
+            <h5> {{ seg?.paciente?.nombre }} {{ seg?.paciente?.apellido }}</h5>
+            <p>{{seg.nota_paciente}}</p>
+        </div>
+    </div>
+
+</div>

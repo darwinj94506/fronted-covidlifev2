@@ -4,28 +4,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RootUserRoutingModule } from './root-user-routing.module';
-import { AdministratorsComponent, HospitalsComponent, PlacesComponent,
-  ProvinceFormComponent } from './pages';
+import { AdministratorsComponent,
+         HospitalsComponent, 
+         PlacesComponent,
+         FormComponent } from './pages';
 import { UserService, ProvinceService } from './services';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { RootUserReducers } from './store/root-user.reducer';
-import { ProvinceEffects } from './store/effects/province.effecs';
-import { ProvinceTableComponent } from './pages/places/province/province-table/province-table.component';
+import { ProvinceEffects, EspacioEffects } from './store/effects';
 
 import { UiModule } from '../../ui/ui.module';
-import { CantonFormComponent } from './pages/places/canton/canton-form/canton-form.component';
-import { CantonTableComponent } from './pages/places/canton/canton-table/canton-table.component';
+import { TableComponent } from './pages/places/table/table.component';
 
 @NgModule({
   declarations: [AdministratorsComponent,
      HospitalsComponent, 
      PlacesComponent,
-     ProvinceFormComponent,
-     ProvinceTableComponent,
-     CantonFormComponent,
-     CantonTableComponent],
+     FormComponent,
+     TableComponent],
   imports: [
     CommonModule,
     FormsModule, 
@@ -35,7 +33,7 @@ import { CantonTableComponent } from './pages/places/canton/canton-table/canton-
     NgbModule,
     UiModule,
     StoreModule.forFeature('rootUserState', RootUserReducers),
-    EffectsModule.forFeature([ProvinceEffects])
+    EffectsModule.forFeature([ProvinceEffects, EspacioEffects])
   ],
   providers:[
     DecimalPipe,
@@ -44,7 +42,7 @@ import { CantonTableComponent } from './pages/places/canton/canton-table/canton-
     ProvinceService
   ],
   entryComponents:[
-    ProvinceFormComponent
+    FormComponent
   ]
 })
 export class RootUserModule { }

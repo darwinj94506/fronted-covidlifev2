@@ -17,8 +17,11 @@ import { VideoCallComponent } from './pages/video-call/video-call.component';
 import { AppsModule } from '../../apps/apps.module';
 import { CallDashModule } from '../video-chat/call-dash/call-dash.module';
 import { CardComponent } from './components/card/card.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { SeguimientosComponent } from './pages/seguimientos/seguimientos.component';
+
 @NgModule({
-  declarations: [PatientsComponent, TaskboardComponent, DailyStatusComponent, VideoCallComponent, CardComponent],
+  declarations: [PatientsComponent, TaskboardComponent, DailyStatusComponent, VideoCallComponent, CardComponent, SeguimientosComponent],
   imports: [
     CommonModule,
     NgbModule,
@@ -33,7 +36,8 @@ import { CardComponent } from './components/card/card.component';
     QuillModule.forRoot(),
     AppsModule,   
     DragulaModule,
-    CallDashModule
+    CallDashModule,
+    NgxSpinnerModule
   ],
   providers:[
     DatePipe, 

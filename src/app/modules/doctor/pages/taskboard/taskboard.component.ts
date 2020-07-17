@@ -1,15 +1,19 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { DragulaService } from 'ng2-dragula';
-import { FollowUpStateEnum, FollowUpTypeEnum, PatientStateFollowUpEnum } from '../../../../core/domain/enums'
-import { MarkFollowUpAsAttendedUsecase,
-         MarkFollowUpAsScheduledUsecase,
-         SeeFollowUpsByStateUsecase, 
-         SeeFollowUpsByTypeUsecase } from '../../../../core/usecases'
+import { EstadoDiarioPacienteEnum } from '../../../../core/domain/enums'
+import { MacarSeguimientoComoAgendado,
+         MacarSeguimientoComoAtendido, 
+         VerSeguimientosAgendadosUseCase,
+         VerSeguimientosAtendidosUseCase, 
+         VerSeguimientosNoAtendidosConLLamadaUseCase,
+         VerSeguimientosNoAtendidosSinLLamadaUseCase} from '../../../../core/usecases/doctor'
 import { IFollowUpResponse } from '../../../../core/domain/responses';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { AnyAaaaRecord } from 'dns';
+import { AnyFn } from '@ngrx/store/src/selector';
 
 interface args {
   name: string;
@@ -33,103 +37,147 @@ interface args {
 
 export class TaskboardComponent implements OnInit, OnDestroy{
   private _destroyed$ = new Subject();
-  regulares : IFollowUpResponse | [] = []; 
-  videollamada: IFollowUpResponse | [] = [];
-  agendadas : IFollowUpResponse | [] = [];
-  atendidas : IFollowUpResponse | [] = [];
+ 
 
+  segSinLlamada = []; 
+  segConLlamada = [];
+  segAgendados  = [];
+  segAtendidos  = [];
+  cargandoSegSinllamada = true;
+  cargandoSegConLlamada = true;
+  cargandoSegAgendados = true;
+  cargandoSegAtendidos = true;
   constructor(private dragulaService: DragulaService,
-     private _seeFollowUpsByState: SeeFollowUpsByStateUsecase,
-     private _seeFollowUpsByType : SeeFollowUpsByTypeUsecase,
-     private _markFollowUpAsAttededUseCase : MarkFollowUpAsAttendedUsecase,
-     private _markFollowUpAsScheduledUseCase: MarkFollowUpAsScheduledUsecase,
-     private _toastr: ToastrService,
+     private _verSeguimientosAtendidos: VerSeguimientosAtendidosUseCase,
+     private _verSeguimientosNoAtendidoConllamdaas : VerSeguimientosNoAtendidosConLLamadaUseCase,
+     private _verSeguimientosNoAtendidoSinllamadas : VerSeguimientosNoAtendidosSinLLamadaUseCase,
+     private _verSeguimientosAgendadosUseCase: VerSeguimientosAgendadosUseCase,
+     private _toast: ToastrService,
      private _spinner: NgxSpinnerService ){
     
     this.dragulaService.destroy('SEGUIMIENTOS');
     this.dragulaService.createGroup("SEGUIMIENTOS", {});
-
     this.dragulaService.dropModel("SEGUIMIENTOS")
-      .pipe(
-        takeUntil(this._destroyed$))
       .subscribe((args: args )=> {
-        this.makeAction(args);     
+        // this.makeAction(args);     
       });
   }
 
   ngOnInit(){
-    this.loadFollowUps();
+    this.cargarSeguimientosNoAtendidosSinLLamada();
+    this.cargarSeguimientosNoAtendidosConLlamada();
+    this.cargarSeguimientosAgendados();
+    this.cargarSeguimientosAtendidos();
   }
 
-  makeAction(args: args){
-    switch(args.target.getAttribute('id')){
-      case 'agendadas':
-         console.log("agendadas");
-         this.markAsScheduled(args.item)
-        break;
-      case 'atendidas':
-        console.log("atendidas");
-        this.markAsAttended(args.item)
-        break;
-    }
-  }
+  // makeAction(args: args){
+  //   switch(args.target.getAttribute('id')){
+  //     case 'segAgendados':
+  //        console.log("segAgendados");
+  //        this.markAsScheduled(args.item)
+  //       break;
+  //     case 'segAtendidos':
+  //       console.log("segAtendidos");
+  //       this.markAsAttended(args.item)
+  //       break;
+  //   }
+  // }
 
-  getCssClass(patientState: PatientStateFollowUpEnum): string {
+  getCssClass(patientState: EstadoDiarioPacienteEnum): string {
     switch (patientState) {
-      case PatientStateFollowUpEnum.EMPEORANDO:
+      case EstadoDiarioPacienteEnum.EMPEORANDO:
         return "task-status-danger"
-      case PatientStateFollowUpEnum.IGUAL_EVOLUCION:
+      case EstadoDiarioPacienteEnum.IGUAL_EVOLUCION:
         return "task-status-info"
-      case PatientStateFollowUpEnum.MEJORANDO : 
+      case EstadoDiarioPacienteEnum.MEJOR_EVOLUCION : 
         return "task-status-success"
       default:
         return ""
     }
   }
 
-  loadFollowUps(){
-    this._spinner.show();
+  mostrarMensajeDeError(msg){
+    this._toast.error(msg,'Error')
+  }
 
-    this._seeFollowUpsByType.execute(FollowUpTypeEnum.REGULAR, FollowUpStateEnum.NO_ATENDIDO)
-      .pipe(
-        takeUntil(this._destroyed$))
-      .subscribe( (data: IFollowUpResponse) =>{
-        console.log(data);
-        this.regulares = data
-        this._spinner.hide();
-      })
+  cargarSeguimientosNoAtendidosSinLLamada(){
 
-    this._seeFollowUpsByType.execute(FollowUpTypeEnum.VIDEOLLAMADA, FollowUpStateEnum.NO_ATENDIDO)
-      .pipe(
-        takeUntil(this._destroyed$)  )
-      .subscribe( (data: IFollowUpResponse) =>{
-        console.log(data);
-        this.videollamada = data
-      })
-
-    this._seeFollowUpsByState.execute(FollowUpStateEnum.ATENDIDO)
+    this._spinner.show('spSegSinLlamada');
+    this._verSeguimientosNoAtendidoSinllamadas.execute()
     .pipe(
       takeUntil(this._destroyed$))
-    .subscribe( (data: IFollowUpResponse) =>{
+    .subscribe( (data:any ) =>{
+      setTimeout(()=>{
+        this.cargandoSegSinllamada=false;
+        this.segSinLlamada = [...data]
+      },5000)
       console.log(data);
-      this.atendidas = data
+      
+    },error=>{
+      this.cargandoSegSinllamada=false;
+      this.mostrarMensajeDeError('Error al cargar seguimientos');
     })
+  }
 
-    this._seeFollowUpsByState.execute(FollowUpStateEnum.AGENDADO)
+  cargarSeguimientosNoAtendidosConLlamada(){
+    this._spinner.show('spConLlamada');
+    this._verSeguimientosNoAtendidoConllamdaas.execute()
+    .pipe(
+      takeUntil(this._destroyed$)  )
+    .subscribe( (data: any) =>{
+      setTimeout(()=>{
+        this.segConLlamada = [...data]
+        this.cargandoSegConLlamada=false;
+      },5000)
+      console.log(data);
+      
+    },error=>{
+      this.cargandoSegConLlamada=false;
+      this.mostrarMensajeDeError('Error al cargar seguimientos con solicitud de video llamada');
+    })
+  }
+
+  cargarSeguimientosAtendidos(){
+    this._spinner.show('spAtendidos');
+    this._verSeguimientosAtendidos.execute()
+    .pipe(
+      takeUntil(this._destroyed$))
+    .subscribe( (data:any) =>{
+      setTimeout(()=>{
+        this.cargandoSegAtendidos=false;
+        this.segAtendidos = [...data]
+      },5000)
+      console.log(data);
+     
+    },error=>{
+      this.cargandoSegAtendidos=false;
+      this.mostrarMensajeDeError('Error al cargar seguimientos atendidos');
+    })
+  }
+
+  cargarSeguimientosAgendados(){
+    this._spinner.show('spAgendados');
+    this._verSeguimientosAgendadosUseCase.execute()
     .pipe(takeUntil(this._destroyed$))
-    .subscribe( (data: IFollowUpResponse) =>{
+    .subscribe( (data:any) =>{
+      setTimeout(()=>{
+        this.cargandoSegAgendados=false;
+        this.segAgendados = [...data]
+      },5000)
       console.log(data);
-      this.agendadas = data
+    },error=>{
+      this.cargandoSegAgendados=false;
+      this.mostrarMensajeDeError('Error al cargar seguimientos agendados');
     })
   }
 
-  markAsAttended(appointment: IFollowUpResponse){
-    this._markFollowUpAsAttededUseCase.execute(appointment)  
-  }
+  // markAsAttended(appointment: IFollowUpResponse){
+  //   this._markFollowUpAsAttededUseCase.execute(appointment)  
+  // }
 
-  markAsScheduled(appointment: IFollowUpResponse){
-    this._markFollowUpAsScheduledUseCase.execute(appointment)
-  }
+  // markAsScheduled(appointment: IFollowUpResponse){
+  //   this._markFollowUpAsScheduledUseCase.execute(appointment)
+  // }
 
   ngOnDestroy(){
     console.log("executed")

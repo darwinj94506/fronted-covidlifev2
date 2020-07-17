@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PatientsComponent, TaskboardComponent,
-   FullcalendarComponent, VideoCallComponent, DailyStatusComponent} from './pages';
+   FullcalendarComponent,
+   VideoCallComponent,
+   SeguimientosComponent,
+   DailyStatusComponent} from './pages';
 
 const routes: Routes = [
   {
@@ -52,6 +55,16 @@ const routes: Routes = [
           ]
         }
       },
+
+      { path:'seguimientos', component : SeguimientosComponent,
+      data: {
+        title: 'Seguimientos',
+        urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'Taskboard' }
+        ]
+      }
+    },
       
     ]
   }

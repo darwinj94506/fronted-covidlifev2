@@ -17,8 +17,8 @@ export class FollowUpRepositoryMapper extends Mapper <IFollowUpInput | IFollowUp
       state: object.state,
       patientState: object.patientState,
       type: object.type,
-      createdAt: object.createdAt,
-      editedAt:object.editedAt
+      // createdAt: object.createdAt,
+      // editedAt:object.editedAt
     };
   }
 

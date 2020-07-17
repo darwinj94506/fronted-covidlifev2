@@ -1,14 +1,32 @@
 <div class="row">
-    <div class="col-12">
-        <app-province-table> </app-province-table>
+    <div class="col-lg-6">
+        <div *ngIf="!(cargandoProvincias$ | async)">
+            <app-table [espacioType]="PROVINCIA" [lugares]="provincias" (emitirLugar)="recibirProvincia($event)">
+            </app-table>
+        </div>
+        <div *ngIf="cargandoProvincias$ | async">
+            <h3>Cargando provincias...</h3>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div *ngIf="!(cargandoCantones$ | async)">
+            <app-table [espacioType]="CANTON" [LugarPadre]="provinciaSeleccionada" [lugares]="cantones" (emitirLugar)="recibirCanton($event)" *ngIf="provinciaSeleccionada">
+            </app-table>
+        </div>
+        <div *ngIf="cargandoCantones$ | async">
+            <h3>Cargando cantones...</h3>
+        </div>
     </div>
 </div>
 
 <div class="row">
     <div class="col-lg-6">
-        <app-canton-table> </app-canton-table>
-    </div>
-    <div class="col-lg-6">
-        <app-parroquia-table> </app-parroquia-table>
+        <div *ngIf="!(cargandoParroquias$ | async)">
+            <app-table [espacioType]="PARROQUIA" [LugarPadre]="cantonSeleccionado" [lugares]="parroquias" *ngIf="cantonSeleccionado">
+            </app-table>
+        </div>
+        <div *ngIf="cargandoParroquias$ | async">
+            <h3>Cargando Parroquias...</h3>
+        </div>
     </div>
 </div>

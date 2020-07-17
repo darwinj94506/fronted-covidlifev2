@@ -1,124 +1,136 @@
 {
-    "seguimientos": [{
-            "_id": 1,
-            "temperatura": 30,
-            "saturacionOxigeno": 90,
-            "presionArterial": 99,
-            "patientId": 1,
-            "patient": {
-                "name": "Meghan",
-                "lastname": "Cuvi"
-            },
-            "type": "REGULAR",
-            "state": "NO_ATENDIDO",
-            "patientState": "IGUAL_EVOLUCION",
-            "patientNote": "Me duele la garganta"
-        },
-        {
-            "_id": 2,
-            "temperatura": 30,
-            "saturacionOxigeno": 90,
-            "presionArterial": 99,
-            "patientId": 2,
-            "patient": {
-                "name": "Fernanda",
-                "lastname": "Valencia"
-            },
-            "type": "VIDEOLLAMADA",
-            "state": "NO_ATENDIDO",
-            "patientState": "IGUAL_EVOLUCION",
-            "patientNote": "Me duele la cabeza"
-        },
-        {
-            "_id": 3,
-            "temperatura": 28,
-            "saturacionOxigeno": 70,
-            "presionArterial": 110,
-            "patientId": 3,
-            "patient": {
-                "name": "David",
-                "lastname": "Casco"
-            },
-            "type": "REGULAR",
-            "state": "NO_ATENDIDO",
-            "patientState": "EMPEORANDO",
-            "patientNote": "Perdí el sentido del olfato y el gusto"
-        },
-        {
-            "_id": 4,
-            "temperatura": 33,
-            "saturacionOxigeno": 99,
-            "presionArterial": 110,
-            "patientId": 4,
-            "patient": {
-                "name": "Roxana",
-                "lastname": "Alvarado"
-            },
-            "type": "REGULAR",
-            "state": "NO_ATENDIDO",
-            "patientState": "MEJORANDO",
-            "patientNote": "Ha bajado del dolor de garganta con la medición que me resetó"
-        },
-        {
-            "_id": 5,
-            "temperatura": 35,
-            "saturacionOxigeno": 80,
-            "presionArterial": 90,
-            "patientId": 5,
-            "patient": {
-                "name": "Juliet",
-                "lastname": "Cuvi"
-            },
-            "type": "REGULAR",
-            "state": "NO_ATENDIDO",
-            "patientState": "MEJORANDO",
-            "patientNote": "No siento ningún síntoma"
-        },
-        {
-            "_id": 6,
-            "temperatura": 36,
-            "saturacionOxigeno": 85,
-            "presionArterial": 100,
-            "patientId": 6,
-            "patient": {
-                "name": "Mathias",
-                "lastname": "Lema"
-            },
-            "type": "REGULAR",
-            "state": "NO_ATENDIDO",
-            "patientState": "IGUAL_EVOLUCIÓN",
-            "patientNote": "Estoy bien no presento síntomas"
-        },
-        {
-            "_id": 7,
-            "temperatura": 36,
-            "saturacionOxigeno": 85,
-            "presionArterial": 100,
-            "patientId": 6,
-            "patient": {
-                "name": "Magaly",
-                "lastname": "Salazar"
-            },
-            "type": "REGULAR",
-            "state": "ATENDIDO",
-            "patientState": "IGUAL_EVOLUCIÓN",
-            "patientNote": "Estoy bien no presento síntomas"
-        },
-        {
-            "_id": 8,
-            "temperatura": 36,
-            "saturacionOxigeno": 85,
-            "presionArterial": 100,
-            "patientId": 6,
-            "patient": {
-                "name": "Marina",
-                "lastname": "Bonila"
-            },
-            "type": "VIDEOLLAMADA",
-            "state": "NO_ATENDIDO",
-            "patientState": "IGUAL_EVOLUCIÓN",
-            "patientNote": "Estoy bien no presento síntomas"
-        }
-
-    ]
+  "seguimientos": [
+    {
+      "_id": 1,
+      "idPaciente": 1,
+      "tipo": 0,
+      "estado": 0,
+      "paciente": {
+        "nombre": "Darwin",
+        "apellido": "guailla"
+      },
+      "temperatura": 30,
+      "ritmo_cardiaco": 90,
+      "saturacion_oxigeno": 80,
+      "dificultad_respirar": 1,
+      "examen": 1,
+      "nota_paciente": "Tengo dolor de garganta",
+      "estado_diario_paciente": 1,
+      "diagnostico_actual": 1
+    },
+    {
+      "_id": 2,
+      "idPaciente": 2,
+      "tipo": 1,
+      "estado": 1,
+      "paciente": {
+        "nombre": "Megan",
+        "apellido": "Cuvi"
+      },
+      "temperatura": 30,
+      "ritmo_cardiaco": 90,
+      "saturacion_oxigeno": 80,
+      "dificultad_respirar": 1,
+      "examen": 1,
+      "nota_paciente": "No siento sabores",
+      "estado_diario_paciente": 1,
+      "diagnostico_actual": 1
+    },
+    {
+      "_id": 3,
+      "idPaciente": 3,
+      "tipo": 0,
+      "estado": 2,
+      "paciente": {
+        "nombre": "Isaias",
+        "apellido": "Zambrano"
+      },
+      "temperatura": 30,
+      "ritmo_cardiaco": 90,
+      "saturacion_oxigeno": 80,
+      "dificultad_respirar": 1,
+      "examen": 1,
+      "nota_paciente": "Tengo dolor de garganta",
+      "estado_diario_paciente": 1,
+      "diagnostico_actual": 1
+    },
+    {
+      "_id": 4,
+      "idPaciente": 4,
+      "tipo": 1,
+      "estado": 3,
+      "paciente": {
+        "nombre": "Isabela",
+        "apellido": "Gallardo"
+      },
+      "temperatura": 30,
+      "ritmo_cardiaco": 90,
+      "saturacion_oxigeno": 80,
+      "dificultad_respirar": 1,
+      "examen": 1,
+      "nota_paciente": "Dolor articulaciones",
+      "estado_diario_paciente": 2,
+      "diagnostico_actual": 1
+    },
+    {
+      "_id": 5,
+      "idPaciente": 5,
+      "tipo": 1,
+      "estado": 1,
+      "paciente": {
+        "nombre": "Darwin",
+        "apellido": "guailla"
+      },
+      "temperatura": 30,
+      "ritmo_cardiaco": 90,
+      "saturacion_oxigeno": 80,
+      "dificultad_respirar": 1,
+      "examen": 1,
+      "nota_paciente": "Malestar general",
+      "estado_diario_paciente": 2,
+      "diagnostico_actual": 2
+    },
+    {
+      "_id": 6,
+      "idPaciente": 6,
+      "tipo": 1,
+      "estado": 1,
+      "paciente": {
+        "nombre": "María",
+        "apellido": "Valencia"
+      },
+      "temperatura": 30,
+      "ritmo_cardiaco": 90,
+      "saturacion_oxigeno": 80,
+      "dificultad_respirar": 1,
+      "examen": 1,
+      "nota_paciente": "Tengo Imsomnio",
+      "estado_diario_paciente": 1,
+      "diagnostico_actual": 1
+    }
+  ],
+  "espacios": [
+    {
+      "_id": 1,
+      "nombre": "Pastaza",
+      "tipo": 0
+    },
+    {
+      "_id": 2,
+      "nombre": "Pichincha",
+      "tipo": 0
+    },
+    {
+      "_id": 3,
+      "nombre": "Mera",
+      "idEspacio": 1,
+      "tipo": 1
+    },
+    {
+      "_id": 4,
+      "nombre": "Shell",
+      "idEspacio": 3,
+      "tipo": 2
+    }
+  ]
 }

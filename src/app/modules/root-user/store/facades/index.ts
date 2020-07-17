@@ -1,0 +1,1 @@
+export { EspacioFacade } from './espacio.facade';

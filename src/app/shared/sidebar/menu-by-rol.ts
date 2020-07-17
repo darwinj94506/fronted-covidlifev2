@@ -90,8 +90,8 @@ export const ROUTES_DOCTOR: RouteInfo[] = [
 				submenu: []
 			},
 			{
-				path: '/apps/fullcalendar',
-				title: 'Agenda',
+				path: '/doctor/seguimientos',
+				title: 'Seguimientos',
 				icon: 'mdi mdi-adjust',
 				class: '',
 				label: '',

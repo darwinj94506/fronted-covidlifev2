@@ -38,8 +38,14 @@ import { AuthEffects } from './store/auth/auth.effects';
 import { AppReducers } from './store/app.reducers';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { UserMDBRepository } from './data/repositories/mongodb/user/user-mdb-repository';
-import { FollowUpFkDBRepository } from './data/repositories/fakedb';
-import { UserRepository, FollowUpRepository } from './core/repositories';
+import { FollowUpFkDBRepository,
+         EspacioFkDbRepositorio,
+         SeguimientoFkDBRepository} from './data/repositories/fakedb';
+import { UserRepository,
+         FollowUpRepository,
+         EspacioRepositorio,
+         SeguimientoRepositorio } from './core/repositories';
+
 
 
 
@@ -85,7 +91,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     { provide: UserRepository, useClass: UserMDBRepository },
-    { provide: FollowUpRepository, useClass: FollowUpFkDBRepository},
+    { provide: EspacioRepositorio, useClass: EspacioFkDbRepositorio },
+    { provide: SeguimientoRepositorio, useClass: SeguimientoFkDBRepository},
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

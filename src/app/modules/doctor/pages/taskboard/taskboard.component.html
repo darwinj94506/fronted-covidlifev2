@@ -4,10 +4,17 @@
             <div class="taskboard-wrapper">
                 <div class="taskboard-list">
                     <h6 class="taskboard-header">Seguimientos</h6>
-                    <div class="taskboard-cards" id="regulares" dragula="SEGUIMIENTOS" [(dragulaModel)]="regulares">
-                        <div class="taskboard-task task-status-success" *ngFor="let seg of regulares" [ngClass]="getCssClass(seg)">
-                            <div class="taskboard-task-title">{{seg.patient.name}} {{seg.patient.lastname}}</div>
-                            <!-- <small class="card-text text-muted">{{seg.description}}</small> -->
+                    <div class="taskboard-cards" id="segSinLlamada" dragula="SEGUIMIENTOS" [(dragulaModel)]="segSinLlamada">
+                        <div style="height: 200px;position:relative" *ngIf="cargandoSegSinllamada">
+                            <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#59f056" type="square-loader" name="spSegSinLlamada" [fullScreen]="false">
+                                <p style="color: white"> Cargando... </p>
+                            </ngx-spinner>
+                        </div>
+                        <div *ngIf="!cargandoSegSinllamada">
+                            <div class="taskboard-task" *ngFor="let seg of segSinLlamada" [ngClass]="getCssClass(seg.estado_diario_paciente)">
+                                <div class="taskboard-task-title">{{seg?.paciente?.nombre}} {{seg?.paciente?.apellido}}</div>
+                                <small class="card-text text-muted">{{seg?.nota_paciente}}</small>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -15,11 +22,19 @@
 
             <div class="taskboard-wrapper">
                 <div class="taskboard-list">
-                    <h6 class="taskboard-header">Solicitudes de llamada</h6>
-                    <div class="taskboard-cards" id="videollamada" dragula="SEGUIMIENTOS" [(dragulaModel)]="videollamada">
-                        <div class="taskboard-task task-status-danger" *ngFor="let seg of videollamada" [ngClass]="getCssClass(seg)">
-                            <div class="taskboard-task-title">{{seg.patient.name}} {{seg.patient.lastname}}</div>
-                            <!-- <small class="card-text text-muted">{{seg.description}}</small> -->
+                    <h6 class="taskboard-header">Seguimientos con llamada</h6>
+                    <div class="taskboard-cards" id="segConLlamada" dragula="SEGUIMIENTOS" [(dragulaModel)]="segConLlamada">
+                        <div style="height: 200px;position:relative" *ngIf="cargandoSegConLlamada">
+                            <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#59f056" type="square-loader" name="spConLlamada" [fullScreen]="false">
+                                <p style="color: white"> Cargando... </p>
+                            </ngx-spinner>
+                        </div>
+                        <div *ngIf="!cargandoSegConLlamada">
+                            <div class="taskboard-task" *ngFor="let seg of segConLlamada" [ngClass]="getCssClass(seg.estado_diario_paciente)">
+                                <div class="taskboard-task-title">{{seg?.paciente?.nombre}} {{seg?.paciente.apellido}}</div>
+                                <small class="card-text text-muted">{{seg?.nota_paciente}}</small>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -27,24 +42,43 @@
 
             <div class="taskboard-wrapper">
                 <div class="taskboard-list">
-                    <h6 class="taskboard-header">Agendadas por mí</h6>
-                    <div class="taskboard-cards" id="agendadas" dragula="SEGUIMIENTOS" [(dragulaModel)]="agendadas">
-                        <div class="taskboard-task task-status-danger" *ngFor="let seg of agendadas" [ngClass]="getCssClass(seg)">
-                            <div class="taskboard-task-title">{{seg.patient.name}} {{seg.patient.lastname}}</div>
-                            <!-- <small class="card-text text-muted">{{seg.description}}</small> -->
+                    <h6 class="taskboard-header">Por atender</h6>
+
+                    <div class="taskboard-cards" id="segAgendados" dragula="SEGUIMIENTOS" [(dragulaModel)]="segAgendados">
+
+                        <div style="height: 200px;position:relative" *ngIf="cargandoSegAgendados">
+                            <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#59f056" type="square-loader" name="spAgendados" [fullScreen]="false">
+                                <p style="color: white"> Cargando... </p>
+                            </ngx-spinner>
                         </div>
+                        <div *ngIf="!cargandoSegAgendados">
+                            <div class="taskboard-task" *ngFor="let seg of segAgendados" [ngClass]="getCssClass(seg.estado_diario_paciente)">
+                                <div class="taskboard-task-title">{{seg?.paciente?.nombre}} {{seg?.paciente.apellido}}</div>
+                                <small class="card-text text-muted">{{seg?.nota_paciente}}</small>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
             </div>
 
             <div class="taskboard-wrapper">
                 <div class="taskboard-list">
-                    <h6 class="taskboard-header">Atendidas por mí</h6>
-                    <div class="taskboard-cards" id="atendidas" dragula="SEGUIMIENTOS" [(dragulaModel)]="atendidas">
-                        <div class="taskboard-task" *ngFor="let seg of atendidas" [ngClass]="getCssClass(seg.patientState)">
-                            <div class="taskboard-task-title task-status-danger">{{seg.patient.name}} {{seg.patient.lastname}}</div>
-                            <!-- <small class="card-text text-muted">{{seg.description}}</small> -->
+                    <h6 class="taskboard-header">Atendidos</h6>
+                    <div class="taskboard-cards" id="segAtendidos" dragula="SEGUIMIENTOS" [(dragulaModel)]="segAtendidos">
+                        <div style="height: 200px;position:relative" *ngIf="cargandoSegAtendidos">
+                            <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="small" color="#59f056" type="square-loader" name="spAgendados" [fullScreen]="false">
+                                <p style="color: white"> Cargando... </p>
+                            </ngx-spinner>
                         </div>
+                        <div *ngIf="!cargandoSegAtendidos">
+                            <div class="taskboard-task" *ngFor="let seg of segAtendidos" [ngClass]="getCssClass(seg.estado_diario_paciente)">
+                                <div class="taskboard-task-title">{{seg?.paciente?.nombre}} {{seg?.paciente.apellido}}</div>
+                                <small class="card-text text-muted">{{seg?.nota_paciente}}</small>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
