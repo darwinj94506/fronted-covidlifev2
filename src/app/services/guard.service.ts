@@ -1,8 +1,6 @@
 import {Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { LOGIN } from '../_detail/graphq/gql/auth';
 import  { Observable, throwError, of} from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({providedIn:'root'})

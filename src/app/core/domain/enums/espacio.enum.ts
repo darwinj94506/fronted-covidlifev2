@@ -1,5 +1,6 @@
 export  enum EspacioEnum{
-    PROVINCIA,
-    CANTON,
-    PARROQUIA
+    PROVINCIA = "PROVINCIA",
+    CANTON = "CANTON",
+    PARROQUIA = "PARROQUIA",
+    BARRIO = "BARRIO"
 }

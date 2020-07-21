@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, Injector} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthFacade } from '../store/auth.facade';
-import { FormValidation } from '../../domain'
+import { Formulario } from '../../core/domain/class/formulario'
 import { ICredentialsInput } from '../../core/domain/inputs';
+
 const ValidationMessage = {
   email: { required: 'El Nombre es obligatorio', email:'El correo ingresado es inválido' },
   password: { required: 'La contraseña es obligatoria', minlength:'Una contraseña tiene al menos 6 caracteres' }
@@ -12,7 +13,7 @@ const ValidationMessage = {
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
-export class LoginComponent extends FormValidation implements OnInit, OnDestroy{
+export class LoginComponent extends Formulario implements OnInit, OnDestroy{
   loginForm: FormGroup;
   
   constructor( private fb: FormBuilder, private _authFacade: AuthFacade, injector: Injector) {
@@ -51,8 +52,5 @@ export class LoginComponent extends FormValidation implements OnInit, OnDestroy{
   ngOnDestroy(){
     this.suscription.unsubscribe();
   }
-
- 
-
 
 }

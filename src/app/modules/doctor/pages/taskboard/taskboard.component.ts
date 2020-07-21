@@ -1,19 +1,16 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { DragulaService } from 'ng2-dragula';
 import { EstadoDiarioPacienteEnum } from '../../../../core/domain/enums'
-import { MacarSeguimientoComoAgendado,
-         MacarSeguimientoComoAtendido, 
+import { 
          VerSeguimientosAgendadosUseCase,
          VerSeguimientosAtendidosUseCase, 
          VerSeguimientosNoAtendidosConLLamadaUseCase,
          VerSeguimientosNoAtendidosSinLLamadaUseCase} from '../../../../core/usecases/doctor'
-import { IFollowUpResponse } from '../../../../core/domain/responses';
 import { Subject, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AnyAaaaRecord } from 'dns';
-import { AnyFn } from '@ngrx/store/src/selector';
+
 
 interface args {
   name: string;

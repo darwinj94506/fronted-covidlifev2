@@ -9,40 +9,83 @@
             <div class="row">
                 <div class="col-12">
                     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="form-horizontal m-t-20" action="index.html">
-                        <div class="form-group row ">
-                            <div class="col-12 ">
-                                <input class="form-control" type="text" formControlName="name" (blur)=logValidationErrors(signupForm) placeholder="Nombre">
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input class="form-control" type="text" formControlName="name" (keyup)=logValidationErrors(signupForm) placeholder="Nombres">
                                 <span class="help-block" *ngIf="formsErrors.name">
                                     {{formsErrors.name}}
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group row ">
+                        <div class="form-group row">
                             <div class="col-12 ">
-                                <input class="form-control" type="text" formControlName="lastname" (blur)=logValidationErrors(signupForm) placeholder="Apellido">
+                                <input class="form-control" type="text" formControlName="lastname" (keyup)=logValidationErrors(signupForm) placeholder="Apellidos">
                                 <span class="help-block" *ngIf="formsErrors.lastname">
-                                    {{formsErrors.lastname}
+                                    {{formsErrors.lastname}}
                                 </span>
                             </div>
                         </div>
-                        <div class=" form-group row ">
+                        <div class=" form-group row">
                             <div class="col-12 ">
-                                <input class="form-control " type="text " formControlName="email" (blur)=logValidationErrors(signupForm) placeholder="Correo ">
+                                <input class="form-control" type="text" formControlName="email" (keyup)=logValidationErrors(signupForm) placeholder="Correo">
                                 <span class="help-block" *ngIf="formsErrors.email">
-                                    {{formsErrors.email}
+                                    {{formsErrors.email}}
                                 </span>
                             </div>
                         </div>
-                        <!-- <div class="form-group row ">
+                        <div class="form-group row">
                             <div class="col-12 ">
-                                <input class="form-control " type="text " required=" " placeholder="Cédula o pasaporte ">
+                                <input class="form-control" type="text" formControlName="ci" (keyup)=logValidationErrors(signupForm) placeholder="Cédula o pasaporte">
+                                <span class="help-block" *ngIf="formsErrors.ci">
+                                    {{formsErrors.ci}}
+                                </span>
                             </div>
-                        </div> -->
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12 ">
+                                <!-- <input class="form-control " type="text " formControlName="fechaNacimiento" (blur)=logValidationErrors(signupForm) placeholder="Fecha de nacimiento"> -->
+                                <div class="input-group">
+                                    <input (click)="d.toggle()" class="form-control" placeholder="Fecha de nacimiento" name="dp" formControlName="fechaNacimiento" ngbDatepicker #d="ngbDatepicker" (keyup)=logValidationErrors(signupForm)>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"> <i class="mdi mdi-calendar"></i></button>
+                                    </div>
+                                    <span class="help-block" *ngIf="formsErrors.fechaNacimiento">
+                                        {{formsErrors.fechaNacimiento}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12 ">
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="materialUnchecked2" [value]="MASCULINO" (keyup)=logValidationErrors(signupForm) formControlName="genero" name="genero">
+                                    <label class="form-check-label" for="materialUnchecked2">Masculino</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" id="materialChecked2" [value]="FEMENINO" (keyup)=logValidationErrors(signupForm) formControlName="genero" name="genero">
+                                    <label class="form-check-label " for="materialChecked2 ">Femenino</label>
+                                </div>
+                                <span class="help-block" *ngIf="formsErrors.genero">
+                                        {{formsErrors.genero}}
+                                    </span>
+                            </div>
+                        </div>
                         <div class="form-group row ">
                             <div class="col-12 ">
-                                <input class="form-control " type="password" formControlName="password" (blur)=logValidationErrors(signupForm) placeholder="Contraseña">
+                                <input class="form-control" type="text" formControlName="telefono" (keyup)=logValidationErrors(signupForm) placeholder="Teléfono">
+                            </div>
+                        </div>
+                        <div class="form-group row ">
+                            <div class="col-12 ">
+                                <input class="form-control" type="text" formControlName="direccion" (keyup)=logValidationErrors(signupForm) placeholder="Dirección">
+                            </div>
+                        </div>
+                        <div class="form-group row ">
+                            <div class="col-12 ">
+                                <input class="form-control" type="password" formControlName="password" (keyup)=logValidationErrors(signupForm) placeholder="Contraseña">
                                 <span class="help-block" *ngIf="formsErrors.password">
-                                    {{formsErrors.password}
+                                    {{formsErrors.password}}
                                 </span>
                             </div>
                         </div>
@@ -51,11 +94,11 @@
                                 <input class="form-control " type="password " required=" " placeholder="Confirm Password ">
                             </div>
                         </div> -->
-                        <div class="form-group row ">
-                            <div class="col-md-12 ">
-                                <div class="custom-control custom-checkbox ">
-                                    <input type="checkbox " class="custom-control-input " id="customCheck1 ">
-                                    <label class="custom-control-label " for="customCheck1 ">Estoy de acuerdo con los  <a href="javascript:void(0) ">términos y condiciones</a></label>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1" (change)="onCheckboxChange($event)">
+                                    <label class="custom-control-label" for="customCheck1">Estoy de acuerdo con los  <a href="javascript:void(0)" (click)="verTerminosCondiciones()">términos y condiciones</a></label>
                                 </div>
                             </div>
                         </div>
@@ -64,9 +107,9 @@
                                 <button type="submit" [disabled]="signupForm.invalid" class="btn btn-block btn-lg btn-info"> Registrar</button>
                             </div>
                         </div>
-                        <div class="form-group m-b-0 m-t-10 ">
-                            <div class="col-sm-12 text-center ">
-                                ¿Usted ya esta registrado? <a href="/authentication/login " class="text-info m-l-5 "><b>Ingresar</b></a>
+                        <div class="form-group m-b-0 m-t-10">
+                            <div class="col-sm-12 text-center">
+                                ¿Usted ya esta registrado? <a href="/authentication/login" class="text-info m-l-5"><b>Ingresar</b></a>
                             </div>
                         </div>
                     </form>
@@ -75,3 +118,51 @@
         </div>
     </div>
 </div>
+
+<!-- modales términos y condiciones-->
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Advertencia</h4>
+        <button type="button" class="close" aria-label="close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <p>Antes de continuar, tiene que aceptar los términos y condiciones</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #longContent let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Términos y condiciones</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+        <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+        <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+    </div>
+</ng-template>

@@ -6,7 +6,7 @@ import { SeguimientoTipoEnum,
          DiagnosticoActualEnum,
          ExamenTipoEnum } from '../enums';
 
-export interface ISeguimientoEntity extends IEntity {
+export interface ISeguimientoResponse extends IEntity {
     idPaciente:string;
     idDoctor:string;
     idHospital:string;          

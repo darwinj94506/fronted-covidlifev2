@@ -7,6 +7,7 @@ const uri = 'https://atencionmedic.herokuapp.com/graphql'; // <-- add the URL of
 export function createApollo(httpLink: HttpLink) {
   return {
     link: httpLink.create({uri}),
+    withCredentials: true,
     cache: new InMemoryCache(),
   };
 }

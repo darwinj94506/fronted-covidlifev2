@@ -14,17 +14,21 @@ export class PlacesComponent implements OnInit, OnDestroy{
   provincias: IEspacioEntity[] = [];
   cantones: IEspacioEntity[] = [];
   parroquias: IEspacioEntity[] = [];
+  barrios: IEspacioEntity[] = [];
 
   cargandoProvincias$: Observable<boolean>;
   cargandoCantones$: Observable<boolean>;
   cargandoParroquias$: Observable<boolean>;
+  cargandoBarrios$: Observable<boolean>;
 
   provinciaSeleccionada: IEspacioEntity = null;
   cantonSeleccionado: IEspacioEntity = null;
+  parroquiaSeleccionada: IEspacioEntity = null;
 
   PROVINCIA: EspacioEnum = EspacioEnum.PROVINCIA;
   CANTON: EspacioEnum = EspacioEnum.CANTON;
   PARROQUIA: EspacioEnum = EspacioEnum.PARROQUIA;
+  BARRIO: EspacioEnum = EspacioEnum.BARRIO;
    
   constructor( private _espacioFacade: EspacioFacade ) {}
 
@@ -42,6 +46,7 @@ export class PlacesComponent implements OnInit, OnDestroy{
     this.cargandoProvincias$ = this._espacioFacade.getLoadingProvincias();
     this.cargandoCantones$ = this._espacioFacade.getLoadingCantones();
     this.cargandoParroquias$ = this._espacioFacade.getLoadingParroquias();
+    this.cargandoBarrios$ = this._espacioFacade.getLoadingBarrios();
 
     this._espacioFacade.getProvincias()
       .pipe(takeUntil(this._destroyed$))
@@ -51,7 +56,10 @@ export class PlacesComponent implements OnInit, OnDestroy{
       .subscribe(data => this.cantones = data);
     this._espacioFacade.getParroquias()
       .pipe(takeUntil(this._destroyed$))
-      .subscribe(data => this.parroquias = data)
+      .subscribe(data => this.parroquias = data);
+    this._espacioFacade.getBarrios()
+      .pipe(takeUntil(this._destroyed$))
+      .subscribe(data => this.barrios = data)
   }
 
   cargarProvincias(){
@@ -61,15 +69,25 @@ export class PlacesComponent implements OnInit, OnDestroy{
   recibirProvincia(provincia: IEspacioEntity){
     this.provinciaSeleccionada = provincia;
     this.cantonSeleccionado = null;
+    this.parroquiaSeleccionada = null;
     this.cantones = [];
     this.parroquias = [];
+    this.barrios = [];
     this.cargarCantonesPorProvincia(provincia);
   }
 
   recibirCanton(canton: IEspacioEntity){
     this.cantonSeleccionado = canton;
+    this.parroquiaSeleccionada = null;
     this.parroquias = [];
+    this.barrios = [];
     this.cargarParroquiasPorCanton(canton);
+  }
+
+  recibirParroquia(parroquia: IEspacioEntity){
+    this.parroquiaSeleccionada = parroquia;
+    this.barrios = [];
+    this.cargarBarriosPorParroquia(parroquia);
   }
 
   cargarCantonesPorProvincia(provincia: IEspacioEntity){
@@ -78,6 +96,10 @@ export class PlacesComponent implements OnInit, OnDestroy{
 
   cargarParroquiasPorCanton(canton: IEspacioEntity){
     this._espacioFacade.cargarEspacios(EspacioEnum.PARROQUIA, canton._id)
+  }
+
+  cargarBarriosPorParroquia(barrio: IEspacioEntity){
+    this._espacioFacade.cargarEspacios(EspacioEnum.BARRIO, barrio._id)
   }
  
 }

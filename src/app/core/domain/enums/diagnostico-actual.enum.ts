@@ -1,4 +1,5 @@
 export enum DiagnosticoActualEnum{
-    CONFIRMADO,
-    SOSPECHOSO,
+    AISLAMIENTO_PREVENTIVO = 0,
+    SOSPECHOSO = 1,
+    CONFIRMADO = 2
 }

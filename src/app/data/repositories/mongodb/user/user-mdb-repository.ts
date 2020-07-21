@@ -1,6 +1,6 @@
 import { Injectable, Injector} from '@angular/core';
 import { UserRepository } from '../../../../core/repositories/user.repository';
-import { ICredentialsInput } from '../../../../core/domain/inputs/credentials.input';
+import { ICredentialsInput,SignupIn } from '../../../../core/domain/inputs';
 import { MongoDBRepository} from '../mongo-repository';
 import { USER_OPERATIONS } from '../../../graphq';
 import { IUserEntity } from '../../../../core/domain/entities';

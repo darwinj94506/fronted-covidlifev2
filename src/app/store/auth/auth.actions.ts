@@ -13,7 +13,6 @@ export const loadUserLoggedError =createAction(
   '[Auth] Load User Logged Error'
 )
 
-
 export const login = createAction(
   '[Auth] Login',
   props<{ user: any}>()

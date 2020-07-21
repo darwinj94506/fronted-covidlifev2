@@ -6,19 +6,22 @@ export interface EspacioState {
   provincias: IEspacioEntity [];
   cantones: IEspacioEntity [];
   parroquias: IEspacioEntity [];
+  barrios: IEspacioEntity [];
   isLoadingProvincias: boolean;
   isLoadingCantones: boolean;
   isLoadingParroquias: boolean;
-
+  isLoadingBarrios: boolean;
 }
 
 export const initialState: EspacioState = {
   provincias: [],
   cantones:  [],
   parroquias:  [],
+  barrios:[],
   isLoadingProvincias: false,
   isLoadingCantones: false,
-  isLoadingParroquias: false
+  isLoadingParroquias: false,
+  isLoadingBarrios: false
 };
 
 const espacioReducer = createReducer(
@@ -31,6 +34,8 @@ const espacioReducer = createReducer(
             return { ...state, isLoadingCantones:true }
         case EspacioEnum.PARROQUIA :
             return { ...state, isLoadingParroquias:true}
+        case EspacioEnum.BARRIO :
+            return { ...state, isLoadingBarrios:true}
     }
   }), 
   on(accionesEspacio.cargarEspacioExito, (state, payload) => {
@@ -41,6 +46,8 @@ const espacioReducer = createReducer(
             return { ...state, isLoadingCantones:false, cantones: payload.espacios }
         case EspacioEnum.PARROQUIA :
             return { ...state, isLoadingParroquias:false, parroquias: payload.espacios}
+        case EspacioEnum.BARRIO :
+            return { ...state, isLoadingBarrios:false, barrios: payload.espacios}
     }
   }),
   on(accionesEspacio.cargarEspacioError, (state, payload) => {
@@ -51,6 +58,8 @@ const espacioReducer = createReducer(
             return { ...state, isLoadingCantones:false }
         case EspacioEnum.PARROQUIA :
             return { ...state, isLoadingParroquias:false }
+        case EspacioEnum.BARRIO :
+            return { ...state, isLoadingBarrios:false }
     }
   }),
 
@@ -62,6 +71,8 @@ const espacioReducer = createReducer(
               return { ...state, isLoadingCantones:true }
           case EspacioEnum.PARROQUIA :
               return { ...state, isLoadingParroquias:true }
+          case EspacioEnum.BARRIO :
+              return { ...state, isLoadingBarrios:true }
       }
   }),
   on(accionesEspacio.crearEspacioExito, (state, payload) => {
@@ -72,6 +83,8 @@ const espacioReducer = createReducer(
           return { ...state, isLoadingCantones:false }
       case EspacioEnum.PARROQUIA :
           return { ...state, isLoadingParroquias:false }
+      case EspacioEnum.BARRIO :
+          return { ...state, isLoadingBarrios:false }
     }
   }),
 
@@ -83,6 +96,8 @@ const espacioReducer = createReducer(
           return { ...state, isLoadingCantones:false }
       case EspacioEnum.PARROQUIA :
           return { ...state, isLoadingParroquias:false }
+          case EspacioEnum.BARRIO :
+            return { ...state, isLoadingBarrios:false }
     }   
   }),
 
@@ -94,6 +109,8 @@ const espacioReducer = createReducer(
             return { ...state, isLoadingCantones:true }
         case EspacioEnum.PARROQUIA :
             return { ...state, isLoadingParroquias:true }
+        case EspacioEnum.BARRIO :
+            return { ...state, isLoadingBarrios:true }
     }
   }),
   on(accionesEspacio.actualizarEspacioExito, (state, payload) => {
@@ -104,6 +121,8 @@ const espacioReducer = createReducer(
           return { ...state, isLoadingCantones:false }
       case EspacioEnum.PARROQUIA :
           return { ...state, isLoadingParroquias:false }
+      case EspacioEnum.BARRIO :
+          return { ...state, isLoadingBarrios:false }
     }
   }),
 
@@ -115,6 +134,8 @@ const espacioReducer = createReducer(
           return { ...state, isLoadingCantones:false }
       case EspacioEnum.PARROQUIA :
           return { ...state, isLoadingParroquias:false }
+      case EspacioEnum.BARRIO :
+          return { ...state, isLoadingBarrios:false }
     }   
   }),
 
@@ -126,6 +147,8 @@ const espacioReducer = createReducer(
             return { ...state, isLoadingCantones:true }
         case EspacioEnum.PARROQUIA :
             return { ...state, isLoadingParroquias:true }
+        case EspacioEnum.BARRIO :
+            return { ...state, isLoadingBarrios:true }
     }
   }),
   on(accionesEspacio.eliminarEspacioExito, (state, payload) => {
@@ -136,6 +159,8 @@ const espacioReducer = createReducer(
         return { ...state, isLoadingCantones:false }
     case EspacioEnum.PARROQUIA :
         return { ...state, isLoadingParroquias:false }
+    case EspacioEnum.BARRIO :
+        return { ...state, isLoadingBarrios:false }
   }
   }),
 
@@ -147,6 +172,8 @@ const espacioReducer = createReducer(
         return { ...state, isLoadingCantones:false }
     case EspacioEnum.PARROQUIA :
         return { ...state, isLoadingParroquias:false }
+    case EspacioEnum.BARRIO :
+        return { ...state, isLoadingBarrios:false }
   }   
   })
 );

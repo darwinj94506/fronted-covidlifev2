@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import * as authActions from './auth.actions';
 import { getAuthState } from './auth.reducers';
 import { tap } from 'rxjs/operators';
+import { SignupIn } from '../../core/domain/inputs';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +20,7 @@ export class AuthFacade {
     this.store.dispatch(authActions.login({user}))
   }
 
-  register(user){
+  register(user : SignupIn){
       this.store.dispatch(authActions.register({user}))
   }
  

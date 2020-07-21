@@ -53,12 +53,12 @@ export class MongoDBRepository<T  extends IEntity> implements GenericRepository<
               map(( { data } )=> data[this.operations.delete.resolve] ))
     }
 
-    all(): Observable<T[] | null> {
-        return this.apollo
-        .watchQuery({query: this.operations.all.gql})
-        .valueChanges.pipe(
-            map(( { data } ) => data[this.operations.all.resolve] ))
-    }
+    // all(): Observable<T[] | null> {
+    //     return this.apollo
+    //     .watchQuery({query: this.operations.all.gql})
+    //     .valueChanges.pipe(
+    //         map(( { data } ) => data[this.operations.all.resolve] ))
+    // }
 
     openModalCreateUpdate(entity: T) {
         this.modalCreateUpdateRef = this.modalService.open(this.modalCreateUpdate, { centered: true })
@@ -74,6 +74,5 @@ export class MongoDBRepository<T  extends IEntity> implements GenericRepository<
         const modalRef = this.modalService.open(ConfirmModalComponent)
         return from(modalRef.result)
     }
-
 
 }

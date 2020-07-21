@@ -22,7 +22,8 @@ export class AuthEffects {
                 return authActions.loginSuccess({userLogged})
             }),
             catchError( (err) => {
-                return of( authActions.loginError({error:err.message}) )
+                console.log(err);
+                return of( authActions.loginError({ error:err.error }) )
             })
         )),
     )
@@ -38,7 +39,9 @@ export class AuthEffects {
     @Effect({dispatch:false})
     loginError: Observable<any> = this.actions$.pipe(
         ofType(authActions.loginError),
-        tap((err)=>{this._authService.showError(err)})
+        tap((err)=>{
+            this._authService.showError(err)
+        })
     )   
 
     @Effect()
@@ -49,7 +52,7 @@ export class AuthEffects {
                 return authActions.registerSuccess({user})
             }),
             catchError( (err) => {
-                return of( authActions.registerError({error:err.message}) )
+                return of( authActions.registerError({error:err.error}) )
             })
         )),
     )

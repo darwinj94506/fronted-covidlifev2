@@ -8,7 +8,9 @@ import { AppState,
          selectCargandoParroquias,
          selectProvincias,
          selectCantones,
-         selectParroquias 
+         selectParroquias,
+         selectBarrios,
+         selectCargandoBarrios 
         } from '../root-user.reducer';
 import { EspacioEnum } from '../../../../core/domain/enums';
 import { IEspacioEntity } from '../../../../core/domain/entities/espacio-entity';
@@ -32,6 +34,10 @@ export class EspacioFacade {
   getLoadingParroquias(): Observable<boolean>{
     return this.store.select(selectCargandoParroquias)
   }
+  getLoadingBarrios(): Observable<boolean>{
+    return this.store.select(selectCargandoBarrios)
+  }
+
 
   getProvincias(): Observable<IEspacioEntity[]>{
     return this.store.select(selectProvincias)
@@ -43,6 +49,10 @@ export class EspacioFacade {
 
   getParroquias(): Observable<IEspacioEntity[]>{
     return this.store.select(selectParroquias)
+  }
+
+  getBarrios(): Observable<IEspacioEntity[]>{
+    return this.store.select(selectBarrios)
   }
 
   public crearEspacio(Espacio: IEspacioEntity): void {

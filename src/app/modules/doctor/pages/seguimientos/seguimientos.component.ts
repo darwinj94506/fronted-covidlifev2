@@ -29,7 +29,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
      private _verSeguimientosAgendados: VerSeguimientosAgendadosUseCase,
      private dragulaService: DragulaService
      ) {
-
+    this.dragulaService.destroy('SEGUIMIENTOS');
     this.dragulaService.createGroup("SEGUIMIENTOS", {});
 
     this.dragulaService.dropModel("SEGUIMIENTOS").subscribe(args => {
@@ -55,7 +55,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
 
   }
   ngOnDestroy(){
-    this.dragulaService.destroy('SEGUIMIENTOS');
+   
     this._destroyed$.next();
     this._destroyed$.complete();
   }

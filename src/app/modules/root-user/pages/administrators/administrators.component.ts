@@ -3,7 +3,7 @@ import { UserService } from '../../services';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { IUser } from '../../../../domain';
+// import { IUser } from '../../../../core/domain/entities';
 import { Observable } from 'rxjs';
 //
 import {Apollo} from 'apollo-angular';
@@ -22,12 +22,12 @@ export class AdministratorsComponent implements OnInit {
     page = 1;
     pageSize = 7;
 
-    userList: Observable<IUser[]> = this.userService.getUsers();
+    userList: Observable<any[]> = this.userService.getUsers();
     config: any;
     editUser: FormGroup;
-    userDetail: IUser = null;
+    userDetail: any = null;
 
-    filterArray: Observable<IUser[]>;
+    filterArray: Observable<any[]>;
     joiningDate: string;
 
     data: Observable<any>;
@@ -99,7 +99,7 @@ export class AdministratorsComponent implements OnInit {
 
 
 
-    openModal(targetModal, user:IUser) {
+    openModal(targetModal, user:any) {
         this.modalService.open(targetModal, {
             centered: true,
             backdrop: 'static'

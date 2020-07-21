@@ -13,7 +13,7 @@ export const USER_OPERATIONS : IUserOperationsAuth = {
         gql: LOGIN
     },
     register:{
-        resolve:'registerUser',
+        resolve:'signUser',
         gql: REGISTER
     },
     create:{
@@ -27,12 +27,7 @@ export const USER_OPERATIONS : IUserOperationsAuth = {
     delete:{
         resolve:'',
         gql: REGISTER
-    },
-    all:{
-        resolve:'',
-        gql: REGISTER
     }
- 
     
 }
 

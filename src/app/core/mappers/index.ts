@@ -1,1 +1,1 @@
-export { FollowUpRepositoryMapper } from './follow-up-mapper';
+// export { FollowUpRepositoryMapper } from './follow-up-mapper';

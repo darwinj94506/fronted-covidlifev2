@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
 import {  EspacioRepositorio } from '../../repositories';
 import { UseCase } from '../../base/use-case';
-// import { IFollowUpInput  } from '../../domain/inputs';
-// import { IFollowUpResponse } from '../../domain/responses';
 import { IEspacioEntity } from '../../domain/entities';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { CRUDEnum } from '../../domain/enums';
-import { FollowUpRepositoryMapper } from '../../mappers'
 
 @Injectable({
   providedIn: 'root'

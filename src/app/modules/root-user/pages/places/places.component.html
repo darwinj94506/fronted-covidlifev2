@@ -22,11 +22,20 @@
 <div class="row">
     <div class="col-lg-6">
         <div *ngIf="!(cargandoParroquias$ | async)">
-            <app-table [espacioType]="PARROQUIA" [LugarPadre]="cantonSeleccionado" [lugares]="parroquias" *ngIf="cantonSeleccionado">
+            <app-table [espacioType]="PARROQUIA" [LugarPadre]="cantonSeleccionado" [lugares]="parroquias" (emitirLugar)="recibirParroquia($event)" *ngIf="cantonSeleccionado">
             </app-table>
         </div>
         <div *ngIf="cargandoParroquias$ | async">
             <h3>Cargando Parroquias...</h3>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div *ngIf="!(cargandoBarrios$ | async)">
+            <app-table [espacioType]="BARRIO" [LugarPadre]="parroquiaSeleccionada" [lugares]="barrios" *ngIf="parroquiaSeleccionada">
+            </app-table>
+        </div>
+        <div *ngIf="cargandoBarrios$ | async">
+            <h3>Cargando barrios...</h3>
         </div>
     </div>
 </div>

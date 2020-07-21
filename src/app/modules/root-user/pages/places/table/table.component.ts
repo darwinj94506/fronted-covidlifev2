@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { IEspacioEntity } from '../../../../../core/domain/entities';
-import { EspacioEnum, CRUDEnum} from '../../../../../core/domain/enums';
+import { EspacioEnum } from '../../../../../core/domain/enums';
 import { EspacioFacade } from '../../../store/facades';
 
 @Component({
@@ -45,6 +45,8 @@ export class TableComponent implements OnInit {
         return `Ver cantones de ${espacio.nombre}`;
       case EspacioEnum.CANTON:
         return `Ver parroquias de ${espacio.nombre}`;
+        case EspacioEnum.PARROQUIA:
+          return `Ver barrios de ${espacio.nombre}`;
     }
   }
 
@@ -56,6 +58,8 @@ export class TableComponent implements OnInit {
           return `Cantones de la provincia ${this.LugarPadre.nombre}`
       case EspacioEnum.PARROQUIA:
           return `Parroquias del canton ${this.LugarPadre.nombre}`
+      case EspacioEnum.BARRIO:
+        return `Barrios de la parroquia ${this.LugarPadre.nombre}`
     }
   }
 
@@ -66,7 +70,9 @@ export class TableComponent implements OnInit {
       case EspacioEnum.CANTON:
           return `Cantones de la provincia ${this.LugarPadre.nombre} actualmente registrados`
       case EspacioEnum.PARROQUIA:
-          return `Parroquias del canton ${this.LugarPadre.nombre} actualmente registrados`
+          return `Parroquias del canton ${this.LugarPadre.nombre} actualmente registradas`
+      case EspacioEnum.BARRIO:
+        return `Barrios de la parroquia ${this.LugarPadre.nombre} actualmente registrados`
     }
   }
 

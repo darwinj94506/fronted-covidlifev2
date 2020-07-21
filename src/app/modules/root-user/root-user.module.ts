@@ -8,22 +8,26 @@ import { AdministratorsComponent,
          HospitalsComponent, 
          PlacesComponent,
          FormComponent } from './pages';
-import { UserService, ProvinceService } from './services';
+import { UserService } from './services';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { RootUserReducers } from './store/root-user.reducer';
-import { ProvinceEffects, EspacioEffects } from './store/effects';
+import { EspacioEffects } from './store/effects';
 
 import { UiModule } from '../../ui/ui.module';
 import { TableComponent } from './pages/places/table/table.component';
+import { TablaHospitalesComponent } from './pages/hospitals/tabla-hospitales/tabla-hospitales.component';
+import { FormHospitalComponent } from './pages/hospitals/form-hospital/form-hospital.component';
 
 @NgModule({
   declarations: [AdministratorsComponent,
      HospitalsComponent, 
      PlacesComponent,
      FormComponent,
-     TableComponent],
+     TableComponent,
+     TablaHospitalesComponent,
+     FormHospitalComponent],
   imports: [
     CommonModule,
     FormsModule, 
@@ -33,13 +37,13 @@ import { TableComponent } from './pages/places/table/table.component';
     NgbModule,
     UiModule,
     StoreModule.forFeature('rootUserState', RootUserReducers),
-    EffectsModule.forFeature([ProvinceEffects, EspacioEffects])
+    EffectsModule.forFeature([ EspacioEffects])
   ],
   providers:[
     DecimalPipe,
     DatePipe,
     UserService,
-    ProvinceService
+    
   ],
   entryComponents:[
     FormComponent

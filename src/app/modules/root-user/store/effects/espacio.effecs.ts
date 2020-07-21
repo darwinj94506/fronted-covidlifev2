@@ -25,7 +25,7 @@ export class EspacioEffects {
         .pipe(
             map(espacios => accionesEspacio.cargarEspacioExito({espacios:espacios, tipo :payload.tipo})),
             catchError( error => {
-                alert(`Error al cargar entidades de tipo: ${payload.tipo}, Error:${error.message}`);
+                this._espacioService.showError(`Error al cargar entidades de tipo: ${payload.tipo}, Error:${error.error}`);
                 return of( accionesEspacio.cargarEspacioError({error: error.message, tipo: payload.tipo}))
                 }
             )
@@ -36,12 +36,12 @@ export class EspacioEffects {
         ofType(accionesEspacio.crearEspacio),
         exhaustMap(({Espacio}) => this._gestionarEspacio.execute(Espacio,CRUDEnum.CREATE).pipe(
             map((Espacio) => {
-                alert(`Éxito, entidad creada: ${Espacio.nombre}`)
-                this._espacioService.closeModalCreateUpdate()
+                this._espacioService.showSuccess(`Éxito, entidad creada: ${Espacio.nombre}`);
+                this._espacioService.closeModalCreateUpdate();
                 return accionesEspacio.crearEspacioExito({Espacio})
             }),
             catchError( (error) => {
-                alert(`Error al crear, Error:${error.message}, Entidad:${Espacio.nombre}`)
+                this._espacioService.showError(`Error al crear, Error:${error.message}, Entidad:${Espacio.nombre}`)
                 return of( accionesEspacio.crearEspacioError({error: error.message, Espacio}) )
             })
         )),
@@ -52,13 +52,13 @@ export class EspacioEffects {
         ofType(accionesEspacio.actualizarEspacio),
         switchMap(({Espacio}) => this._gestionarEspacio.execute(Espacio,CRUDEnum.UPDATE).pipe(
             map((Espacio) => {
-                alert(`Éxito, entidad actualizada: ${Espacio.nombre}`);
+                this._espacioService.showSuccess(`Éxito, entidad actualizada: ${Espacio.nombre}`);
                 this._espacioService.closeModalCreateUpdate();
                 return accionesEspacio.actualizarEspacioExito({Espacio});
             }),
             catchError(error => {
-                alert(`Error al actualizar, Error:${error.message}, Entidad:${Espacio.nombre}`);
-                return of( accionesEspacio.actualizarEspacioError({error: error.message, Espacio}) );
+                this._espacioService.showError(`Error al actualizar, Error:${error.message}, Entidad:${Espacio.nombre}`);
+                return of( accionesEspacio.actualizarEspacioError({error: error.message, Espacio}) )
             })
         )),
     )
@@ -86,11 +86,11 @@ export class EspacioEffects {
         exhaustMap(({Espacio}) => 
             this._gestionarEspacio.execute(Espacio, CRUDEnum.DELETE).pipe(
                 map(() => {
-                        alert(`Éxito, entidad eliminada: ${Espacio.nombre}`)
+                    this._espacioService.showSuccess(`Éxito, entidad eliminada: ${Espacio.nombre}`);
                         accionesEspacio.eliminarEspacioExito({Espacio})
                     }),
                 catchError((error) => {
-                    alert(` Error al eliminar,  Error: ${error.message}, Entidad: ${Espacio.nombre}`)
+                    this._espacioService.showError(` Error al eliminar,  Error: ${error.message}, Entidad: ${Espacio.nombre}`);
                     return of(accionesEspacio.eliminarEspacioError({ error, Espacio }))
                 })
         ))

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SeguimientoRepositorio } from '../../repositories';
 import { UseCase } from '../../base/use-case';
-import { IFollowUpInput  } from '../../domain/inputs';
 import { ISeguimientoEntity } from '../../domain/entities';
 import { Observable } from 'rxjs';
 import { SeguimientoEstadoEnum, DiagnosticoActualEnum } from '../../domain/enums';

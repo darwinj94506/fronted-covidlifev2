@@ -131,6 +131,18 @@
       "nombre": "Shell",
       "idEspacio": 3,
       "tipo": 2
+    },
+    {
+      "_id": 5,
+      "nombre": "San antonio",
+      "idEspacio": 4,
+      "tipo": 3
+    },
+    {
+      "_id": 6,
+      "nombre": "Doce de octubre",
+      "idEspacio": 4,
+      "tipo": 3
     }
   ]
 }

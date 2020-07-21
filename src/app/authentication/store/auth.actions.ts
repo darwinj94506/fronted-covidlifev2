@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-
+import { SignupIn } from '../../core/domain/inputs';
 export const login = createAction(
     '[Auth] Login',
     props<{ user: any}>()
@@ -17,7 +17,7 @@ export const login = createAction(
   
   export const register = createAction(
     '[Register] Register',
-    props<{user:any}>()
+    props<{ user: SignupIn }>()
   );
   
   export const registerSuccess = createAction(
@@ -27,7 +27,7 @@ export const login = createAction(
   
   export const registerError = createAction(
     '[Register] Register Error',
-    props<{ error: any }>()
+    props<{ error: string }>()
   );
   
   
