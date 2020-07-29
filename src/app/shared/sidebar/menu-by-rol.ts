@@ -60,38 +60,18 @@ export const ROUTES_DOCTOR: RouteInfo[] = [
 		extralink: false,
 		submenu: [
 			{
-				path: '/doctor/citas',
-				title: 'Citas',
-				icon: 'mdi mdi-adjust',
-				class: '',
-				label: '',
-				labelClass: '',
-				extralink: false,
-				submenu: []
-			},
-			{ 
-				path: '/apps/users',
-				title: 'Pacientes',
-				icon: 'mdi mdi-adjust',
-				class: '',
-				label: '',
-				labelClass: '',
-				extralink: false,
-				submenu: []
-			},
-			{ 
-				path: '/doctor/estado-diario',
-				title: 'Estado diario',
-				icon: 'mdi mdi-adjust',
-				class: '',
-				label: '',
-				labelClass: '',
-				extralink: false,
-				submenu: []
-			},
-			{
 				path: '/doctor/seguimientos',
 				title: 'Seguimientos',
+				icon: 'mdi mdi-adjust',
+				class: '',
+				label: '',
+				labelClass: '',
+				extralink: false,
+				submenu: []
+			},
+			{ 
+				path: '/doctor/pacientes',
+				title: 'Pacientes',
 				icon: 'mdi mdi-adjust',
 				class: '',
 				label: '',

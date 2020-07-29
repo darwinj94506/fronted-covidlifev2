@@ -1,10 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import { IEspacioEntity } from '../../../../core/domain/entities';
 import { EspacioEnum } from '../../../../core/domain/enums';
+import { FilterEspaceIn } from '../../../../core/domain/inputs';
 
 export const cargarEspacios = createAction(
   '[Espacio] Cargar Espacios',
-  props<{ tipo: EspacioEnum , idTipo: string | number  }>()
+  props<{ tipo: EspacioEnum, filtro: FilterEspaceIn }>()
 );
 
 export const cargarEspacioExito = createAction(

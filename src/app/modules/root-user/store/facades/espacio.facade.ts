@@ -13,6 +13,7 @@ import { AppState,
          selectCargandoBarrios 
         } from '../root-user.reducer';
 import { EspacioEnum } from '../../../../core/domain/enums';
+import { FilterEspaceIn } from '../../../../core/domain/inputs';
 import { IEspacioEntity } from '../../../../core/domain/entities/espacio-entity';
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,8 @@ import { IEspacioEntity } from '../../../../core/domain/entities/espacio-entity'
 export class EspacioFacade {
   constructor(private store: Store<AppState>) {}
 
-  cargarEspacios(tipo:EspacioEnum, idTipo:string | number ) {
-    this.store.dispatch(accionesEspacios.cargarEspacios({tipo:tipo, idTipo:idTipo}));
+  cargarEspacios(tipo:EspacioEnum, filtro:FilterEspaceIn ) {
+    this.store.dispatch(accionesEspacios.cargarEspacios({tipo , filtro }));
   }
 
   getLoadingProvincias(): Observable<boolean>{

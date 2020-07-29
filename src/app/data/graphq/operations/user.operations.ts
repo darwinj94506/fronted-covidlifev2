@@ -1,9 +1,12 @@
 import { IOperations, IOperation} from '../interfaces/operation.interface';
-import { REGISTER, LOGIN} from '../gql/user';
+import { REGISTER, LOGIN, LOGOUT, FILTER_USERS, PERFIL} from '../gql/user';
 
 export interface IUserOperationsAuth extends IOperations{
     login: IOperation;
-    register: IOperation
+    register: IOperation;
+    logout:IOperation;
+    filterUsers:IOperation;
+    perfil:IOperation;
 }  
 
 export const USER_OPERATIONS : IUserOperationsAuth = {
@@ -27,7 +30,19 @@ export const USER_OPERATIONS : IUserOperationsAuth = {
     delete:{
         resolve:'',
         gql: REGISTER
+    },
+    logout:{
+        resolve:'logout',
+        gql: LOGOUT
+
+    },
+    filterUsers:{
+        resolve:'listAllUser',
+        gql:FILTER_USERS
+    },
+    perfil:{
+        resolve:'verUserPerfil',
+        gql:PERFIL
     }
-    
 }
 

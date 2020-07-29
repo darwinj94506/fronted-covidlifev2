@@ -1,7 +1,8 @@
 import { GenericRepository } from './generic-repository';
 import { IEspacioEntity } from '../domain/entities';
-import { EspacioEnum } from '../domain/enums';
+import { FilterEspaceIn } from '../domain/inputs';
 export abstract class EspacioRepositorio extends GenericRepository<IEspacioEntity> {
-    abstract getPorTipo_Y_IdEspacio( tipo:EspacioEnum, id:string | number) : any 
-    abstract getProvincias() : any
+
+    abstract getPorTipo_O_IdPadre( filter: FilterEspaceIn ) : any 
 }
+

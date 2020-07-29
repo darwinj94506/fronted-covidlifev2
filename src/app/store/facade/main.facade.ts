@@ -1,0 +1,75 @@
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
+import * as mainActions from '../actions/main.actions';
+import { IUsuarioEntity, VORoleHospital} from '../../core/domain/entities';
+import { FilterUserIn } from '../../core/domain/inputs';
+import { LoginOut, VORoleHospitalPopulateLoginOut} from '../../core/domain/outputs'; 
+import { AppState,
+         selectUserLogged,
+         selectUsers,
+         selectLogoutLoading,
+         selectHospitalSession,
+         selectUsersLoading }from '../app.reducer';
+         
+@Injectable({
+  providedIn: 'root'
+})
+
+export class MainFacade {
+  constructor(private store: Store<AppState>) {}
+
+  loadUserLoggedSuccess(userLogged){
+    this.store.dispatch(mainActions.loadUserLoggedSuccess({userLogged}))
+  }
+
+  loadUserLoggedError(error:string){
+    this.store.dispatch(mainActions.loadUserLoggedError({error}))
+  }
+
+  getUserLogged():Observable<LoginOut>{
+    return this.store.select(selectUserLogged).pipe(first())
+  }
+
+  getUsers(){
+    return this.store.select(selectUsers);
+  }
+
+  getLoadingUser(): Observable<boolean>{
+    return this.store.select(selectUsersLoading);
+  }
+
+  loadUsers(filter:FilterUserIn): void {
+    this.store.dispatch(mainActions.loadUsers({filter}))
+  }
+
+  createUser(user: IUsuarioEntity){
+    this.store.dispatch(mainActions.createUser({user}))
+  }
+
+  updateUser(user: IUsuarioEntity){
+    this.store.dispatch(mainActions.updateUser({user}))
+  }
+
+  logout(){
+    this.store.dispatch(mainActions.logout())
+  }
+
+  getLoadingLogout(): Observable<boolean>{
+    return this.store.select(selectLogoutLoading);
+  }
+
+  getHospitalSesion():Observable<VORoleHospitalPopulateLoginOut>{
+    return this.store.select(selectHospitalSession).pipe(first());
+  }
+
+  setHospitalSession(hospitalSession: VORoleHospitalPopulateLoginOut){
+    this.store.dispatch(mainActions.saveHospitalSession({hospitalSession}))
+  }
+
+  setUserLogged(userLogged: LoginOut){
+    this.store.dispatch(mainActions.saveUserLogged({userLogged}))
+  }
+  
+}

@@ -4,6 +4,10 @@ import { ROUTES_ADMIN, ROUTES_ROOT, ROUTES_DOCTOR, ROUTES_DIRECTOR, ROUTES_PATIE
 import { RouteInfo } from './sidebar.metadata';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MainFacade } from '../../store/facade/main.facade';
+import { RolesUserEnum } from '../../core/domain/enums';
+import { forkJoin } from 'rxjs';
+import { LoginOut } from '../../core/domain/outputs';
 declare var $: any;
 
 @Component({
@@ -11,6 +15,7 @@ declare var $: any;
   templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent implements OnInit {
+  userLogged: LoginOut;
   showMenu = '';
   showSubMenu = '';
   public sidebarnavItems: any[];
@@ -38,39 +43,62 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private router: Router,
-    private route: ActivatedRoute
+    private _router: Router,
+    private route: ActivatedRoute,
+    private _mainFacade: MainFacade
   ) {}
 
   // End open close
   ngOnInit() {
-    // this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem);
-    console.log(this.sidebarnavItems)
-    this.sidebarnavItems = this.getMenu(['ROOT_ROLE', 'ADMIN_ROLE', 'DOCTOR_ROLE','DIRECTOR_ROLE', 'PATIENT_ROLE']);
-  }
 
-  getMenu(roles:string[]): RouteInfo[]{
-    let menu:RouteInfo[] = [];
-    roles.forEach(rol=> {
-      switch (rol) {
-        case 'ROOT_ROLE' :
-          menu = [ ...menu, ...ROUTES_ROOT ]
-          break;
-        case 'ADMIN_ROLE':
-          menu = [ ...menu, ...ROUTES_ADMIN ]
-          break;
-        case 'DOCTOR_ROLE':
-          menu = [...menu, ...ROUTES_DOCTOR ]
-          break;
-        case 'DIRECTOR_ROLE':
-          menu = [...menu, ...ROUTES_DIRECTOR ]
-          break;
-        case 'PATIENT_ROLE':
-          menu = [ ...menu, ...ROUTES_PATIENT ]
-          break;
-      }
-    })
-    return menu
+    forkJoin(this._mainFacade.getUserLogged(), this._mainFacade.getHospitalSesion())
+        .subscribe(([userLogged, hospitalSesion])=> {
+          this.userLogged = userLogged;
+          if(userLogged.isRoot)
+             this.sidebarnavItems = this.getMenu([RolesUserEnum.ROOT, RolesUserEnum.ADMIN,RolesUserEnum.DOCTOR, RolesUserEnum.DIRECTOR]);
+          else this.sidebarnavItems = this.getMenu(hospitalSesion.roles);
+          this.sidebarnavItems=[...ROUTES, ...this.sidebarnavItems]
+
+        })
+    }
+
+    
+
+    getMenu(roles: RolesUserEnum[]): RouteInfo[]{
+      let menu:RouteInfo[] = [];
+      roles.forEach(rol=> {
+        switch (rol) {
+          case RolesUserEnum.ROOT:
+            menu = [ ...menu, ...ROUTES_ROOT ]
+            break;
+          case RolesUserEnum.ADMIN:
+            menu = [ ...menu, ...ROUTES_ADMIN ]
+            break;
+          case RolesUserEnum.DOCTOR:
+            menu = [...menu, ...ROUTES_DOCTOR ]
+            break;
+          case RolesUserEnum.DIRECTOR:
+            menu = [...menu, ...ROUTES_DIRECTOR ]
+            break;
+          case RolesUserEnum.PACIENTE:
+            menu = [ ...menu, ...ROUTES_PATIENT ]
+            break;
+        }
+      })
+      return menu
+    }
+
+    cambiarHospital(){
+      this._router.navigate(['/inicio']);
+    }
+
+    logout(){
+      this._mainFacade.logout();
+    }
+
+    goToPerfil(){
+      this._router.navigate(['/perfil']);
+    }
+
    
-  }
 }

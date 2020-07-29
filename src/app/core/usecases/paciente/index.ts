@@ -1,0 +1,1 @@
+export { SolicitarSeguimentoUseCase } from './solicitar-seguimiento.usecase';

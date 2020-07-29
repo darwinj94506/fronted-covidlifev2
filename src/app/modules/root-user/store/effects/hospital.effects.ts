@@ -3,7 +3,6 @@ import { Actions, Effect, ofType  } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, exhaustMap, tap } from 'rxjs/operators';
 import * as accionesHospital  from '../actions/hospital.actions';
-import { EspacioService } from '../../services';
 import { Observable, from} from 'rxjs'; 
 import { GestionarHospitalCaseUse, VerHospitalesPorLugarUseCase } from '../../../../core/usecases/root';
 import { CRUDEnum } from '../../../../core/domain/enums';
@@ -12,11 +11,10 @@ import { ConfirmModalComponent } from '../../../../ui/components/confirm-modal/c
 import { FormHospitalComponent } from '../../pages';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Injectable()
-export class EspacioEffects {
+export class HospitalEffects {
     modalCreateUpdateRef: NgbModalRef;
     constructor( private actions$ : Actions, 
         private _gestionarHospital : GestionarHospitalCaseUse,
-        private _espacioService : EspacioService,
         private _verHospitalesPorLugar : VerHospitalesPorLugarUseCase,
         private _toastService : ToastService,
         private modalService: NgbModal
@@ -25,12 +23,12 @@ export class EspacioEffects {
     @Effect()
     cargarHospitales: Observable<any> = this.actions$.pipe(
     ofType(accionesHospital.cargarHospitales),
-    switchMap(payload => this._verHospitalesPorLugar.execute(payload.idEspacio)
+    switchMap(({filter}) => this._verHospitalesPorLugar.execute(filter)
         .pipe(
-            map(espacios => accionesHospital.cargarHospitalesExito({Hospitales:espacios})),
+            map(hospitales => accionesHospital.cargarHospitalesExito({Hospitales: hospitales})),
             catchError( error => {
-                this._toastService.showError(`Error al cargar hospitales : ${payload.idEspacio}, Error:${error.error}`);
-                return of( accionesHospital.cargarHospitalesError({error: error.error}))
+                this._toastService.showError(`Error al cargar hospitales , Error:${error.message}`);
+                return of( accionesHospital.cargarHospitalesError({error: error.message}))
                 }
             )
         )))
@@ -41,12 +39,12 @@ export class EspacioEffects {
         exhaustMap(({Hospital}) => this._gestionarHospital.execute(Hospital, CRUDEnum.CREATE).pipe(
             map((Hospital) => {
                 this._toastService.showSuccess(`Éxito, hospital creado : ${Hospital.nombre}`);
-                this._espacioService.closeModalCreateUpdate();
+                this.closeModalCreateUpdate();
                 return accionesHospital.crearHospitalExito({Hospital})
             }),
             catchError( (error) => {
-                this._toastService.showError(`Error al crear hospital, Error:${error.error}, Entidad:${Hospital.nombre}`)
-                return of( accionesHospital.crearHospitalError({error: error.error}) )
+                this._toastService.showError(`Error al crear hospital, Error:${error.message}, Entidad:${Hospital.nombre}`)
+                return of( accionesHospital.crearHospitalError({error: error.message}) )
             })
         )),
     )
@@ -57,12 +55,12 @@ export class EspacioEffects {
         switchMap(({Hospital}) => this._gestionarHospital.execute(Hospital, CRUDEnum.UPDATE).pipe(
             map((Hospital) => {
                 this._toastService.showSuccess(`Éxito, hospital actualizado: ${Hospital.nombre}`);
-                this._espacioService.closeModalCreateUpdate();
+                this.closeModalCreateUpdate();
                 return accionesHospital.actualizarHospitalExito({Hospital});
             }),
             catchError(error => {
-                this._toastService.showError(`Error al actualizar, Error:${error.error}, Hospital:${Hospital.nombre}`);
-                return of( accionesHospital.actualizarHospitalError({error: error.error}) )
+                this._toastService.showError(`Error al actualizar, Error:${error.message}, Hospital:${Hospital.nombre}`);
+                return of( accionesHospital.actualizarHospitalError({error: error.message}) )
             })
         )),
     )
@@ -103,7 +101,7 @@ export class EspacioEffects {
 
     public openModalCreateUpdateHospital(hospital) {
         this.modalCreateUpdateRef = this.modalService.open( FormHospitalComponent, { centered: true })
-        this.modalCreateUpdateRef.componentInstance.espacio = {...hospital};
+        this.modalCreateUpdateRef.componentInstance.hospital = {...hospital};
     };
 
     public closeModalCreateUpdate() {

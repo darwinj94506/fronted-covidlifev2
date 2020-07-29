@@ -1,6 +1,6 @@
 import { Injectable} from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { AuthFacade } from './store/auth/auth.facade'
+import { MainFacade } from './store/facade/main.facade'
 import { GuardService } from './services/guard.service';
 import { Observable, of, iif} from 'rxjs';
 import { map, catchError, exhaustMap, tap} from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { map, catchError, exhaustMap, tap} from 'rxjs/operators';
 export class LoginGuard implements CanActivate {
 
   constructor(
-    private _authFacade:AuthFacade, private _guardService: GuardService
+    private _mainFacade:MainFacade, private _guardService: GuardService
   ) {}
 
   
@@ -19,14 +19,15 @@ export class LoginGuard implements CanActivate {
       exhaustMap(isLooged  =>
           iif(()=>isLooged, of(true), this.getLocalStorage())),
       catchError(err=>{
-        this._authFacade.loadUserLoggedError();
+        console.log(err);
+        this._mainFacade.loadUserLoggedError(err);
         return of(false)
       })
     )
   }
 
   getUserLoggedStore():Observable<any>{
-    return this._authFacade.getUserLogged().pipe(
+    return this._mainFacade.getUserLogged().pipe(
       exhaustMap((userLogged)=>
         iif(() => userLogged.email && userLogged.email!="", of(true), of(false))  
       ))
@@ -34,7 +35,7 @@ export class LoginGuard implements CanActivate {
 
   getLocalStorage() : Observable<boolean> {
     return this._guardService.loadLocalStorage().pipe(
-      tap(userLogged=> this._authFacade.loadUserLoggedSuccess({...userLogged})),
+      tap(userLogged=> this._mainFacade.loadUserLoggedSuccess({...userLogged})),
       map( userLogged=> true)
     )
   }

@@ -7,19 +7,24 @@ import { RootUserRoutingModule } from './root-user-routing.module';
 import { AdministratorsComponent,
          HospitalsComponent, 
          PlacesComponent,
+         TablaHospitalesComponent,
+         FormHospitalComponent,
          FormComponent } from './pages';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { UserService } from './services';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { RootUserReducers } from './store/root-user.reducer';
-import { EspacioEffects } from './store/effects';
+import { EspacioEffects,
+         HospitalEffects} from './store/effects';
 
 import { UiModule } from '../../ui/ui.module';
 import { TableComponent } from './pages/places/table/table.component';
-import { TablaHospitalesComponent } from './pages/hospitals/tabla-hospitales/tabla-hospitales.component';
-import { FormHospitalComponent } from './pages/hospitals/form-hospital/form-hospital.component';
 
+
+import { UserFormModule } from '../../shared/user-form/user-form.module';
+import { UserTableModule } from '../../shared/user-table/user-table.module';
 @NgModule({
   declarations: [AdministratorsComponent,
      HospitalsComponent, 
@@ -27,7 +32,8 @@ import { FormHospitalComponent } from './pages/hospitals/form-hospital/form-hosp
      FormComponent,
      TableComponent,
      TablaHospitalesComponent,
-     FormHospitalComponent],
+     FormHospitalComponent
+    ],
   imports: [
     CommonModule,
     FormsModule, 
@@ -36,17 +42,20 @@ import { FormHospitalComponent } from './pages/hospitals/form-hospital/form-hosp
     NgbModalModule,
     NgbModule,
     UiModule,
+    UserFormModule,
+    UserTableModule,
+    NgSelectModule,
     StoreModule.forFeature('rootUserState', RootUserReducers),
-    EffectsModule.forFeature([ EspacioEffects])
+    EffectsModule.forFeature([ EspacioEffects, HospitalEffects])
   ],
   providers:[
     DecimalPipe,
     DatePipe,
-    UserService,
-    
+    UserService
   ],
   entryComponents:[
-    FormComponent
+    FormComponent,
+    FormHospitalComponent
   ]
 })
 export class RootUserModule { }

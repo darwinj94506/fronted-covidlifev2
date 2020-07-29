@@ -21,11 +21,11 @@ export class EspacioEffects {
     @Effect()
     loadEspacio: Observable<any> = this.actions$.pipe(
     ofType(accionesEspacio.cargarEspacios),
-    switchMap(payload => this._verLugaresPorTipo.execute(payload.tipo, payload.idTipo)
+    switchMap(payload => this._verLugaresPorTipo.execute(payload.filtro)
         .pipe(
             map(espacios => accionesEspacio.cargarEspacioExito({espacios:espacios, tipo :payload.tipo})),
             catchError( error => {
-                this._espacioService.showError(`Error al cargar entidades de tipo: ${payload.tipo}, Error:${error.error}`);
+                this._espacioService.showError(`Error al cargar entidades de tipo: ${payload.tipo}, Error:${error.message}`);
                 return of( accionesEspacio.cargarEspacioError({error: error.message, tipo: payload.tipo}))
                 }
             )
@@ -35,10 +35,10 @@ export class EspacioEffects {
     createEspacio: Observable<any> = this.actions$.pipe(
         ofType(accionesEspacio.crearEspacio),
         exhaustMap(({Espacio}) => this._gestionarEspacio.execute(Espacio,CRUDEnum.CREATE).pipe(
-            map((Espacio) => {
-                this._espacioService.showSuccess(`Éxito, entidad creada: ${Espacio.nombre}`);
+            map((newEspacio) => {
+                this._espacioService.showSuccess(`Éxito, entidad creada: ${newEspacio.nombre}`);
                 this._espacioService.closeModalCreateUpdate();
-                return accionesEspacio.crearEspacioExito({Espacio})
+                return accionesEspacio.crearEspacioExito({Espacio:newEspacio})
             }),
             catchError( (error) => {
                 this._espacioService.showError(`Error al crear, Error:${error.message}, Entidad:${Espacio.nombre}`)
@@ -51,10 +51,10 @@ export class EspacioEffects {
     actualizarEspacio: Observable<any> = this.actions$.pipe(
         ofType(accionesEspacio.actualizarEspacio),
         switchMap(({Espacio}) => this._gestionarEspacio.execute(Espacio,CRUDEnum.UPDATE).pipe(
-            map((Espacio) => {
+            map((updatedEspacio) => {
                 this._espacioService.showSuccess(`Éxito, entidad actualizada: ${Espacio.nombre}`);
                 this._espacioService.closeModalCreateUpdate();
-                return accionesEspacio.actualizarEspacioExito({Espacio});
+                return accionesEspacio.actualizarEspacioExito({Espacio:updatedEspacio});
             }),
             catchError(error => {
                 this._espacioService.showError(`Error al actualizar, Error:${error.message}, Entidad:${Espacio.nombre}`);

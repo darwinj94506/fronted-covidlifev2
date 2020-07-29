@@ -1,0 +1,93 @@
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="form-horizontal m-t-20" action="index.html">
+    <div class="form-group row">
+        <div class="col-12">
+            <input class="form-control" type="text" formControlName="name" (keyup)=logValidationErrors(signupForm) placeholder="Nombres">
+            <span class="help-block" *ngIf="formsErrors.name">
+                        {{formsErrors.name}}
+                    </span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12 ">
+            <input class="form-control" type="text" formControlName="lastname" (keyup)=logValidationErrors(signupForm) placeholder="Apellidos">
+            <span class="help-block" *ngIf="formsErrors.lastname">
+                        {{formsErrors.lastname}}
+                    </span>
+        </div>
+    </div>
+    <div class=" form-group row">
+        <div class="col-12 ">
+            <input class="form-control" type="text" formControlName="email" (keyup)=logValidationErrors(signupForm) placeholder="Correo">
+            <span class="help-block" *ngIf="formsErrors.email">
+                        {{formsErrors.email}}
+                    </span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12 ">
+            <input class="form-control" type="text" formControlName="ci" (keyup)=logValidationErrors(signupForm) placeholder="Cédula o pasaporte">
+            <span class="help-block" *ngIf="formsErrors.ci">
+                        {{formsErrors.ci}}
+                    </span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12 ">
+            <!-- <input class="form-control " type="text " formControlName="fechaNacimiento" (blur)=logValidationErrors(signupForm) placeholder="Fecha de nacimiento"> -->
+            <div class="input-group">
+                <input (click)="d.toggle()" class="form-control" placeholder="Fecha de nacimiento" name="dp" formControlName="fechaNacimiento" ngbDatepicker #d="ngbDatepicker" (keyup)=logValidationErrors(signupForm)>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"> <i class="mdi mdi-calendar"></i></button>
+                </div>
+                <span class="help-block" *ngIf="formsErrors.fechaNacimiento">
+                            {{formsErrors.fechaNacimiento}}
+                        </span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12 ">
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="materialUnchecked2" [value]="MASCULINO" (keyup)=logValidationErrors(signupForm) formControlName="genero" name="genero">
+                <label class="form-check-label" for="materialUnchecked2">Masculino</label>
+            </div>
+
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="materialChecked2" [value]="FEMENINO" (keyup)=logValidationErrors(signupForm) formControlName="genero" name="genero">
+                <label class="form-check-label " for="materialChecked2 ">Femenino</label>
+            </div>
+            <span class="help-block" *ngIf="formsErrors.genero">
+                            {{formsErrors.genero}}
+                        </span>
+        </div>
+    </div>
+    <div class="form-group row ">
+        <div class="col-12 ">
+            <input class="form-control" type="text" formControlName="telefono" (keyup)=logValidationErrors(signupForm) placeholder="Teléfono">
+        </div>
+    </div>
+    <div class="form-group row ">
+        <div class="col-12 ">
+            <input class="form-control" type="text" formControlName="direccion" (keyup)=logValidationErrors(signupForm) placeholder="Dirección">
+        </div>
+    </div>
+    <div class="form-group row ">
+        <div class="col-12 ">
+            <input class="form-control" type="password" formControlName="password" (keyup)=logValidationErrors(signupForm) placeholder="Contraseña">
+            <span class="help-block" *ngIf="formsErrors.password">
+                        {{formsErrors.password}}
+                    </span>
+        </div>
+    </div>
+    <!-- <div class="form-group row ">
+                <div class="col-12 ">
+                    <input class="form-control " type="password " required=" " placeholder="Confirm Password ">
+                </div>
+            </div> -->
+
+    <div class="form-group text-center ">
+        <div class="col-xs-12 p-b-20 ">
+            <button type="submit" [disabled]="signupForm.invalid" class="btn btn-block btn-lg btn-info"> Guardar </button>
+        </div>
+    </div>
+</form>

@@ -2,10 +2,11 @@
 
 import { createAction, props } from '@ngrx/store';
 import { IHospitalEntity } from '../../../../core/domain/entities';
+import { FilterHospitalIn } from '../../../../core/domain/inputs';
 
 export const cargarHospitales = createAction(
   '[Hospital] Cargar Hospitales',
-  props<{ idEspacio: String | number }>()
+  props<{ filter: FilterHospitalIn}>()
 );
 
 export const cargarHospitalesExito = createAction(

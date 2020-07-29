@@ -19,6 +19,7 @@ import { CallDashModule } from '../video-chat/call-dash/call-dash.module';
 import { CardComponent } from './components/card/card.component';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { SeguimientosComponent } from './pages/seguimientos/seguimientos.component';
+import { UserTableModule } from '../../shared/user-table/user-table.module';
 
 @NgModule({
   declarations: [PatientsComponent, TaskboardComponent, DailyStatusComponent, VideoCallComponent, CardComponent, SeguimientosComponent],
@@ -37,7 +38,8 @@ import { SeguimientosComponent } from './pages/seguimientos/seguimientos.compone
     AppsModule,   
     DragulaModule,
     CallDashModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    UserTableModule
   ],
   providers:[
     DatePipe, 

@@ -1,7 +1,10 @@
-import { IOperations } from '../interfaces/operation.interface';
-import { CREATE, UPDATE, DELETE } from '../gql/hospital';
+import { IOperations, IOperation } from '../interfaces/operation.interface';
+import { CREATE, UPDATE, DELETE, LIST_FILTER } from '../gql/hospital';
+export interface HospitalOperations extends IOperations{
+    listFilterHospital:IOperation
+}
 
-export const HOSPITAL_OPERATIONS : IOperations = {
+export const HOSPITAL_OPERATIONS : HospitalOperations = {
     create: {
         resolve:'addHospital',
         gql: CREATE
@@ -13,6 +16,10 @@ export const HOSPITAL_OPERATIONS : IOperations = {
     delete: {
         resolve:'',
         gql: DELETE
+    },
+    listFilterHospital:{
+        resolve:'listfilterHospital',
+        gql: LIST_FILTER
     }
 
 }

@@ -13,3 +13,4 @@ export { UserGeneroEnum } from './user-genero.enum';
 export { UserMotivoAltaEnum  } from './user-motivo-alta.enum';
 export { UserStateEnum } from './user-state.enum';
 export { RolesUserEnum } from './roles-user.enum';
+export { EstadoEntidadEnum } from './estado-entidad.enum';

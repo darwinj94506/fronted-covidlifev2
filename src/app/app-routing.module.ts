@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { FullComponent } from './layouts/full/full.component';
 import { BlankComponent } from './layouts/blank/blank.component';
+import { InitComponent } from './init/init.component';
 import { LoginGuard } from './login.guard';
 
 export const Approutes: Routes = [
@@ -51,6 +52,7 @@ export const Approutes: Routes = [
 				loadChildren: () => import('./sample-pages/sample-pages.module').then(m => m.SamplePagesModule)
 			},
 			// nuevos módulos
+			{ path: 'perfil', loadChildren: () => import('./shared/profile/profile.module').then(m => m.ProfileModule) },
 			{ path: 'root', loadChildren: () => import('./modules/root-user/root-user.module').then(m => m.RootUserModule) },
 			{ path: 'admin', loadChildren: () => import('./modules/administrator/administrator.module').then(m => m.AdministratorModule) },
 			{ path: 'doctor', loadChildren: () => import('./modules/doctor/doctor.module').then(m => m.DoctorModule) },
@@ -70,6 +72,11 @@ export const Approutes: Routes = [
 					() => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
 			}
 		]
+	},
+	{
+		path: 'inicio',
+		canActivate:[LoginGuard],
+		component: InitComponent
 	},
 	{
 		path: '**',

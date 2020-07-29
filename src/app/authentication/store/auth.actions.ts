@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { SignupIn } from '../../core/domain/inputs';
+import { LoginOut } from '../../core/domain/outputs';
 export const login = createAction(
     '[Auth] Login',
     props<{ user: any}>()
@@ -7,7 +8,7 @@ export const login = createAction(
   
   export const loginSuccess = createAction(
     '[Auth] Login Success',
-    props<{ userLogged: any }>()
+    props<{ userLogged: LoginOut }>()
   );
   
   export const loginError = createAction(

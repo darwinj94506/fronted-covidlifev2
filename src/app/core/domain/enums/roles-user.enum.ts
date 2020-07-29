@@ -1,7 +1,7 @@
 export  enum RolesUserEnum{
-    ROOT = 0,
-    ADMIN = 1,
-    PACIENTE = 2,
-    DOCTOR=3,
-    DIRECTOR=4
+    ROOT = 'ROOT',
+    ADMIN = 'ADMIN',
+    PACIENTE = 'PACIENTE',
+    DOCTOR = 'DOCTOR',
+    DIRECTOR = 'DIRECTOR'
 }

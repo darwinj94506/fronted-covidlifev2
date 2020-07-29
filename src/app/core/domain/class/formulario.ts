@@ -1,11 +1,7 @@
 import { Injector } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs' 
-import { NgxSpinnerService } from 'ngx-spinner';
 
 export abstract class Formulario {
-    spinner: NgxSpinnerService
-    suscription: Subscription;
     
     ValidationMessage = {
     }
@@ -13,9 +9,8 @@ export abstract class Formulario {
     formsErrors = {
     }
 
-    constructor( ValidationMessage, injector: Injector){
+    constructor( ValidationMessage){
         this.ValidationMessage = { ...ValidationMessage };
-        this.spinner = injector.get(NgxSpinnerService);
     }
     
     logValidationErrors(group: FormGroup) {

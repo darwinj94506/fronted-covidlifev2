@@ -14,11 +14,12 @@ export class EspacioFkDbRepositorio extends GenerciFakeDbRepository<IEspacioEnti
         super('espacios', null, injector);
     }
     
-    getPorTipo_Y_IdEspacio( tipo:EspacioEnum, idEspacio:string): any {
-        return this._http.get(`${this.baseUrl}/${this.source}?tipo=${tipo}&idEspacio=${idEspacio}`)
+    getPorTipo_O_IdPadre( ): any {
+        // return this._http.get(`${this.baseUrl}/${this.source}?tipo=${tipo}&idEspacio=${idEspacio}`)
+        
     }
 
-    getProvincias(): any {
-        return this._http.get(`${this.baseUrl}/${this.source}?tipo=${EspacioEnum.PROVINCIA}`);
-    }
+    // getProvincias(): any {
+    //     return this._http.get(`${this.baseUrl}/${this.source}?tipo=${EspacioEnum.PROVINCIA}`);
+    // }
 }

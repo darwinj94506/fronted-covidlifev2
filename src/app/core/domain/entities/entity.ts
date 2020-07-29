@@ -1,7 +1,7 @@
 export interface IEntity {
-    _id?: string | number;
+    _id?: string;
     createAt?: Date;
-    idCreateBy?:string | number;
+    idCreateBy?:string;
     
 }
 

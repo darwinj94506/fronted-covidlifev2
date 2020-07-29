@@ -1,7 +1,11 @@
-import { IOperations } from '../interfaces/operation.interface';
-import { ALL, CREATE, UPDATE, DELETE } from '../gql/espacio';
+import { IOperations, IOperation } from '../interfaces/operation.interface';
+import { CREATE, UPDATE, DELETE, GET_BY_TYPE_ID_PADRE} from '../gql/espacio';
 
-export const ESPACIO_OPERATIONS : IOperations = {
+export interface IUserOperationsAuth extends IOperations{
+    listByTypeOIdPadre: IOperation;
+}  
+
+export const ESPACIO_OPERATIONS : IUserOperationsAuth = {
     create: {
         resolve:'addEspacio',
         gql: CREATE
@@ -13,6 +17,10 @@ export const ESPACIO_OPERATIONS : IOperations = {
     delete: {
         resolve:'',
         gql: DELETE
+    },
+    listByTypeOIdPadre: {
+        resolve:'listfilterEspacio',
+        gql: GET_BY_TYPE_ID_PADRE
     }
 
 }

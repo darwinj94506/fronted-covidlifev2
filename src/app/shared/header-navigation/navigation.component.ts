@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, EventEmitter, Output } from '@angular/core';
+import { Component, AfterViewInit, EventEmitter, Output, OnInit } from '@angular/core';
 import {
   NgbModal,
   ModalDismissReasons,
@@ -6,20 +6,26 @@ import {
   NgbCarouselConfig
 } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { MainFacade } from '../../store/facade/main.facade';
+import { LoginOut } from '../../core/domain/outputs';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 declare var $: any;
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html'
 })
-export class NavigationComponent implements AfterViewInit {
+export class NavigationComponent implements AfterViewInit, OnInit {
   @Output() toggleSidebar = new EventEmitter<void>();
-
+  userLogged$ : Observable<LoginOut>;
   public config: PerfectScrollbarConfigInterface = {};
 
   public showSearch = false;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal,
+     private _router:Router,
+     private _mainFacade:MainFacade) {}
 
   // This is for Notifications
   notifications: Object[] = [
@@ -86,4 +92,18 @@ export class NavigationComponent implements AfterViewInit {
   ];
 
   ngAfterViewInit() {}
+
+  logout(){
+    this._mainFacade.logout()
+  }
+
+  ngOnInit(){
+   
+    this.userLogged$ = this._mainFacade.getUserLogged()
+     
+  }
+  
+  cambiarHospital(){
+    this._router.navigate(['/inicio']);
+  }
 }

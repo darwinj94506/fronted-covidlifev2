@@ -1,0 +1,30 @@
+<div class="row">
+    <!-- Column -->
+    <div class="col-lg-4 col-xlg-3 col-md-5">
+        <app-over-view [userPerfil$]="userPerfil$"></app-over-view>
+    </div>
+    <!-- Column -->
+    <!-- Column -->
+    <div class="col-lg-8 col-xlg-9 col-md-7">
+        <div class="card">
+            <ngb-tabset type="pills" class="custom-pills">
+                <ngb-tab title="Timeline">
+                    <ng-template ngbTabContent>
+                        <app-time-line></app-time-line>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Profile">
+                    <ng-template ngbTabContent>
+                        <app-profile></app-profile>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Settings">
+                    <ng-template ngbTabContent>
+                        <app-settings></app-settings>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        </div>
+    </div>
+    <!-- Column -->
+</div>

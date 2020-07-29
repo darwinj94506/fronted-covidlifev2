@@ -1,13 +1,10 @@
 import {Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
 import  { Observable, throwError, of} from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({providedIn:'root'})
 export class GuardService {
-    
-    constructor(private apollo : Apollo, private router: Router){}
-
+    constructor(private router: Router){}
    
     loadLocalStorage(): Observable<any> {  
         try{
@@ -27,20 +24,9 @@ export class GuardService {
         localStorage.removeItem('userLogged');
     }
     
-    logout() {
-        localStorage.removeItem('userLogged');
-    }
-
     navigateToLogin(){
-        console.log("navigation to login")
         this.router.navigate(['/authentication/login'])
     }
-
-    navigateToDashboard(){
-        console.log("navigation to dashboard")
-        this.router.navigate(['/root/lugares'])
-    }
-  
 
 }
 

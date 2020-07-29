@@ -1,11 +1,11 @@
 import { ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import * as fromRoot from '../../../store/app.reducers';
+import * as fromRoot from '../../../store/app.reducer';
 import * as fromProvinceReducer from './reducers/province.reducers';
 import * as fromEspacio from './reducers/espacio.reducer';
 import * as fromHospital from './reducers/hospital.reducer';
 
 export interface RootUserState {
-    province: fromProvinceReducer.ProvinceState;
+    // province: fromProvinceReducer.ProvinceState;
     espacio: fromEspacio.EspacioState;
     hospital : fromHospital.HospitalState;
 }
@@ -15,13 +15,13 @@ export interface AppState extends fromRoot.AppState {
 }
 
 export const RootUserReducers: ActionReducerMap<RootUserState> = {
-    province: fromProvinceReducer.reducer,
+    // province: fromProvinceReducer.reducer,
     espacio: fromEspacio.reducer,
     hospital : fromHospital.reducer 
 };
 
 export const selectRootUserState = createFeatureSelector<RootUserState>('rootUserState');
-export const selectProvinceState = createSelector(selectRootUserState, (state) => state.province);
+// export const selectProvinceState = createSelector(selectRootUserState, (state) => state.province);
 
 export const selectEspacioState = createSelector(selectRootUserState, (state) => state.espacio);
 export const selectCargandoProvincias = createSelector(selectEspacioState, (state) => state.isLoadingProvincias);

@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Injector, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EspacioEnum } from '../../../../../core/domain/enums';
 import { IEspacioEntity } from '../../../../../core/domain/entities';
 import { EspacioFacade } from '../../../store/facades';
 import { Formulario } from '../../../../../core/domain/class/formulario';
 import { Observable } from 'rxjs';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 const VALIDATION_MESSAGE =  {
   nombre: { required: 'El Nombre es obligatorio' }
 }
@@ -15,23 +16,23 @@ const VALIDATION_MESSAGE =  {
   styleUrls: ['./form.component.css']
 })
 
-export class FormComponent extends Formulario implements OnInit, OnDestroy {
+export class FormComponent extends Formulario implements OnInit {
 
   @Input() espacio: IEspacioEntity;
 
   formulario: FormGroup;
   isLoading$: Observable<boolean>;
    
-  constructor( private fb: FormBuilder, 
-               injector: Injector,
+  constructor( private fb: FormBuilder,
+               public activeModal: NgbActiveModal,
                private _espacioFacade : EspacioFacade) {
-        super({...VALIDATION_MESSAGE}, injector)
+        super({...VALIDATION_MESSAGE})
      }
-
+ 
   
   ngOnInit(): void {
     this.initForm();
-    this.loadingListener();
+    this.listenerLoading();
   }
   
 
@@ -48,7 +49,7 @@ export class FormComponent extends Formulario implements OnInit, OnDestroy {
     }
   }
 
-  loadingListener(){
+  listenerLoading(){
     switch(this.espacio.tipo){
       case EspacioEnum.PROVINCIA:
         this.isLoading$ = this._espacioFacade.getLoadingProvincias()
@@ -64,12 +65,6 @@ export class FormComponent extends Formulario implements OnInit, OnDestroy {
         break;
     }
 
-    this.suscription = this.isLoading$.subscribe(isLoading=> {
-      if(isLoading)
-        this.spinner.show()
-      else
-        this.spinner.hide()
-    });
   }
 
   onSubmit(){
@@ -80,30 +75,36 @@ export class FormComponent extends Formulario implements OnInit, OnDestroy {
   }
 
   create(){
-    let espacio: IEspacioEntity = { 
-      nombre: this.formulario.get('nombre').value,  
-      tipo: this.espacio.tipo  
-    };
+   let espacio:IEspacioEntity = this.getEspacio(); 
+   console.log(espacio);
     this._espacioFacade.crearEspacio(espacio)
   }
 
   update(){
     let espacio: IEspacioEntity = { 
       _id: this.espacio._id,
-      nombre: this.formulario.get('nombre').value,
-      tipo: this.espacio.tipo  
+      ...this.getEspacio()
     };
     this._espacioFacade.actualizarEspacio(espacio)
+  }
+
+  getEspacio():IEspacioEntity{
+    if(this.espacio.tipo===EspacioEnum.PROVINCIA)
+        return {
+          nombre:this.formulario.get('nombre').value,
+          tipo:this.espacio.tipo
+        }
+    return {
+        nombre:this.formulario.get('nombre').value,
+        tipo:this.espacio.tipo,
+        idEspacio:this.espacio.idEspacio
+      }      
   }
 
   initForm(){
     this.formulario = this.fb.group({
       nombre: [ this.espacio.nombre , Validators.required]         
     });
-  }
-
-  ngOnDestroy(){
-    this.suscription.unsubscribe();
   }
 
 }

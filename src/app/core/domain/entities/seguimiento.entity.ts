@@ -9,7 +9,7 @@ import { SeguimientoTipoEnum,
 export interface ISeguimientoEntity extends IEntity {
     idPaciente:string;
     //doctor que reviso el seguimiento, sea con llamada o sin llamada
-    idDoctor:string;
+    idDoctor?:string;
     //hospital al que se envió la solicitud, solo visible para ese hospital
     idHospital:string;  
         

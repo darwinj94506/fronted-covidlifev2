@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, OnDestroy,ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit,ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthFacade } from '../store/auth.facade';
 import { Formulario } from '../../core/domain/class/formulario';
@@ -22,7 +22,7 @@ const ValidationMessage = {
   templateUrl: './signup.component.html'
 })
 
-export class SignupComponent  extends Formulario implements OnInit, OnDestroy{
+export class SignupComponent  extends Formulario implements OnInit {
 
   MASCULINO:UserGeneroEnum = UserGeneroEnum.M;
   FEMENINO:UserGeneroEnum = UserGeneroEnum.F;
@@ -36,13 +36,13 @@ export class SignupComponent  extends Formulario implements OnInit, OnDestroy{
 
   terminosCondiciones:boolean = false;
 
-  constructor( private fb: FormBuilder, private _authFacade: AuthFacade, injector: Injector, private modalService: NgbModal ) {
-    super({...ValidationMessage}, injector)
+  constructor( private fb: FormBuilder, private _authFacade: AuthFacade, private modalService: NgbModal ) {
+    super({...ValidationMessage}, )
   }
 
   ngOnInit(){
     this.initForm();
-    this.initListener();
+
   }
   
   initForm(){
@@ -58,14 +58,6 @@ export class SignupComponent  extends Formulario implements OnInit, OnDestroy{
       direccion: [ '' ],
       terminosCondiciones: [false]
     });
-  }
-
-  initListener(){
-    this.suscription = this._authFacade.getAuthState()
-      .subscribe(({authState})=>{
-        if(authState.isLoading) this.spinner.show();
-        else this.spinner.hide() 
-    })
   }
 
   verTerminosCondiciones(){
@@ -101,11 +93,6 @@ export class SignupComponent  extends Formulario implements OnInit, OnDestroy{
     } else {
       this.terminosCondiciones=false;
     }
-  }
-  
-
-  ngOnDestroy(){
-    this.suscription.unsubscribe();
   }
 
 }

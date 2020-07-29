@@ -1,4 +1,4 @@
 export enum DificultadRespirarEnum {    
-    SI,
-    NO
+    SI="SI",
+    NO="NO"
 }

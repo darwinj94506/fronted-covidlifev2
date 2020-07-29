@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { UserRepository } from '../repositories/user.repository';
+import { UsuarioRepository } from '../repositories';
 import { UseCase } from '../base/use-case';
-import { IUserEntity } from '../domain/entities';
 import { ICredentialsInput } from '../domain/inputs';
-import { IUserResponse } from '../domain/responses';
+import { IUsuarioEntity } from '../domain/entities';
+import { LoginOut } from '../domain/outputs';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class LoginUsecase implements UseCase<ICredentialsInput, IUserResponse> {
+export class LoginUsecase implements UseCase<ICredentialsInput, LoginOut> {
 
-  constructor(private userRepository: UserRepository) { }
+  constructor(private userRepository: UsuarioRepository) { }
 
-  execute(params: ICredentialsInput): Observable<IUserResponse> {
+  execute(params: ICredentialsInput): Observable<LoginOut> {
     return this.userRepository.login(params)
   }
 

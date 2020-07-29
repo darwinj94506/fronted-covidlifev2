@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserRepository } from '../repositories/user.repository';
+import { UsuarioRepository } from '../repositories/usuario.repository';
 import { UseCase } from '../base/use-case';
 import { SignupIn } from '../domain/inputs';
 import { IUserEntity } from '../domain/entities';
@@ -10,10 +10,10 @@ import { Observable } from 'rxjs';
 })
 export class ManageStaffUsecase implements UseCase<SignupIn, IUserEntity> {
 
-  constructor(private userRepository: UserRepository) { }
+  constructor(private _usuarioRepository: UsuarioRepository) { }
   
   execute(params: SignupIn): Observable<IUserEntity> {
-    return this.userRepository.register(params);
+    return this._usuarioRepository.register(params);
   }
 
   createStaff(){

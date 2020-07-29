@@ -34,20 +34,19 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
-import { AuthEffects } from './store/auth/auth.effects';
-import { AppReducers } from './store/app.reducers';
+import { MainEffects, SeguimientoEffects, UserEffects } from './store/effects';
+import { AppReducers } from './store/app.reducer';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { UserMDBRepository,
+         HospitalMDBRepository,
+         SeguimientoMDBRepository,
          EspacioMDBRepository } from './data/repositories/mongodb';
-import {  EspacioFkDbRepositorio,
-         SeguimientoFkDBRepository} from './data/repositories/fakedb';
-import { UserRepository,
+
+import { UsuarioRepository,
          EspacioRepositorio,
+         HospitalRepositorio,
          SeguimientoRepositorio } from './core/repositories';
-
-
-
-
+import { InitComponent } from './init/init.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -64,7 +63,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     BlankComponent,
     NavigationComponent,
     BreadcrumbComponent,
-    SidebarComponent
+    SidebarComponent,
+    InitComponent
   ],
   imports: [
     CommonModule,
@@ -84,14 +84,15 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgMultiSelectDropDownModule.forRoot(),
     AgmCoreModule.forRoot({ apiKey: 'AIzaSyDoliAneRffQDyA7Ul9cDk3tLe7vaU4yP8' }),
     StoreModule.forRoot(AppReducers),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([MainEffects, SeguimientoEffects, UserEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
-    { provide: UserRepository, useClass: UserMDBRepository },
+    { provide: UsuarioRepository, useClass: UserMDBRepository },
     { provide: EspacioRepositorio, useClass: EspacioMDBRepository },
-    { provide: SeguimientoRepositorio, useClass: SeguimientoFkDBRepository},
+    { provide: HospitalRepositorio, useClass: HospitalMDBRepository },
+    { provide: SeguimientoRepositorio, useClass: SeguimientoMDBRepository},
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

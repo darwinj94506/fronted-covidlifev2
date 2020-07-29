@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Injector} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthFacade } from '../store/auth.facade';
 import { Formulario } from '../../core/domain/class/formulario'
@@ -13,16 +13,15 @@ const ValidationMessage = {
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
-export class LoginComponent extends Formulario implements OnInit, OnDestroy{
+export class LoginComponent extends Formulario implements OnInit{
   loginForm: FormGroup;
   
-  constructor( private fb: FormBuilder, private _authFacade: AuthFacade, injector: Injector) {
-    super({...ValidationMessage}, injector)
+  constructor( private fb: FormBuilder, private _authFacade: AuthFacade) {
+    super({...ValidationMessage})
   }
 
   ngOnInit(){
     this.initForm();
-    this.initListener();
   }
 
 
@@ -39,18 +38,6 @@ export class LoginComponent extends Formulario implements OnInit, OnDestroy{
       password: this.loginForm.get('password').value
     }
     this._authFacade.login(userToLogin)
-  }
-
-  initListener(){
-    this.suscription = this._authFacade.getAuthState()
-      .subscribe(({authState})=>{
-        if(authState.isLoading) this.spinner.show();
-        else this.spinner.hide() 
-    })
-  }
-
-  ngOnDestroy(){
-    this.suscription.unsubscribe();
   }
 
 }

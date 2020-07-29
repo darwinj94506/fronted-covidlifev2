@@ -6,14 +6,15 @@ import { AppState,
          selectHospitales,
          selectCargandoHospitales } from '../root-user.reducer';
 import { IHospitalEntity } from '../../../../core/domain/entities';
+import { FilterHospitalIn } from '../../../../core/domain/inputs';
 @Injectable({
   providedIn: 'root'
 })
 export class HospitalFacade {
   constructor(private store: Store<AppState>) {}
 
-  cargarHospitales( idEspacio: string | number ) {
-    this.store.dispatch(accionesHospitales.cargarHospitales({idEspacio: idEspacio}));
+  cargarHospitales( filter: FilterHospitalIn) {
+    this.store.dispatch(accionesHospitales.cargarHospitales({filter}));
   }
 
   getLoadingHospitales(): Observable<boolean>{

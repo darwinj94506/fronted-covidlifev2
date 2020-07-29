@@ -1,6 +1,11 @@
 import { IEntity  } from './entity';
 export interface IHospitalEntity extends IEntity{
     nombre: String;
-    description: String;
+    descripcion?: String;
     idEspacio: String;
+    estado_entidad?: number;
 }
+
+
+
+

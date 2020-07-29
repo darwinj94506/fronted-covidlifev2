@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IEspacioEntity } from '../../../../core/domain/entities';
+import { FilterEspaceIn } from '../../../../core/domain/inputs';
 import { EspacioEnum } from 'src/app/core/domain/enums';
 import { EspacioFacade } from '../../store/facades';
 import { Observable, Subject} from 'rxjs';
@@ -9,6 +10,7 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'app-places',
   templateUrl: './places.component.html'
 })
+
 export class PlacesComponent implements OnInit, OnDestroy{
   private _destroyed$ = new Subject();
   provincias: IEspacioEntity[] = [];
@@ -63,7 +65,8 @@ export class PlacesComponent implements OnInit, OnDestroy{
   }
 
   cargarProvincias(){
-    this._espacioFacade.cargarEspacios(EspacioEnum.PROVINCIA, null)
+    let filtro : FilterEspaceIn = { tipo: EspacioEnum.PROVINCIA }
+    this._espacioFacade.cargarEspacios(EspacioEnum.PROVINCIA, filtro)
   }
   
   recibirProvincia(provincia: IEspacioEntity){
@@ -91,15 +94,18 @@ export class PlacesComponent implements OnInit, OnDestroy{
   }
 
   cargarCantonesPorProvincia(provincia: IEspacioEntity){
-    this._espacioFacade.cargarEspacios(EspacioEnum.CANTON, provincia._id)
+    let filtro : FilterEspaceIn = { idEspacioPadre: provincia._id }; 
+    this._espacioFacade.cargarEspacios(EspacioEnum.CANTON,filtro);
   }
 
   cargarParroquiasPorCanton(canton: IEspacioEntity){
-    this._espacioFacade.cargarEspacios(EspacioEnum.PARROQUIA, canton._id)
+    let filtro : FilterEspaceIn = { idEspacioPadre: canton._id }; 
+    this._espacioFacade.cargarEspacios(EspacioEnum.PARROQUIA, filtro);
   }
 
   cargarBarriosPorParroquia(barrio: IEspacioEntity){
-    this._espacioFacade.cargarEspacios(EspacioEnum.BARRIO, barrio._id)
+    let filtro : FilterEspaceIn = { idEspacioPadre: barrio._id }; 
+    this._espacioFacade.cargarEspacios(EspacioEnum.BARRIO, filtro);
   }
  
 }

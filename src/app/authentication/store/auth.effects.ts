@@ -4,57 +4,58 @@ import { catchError, map, switchMap, mergeMap, tap, flatMap, exhaustMap} from 'r
 import { Observable, from, of} from 'rxjs';
 import { AuthService } from '../auth.service';
 import * as authActions  from './auth.actions';
-import { UserRegisterUsecase, LoginUsecase } from '../../core/usecases'
-
+import { MainFacade } from '../../store/facade/main.facade';
+import { UserRegisterUsecase, LoginUsecase } from '../../core/usecases';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Injectable()
 export class AuthEffects {
 
     constructor( private actions$: Actions, 
         private _authService: AuthService,
         private _loginUseCase: LoginUsecase,
+        private _mainFacade: MainFacade,
+        private _spinner: NgxSpinnerService,
         private _userRegisterUseCase: UserRegisterUsecase) { }
         
     @Effect()
     login: Observable<any> = this.actions$.pipe(
         ofType(authActions.login),
+        tap(_=>this._spinner.show()),
         exhaustMap(({user}) => this._loginUseCase.execute(user).pipe(
             map((userLogged) => {
                 return authActions.loginSuccess({userLogged})
             }),
-            catchError( (err) => {
-                console.log(err);
-                return of( authActions.loginError({ error:err.error }) )
+            catchError( (error) => {
+                this._authService.showError(error.message);
+                return of( authActions.loginError({ error: error.message }) )
             })
-        )),
+        )), 
+        tap(_=>this._spinner.hide()),
     )
 
     @Effect({dispatch:false})
     loginSuccess: Observable<any> = this.actions$.pipe(
         ofType(authActions.loginSuccess),
         tap(({userLogged})=>{         
+            this._mainFacade.setUserLogged(userLogged);
             this._authService.saveLocalStorage({...userLogged})
-            this._authService.navigateToDashboard()})
+            this._authService.navigateToInit(userLogged)})
     )     
 
-    @Effect({dispatch:false})
-    loginError: Observable<any> = this.actions$.pipe(
-        ofType(authActions.loginError),
-        tap((err)=>{
-            this._authService.showError(err)
-        })
-    )   
-
+ 
     @Effect()
     register: Observable<any> = this.actions$.pipe(
         ofType(authActions.register),
+        tap(_=>this._spinner.show()),
         exhaustMap(({user}) => this._userRegisterUseCase.execute(user).pipe(
             map((user) => {
                 return authActions.registerSuccess({user})
             }),
-            catchError( (err) => {
-                return of( authActions.registerError({error:err.error}) )
+            catchError( (error) => {
+                return of( authActions.registerError({error}) )
             })
         )),
+        tap(_=>this._spinner.hide()),
     )
 
     @Effect({dispatch:false})

@@ -1,11 +1,13 @@
 import {Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-
+import { VORoleHospital, IUsuarioEntity } from '../core/domain/entities';
+import { RolesUserEnum } from '../core/domain/enums';
+import { Apollo } from 'apollo-angular';
 @Injectable({providedIn:'root'})
 export class AuthService {
     
-    constructor( private router: Router, private toastr: ToastrService){}
+    constructor( private router: Router, private toastr: ToastrService, private apollo: Apollo){}
 
     saveLocalStorage( userLogged: any ) {
         let userToSave = JSON.stringify(userLogged);
@@ -17,11 +19,9 @@ export class AuthService {
     }
     
     logout() {
+        // this.apollo.getClient().resetStore();
         localStorage.removeItem('userLogged');
-    }
-
-    navigateToDashboard(){
-        this.router.navigate(['/root/lugares']);
+        this.navigateToLogin();
     }
 
     navigateToLogin(){
@@ -33,7 +33,34 @@ export class AuthService {
     }
       
     showError(msg) {
-    this.toastr.error(msg);
+        this.toastr.error(msg);
+    }
+
+    navigateToDashboard(hospitalSession: VORoleHospital){
+        switch(hospitalSession.roles[0]){
+            case RolesUserEnum.ROOT:
+                this.router.navigate(['/root'])
+            break;
+            case RolesUserEnum.ADMIN:
+                this.router.navigate(['/admin'])
+            break;
+            case RolesUserEnum.DOCTOR:
+                this.router.navigate(['/doctor'])
+            break;
+            case RolesUserEnum.PACIENTE:
+                this.router.navigate(['/paciente'])
+            break;
+                case RolesUserEnum.DIRECTOR:
+                this.router.navigate(['/director'])
+            break;
+        } 
+    }
+
+    navigateToInit(userLogged: IUsuarioEntity){
+        if(userLogged.isRoot) 
+            this.router.navigate(['/root'])
+        else
+            this.router.navigate(['/inicio'])
     }
 
 }

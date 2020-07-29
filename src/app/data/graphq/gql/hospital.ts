@@ -10,12 +10,22 @@ export const CREATE = gql`
     }
 `;
   
-export const UPDATE = gql`
+export const UPDATE = `
   
 `;
 
-export const DELETE = gql`
+export const DELETE = `
     
+`;
+export const LIST_FILTER = gql`
+    query listfilterHospital($data:FilterHospitalIn!){
+        listfilterHospital(dataFilter:$data){
+        _id
+        nombre
+        descripcion
+        }
+    }
+  
 `;
 
   
