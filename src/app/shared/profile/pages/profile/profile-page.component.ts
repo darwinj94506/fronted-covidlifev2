@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
-import { UserPerfilOut } from '../../core/domain/outputs';
-import { IdIn } from '../../core/domain/inputs';
-import { UserFacade, MainFacade } from '../../store/facade';
+import { UserPerfilOut } from '../../../../core/domain/outputs';
+import { IdIn } from '../../../../core/domain/inputs';
+import { UserFacade, MainFacade } from '../../../../store/facade';
 import { Observable } from 'rxjs';
 @Component({
   templateUrl: 'profile-page.component.html'

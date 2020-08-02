@@ -51,28 +51,28 @@ export class UserMDBRepository extends MongoDBRepository<IUsuarioEntity> impleme
 
     allUsers(filtro: FilterUserIn):Observable<IUsuarioEntity[]>{
         return this.apollo
-        .watchQuery(
-          { 
-            query: USER_OPERATIONS.filterUsers.gql,
-            variables:{
-                data:filtro
-            }
-          })
-        .valueChanges.pipe(
-            map(( { data } ) => data[USER_OPERATIONS.filterUsers.resolve] ))
+            .watchQuery(
+            { 
+                query: USER_OPERATIONS.filterUsers.gql,
+                variables:{
+                    data:filtro
+                }
+            })
+            .valueChanges.pipe(
+                map(( { data } ) => data[USER_OPERATIONS.filterUsers.resolve] ))
     }
 
     verPerfil(id: IdIn):Observable<UserPerfilOut>{
         return this.apollo
-        .watchQuery(
-          { 
-            query: USER_OPERATIONS.perfil.gql,
-            variables:{
-                data:id
-            }
-          })
-        .valueChanges.pipe(
-            map(( { data } ) => data[USER_OPERATIONS.perfil.resolve] ))
+            .watchQuery(
+            { 
+                query: USER_OPERATIONS.perfil.gql,
+                variables:{
+                    data:id
+                }
+            })
+            .valueChanges.pipe(
+                map(( { data } ) => data[USER_OPERATIONS.perfil.resolve] ))
     }
 
 }

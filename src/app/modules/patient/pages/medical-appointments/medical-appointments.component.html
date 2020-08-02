@@ -6,7 +6,7 @@
             </div>
             <div class="card-body">
                 <div class="card-block">
-                    <form [formGroup]="seguimientoForm" (ngSubmit)="onSubmit()" novalidate>
+                    <form [formGroup]="seguimientoForm" (ngSubmit)="onSubmit()" novalidate class="form-horizontal form-material">
                         <div class="form-group">
                             <label for="temperatura">Temperatura (Obligatorio) </label>
                             <input type="text" class="form-control" id="temperatura" formControlName="temperatura" (keyup)=logValidationErrors(seguimientoForm)>

@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { SeguimientoRepositorio } from '../../repositories';
 import { UseCase } from '../../base/use-case';
+import { FiltrarSeguimientoOut } from '../../domain/outputs';
 import { FiltrarSeguimientoIn } from '../../domain/inputs';
-import { FiltrarSeguimientoOut } from '../../domain/outputs'
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class VerSeguimientosAgendadosUseCase implements UseCase<FiltrarSeguimientoIn, FiltrarSeguimientoOut[]> {
+export class GetSuscriptionSeguimientosUseCase implements UseCase<FiltrarSeguimientoIn, any> {
   
   constructor(private _segRepositorio: SeguimientoRepositorio) { }
   
-  execute(filter: FiltrarSeguimientoIn): Observable<FiltrarSeguimientoOut[]> {
-    return this._segRepositorio.filterSeguimiento(filter)
+  execute(filter: FiltrarSeguimientoIn) {
+    return this._segRepositorio.suscriptionSeguimiento(filter)
   }
 
 }

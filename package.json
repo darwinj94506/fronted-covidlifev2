@@ -79,6 +79,7 @@
         "sass": "^1.25.0",
         "simple-peer": "^9.7.2",
         "socket.io-client": "^2.3.0",
+        "subscriptions-transport-ws": "^0.9.17",
         "tslib": "^1.10.0",
         "zone.js": "~0.10.2"
     },

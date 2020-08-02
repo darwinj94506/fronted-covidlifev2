@@ -1,23 +1,18 @@
 import { Injectable } from '@angular/core';
 import { SeguimientoRepositorio } from '../../repositories';
 import { UseCase } from '../../base/use-case';
-import { ISeguimientoEntity } from '../../domain/entities';
+import { AtenderSolicitudSeguimientoIn } from '../../domain/inputs';
+import { AtenderSolicitudSeguimientoOut } from '../../domain/outputs';
 import { Observable } from 'rxjs';
-import { SeguimientoEstadoEnum, DiagnosticoActualEnum } from '../../domain/enums';
-// import { FollowUpRepositoryMapper } from '../mappers'
-
 @Injectable({
   providedIn: 'root'
 })
 
-export class MacarSeguimientoComoAgendado implements UseCase<ISeguimientoEntity, ISeguimientoEntity> {
-
-//   private _mapper = new FollowUpRepositoryMapper ();
-
+export class MacarSeguimientoComoAgendado implements UseCase<AtenderSolicitudSeguimientoIn, AtenderSolicitudSeguimientoOut> {
   constructor(private _segRepositorio: SeguimientoRepositorio) { }
 
-  execute(seguimiento: ISeguimientoEntity): Observable<ISeguimientoEntity> {    
-    return this._segRepositorio.update(seguimiento)   
+  execute(seguimiento: AtenderSolicitudSeguimientoIn): Observable<AtenderSolicitudSeguimientoOut> {    
+    return this._segRepositorio.agendarSeguimiento(seguimiento);
   }
 
 }

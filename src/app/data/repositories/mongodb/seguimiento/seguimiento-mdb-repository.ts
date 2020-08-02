@@ -3,8 +3,18 @@ import { SeguimientoRepositorio } from '../../../../core/repositories';
 import { MongoDBRepository} from '../mongo-repository';
 import { SEGUIMIENTO_OPERATIONS } from '../../../graphq';
 import { ISeguimientoEntity } from '../../../../core/domain/entities';
-import { SolicitarSeguimientoIn } from '../../../../core/domain/inputs';
-import { map } from 'rxjs/operators'
+import { SolicitarSeguimientoIn, 
+         ConsultarUnSeguimientoIn, 
+         FiltrarSeguimientoIn, 
+         AtenderSolicitudSeguimientoIn,
+         AgendarSolicitudSeguimientoIn} from '../../../../core/domain/inputs';
+import { SolicitarSeguimientoOut, 
+         ConsultarUnSeguimientoOut, 
+         FiltrarSeguimientoOut, 
+         AtenderSolicitudSeguimientoOut,
+         AgendarSolicitudSeguimientoOut} from '../../../../core/domain/outputs';
+import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 @Injectable({ providedIn:'root'})
 export class SeguimientoMDBRepository extends MongoDBRepository<ISeguimientoEntity> implements SeguimientoRepositorio{
     
@@ -25,10 +35,85 @@ export class SeguimientoMDBRepository extends MongoDBRepository<ISeguimientoEnti
     getSeguimientosAtendidos(){
 
     }
+
     getSeguimientosPorEstado(){
         
     }
 
+    getSeguimientoById(idSeguimiento : ConsultarUnSeguimientoIn): Observable<ConsultarUnSeguimientoOut>{
+        return this.apollo
+            .watchQuery(
+            { 
+                query: SEGUIMIENTO_OPERATIONS.getById.gql,
+                variables:{
+                    data:idSeguimiento
+                }
+            })
+            .valueChanges.pipe(
+                map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.getById.resolve] ))
 
-   
+    }
+
+    filterSeguimiento(filter: FiltrarSeguimientoIn): Observable<FiltrarSeguimientoOut[]>{
+         return this.apollo
+            .watchQuery(
+            { 
+                query: SEGUIMIENTO_OPERATIONS.filter.gql,
+                variables:{
+                    data:filter
+                }
+            })
+            .valueChanges.pipe(
+                map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.filter.resolve] ))
+
+    }
+
+    suscriptionSeguimiento(filter: FiltrarSeguimientoIn) {
+        
+        const allSeguimientos =  this.apollo.watchQuery(
+            { 
+                query: SEGUIMIENTO_OPERATIONS.filter.gql,
+                variables:{
+                    data:filter
+                }
+            })
+
+        return allSeguimientos.subscribeToMore({
+            document: SEGUIMIENTO_OPERATIONS.suscription.gql,
+            updateQuery:(previous, { subscriptionData}) => {
+                console.log([previous, subscriptionData]);
+                const newAllSeguimientos = [
+                    subscriptionData.data[SEGUIMIENTO_OPERATIONS.filter.resolve],
+                    ...previous[SEGUIMIENTO_OPERATIONS.filter.resolve]
+                ];
+                return {
+                    ...previous[SEGUIMIENTO_OPERATIONS.filter.resolve],
+                    filterSeguimiento: newAllSeguimientos
+                }
+            }
+        });
+
+    }
+
+    atenderSeguimiento(seguimiento: AtenderSolicitudSeguimientoIn):Observable<AtenderSolicitudSeguimientoOut>{
+        return this.apollo.mutate({
+            mutation: SEGUIMIENTO_OPERATIONS.atender.gql,
+            variables: {
+                data: seguimiento
+            },
+        }).pipe(
+            map(( { data } )=> data[SEGUIMIENTO_OPERATIONS.atender.resolve] )) 
+    }
+
+    agendarSeguimiento(seguimiento: AgendarSolicitudSeguimientoIn):Observable<AgendarSolicitudSeguimientoOut>{
+        return this.apollo.mutate({
+            mutation: SEGUIMIENTO_OPERATIONS.agendar.gql,
+            variables: {
+                data: seguimiento
+            },
+        }).pipe(
+            map(( { data } )=> data[SEGUIMIENTO_OPERATIONS.agendar.resolve] )) 
+    }
+
+
 }

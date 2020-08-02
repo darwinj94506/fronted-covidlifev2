@@ -5,3 +5,5 @@ export { VerSeguimientosNoAtendidosSinLLamadaUseCase } from './ver-seg-no-atendi
 export { VerSeguimientosNoAtendidosConLLamadaUseCase } from './ver-seg-no-atendidos-con-llamada.usecase';
 export { VerSeguimientosAgendadosUseCase } from './ver-seg-agendados.usecase';
 export { VerSeguimientosAtendidosUseCase } from './ver-seg-atendidos.usecase';
+export { VerSeguimientosUseCase } from './ver-seguimientos.usecase';
+export { GetSuscriptionSeguimientosUseCase } from './get-suscription-seg.usecase'; 

@@ -3,7 +3,8 @@ import { SignalingService, SignalMessage } from './../shared-services/signaling.
 import { Component, OnInit, ViewChild, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import SimplePeer from 'simple-peer';
-
+import { SeguimientoFacade } from '../../../store/facade/seguimiento.facade';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-call-dash',
@@ -21,13 +22,17 @@ export class CallDashComponent implements OnInit {
   @ViewChildren('peerVideo')
   peerVideos: QueryList<ElementRef<HTMLVideoElement>>
 
+  seguimientosAgendados$: Observable<any> 
+
   constructor(
     private signalingService: SignalingService,
-    private actRt: ActivatedRoute
+    private actRt: ActivatedRoute,
+    private _seguimientoFacade: SeguimientoFacade
   ) { }
 
   ngOnInit(): void {  
-
+    this.seguimientosAgendados$ = this._seguimientoFacade.getSeguimientosAgendadosStore();
+    this._seguimientoFacade.loadSeguimientosAgendados();
   }
 
   initilizePeersAsCaller(participants: Array<string>, stream: MediaStream) {

@@ -5,3 +5,6 @@ export { VOPacienteOut } from './vo-paciente.out';
 export { SolicitarSeguimientoOut } from './solicitar-seguimiento.out';
 export { UserPerfilOut } from './user-perfil.out';
 export { ConsultarUnSeguimientoOut } from './consultar-un-seguimiento.out';
+export { FiltrarSeguimientoOut } from './filtrar-seguimiento-out'; 
+export { AtenderSolicitudSeguimientoOut } from './atender-solicitud-seguimiento.out';
+export { AgendarSolicitudSeguimientoOut } from './agendar-seguimiento.out';

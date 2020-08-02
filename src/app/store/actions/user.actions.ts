@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { IdIn } from '../../core/domain/inputs';
-import { UserPerfilOut } from '../../core/domain/outputs';
+import { UserPerfilOut, FiltrarSeguimientoOut } from '../../core/domain/outputs';
 
 export const loadPerfil = createAction(
   '[User] Load Perfil User',
@@ -17,3 +17,12 @@ export const loadPerfilError = createAction(
   props<{ error: String }>()
 )
 
+// export const openModalPatient = createAction(
+//   '[User] Open Modal Patient',
+//   props<{ idUser: IdIn }>()
+// )
+
+export const openModalPatient = createAction(
+  '[User] Open Modal Patient',
+  props<{ seguimiento: FiltrarSeguimientoOut }>()
+)

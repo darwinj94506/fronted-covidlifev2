@@ -1,8 +1,8 @@
 import { GenericRepository } from './generic-repository';
 import { ISeguimientoEntity, } from '../domain/entities';
 import { SeguimientoEstadoEnum, SeguimientoTipoEnum } from '../domain/enums';
-import { SolicitarSeguimientoIn, ConsultarUnSeguimientoIn } from '../domain/inputs';
-import { SolicitarSeguimientoOut, ConsultarUnSeguimientoOut} from '../domain/outputs';
+import { SolicitarSeguimientoIn, ConsultarUnSeguimientoIn, FiltrarSeguimientoIn, AtenderSolicitudSeguimientoIn, AgendarSolicitudSeguimientoIn } from '../domain/inputs';
+import { SolicitarSeguimientoOut, ConsultarUnSeguimientoOut, FiltrarSeguimientoOut, AtenderSolicitudSeguimientoOut, AgendarSolicitudSeguimientoOut } from '../domain/outputs';
 
 import { Observable } from 'rxjs';
 
@@ -12,6 +12,10 @@ export abstract class SeguimientoRepositorio extends GenericRepository<ISeguimie
     abstract getSeguimientosAtendidos(): any
     abstract createSeguimiento(seguimiento: SolicitarSeguimientoIn) : Observable<SolicitarSeguimientoOut>;
     abstract getSeguimientoById(idSeguimiento : ConsultarUnSeguimientoIn): Observable<ConsultarUnSeguimientoOut>;
-    abstract seguimientoSubscription(): Observable<ConsultarUnSeguimientoOut>;
+    abstract filterSeguimiento(filter: FiltrarSeguimientoIn): Observable<FiltrarSeguimientoOut[]>;
+    // abstract suscriptionSeguimiento():  Observable<ConsultarUnSeguimientoOut>;
+    abstract suscriptionSeguimiento(filter: FiltrarSeguimientoIn): any;
+    abstract atenderSeguimiento(seguimiento: AtenderSolicitudSeguimientoIn):Observable<AtenderSolicitudSeguimientoOut>;
+    abstract agendarSeguimiento(seguimiento: AgendarSolicitudSeguimientoIn):Observable<AgendarSolicitudSeguimientoOut>;
     
 }

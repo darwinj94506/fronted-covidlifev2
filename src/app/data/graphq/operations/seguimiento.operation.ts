@@ -1,7 +1,11 @@
 import { IOperations, IOperation } from '../interfaces/operation.interface';
-import { CREATE, UPDATE, DELETE } from '../gql/seguimiento';
+import { CREATE, UPDATE, DELETE, GET_BY_ID, FILTER, SUSCRIPTION, ATENDER_SEGUIMIENTO, AGENDAR_SEGUIMIENTO } from '../gql/seguimiento';
 export interface SeguimientoOperations extends IOperations{
-    
+    filter: IOperation,
+    getById: IOperation,
+    suscription: IOperation,
+    atender: IOperation,
+    agendar: IOperation
 }
 
 export const SEGUIMIENTO_OPERATIONS : SeguimientoOperations = {
@@ -17,6 +21,25 @@ export const SEGUIMIENTO_OPERATIONS : SeguimientoOperations = {
         resolve:'',
         gql: DELETE
     },
+    filter : {
+        resolve:'filterSeguimiento',
+        gql: FILTER 
+    },
+    getById: {
+        resolve:'consultarUnSeguimiento',
+        gql: GET_BY_ID
+    },
+    suscription:{
+        resolve:'cambioSeguimientoNotificacion',
+        gql: SUSCRIPTION
+    },
+    atender: {
+        resolve:'atenderSolicitudSeguimiento',
+        gql: ATENDER_SEGUIMIENTO
+    },
+    agendar : {
+        resolve:'agendarSolicitudSeguimiento',
+        gql:AGENDAR_SEGUIMIENTO
+    }
    
-
 }

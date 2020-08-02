@@ -5,7 +5,7 @@ import {
          VerSeguimientosAgendadosUseCase,
          VerSeguimientosAtendidosUseCase, 
          VerSeguimientosNoAtendidosConLLamadaUseCase,
-         VerSeguimientosNoAtendidosSinLLamadaUseCase} from '../../../../core/usecases/doctor'
+         VerSeguimientosNoAtendidosSinLLamadaUseCase} from '../../../../core/usecases/doctor';
 import { Subject, of } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
