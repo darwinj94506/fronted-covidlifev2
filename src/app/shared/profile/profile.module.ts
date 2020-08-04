@@ -36,7 +36,7 @@ export const PROFILE_ROUTES: Routes = [
   ],
   entryComponents:[
     PatientModalComponent,
-    
+    AtenderSeguimientoComponent
     
   ]
 })

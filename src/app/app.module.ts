@@ -48,6 +48,8 @@ import { UsuarioRepository,
          SeguimientoRepositorio } from './core/repositories';
 import { InitComponent } from './init/init.component';
 
+import { NgxAgoraModule } from 'ngx-agora';
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 1,
@@ -81,6 +83,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     GraphQLModule,
     RouterModule.forRoot(Approutes),
     PerfectScrollbarModule,
+    NgxAgoraModule.forRoot({ AppID: environment.agora.appId }),
     NgMultiSelectDropDownModule.forRoot(),
     AgmCoreModule.forRoot({ apiKey: 'AIzaSyDoliAneRffQDyA7Ul9cDk3tLe7vaU4yP8' }),
     StoreModule.forRoot(AppReducers),

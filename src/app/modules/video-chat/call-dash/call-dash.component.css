@@ -1,32 +1,37 @@
 .room-members {
-  overflow-x: auto;
-  white-space: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
 }
-.room-members > .col {
-  display: inline-block;
-  float: none;
+
+.room-members>.col {
+    display: inline-block;
+    float: none;
 }
 
 .scrollable {
-  overflow-y: auto;
+    overflow-y: auto;
 }
 
 .overlay-container {
-  position: relative;
+    position: relative;
+}
+
+.tamanio {
+    height: 400px;
 }
 
 .overlay-item {
-  position: absolute;
-  top: 90%;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
+    position: absolute;
+    top: 90%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
 }
 
 .img-overlay:before {
-  content: " ";
-  display: block;
-  /* adjust 'height' to position overlay content vertically */
-  height: 50%;
+    content: " ";
+    display: block;
+    /* adjust 'height' to position overlay content vertically */
+    height: 50%;
 }

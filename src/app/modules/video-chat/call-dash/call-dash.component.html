@@ -1,8 +1,9 @@
 <div class="row border h-75 no-gutters">
-    <div class="col-9 bg-light border h-100 d-flex justify-content-center overlay-container">
+    <div class="col-8 bg-light border h-100 d-flex justify-content-center overlay-container">
 
-        <video class="border border-danger w-100 h-100" #myVideo>
-        </video>
+        <!-- <video class="border border-danger w-100 h-100" #myVideo>
+        </video> -->
+        <video [id]="localCallId" class="border border-danger w-100 h-100 tamanio"></video>
 
         <div class="justify-content-center overlay-item">
             <input type="button" value="Video" class="btn btn-sm btn-primary">
@@ -12,20 +13,44 @@
         </div>
     </div>
 
-    <div class="col-3 bg-light border scrollable h-100">
-        <P> <b><i>Room Name </i></b>Hi</P>
-        <ng-container *ngIf="seguimientosAgendados$ | async as seguimientos">
-            <ul>
-                <li *ngFor="let seguimiento of seguimientos">{{ seguimiento.idPaciente.name }} {{ seguimiento.idPaciente.lastname }}</li>
-            </ul>
-        </ng-container>
-
+    <div class="col-4 bg-light border scrollable h-100">
+        <div class="card">
+            <ng-container *ngIf="!seguimientoPorAtender">
+                <ngb-tabset type="pills" class="custom-pills">
+                    <ng-container *ngIf="seguimientosAgendados$ | async as seguimientos">
+                        <ngb-tab title="Timeline">
+                            <ng-template ngbTabContent>
+                                <div *ngFor="let seguimiento of seguimientos">
+                                    <p>{{ seguimiento.idPaciente.name }} {{ seguimiento.idPaciente.lastname }} <button (click)="call(seguimiento)">Atender</button></p>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ng-container>
+                </ngb-tabset>
+            </ng-container>
+            <ng-container *ngIf="seguimientoPorAtender">
+                <ngb-tabset type="pills" class="custom-pills" (tabChange)="onchange($event)">
+                    <ngb-tab title="Seguimiento" id="segumientos">
+                        <ng-template ngbTabContent>
+                            <app-atender-seguimiento [seguimiento]="seguimientoPorAtender" ngIf="!isLoading$"></app-atender-seguimiento>
+                            <div *ngIf="isLoading$">cargando...</div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Datos usuario" id="datos-paciente">
+                        <ng-template ngbTabContent>
+                            <app-over-view [userPerfil$]="userPerfil$"></app-over-view>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+            </ng-container>
+        </div>
 
     </div>
 </div>
 
 <div class="row flex-nowrap room-members">
-    <div class="col" *ngFor="let mitronPeer of mitronPeers">
+    <!-- <div class="col" *ngFor="let mitronPeer of mitronPeers">
         <video [id]="mitronPeer?.peerId" class="h-100 border border-danger" #peerVideo></video>
-    </div>
+    </div> -->
+    <div *ngFor="let callId of remoteCalls" [id]="callId" class="col"></div>
 </div>

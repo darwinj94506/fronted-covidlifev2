@@ -27,6 +27,8 @@ export const selectHospitalSession = createSelector(selectMainState,(state: Main
 
 export const selectUserState = (state: AppState) => state.user;
 export const selectPerfilUser = createSelector(selectUserState,(state: UserState) => state.userPerfil);
+export const selectLoadingUser = createSelector(selectUserState,(state: UserState) => state.isLoading);
+
 
 export const selectSeguimientoState = (state: AppState) => state.seguimiento;
 export const selectSeguimientosAgendados = createSelector(selectSeguimientoState,(state: fromSeguimientoReducer.SeguimientoState) => state.seguimientosAgendados);

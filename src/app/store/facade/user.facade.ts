@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as userActions from '../actions/user.actions';
 import { IdIn } from '../../core/domain/inputs';
 import { UserPerfilOut, FiltrarSeguimientoOut } from '../../core/domain/outputs';
-import { AppState, selectPerfilUser }from '../app.reducer';
+import { AppState, selectPerfilUser, selectLoadingUser}from '../app.reducer';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -23,4 +23,8 @@ export class UserFacade {
   getPerfilUser(): Observable<UserPerfilOut>{
     return this.store.select(selectPerfilUser)
   } 
+
+  gerLoadingStore(): Observable<boolean>{
+    return this.store.select(selectLoadingUser)
+  }
 }

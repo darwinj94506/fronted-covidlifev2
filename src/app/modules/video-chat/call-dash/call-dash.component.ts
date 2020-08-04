@@ -1,10 +1,9 @@
-import { MitronPeer } from './call-dash.domain';
-import { SignalingService, SignalMessage } from './../shared-services/signaling.service';
 import { Component, OnInit, ViewChild, ViewChildren, ElementRef, QueryList } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import SimplePeer from 'simple-peer';
-import { SeguimientoFacade } from '../../../store/facade/seguimiento.facade';
+import { SeguimientoFacade, UserFacade } from '../../../store/facade';
 import { Observable } from 'rxjs';
+import { FiltrarSeguimientoOut, UserPerfilOut } from '../../../core/domain/outputs';
+import { AgoraClient, ClientEvent, NgxAgoraService, Stream, StreamEvent } from 'ngx-agora';
 
 @Component({
   selector: 'app-call-dash',
@@ -14,117 +13,145 @@ import { Observable } from 'rxjs';
 export class CallDashComponent implements OnInit {
   calling=false;
   roomName: string
-  mitronPeers: Array<MitronPeer> = new Array()
+  seguimientosAgendados$: Observable<FiltrarSeguimientoOut[]> 
+  title = 'angular-video';
+  localCallId = 'agora_local';
+  remoteCalls: string[] = [];
+  seguimientoPorAtender : FiltrarSeguimientoOut;
+  pacientePorAtender$ : Observable<UserPerfilOut>;
+  isLoading$: Observable<boolean>; 
 
-  @ViewChild('myVideo')
-  myVideo: ElementRef<HTMLVideoElement>
-
-  @ViewChildren('peerVideo')
-  peerVideos: QueryList<ElementRef<HTMLVideoElement>>
-
-  seguimientosAgendados$: Observable<any> 
+  private client: AgoraClient;
+  private localStream: Stream;
+  private uid: number;
 
   constructor(
-    private signalingService: SignalingService,
-    private actRt: ActivatedRoute,
-    private _seguimientoFacade: SeguimientoFacade
-  ) { }
+    private _seguimientoFacade: SeguimientoFacade,
+    private _ngxAgoraService: NgxAgoraService,
+    private _userFacade: UserFacade
+  ) { 
+    this.uid = Math.floor(Math.random() * 100);
+  }
 
   ngOnInit(): void {  
+
     this.seguimientosAgendados$ = this._seguimientoFacade.getSeguimientosAgendadosStore();
     this._seguimientoFacade.loadSeguimientosAgendados();
+    this.pacientePorAtender$ = this._userFacade.getPerfilUser();
+    this.isLoading$ = this._userFacade.gerLoadingStore();
+
+    //for video calling
+    this.client = this._ngxAgoraService.createClient({ mode: 'rtc', codec: 'h264' });
+    this.assignClientHandlers();
+
+    this.localStream = this._ngxAgoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
+    this.assignLocalStreamHandlers();
+    // Join and publish methods added in this step
+    this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
+
+  }
+ 
+  call(seguimiento:FiltrarSeguimientoOut){
+    this.seguimientoPorAtender = {...seguimiento};
+
   }
 
-  initilizePeersAsCaller(participants: Array<string>, stream: MediaStream) {
-    const participantsExcludingMe = participants.filter(id => id != this.signalingService.socketId)
-    participantsExcludingMe.forEach(peerId => {
-
-      const peer: SimplePeer.Instance = new SimplePeer({
-        initiator: true,
-        trickle: false,
-        stream
-      })
-
-      peer.on('signal', signal => {
-        console.log(`${this.signalingService.socketId} Caller Block ${signal}`)
-        this.signalingService.sendOfferSignal({ signalData: signal, callerId: this.signalingService.socketId, calleeId: peerId })
-      })
-
-      // peer.on('stream', stream => {
-      //   this.peerVideos.first.nativeElement.srcObject = stream
-      //   this.peerVideos.first.nativeElement.play()
-      // })
-      this.mitronPeers.push({ peerId: peerId, peer: peer })
-    })
+  onChangeNav({activeId}){
+    if(activeId === 'datos-paciente')
+      this._userFacade.loadPerfil({_id: this.seguimientoPorAtender.idPaciente._id})
   }
 
-  initilizePeersAsCallee(msg: SignalMessage, stream: MediaStream) {
-    console.log(`${this.signalingService.socketId} You have an offer from ${msg.callerId}`)
-    // this.signalingService.sendAnswerSignal({ signalData: msg.signalData, callerId: msg.callerId })
-
-    const peer: SimplePeer.Instance = new SimplePeer({
-      initiator: false,
-      trickle: false,
-      stream
-    })
-
-    peer.on('signal', signal => {
-      console.log(`${this.signalingService.socketId} Callee Block ${signal}`)
-      this.signalingService.sendAnswerSignal({ signalData: signal, callerId: msg.callerId })
-    })
-
-    peer.signal(msg.signalData)
-    this.mitronPeers.push({ peerId: msg.callerId, peer: peer })
+  /**
+   * Attempts to connect to an online chat room where users can host and receive A/V streams.
+   */
+  join(onSuccess?: (uid: number | string) => void, onFailure?: (error: Error) => void): void {
+    this.client.join(null, 'foo-bar', this.uid, onSuccess, onFailure);
   }
 
-  call(){
-    this.calling=true;
-    this.roomName = this.actRt.snapshot.queryParams['roomName']
-    console.log(this.actRt.snapshot);
+  /**
+   * Attempts to upload the created local A/V stream to a joined chat room.
+   */
+  publish(): void {
+    this.client.publish(this.localStream, err => console.log('Publish local stream error: ' + err));
+  }
 
-    navigator.mediaDevices.getUserMedia({ video: { width: 300, height: 290 }, audio: true })
-      .then(stream => {
+  private assignClientHandlers(): void {
+    this.client.on(ClientEvent.LocalStreamPublished, evt => {
+      console.log('Publish local stream successfully');
+    });
 
-        this.myVideo.nativeElement.srcObject = stream
-        this.myVideo.nativeElement.play()
+    this.client.on(ClientEvent.Error, error => {
+      console.log('Got error msg:', error.reason);
+      if (error.reason === 'DYNAMIC_KEY_TIMEOUT') {
+        this.client.renewChannelKey(
+          '',
+          () => console.log('Renewed the channel key successfully.'),
+          renewError => console.error('Renew channel key failed: ', renewError)
+        );
+      }
+    });
 
-        this.signalingService.connect()
-
-        this.signalingService.onConnect(() => {
-
-          console.log(`My Socket Id ${this.signalingService.socketId}`)
-
-          this.signalingService.requestForJoiningRoom({ roomName: this.roomName })
-
-          this.signalingService.onRoomParticipants(participants => {
-            console.log(`${this.signalingService.socketId} - On Room Participants`)
-            console.log(participants)
-
-            //this.signalingService.sendOfferSignal({ signalData: { type: 'offer', sdp: 'kldjfdfkgjdkjk' }, callerId: this.signalingService.socketId, calleeId: participants.find(id => id != this.signalingService.socketId) })
-            this.initilizePeersAsCaller(participants, stream)
-          })
-
-          this.signalingService.onOffer(msg => {
-            this.initilizePeersAsCallee(msg, stream)
-          })
-
-          this.signalingService.onAnswer(msg => {
-            console.log(`${this.signalingService.socketId} - You got Answer from ${msg.calleeId}`)
-            const mitronPeer = this.mitronPeers.find(mitronPeer => mitronPeer.peerId === msg.calleeId)
-            mitronPeer.peer.signal(msg.signalData)
-          })
-
-          this.signalingService.onRoomLeft(socketId => {
-            this.mitronPeers = this.mitronPeers.filter(mitronPeer => socketId != mitronPeer.peerId)
-          })
-        })
-      })
-      .catch(err => {
-        console.log(err)
+    this.client.on(ClientEvent.RemoteStreamAdded, evt => {
+      const stream = evt.stream as Stream;
+      this.client.subscribe(stream, { audio: true, video: true }, err => {
+        console.log('Subscribe stream failed', err);
       });
+    });
 
+    this.client.on(ClientEvent.RemoteStreamSubscribed, evt => {
+      const stream = evt.stream as Stream;
+      const id = this.getRemoteId(stream);
+      if (!this.remoteCalls.length) {
+        this.remoteCalls.push(id);
+        setTimeout(() => stream.play(id), 1000);
+      }
+    });
+
+    this.client.on(ClientEvent.RemoteStreamRemoved, evt => {
+      const stream = evt.stream as Stream;
+      if (stream) {
+        stream.stop();
+        this.remoteCalls = [];
+        console.log(`Remote stream is removed ${stream.getId()}`);
+      }
+    });
+
+    this.client.on(ClientEvent.PeerLeave, evt => {
+      const stream = evt.stream as Stream;
+      if (stream) {
+        stream.stop();
+        this.remoteCalls = this.remoteCalls.filter(call => call !== `${this.getRemoteId(stream)}`);
+        console.log(`${evt.uid} left from this channel`);
+      }
+    });
   }
 
+  private assignLocalStreamHandlers(): void {
+    this.localStream.on(StreamEvent.MediaAccessAllowed, () => {
+      console.log('accessAllowed');
+    });
 
+    // The user has denied access to the camera and mic.
+    this.localStream.on(StreamEvent.MediaAccessDenied, () => {
+      console.log('accessDenied');
+    });
+  }
+
+  private initLocalStream(onSuccess?: () => any): void {
+    this.localStream.init(
+      () => {
+        // The user has granted access to the camera and mic.
+        this.localStream.play(this.localCallId);
+        if (onSuccess) {
+          onSuccess();
+        }
+      },
+      err => console.error('getUserMedia failed', err)
+    );
+  }
+
+  private getRemoteId(stream: Stream): string {
+    return `agora_remote-${stream.getId()}`;
+  }
 
 }

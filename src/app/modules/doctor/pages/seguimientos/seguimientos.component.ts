@@ -54,10 +54,10 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     forkJoin(this._mainFacade.getHospitalSesion(),this._mainFacade.getUserLogged())
       .subscribe(([hospital, userLogged])=>{
         let filter : FiltrarSeguimientoIn = { 
-          idHospital: hospital.idHospital._id,
           fechaUltimos :{
             isUltimos:true,
-            createAt: new Date()
+            createAt: new Date(),
+            AndIdHospital: hospital.idHospital._id
           }
         }
         this.segQuery = this.apollo.watchQuery({

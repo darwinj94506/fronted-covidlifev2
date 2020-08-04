@@ -89,11 +89,12 @@ export class SeguimientoEffects {
             // today.setHours(0,0,0,0);
  
             let filter: FiltrarSeguimientoIn = {
-                estado: SeguimientoEstadoEnum.AGENDADO,
+                
                 fechaUltimos:{ 
                     createAt: today,
                     isUltimos: true,
-                    AndIdHospital:hospitalSession.idHospital._id
+                    AndIdHospital:hospitalSession.idHospital._id,
+                    AndEstado: SeguimientoEstadoEnum.AGENDADO
                 } 
             }
             return this._verSeguimientosAgendadosUseCase.execute(filter)
