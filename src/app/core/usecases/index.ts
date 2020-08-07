@@ -5,3 +5,4 @@ export { VerUsuariosPorHospitalUseCase } from './ver-usuarios-por-hospital.useca
 export { LogoutUsecase } from './logout.usecase';
 export { ListarUsuariosUseCase } from './listar-usuarios.usecase';
 export { VerPerfilUseCase } from './ver-perfil.usecase';
+export { AsignarRolesUseCase } from './asignar-roles.usecase';

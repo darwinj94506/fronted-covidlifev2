@@ -6,7 +6,7 @@ import {
   NgbCarouselConfig
 } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { MainFacade } from '../../store/facade/main.facade';
+import { MainFacade } from '../../store/facade';
 import { LoginOut } from '../../core/domain/outputs';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -25,7 +25,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
 
   constructor(private modalService: NgbModal,
      private _router:Router,
-     private _mainFacade:MainFacade) {}
+     private _mainFacade: MainFacade) {}
 
   // This is for Notifications
   notifications: Object[] = [

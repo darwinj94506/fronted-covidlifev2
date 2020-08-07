@@ -9,6 +9,7 @@ import { MainFacade, UserFacade, SeguimientoFacade } from '../../../../store/fac
 import { Apollo, QueryRef } from 'apollo-angular';
 import { SEGUIMIENTO_OPERATIONS } from '../../../../data/graphq';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 
 interface args {
   name: string;
@@ -41,7 +42,8 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
      private _mainFacade: MainFacade,
      private _spinner: NgxSpinnerService,
      private _userFacade: UserFacade,
-     private _seguimientoFacade:SeguimientoFacade
+     private _seguimientoFacade:SeguimientoFacade,
+     private _router:Router
 
      ) {
     this.dragulaService.destroy('SEGUIMIENTOS');
@@ -105,8 +107,8 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
       this.segSinLlamada = sinLlamda;
       this.segAtendidos = atendidos;
     });
-
   }
+  
   ngOnDestroy(){
     // this._destroyed$.next();
     // this._destroyed$.complete();
@@ -140,7 +142,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         let seguimientoForAgendar: AgendarSolicitudSeguimientoIn = {
           _id:args.item._id
         } 
-        this._seguimientoFacade.agendarSeguimiento(seguimientoForAgendar)
+        this._seguimientoFacade.agendarSeguimiento(seguimientoForAgendar, args.item.idPaciente.token_notificacion_movil)
       break;
       
       case 'segAtendidos':
@@ -150,6 +152,10 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         this._seguimientoFacade.atenderSeguimiento(seguimientoForAtender)
       break;
     }
+  }
+
+  goToVideoCalling(seguimiento){
+    this._router.navigate(['/video-llamada'], {state: {data: {...seguimiento}}});
   }
 
 }

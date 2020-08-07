@@ -23,5 +23,7 @@ export class AuthFacade {
   register(user : SignupIn){
       this.store.dispatch(authActions.register({user}))
   }
+
+  
  
 }

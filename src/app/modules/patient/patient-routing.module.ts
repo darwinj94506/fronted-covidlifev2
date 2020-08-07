@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import{ MedicalAppointmentsComponent, VideoCallComponent } from './pages';
+import{ MedicalAppointmentsComponent, CitasComponent } from './pages';
 
 const routes: Routes = [
   {
     path:'', children:[
       {
-        path:'citas', component:MedicalAppointmentsComponent
+        path:'enviar-sintomas', component: MedicalAppointmentsComponent
       },
       {
-        path:'video-llamada', component:VideoCallComponent
+        path:'citas', component: CitasComponent
       }
     ]
   }

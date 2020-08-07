@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CallDashComponent } from './call-dash.component';
+import { VideoChatRoomComponent } from './video-chat-room.component';
 
-describe('CallDashComponent', () => {
-  let component: CallDashComponent;
-  let fixture: ComponentFixture<CallDashComponent>;
+describe('VideoChatRoomComponent', () => {
+  let component: VideoChatRoomComponent;
+  let fixture: ComponentFixture<VideoChatRoomComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CallDashComponent ]
+      declarations: [ VideoChatRoomComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CallDashComponent);
+    fixture = TestBed.createComponent(VideoChatRoomComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

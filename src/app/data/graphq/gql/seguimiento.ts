@@ -27,6 +27,8 @@ query filterSeguimiento($data:FiltrarSeguimientoIn!){
       ci
       email
       state
+      token_notificacion_web
+      token_notificacion_movil
     }
     idDoctor{
       _id

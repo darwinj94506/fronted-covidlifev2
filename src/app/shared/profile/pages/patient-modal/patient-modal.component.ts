@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { UserPerfilOut, FiltrarSeguimientoOut } from '../../../../core/domain/outputs';
 import { Observable, of } from 'rxjs';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-patient-modal',
   templateUrl: './patient-modal.component.html',

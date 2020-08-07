@@ -1,0 +1,44 @@
+<div class="row border h-75 no-gutters">
+    <div class="col-8 bg-light border h-100 d-flex justify-content-center overlay-container">
+
+        <div [id]="localCallId" class="border border-danger border-video" #myVideo>
+        </div>
+        <!-- [id]="localCallId" -->
+        <!-- <video class="border border-danger w-100 h-100 tamanio"></video> -->
+
+        <div class="justify-content-center overlay-item">
+            <input type="button" value="Video" class="btn btn-sm btn-primary">
+            <input type="button" value="Audio" class="btn btn-sm btn-primary ml-1">
+            <input type="button" value="Screen Share" class="btn btn-sm btn-primary ml-1">
+            <input type="button" value="Terminar" class="btn btn-sm btn-danger ml-1" (click)="terminarLlamada()">
+        </div>
+
+    </div>
+
+    <div class="col-4 bg-light border scrollable h-100">
+        <div class="card">
+            <!-- <ng-container *ngIf="seguimientoPorAtender"> -->
+            <ngb-tabset type="pills" class="custom-pills" (tabChange)="onChangeNav($event)">
+                <ngb-tab title="Seguimiento" id="segumientos">
+                    <ng-template ngbTabContent>
+                        <app-atender-seguimiento [seguimiento]="seguimientoPorAtender"></app-atender-seguimiento>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab title="Datos usuario" id="datos-paciente">
+                    <ng-template ngbTabContent>
+                        <app-over-view [userPerfil$]="userProfile$"></app-over-view>
+                        <div *ngIf="isLoading$ | async">cargando...</div>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+            <!-- </ng-container> -->
+        </div>
+    </div>
+
+    <div class="row flex-nowrap room-members">
+        <!-- <div class="col" *ngFor="let mitronPeer of mitronPeers">
+        <video [id]="mitronPeer?.peerId" class="h-100 border border-danger" #peerVideo></video>
+    </div> -->
+        <div *ngFor="let callId of remoteCalls" [id]="callId" class="col"></div>
+    </div>
+</div>

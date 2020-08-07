@@ -2,7 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IUsuarioEntity } from '../../core/domain/entities';
 import { RolesUserEnum } from '../../core/domain/enums';
 import { Observable } from 'rxjs';
+import { UserFacade } from '../../store/facade';
 
+import { AsignarRoleIn } from '../../core/domain/inputs'
 @Component({
   selector: 'app-user-table',
   templateUrl: './user-table.component.html',
@@ -16,7 +18,7 @@ export class UserTableComponent implements OnInit {
     
   searchItem : string = ""; 
 
-  constructor( )   {
+  constructor(private _userFacade:UserFacade )   {
   }
 
   ngOnInit(): void {
@@ -36,15 +38,16 @@ export class UserTableComponent implements OnInit {
   }
 
   openModalCreateUpdate(user){
-
+    this._userFacade.dispatchActionOpenModalCreateUpdateUser(user);
   }
 
   openModalConfirm(user){
 
   }
 
-  openModalDetail(user){
-    
+  openModalAsignarRoles(){
+    let roles :AsignarRoleIn = {idUser:'', idHospital:'', role:RolesUserEnum.DOCTOR}
+    this._userFacade.dispatchActionOpenModalAsignarRole(roles)
   }
   
 }

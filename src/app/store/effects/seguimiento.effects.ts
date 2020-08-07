@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType  } from '@ngrx/effects';
-import { catchError, map, switchMap, tap} from 'rxjs/operators';
+import { catchError, map, switchMap, tap, mergeMap} from 'rxjs/operators';
 import { Observable, from, of} from 'rxjs';
 import * as seguimientoActions  from '../actions/seguimiento.actions';
 import { ToastService } from '../../services';
-import { SolicitarSeguimentoUseCase } from '../../core/usecases/paciente';
+import { SolicitarSeguimentoUseCase,
+         VerCitasUseCase } from '../../core/usecases/paciente';
 import { MacarSeguimientoComoAtendido,
          VerSeguimientosAgendadosUseCase, 
          MacarSeguimientoComoAgendado } from '../../core/usecases/doctor';
@@ -12,7 +13,8 @@ import { SeguimientoEstadoEnum } from '../../core/domain/enums'
 import { FiltrarSeguimientoIn } from '../../core/domain/inputs'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MainFacade } from '../facade';
-
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class SeguimientoEffects {
     constructor( private actions$: Actions, 
@@ -22,7 +24,9 @@ export class SeguimientoEffects {
         private _macarSeguimientoComoAtendido: MacarSeguimientoComoAtendido,
         private _macarSeguimientoComoAgendado: MacarSeguimientoComoAgendado,
         private _verSeguimientosAgendadosUseCase: VerSeguimientosAgendadosUseCase,
-        private _mainFacade : MainFacade
+        private _verCitasUseCase:VerCitasUseCase,
+        private _mainFacade : MainFacade,
+        private httpClient: HttpClient
          ) { }
    
     @Effect()
@@ -47,11 +51,13 @@ export class SeguimientoEffects {
     agendar: Observable<any> = this.actions$.pipe(
         ofType(seguimientoActions.agendarSeguimiento),
         tap( _=> this._spinner.show()),
-        switchMap(({seguimiento}) => this._macarSeguimientoComoAgendado.execute(seguimiento)
+        mergeMap((payload) => this._macarSeguimientoComoAgendado.execute(payload.seguimiento)
             .pipe(
                 map(scheduledSeguimiento => {
                     this._toastService.showSuccess(`Agendado con éxito`);
-                    return seguimientoActions.agendarSeguimientoSuccess({scheduledSeguimiento})
+                    // this.sendNotification(payload.tokenMovil);
+                    return seguimientoActions.agendarSeguimientoSuccess({scheduledSeguimiento, tokenMovil: payload.tokenMovil})
+                             
                 }),
                 catchError( error => {
                     this._toastService.showError(`Error al agendar, por inténtelo nuevamente, Error:${error.message}`);
@@ -60,6 +66,23 @@ export class SeguimientoEffects {
                 )
             )),
         tap( _=> this._spinner.hide()))
+
+        @Effect()
+        agendarSeguimientosExito: Observable<any> = this.actions$.pipe(
+            ofType(seguimientoActions.agendarSeguimientoSuccess),
+            switchMap((payload) => this.sendNotification(payload.tokenMovil)
+                .pipe(
+                    map(msg => {
+                        return seguimientoActions.sendNotificationAgendadoSuccess({msg})
+                    }),
+                    catchError( error => {
+                        // this._toastService.showError(`Error al atender, por inténtelo nuevamente, Error:${error.message}`);
+                        return of( seguimientoActions.sendNotificationAgendadoError({error: error.message}))
+                        }
+                    )
+                    
+                )),
+            )
 
     @Effect()
     atender: Observable<any> = this.actions$.pipe(
@@ -109,8 +132,59 @@ export class SeguimientoEffects {
                     )
                 )}),
         tap( _=> this._spinner.hide()))
-    
-   
+
+    @Effect()
+    loadCitasPaciente: Observable<any> = this.actions$.pipe(
+        ofType(seguimientoActions.loadCitasPaciente),
+        tap( _=> this._spinner.show()),
+        switchMap( ({ filter } )=> {    
+            return this._verCitasUseCase.execute(filter)
+                .pipe(
+                    map(citas => {
+                        return seguimientoActions.loadCitasPacienteSuccess({citas})
+                    }),
+                    catchError( error => {
+                        this._toastService.showError(`Error al cargar citas, Error:${error.message}`);
+                        return of( seguimientoActions.loadCitasPacienteError({error: error.message}))
+                        }
+                    )
+                )}),
+        tap( _=> this._spinner.hide()))
+
+    sendNotification(token:String){
+        const httpOptions = {
+            headers: new HttpHeaders({
+              'Content-Type':  'application/json',
+              Authorization: 'key=AAAAPF0UZl8:APA91bHpp0-YTRUkw3euurLDJbu6ds62sbI-Jx6YLPO5nSWCt4XvfODXpxZuSnF0EFMHCXf6Gn0O4n0ZwS8gurbo3xo_gPJcWDdrd_l5mQJfm3usipKp9u1CxW-A2eamYsdcMCKohHuU'
+            })
+          };
+
+        return this.httpClient.post<any>('https://fcm.googleapis.com/fcm/send', {            
+                to: token,
+                priority:"high",
+                notification: {
+                    body:" * ¡Su solicitud ha sido aceptada por un médico! * Esté pendiente, en un momento el doctor se comunicará con  usted *",
+                    title:"Recordatorio","sound":"default"
+                },
+                data: { enlace:"https://us04web.zoom.us/j/73090944667?pwd=bkZUNXdDdGhXNmdQajJPRGoxVmVoQT13"}
+                }, httpOptions );
+
+    }
 
 }
 
+
+// return $.ajax(settings).done(function (response) {
+//     console.log(response);
+// })
+
+// var settings = {
+        //     "url": "https://fcm.googleapis.com/fcm/send",
+        //     "method": "POST",
+        //     "timeout": 0,
+        //     "headers": {
+        //     "Authorization": "key=AAAAPF0UZl8:APA91bHpp0-YTRUkw3euurLDJbu6ds62sbI-Jx6YLPO5nSWCt4XvfODXpxZuSnF0EFMHCXf6Gn0O4n0ZwS8gurbo3xo_gPJcWDdrd_l5mQJfm3usipKp9u1CxW-A2eamYsdcMCKohHuU",
+        //     "Content-Type": "application/json"
+        //     },
+        //     "data": JSON.stringify({"to":token,"priority":"high","notification":{"body":" * ¡Sus signos vitales han sido ingresados con éxito! * Si es necesario nos comunicaremos contigo ** ¡Recuerda!  Los signos vitales se ingresan a las 6H00, 12h00 y 18H00.","title":"Recordatorio","sound":"default"},"data":{"enlace":"https://us04web.zoom.us/j/73090944667?pwd=bkZUNXdDdGhXNmdQajJPRGoxVmVoQT13"}}),
+        // };

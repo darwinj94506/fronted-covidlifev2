@@ -21,9 +21,7 @@ import { EspacioEffects,
 
 import { UiModule } from '../../ui/ui.module';
 import { TableComponent } from './pages/places/table/table.component';
-
-
-import { UserFormModule } from '../../shared/user-form/user-form.module';
+import { ProfileModule } from '../../shared/profile/profile.module';
 import { UserTableModule } from '../../shared/user-table/user-table.module';
 @NgModule({
   declarations: [AdministratorsComponent,
@@ -42,9 +40,9 @@ import { UserTableModule } from '../../shared/user-table/user-table.module';
     NgbModalModule,
     NgbModule,
     UiModule,
-    UserFormModule,
     UserTableModule,
     NgSelectModule,
+    ProfileModule,
     StoreModule.forFeature('rootUserState', RootUserReducers),
     EffectsModule.forFeature([ EspacioEffects, HospitalEffects])
   ],

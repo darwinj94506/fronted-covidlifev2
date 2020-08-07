@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as seguimientoActions from '../actions/seguimiento.actions';
-import { SolicitarSeguimientoIn, AtenderSolicitudSeguimientoIn, AgendarSolicitudSeguimientoIn } from '../../core/domain/inputs';
+import { SolicitarSeguimientoIn, AtenderSolicitudSeguimientoIn, AgendarSolicitudSeguimientoIn, FiltrarSeguimientoIn } from '../../core/domain/inputs';
 import { FiltrarSeguimientoOut } from '../../core/domain/outputs';
-import { AppState, selectSeguimientosAgendados }from '../app.reducer';
+import { AppState, selectSeguimientosAgendados, selectCitasPacientes }from '../app.reducer';
 import { Observable } from 'rxjs';
-         
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,8 +21,8 @@ export class SeguimientoFacade {
     this.store.dispatch(seguimientoActions.atenderSeguimiento({seguimiento}))
   }
 
-  agendarSeguimiento(seguimiento: AgendarSolicitudSeguimientoIn): void {
-    this.store.dispatch(seguimientoActions.agendarSeguimiento({seguimiento}))
+  agendarSeguimiento(seguimiento: AgendarSolicitudSeguimientoIn, tokenMovil?:string): void {
+    this.store.dispatch(seguimientoActions.agendarSeguimiento({seguimiento, tokenMovil}))
   }
 
   getSeguimientosAgendadosStore():Observable<FiltrarSeguimientoOut[]>{
@@ -33,5 +33,11 @@ export class SeguimientoFacade {
     this.store.dispatch(seguimientoActions.loadSeguimientosAgendados())
   }
 
- 
+  dispatchActionLoadCitas(filter: FiltrarSeguimientoIn):void{
+    this.store.dispatch(seguimientoActions.loadCitasPaciente({filter}))
+  } 
+
+  getCitasPacienteFromStore():Observable<FiltrarSeguimientoOut[]>{
+    return this.store.select(selectCitasPacientes)
+  }
 }

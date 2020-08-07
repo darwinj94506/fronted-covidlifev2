@@ -8,3 +8,4 @@ export { ConsultarUnSeguimientoOut } from './consultar-un-seguimiento.out';
 export { FiltrarSeguimientoOut } from './filtrar-seguimiento-out'; 
 export { AtenderSolicitudSeguimientoOut } from './atender-solicitud-seguimiento.out';
 export { AgendarSolicitudSeguimientoOut } from './agendar-seguimiento.out';
+export { AsignarRoleOut } from './asignar-role-out'; 

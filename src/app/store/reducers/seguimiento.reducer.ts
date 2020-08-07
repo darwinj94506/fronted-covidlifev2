@@ -5,11 +5,15 @@ export interface SeguimientoState {
   isLoadingSeguimiento: boolean;
   isLoadingSeguimientosAgendados:boolean;
   seguimientosAgendados : FiltrarSeguimientoOut [];
+  citasPaciente: FiltrarSeguimientoOut[];
+  isLoadingCitasPacientes:boolean;
 } 
 export const initialState: SeguimientoState = {
   isLoadingSeguimiento:false,
   isLoadingSeguimientosAgendados:false,
-  seguimientosAgendados:[]
+  seguimientosAgendados:[],
+  citasPaciente:[],
+  isLoadingCitasPacientes:false
 };
 
 const mainReducer = createReducer(
@@ -51,6 +55,19 @@ const mainReducer = createReducer(
   on(seguimientosActions.loadSeguimientosAgendadosError, (state) => ({
     ...state,
     isLoadingSeguimientosAgendados: false
+  })),
+  on(seguimientosActions.loadCitasPaciente, (state) => ({
+    ...state,
+    isLoadingCitasPacientes: true
+  })),
+  on(seguimientosActions.loadCitasPacienteSuccess, (state, payload) => ({
+    ...state,
+    isLoadingCitasPacientes: false,
+    citasPaciente: [...payload.citas]
+  })),
+  on(seguimientosActions.loadCitasPacienteError, (state) => ({
+    ...state,
+    isLoadingCitasPacientes: false
   })),
 );
 

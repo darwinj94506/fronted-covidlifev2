@@ -3,7 +3,7 @@ import { DoctorFiltSegOut } from './doctor-filt-seg.out';
 import { HospitalFiltSegOut } from './hospital-filt-seg.out';
 import { SeguimientoEstadoEnum, DiagnosticoActualEnum, DificultadRespirarEnum, ExamenTipoEnum, EstadoDiarioPacienteEnum} from '../enums';
 export interface FiltrarSeguimientoOut {
-    _id: String; 
+    _id?: string; 
     idPaciente: PacienteFiltSegOut;
     idDoctor?: DoctorFiltSegOut;
     idHospital: HospitalFiltSegOut;

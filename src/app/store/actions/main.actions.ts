@@ -1,9 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-import { IUsuarioEntity, VORoleHospital } from '../../core/domain/entities';
+import { IUsuarioEntity } from '../../core/domain/entities';
 import { FilterUserIn } from '../../core/domain/inputs';
 import { LoginOut, VORoleHospitalPopulateLoginOut } from '../../core/domain/outputs';
-
-
 
 export const loadUserLogged = createAction(
   '[Main] Load User Logged'
@@ -27,19 +25,6 @@ export const saveHospitalSession =createAction(
 export const saveUserLogged =createAction(
   '[Main] Save User Logged',
   props<{ userLogged: LoginOut}>()
-)
-
-export const logout = createAction(
-  '[Main] Logout'
-)
-
-export const logoutSuccess = createAction(
-  '[Main] Logout Success',
-  props<{ msg: String}>()
-)
-
-export const logoutError = createAction(
-  '[Main] Logout Error'
 )
 
 export const loadUsers = createAction(
@@ -83,4 +68,16 @@ export const updateUserSuccess = createAction(
 
 export const updateUserError = createAction(
   '[Main] Update User Error'
+)
+
+export const logout = createAction(
+  '[Main] Logout'
+)
+
+export const logoutSuccess = createAction(
+  '[Main] Logout Success'
+)
+
+export const logoutError = createAction(
+  '[Main] Logout Error'
 )

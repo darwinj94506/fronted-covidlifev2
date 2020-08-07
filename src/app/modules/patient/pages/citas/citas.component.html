@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card card-body">
+            <h4 class="card-title">Seguimientos</h4>
+            <h5 class="card-subtitle">Seguimientos enviados por usted</h5>
+            <div class="d-flex mb-3 mt-3">
+                <!-- <input type="text" class="form-control w-25" placeholder="Buscar por cédula o pasaporte" [(ngModel)]='searchTerm'> -->
+                <!-- <button class="btn btn-primary ml-auto" (click)="openModalCreateUpdate(null)">Nuevo</button> -->
+            </div>
+            <ng-container *ngIf="citas$ | async as citas">
+                <div class="table-responsive table-bordered">
+
+                    <table class="table table-striped mb-0 no-wrap v-middle">
+                        <thead>
+                            <tr>
+                                <th class="text-center" scope="col">#</th>
+                                <th scope="col">Evolución</th>
+                                <th scope="col">Temperatura</th>
+                                <th scope="col">Dificultad para respirar</th>
+                                <th scope="col">Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let cita of citas; let i=index">
+                                <td class="text-center">
+                                    {{ i + 1}}
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="ml-3">
+                                            <p class="font-bold mb-0">{{ cita?.estado_diario_paciente }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="ml-3">
+                                            <p class="font-bold mb-0">{{ cita?.temperatura }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="ml-3">
+                                            <p class="font-bold mb-0">{{ cita?.dificultad_respirar }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="ml-3">
+                                            <p class="font-bold mb-0">{{ cita?.nota_paciente }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="d-flex justify-content-center mt-5">
+                    <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="citas.length"></ngb-pagination>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

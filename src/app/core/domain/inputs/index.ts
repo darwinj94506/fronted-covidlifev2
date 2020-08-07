@@ -11,3 +11,4 @@ export { ConsultarUnSeguimientoIn } from './consultar-un-seguimiento.in';
 export { FiltrarSeguimientoIn } from './filtrar-seguimiento.in';
 export { AtenderSolicitudSeguimientoIn } from './atender-solicitud-seguimiento.in';
 export { AgendarSolicitudSeguimientoIn } from './agendar-solicitud-seguimiento.in';
+export { AsignarRoleIn } from './asignar-role-in';

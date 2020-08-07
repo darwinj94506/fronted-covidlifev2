@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { DragulaModule } from 'ng2-dragula';
 import { FlatpickrModule } from 'angularx-flatpickr';
 
@@ -24,6 +25,7 @@ import { UiModule } from '../../ui/ui.module';
   declarations: [PatientsComponent, DailyStatusComponent, VideoCallComponent, CardComponent, SeguimientosComponent],
   imports: [
     CommonModule,
+    HttpClientModule,
     NgbModule,
     NgbModalModule,
     FlatpickrModule.forRoot(),

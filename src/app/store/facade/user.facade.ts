@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as userActions from '../actions/user.actions';
-import { IdIn } from '../../core/domain/inputs';
+import { IdIn, AsignarRoleIn } from '../../core/domain/inputs';
 import { UserPerfilOut, FiltrarSeguimientoOut } from '../../core/domain/outputs';
-import { AppState, selectPerfilUser, selectLoadingUser}from '../app.reducer';
+import { AppState, selectUserPerfil, selectLoadingUserPerfile, selectLoadingMiPerfil, selectMiPerfil} from '../app.reducer';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,12 @@ import { Observable } from 'rxjs';
 export class UserFacade {
   constructor(private store: Store<AppState>) {}
 
-  loadPerfil(idUser: IdIn ):void{
-    this.store.dispatch(userActions.loadPerfil({idUser}))
+  loadMiPerfil(idUser: IdIn):void{
+    this.store.dispatch(userActions.loadMiPerfil({idUser}))
+  }
+
+  loadPerfilUser(idUser: IdIn):void{
+    this.store.dispatch(userActions.loadPerfilUser({idUser}))
   }
 
   openModalPerfil(seguimiento: FiltrarSeguimientoOut ):void{
@@ -21,10 +25,29 @@ export class UserFacade {
   }
 
   getPerfilUser(): Observable<UserPerfilOut>{
-    return this.store.select(selectPerfilUser)
+    return this.store.select(selectUserPerfil)
   } 
 
-  gerLoadingStore(): Observable<boolean>{
-    return this.store.select(selectLoadingUser)
+  getMiPerfil(): Observable<UserPerfilOut>{
+    return this.store.select(selectMiPerfil)
+  } 
+
+  getLoadingMiPerfilStore(): Observable<boolean>{
+    return this.store.select(selectLoadingMiPerfil)
+  }
+
+  getLoadingPerfilUserStore(): Observable<boolean>{
+    return this.store.select(selectLoadingUserPerfile)
+  }
+
+  dispatchActionOpenModalCreateUpdateUser(user):void{
+    this.store.dispatch(userActions.openModalCreateUpdateUser(user))
+  }
+
+  dispatchActionAsignarRole(roles: AsignarRoleIn):void{
+    this.store.dispatch(userActions.asignarRoles({roles}))
+  }
+  dispatchActionOpenModalAsignarRole(roles: AsignarRoleIn):void{
+    this.store.dispatch(userActions.openModalAsignarRoles({roles}))
   }
 }

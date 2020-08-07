@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 
-export class LogoutUsecase implements UseCase<void, String> {
+export class LogoutUsecase implements UseCase<void, boolean> {
 
   constructor(private userRepository: UsuarioRepository) { }
 
-  execute(): Observable<String> {
+  execute(): Observable<boolean> {
     return this.userRepository.logout()
   }
 }

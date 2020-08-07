@@ -17,7 +17,7 @@ export class ProfilePageComponent implements OnInit {
     this._mainFacade.getUserLogged()
       .subscribe(userLogged => {
         let id: IdIn = { _id: userLogged._id }
-        this._userFacade.loadPerfil(id)
+        this._userFacade.loadMiPerfil(id)
       })
 
     this.userPerfil$ = this._userFacade.getPerfilUser()

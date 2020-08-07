@@ -38,7 +38,7 @@ export class CallDashComponent implements OnInit {
     this.seguimientosAgendados$ = this._seguimientoFacade.getSeguimientosAgendadosStore();
     this._seguimientoFacade.loadSeguimientosAgendados();
     this.pacientePorAtender$ = this._userFacade.getPerfilUser();
-    this.isLoading$ = this._userFacade.gerLoadingStore();
+    this.isLoading$ = this._userFacade.getLoadingPerfilUserStore();
 
     //for video calling
     this.client = this._ngxAgoraService.createClient({ mode: 'rtc', codec: 'h264' });
@@ -58,7 +58,7 @@ export class CallDashComponent implements OnInit {
 
   onChangeNav({activeId}){
     if(activeId === 'datos-paciente')
-      this._userFacade.loadPerfil({_id: this.seguimientoPorAtender.idPaciente._id})
+      this._userFacade.loadMiPerfil({_id: this.seguimientoPorAtender.idPaciente._id})
   }
 
   /**

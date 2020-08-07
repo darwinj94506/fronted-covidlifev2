@@ -57,7 +57,7 @@ export class SidebarComponent implements OnInit {
           if(userLogged.isRoot)
              this.sidebarnavItems = this.getMenu([RolesUserEnum.ROOT, RolesUserEnum.ADMIN,RolesUserEnum.DOCTOR, RolesUserEnum.DIRECTOR]);
           else this.sidebarnavItems = this.getMenu(hospitalSesion.roles);
-          this.sidebarnavItems=[...ROUTES, ...this.sidebarnavItems]
+          // this.sidebarnavItems=[...ROUTES, ...this.sidebarnavItems]
 
         })
     }
@@ -91,7 +91,7 @@ export class SidebarComponent implements OnInit {
     cambiarHospital(){
       this._router.navigate(['/inicio']);
     }
-
+ 
     logout(){
       this._mainFacade.logout();
     }

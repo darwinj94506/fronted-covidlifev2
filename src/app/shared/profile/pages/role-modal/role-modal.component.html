@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <h4 class="modal-title">Asignacion de permisos</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <form [formGroup]="roleForm" novalidate>
+                    <div class="form-group">
+                        <label for="name">Roles</label>
+                        <angular2-multiselect [data]="itemList" [(ngModel)]="selectedItems" [settings]="settings" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)" formControlName="skills">
+                        </angular2-multiselect>
+                    </div>
+                    <button (click)="onSubmit()" [disabled]="!roleForm.valid" class="btn btn-success btn-block">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+</div>

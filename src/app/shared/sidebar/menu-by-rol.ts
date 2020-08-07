@@ -78,18 +78,7 @@ export const ROUTES_DOCTOR: RouteInfo[] = [
 				labelClass: '',
 				extralink: false,
 				submenu: []
-			},
-			{
-				path: '/doctor/video-llamada',
-				title: 'Video llamada',
-				icon: 'mdi mdi-adjust',
-				class: '',
-				label: '',
-				labelClass: '',
-				extralink: false,
-				submenu: []
 			}
-			
 		]
 	},
 
@@ -176,8 +165,7 @@ export const ROUTES_DIRECTOR: RouteInfo[] = [
 ];
 
 
-export const ROUTES_PATIENT: RouteInfo[] = [
-	
+export const ROUTES_PATIENT: RouteInfo[] = [	
 	{
 		path: '',
 		title: 'Paciente',
@@ -188,6 +176,16 @@ export const ROUTES_PATIENT: RouteInfo[] = [
 		extralink: false,
 		submenu: [
 			{
+				path: '/paciente/enviar-sintomas',
+				title: 'Enviar síntomas',
+				icon: 'mdi mdi-adjust',
+				class: '',
+				label: '',
+				labelClass: '',
+				extralink: false,
+				submenu: []
+			},
+			{
 				path: '/paciente/citas',
 				title: 'Citas',
 				icon: 'mdi mdi-adjust',
@@ -196,30 +194,19 @@ export const ROUTES_PATIENT: RouteInfo[] = [
 				labelClass: '',
 				extralink: false,
 				submenu: []
-			},
-			{
-				path: '/paciente/video-llamada',
-				title: 'Video llamada',
-				icon: 'mdi mdi-adjust',
-				class: '',
-				label: '',
-				labelClass: '',
-				extralink: false,
-				submenu: []
-			},
-			{
-				path: '/apps/chat',
-				title: 'Chat',
-				icon: 'mdi mdi-adjust',
-				class: '',
-				label: '',
-				labelClass: '',
-				extralink: false,
-				submenu: []
-			},
-			
+			}
+			// {
+			// 	path: '/apps/chat',
+			// 	title: 'Chat',
+			// 	icon: 'mdi mdi-adjust',
+			// 	class: '',
+			// 	label: '',
+			// 	labelClass: '',
+			// 	extralink: false,
+			// 	submenu: []
+			// }			
 		]
-	},
+	}
 
 ];
 

@@ -1,12 +1,12 @@
 import { Injectable, Injector} from '@angular/core';
 import { UsuarioRepository } from '../../../../core/repositories/usuario.repository';
-import { ICredentialsInput, SignupIn, FilterUserIn, IdIn } from '../../../../core/domain/inputs';
+import { ICredentialsInput, SignupIn, FilterUserIn, IdIn, AsignarRoleIn } from '../../../../core/domain/inputs';
 import { MongoDBRepository} from '../mongo-repository';
 import { USER_OPERATIONS } from '../../../graphq';
 import { IUsuarioEntity } from '../../../../core/domain/entities';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LoginOut, UserPerfilOut } from 'src/app/core/domain/outputs';
+import { LoginOut, UserPerfilOut, AsignarRoleOut} from 'src/app/core/domain/outputs';
 
 @Injectable({ providedIn:'root'})
 export class UserMDBRepository extends MongoDBRepository<IUsuarioEntity> implements UsuarioRepository{
@@ -39,14 +39,8 @@ export class UserMDBRepository extends MongoDBRepository<IUsuarioEntity> impleme
         return of([]) 
     }
 
-    logout(){
-        return this.apollo
-        .watchQuery(
-          { 
-            query: USER_OPERATIONS.logout.gql,
-          })
-        .valueChanges.pipe(
-            map(( { data } ) => data[USER_OPERATIONS.logout.resolve] ))
+    logout(): Observable<boolean>{
+        return of(true)
     }
 
     allUsers(filtro: FilterUserIn):Observable<IUsuarioEntity[]>{
@@ -73,6 +67,19 @@ export class UserMDBRepository extends MongoDBRepository<IUsuarioEntity> impleme
             })
             .valueChanges.pipe(
                 map(( { data } ) => data[USER_OPERATIONS.perfil.resolve] ))
+    }
+
+    asignarRole():Observable<AsignarRoleOut>{
+        return this.apollo
+        .watchQuery(
+        { 
+            query: USER_OPERATIONS.perfil.gql,
+            // variables:{
+            //     data:id
+            // }
+        })
+        .valueChanges.pipe(
+            map(( { data } ) => data[USER_OPERATIONS.perfil.resolve] ))
     }
 
 }

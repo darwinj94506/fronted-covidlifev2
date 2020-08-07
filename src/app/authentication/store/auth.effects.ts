@@ -5,7 +5,7 @@ import { Observable, from, of} from 'rxjs';
 import { AuthService } from '../auth.service';
 import * as authActions  from './auth.actions';
 import { MainFacade } from '../../store/facade/main.facade';
-import { UserRegisterUsecase, LoginUsecase } from '../../core/usecases';
+import { UserRegisterUsecase, LoginUsecase, LogoutUsecase } from '../../core/usecases';
 import { NgxSpinnerService } from 'ngx-spinner';
 @Injectable()
 export class AuthEffects {
@@ -15,6 +15,7 @@ export class AuthEffects {
         private _loginUseCase: LoginUsecase,
         private _mainFacade: MainFacade,
         private _spinner: NgxSpinnerService,
+        private _logoutUsecase: LogoutUsecase,
         private _userRegisterUseCase: UserRegisterUsecase) { }
         
     @Effect()
@@ -72,6 +73,8 @@ export class AuthEffects {
         tap(({error})=>{
             this._authService.showError(error)})
     )   
+
+ 
 
 }
 

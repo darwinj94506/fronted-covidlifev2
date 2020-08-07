@@ -17,14 +17,15 @@ export class MainEffects {
         private _spinner: NgxSpinnerService,
         private _logoutUsecase:LogoutUsecase,
         private _ListarUsuarios:ListarUsuariosUseCase,
-        private _authService: AuthService
+        private _authService: AuthService,
+        
          ) { }
 
     @Effect({dispatch:false})
     loadUserLoggedSuccess: Observable<any> = this.actions$.pipe(
         ofType(mainActions.loadUserLoggedSuccess),
-        tap(({userLogged})=>{
-                this._authService.navigateToDashboard(userLogged)})
+        tap(_=>{
+                this._guardService.navigateToDashboard_init()})
     ) 
 
     @Effect({dispatch:false})
@@ -52,29 +53,30 @@ export class MainEffects {
             )
         )))
 
-    @Effect()
-    logout: Observable<any> = this.actions$.pipe(
-        ofType(mainActions.logout),
-        tap( _=> this._spinner.show()),
-        switchMap( _ => this._logoutUsecase.execute()
-        .pipe(
-            map( msg => {
-                this._authService.logout(); 
-                return mainActions.logoutSuccess({msg});
-            }),
-            catchError( error => {
-                this._toastService.showError(`Error al cerrar sesión , Error:${error.message}`);
-                return of( mainActions.logoutError())
-                })
-            )),
-        tap( _=> this._spinner.hide()))
-
+   
     @Effect({dispatch:false})
     saveHospitalSession: Observable<any> = this.actions$.pipe(
         ofType(mainActions.saveHospitalSession),
         tap(({hospitalSession})=>{
+                this._authService.saveHospitalSesion(hospitalSession);
                 this._authService.navigateToDashboard(hospitalSession)})
     ) 
+
+    @Effect()
+    logout: Observable<any> = this.actions$.pipe(
+        ofType(mainActions.logout),
+        switchMap( _=> this._logoutUsecase.execute()
+        .pipe(
+            map( msg => {
+                this._authService.logout(); 
+                return mainActions.logoutSuccess();
+            }),
+            catchError( error => {
+                this._authService.showError(error)
+                return of( mainActions.logoutError())
+                })
+            ))
+        )
 
 }
 

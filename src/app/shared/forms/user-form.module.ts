@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserFormComponent } from './user-form.component';
+import { UserFormComponent } from './user-form/user-form.component';
+import { PatientFormComponent } from './patient-form/patient-form.component';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [UserFormComponent],
+  declarations: [UserFormComponent, PatientFormComponent],
   imports: [
     CommonModule,
     NgbModule,
@@ -15,7 +16,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   exports:[
     UserFormComponent,
     FormsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    PatientFormComponent 
   ]
 })
 

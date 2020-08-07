@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Formulario } from '../../core/domain/class/formulario';
-import { SignupIn } from '../../core/domain/inputs';
+import { Formulario } from '../../../core/domain/class/formulario';
+import { SignupIn } from '../../../core/domain/inputs';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { UserGeneroEnum } from '../../core/domain/enums';
-
+import { UserGeneroEnum } from '../../../core/domain/enums';
+import { UserFacade } from '../../../store/facade/user.facade';
 const ValidationMessage = {
   name: { required: 'El nombre es obligatorio', minlength:'El nombre no puede tener menos de tres caracteres' },
   lastname: { required: 'El apellido es obligatorio', minlength:'El apellido no puede tener menos de tres caracteres' },
@@ -25,9 +25,12 @@ export class UserFormComponent extends Formulario implements OnInit {
 
   MASCULINO:UserGeneroEnum = UserGeneroEnum.M;
   FEMENINO:UserGeneroEnum = UserGeneroEnum.F;
+  PREFIERO_NO_DECIRLO: UserGeneroEnum = UserGeneroEnum.PREFIERO_NO_DECIRLO;
   signupForm: FormGroup;
+  @Input() userPerfil : any;
+  // @Input() type:
 
-  constructor( private fb: FormBuilder) {
+  constructor( private fb: FormBuilder, private _userFacade: UserFacade) {
     super({...ValidationMessage})
   }
 
@@ -37,16 +40,15 @@ export class UserFormComponent extends Formulario implements OnInit {
 
   initForm(){
     this.signupForm = this.fb.group({
-      name: [ '', [Validators.required,  Validators.minLength(3)] ],
-      lastname: [ '', [Validators.required, Validators.minLength(3)] ],
-      email: [ '', [Validators.required, Validators.email] ],
-      password: [ '', [Validators.required, Validators.minLength(6)] ],
-      ci: [ '', [ Validators.required, Validators.minLength(9)] ],
-      telefono: [''],
-      fechaNacimiento: [ '', [Validators.required] ],
-      genero: [ '', [Validators.required] ],
-      direccion: [ '' ],
-      terminosCondiciones: [false]
+      name: [ this.userPerfil.name, [Validators.required,  Validators.minLength(3)] ],
+      lastname: [ this.userPerfil.lastname, [Validators.required, Validators.minLength(3)] ],
+      email: [ this.userPerfil.email, [Validators.required, Validators.email] ],
+      password: [ this.userPerfil.password, [Validators.required, Validators.minLength(6)] ],
+      ci: [ this.userPerfil.ci, [ Validators.required, Validators.minLength(9)] ],
+      telefono: [this.userPerfil.telefono],
+      fechaNacimiento: [ this.userPerfil.fechaNacimiento, [Validators.required] ],
+      genero: [ this.userPerfil.genero, [Validators.required] ],
+      direccion: [ this.userPerfil.direccion ]
     });
   }
 
@@ -64,6 +66,7 @@ export class UserFormComponent extends Formulario implements OnInit {
       direccion: this.signupForm.get('direccion').value,
       roles:[],
     }
+    
   }
 
 }

@@ -3,7 +3,6 @@ import gql from 'graphql-tag';
 export const LOGIN = gql `
 mutation loginUser($data: LoginIn!){
   loginUser(data:$data){
-    _id
     name
     lastname
     ci
@@ -11,12 +10,14 @@ mutation loginUser($data: LoginIn!){
     isRoot
     roles{
       idHospital{
-        _id
+        _id 
         nombre
         descripcion
+       idEspacio
       }
       roles
     }
+    token
   }
 }
 `;

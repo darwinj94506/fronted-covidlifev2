@@ -58,6 +58,7 @@ export const Approutes: Routes = [
 			{ path: 'doctor', loadChildren: () => import('./modules/doctor/doctor.module').then(m => m.DoctorModule) },
 			{ path: 'paciente', loadChildren: () => import('./modules/patient/patient.module').then(m => m.PatientModule) },
 			{ path: 'director', loadChildren: () => import('./modules/director/director.module').then(m => m.DirectorModule) },
+		
 			
 
 		]
@@ -70,7 +71,12 @@ export const Approutes: Routes = [
 				path: 'authentication',
 				loadChildren:
 					() => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
-			}
+			},
+			{   
+				path: 'video-llamada', 
+				loadChildren:
+					() => import('./modules/video-chat/video-chat.module').then(m=> m.VideoChatModule)  
+			},
 		]
 	},
 	{
@@ -78,6 +84,7 @@ export const Approutes: Routes = [
 		canActivate:[LoginGuard],
 		component: InitComponent
 	},
+	
 	{
 		path: '**',
 		redirectTo: '/authentication/404'

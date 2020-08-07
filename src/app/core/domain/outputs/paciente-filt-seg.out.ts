@@ -6,7 +6,8 @@ export interface PacienteFiltSegOut {
     ci: String;
     email: String;
     state: UserStateEnum;
-    
+    token_notificacion_web: string;
+    token_notificacion_movil: string;
 }
 
 

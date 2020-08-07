@@ -15,19 +15,6 @@
 
     <div class="col-4 bg-light border scrollable h-100">
         <div class="card">
-            <ng-container *ngIf="!seguimientoPorAtender">
-                <ngb-tabset type="pills" class="custom-pills">
-                    <ng-container *ngIf="seguimientosAgendados$ | async as seguimientos">
-                        <ngb-tab title="Timeline">
-                            <ng-template ngbTabContent>
-                                <div *ngFor="let seguimiento of seguimientos">
-                                    <p>{{ seguimiento.idPaciente.name }} {{ seguimiento.idPaciente.lastname }} <button (click)="call(seguimiento)">Atender</button></p>
-                                </div>
-                            </ng-template>
-                        </ngb-tab>
-                    </ng-container>
-                </ngb-tabset>
-            </ng-container>
             <ng-container *ngIf="seguimientoPorAtender">
                 <ngb-tabset type="pills" class="custom-pills" (tabChange)="onchange($event)">
                     <ngb-tab title="Seguimiento" id="segumientos">

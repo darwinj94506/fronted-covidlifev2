@@ -2,7 +2,9 @@ import { Action, createReducer, on } from '@ngrx/store';
 import * as userActions  from '../actions/user.actions';
 import { UserPerfilOut } from '../../core/domain/outputs';
 export interface UserState {
-  isLoading: boolean; 
+  isLoadingMiPerfil: boolean;
+  isLoadingPerfilUser: boolean; 
+  miPerfil: UserPerfilOut,
   userPerfil: UserPerfilOut 
 }
 
@@ -23,24 +25,39 @@ const userInit: UserPerfilOut = {
   datos_paciente:null,
 }
 export const initialState: UserState = {
-  isLoading: false,
-  userPerfil: {...userInit}
+  isLoadingMiPerfil: false,
+  isLoadingPerfilUser: false,
+  miPerfil: {...userInit},
+  userPerfil: { ...userInit}
 };
 
 const userReducer = createReducer(
   initialState,
-  on(userActions.loadPerfil, state => ({
+  on(userActions.loadMiPerfil, (state) => ({
       ...state,
-      isLoading:true,
+      isLoadingMiPerfil:true,
   })),
-  on(userActions.loadPerfilSuccess, (state, payload) => ({
+  on(userActions.loadMiPerfilSuccess, (state, payload) => ({
     ...state,
-    userPerfil: payload.userPerfil,
-    isLoading:false
+    miPerfil: payload.miPerfil,
+    isLoadingMiPerfil:false
   })),
-  on(userActions.loadPerfilError, state => ({
+  on(userActions.loadMiPerfilError, state => ({
     ...state,
-    isLoading:false,
+    isLoadingMiPerfil:false,
+  })),
+  on(userActions.loadPerfilUser, (state) => ({
+    ...state,
+    isLoadingPerfilUser:true,
+  })),
+  on(userActions.loadPerfilUserSuccess, (state, payload) => ({
+    ...state,
+    userPerfil:payload.userPerfil,
+    isLoadingPerfilUser:false
+  })),
+  on(userActions.loadPerfilUserError, state => ({
+    ...state,
+    isLoadingPerfilUser:false,
   })),
 
 );

@@ -34,18 +34,35 @@ export const atenderSeguimientoError = createAction(
 
 export const agendarSeguimiento = createAction(
   '[Seguimiento] Agendar Seguimiento',
-  props<{ seguimiento: AgendarSolicitudSeguimientoIn }>()
+  props<{ seguimiento: AgendarSolicitudSeguimientoIn, tokenMovil?:String }>()
 )
 
 export const agendarSeguimientoSuccess = createAction(
   '[Seguimiento] Agendar Seguimiento Success',
-  props<{ scheduledSeguimiento: AgendarSolicitudSeguimientoOut }>()
+  props<{ scheduledSeguimiento: AgendarSolicitudSeguimientoOut, tokenMovil?:String }>()
 )
 
 export const agendarSeguimientoError = createAction(
   '[Seguimiento] Agendar Seguimiento Error',
   props<{ error: String }>()
 )
+
+export const sendNotificationAgendado = createAction(
+  '[Seguimiento] Send Notification Agendado',
+  props<{ tokenMovil?:String }>()
+)
+
+export const sendNotificationAgendadoSuccess = createAction(
+  '[Seguimiento] Send Notification Success',
+  props<{ msg }>()
+)
+
+export const sendNotificationAgendadoError = createAction(
+  '[Seguimiento] Send Notification Error',
+  props<{ error }>()
+)
+
+
 
 export const loadSeguimientosAgendados = createAction(
   '[Seguimiento] Load Seguimientos Agendados'
@@ -61,3 +78,17 @@ export const loadSeguimientosAgendadosError = createAction(
   props<{ error: String }>()
 )
 
+export const loadCitasPaciente = createAction(
+  '[Seguimiento] Load Citas Pacientes',
+  props<{ filter: FiltrarSeguimientoIn }>()
+)
+
+export const loadCitasPacienteSuccess = createAction(
+  '[Seguimiento] Load Citas Pacientes Success',
+  props<{ citas: FiltrarSeguimientoOut [] }>()
+)
+
+export const loadCitasPacienteError = createAction(
+  '[Seguimiento] Load Citas Pacientes Error',
+  props<{ error: String }>()
+)

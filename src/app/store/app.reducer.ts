@@ -16,19 +16,21 @@ export const AppReducers: ActionReducerMap<AppState> = {
     seguimiento: fromSeguimientoReducer.reducer,
     user: fromUserReducer.reducer
 };
-
+ 
 export const selectMainState = (state: AppState) => state.main;
 
 export const selectUserLogged = createSelector(selectMainState,(state: MainState) => state.userLogged);
 export const selectUsers = createSelector(selectMainState,(state: MainState) => state.users);
 export const selectUsersLoading = createSelector(selectMainState,(state: MainState) => state.isLoadingUsers);
-export const selectLogoutLoading = createSelector(selectMainState,(state: MainState) => state.isLoadingLogout);
+// export const selectLogoutLoading = createSelector(selectMainState,(state: MainState) => state.isLoadingLogout);
 export const selectHospitalSession = createSelector(selectMainState,(state: MainState) => state.hospitalSession);
 
 export const selectUserState = (state: AppState) => state.user;
-export const selectPerfilUser = createSelector(selectUserState,(state: UserState) => state.userPerfil);
-export const selectLoadingUser = createSelector(selectUserState,(state: UserState) => state.isLoading);
-
+export const selectMiPerfil = createSelector(selectUserState,(state: UserState) => state.miPerfil);
+export const selectLoadingMiPerfil = createSelector(selectUserState,(state: UserState) => state.isLoadingMiPerfil);
+export const selectUserPerfil = createSelector(selectUserState,(state: UserState) => state.userPerfil);
+export const selectLoadingUserPerfile = createSelector(selectUserState,(state: UserState) => state.isLoadingPerfilUser);
 
 export const selectSeguimientoState = (state: AppState) => state.seguimiento;
 export const selectSeguimientosAgendados = createSelector(selectSeguimientoState,(state: fromSeguimientoReducer.SeguimientoState) => state.seguimientosAgendados);
+export const selectCitasPacientes = createSelector(selectSeguimientoState,(state: fromSeguimientoReducer.SeguimientoState) => state.citasPaciente);

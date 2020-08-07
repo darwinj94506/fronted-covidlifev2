@@ -9,7 +9,6 @@ import { LoginOut, VORoleHospitalPopulateLoginOut} from '../../core/domain/outpu
 import { AppState,
          selectUserLogged,
          selectUsers,
-         selectLogoutLoading,
          selectHospitalSession,
          selectUsersLoading }from '../app.reducer';
          
@@ -52,14 +51,7 @@ export class MainFacade {
     this.store.dispatch(mainActions.updateUser({user}))
   }
 
-  logout(){
-    this.store.dispatch(mainActions.logout())
-  }
-
-  getLoadingLogout(): Observable<boolean>{
-    return this.store.select(selectLogoutLoading);
-  }
-
+  
   getHospitalSesion():Observable<VORoleHospitalPopulateLoginOut>{
     return this.store.select(selectHospitalSession).pipe(first());
   }
@@ -70,6 +62,10 @@ export class MainFacade {
 
   setUserLogged(userLogged: LoginOut){
     this.store.dispatch(mainActions.saveUserLogged({userLogged}))
+  }
+
+  logout(){
+    this.store.dispatch(mainActions.logout())
   }
   
 }

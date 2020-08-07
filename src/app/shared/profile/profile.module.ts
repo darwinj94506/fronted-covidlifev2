@@ -10,6 +10,11 @@ import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatientModalComponent } from './pages/patient-modal/patient-modal.component';
 import { AtenderSeguimientoComponent } from './components/atender-seguimiento/atender-seguimiento.component';
+import { UserModalComponent } from './pages/user-modal/user-modal.component';
+import { PatientFormComponent } from './components/patient-form/patient-form.component';
+import { UserFormComponent } from './components/user-form/user-form.component';
+import { RoleModalComponent } from './pages/role-modal/role-modal.component';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 export const PROFILE_ROUTES: Routes = [
 	{
 		path: '', component: ProfilePageComponent,
@@ -17,10 +22,21 @@ export const PROFILE_ROUTES: Routes = [
 ];
 
 @NgModule({
-  declarations: [ ProfilePageComponent, ProfileComponent, TimeLineComponent, SettingsComponent, OverViewComponent, PatientModalComponent, AtenderSeguimientoComponent ],
+  declarations: [ ProfilePageComponent,
+     ProfileComponent, 
+     TimeLineComponent, 
+     SettingsComponent, 
+     OverViewComponent, 
+     PatientModalComponent, 
+     AtenderSeguimientoComponent, 
+     PatientFormComponent,
+     UserFormComponent,
+     UserModalComponent,
+     RoleModalComponent ],
   imports: [
     CommonModule,
     NgbModule,
+    AngularMultiSelectModule,
     FormsModule, ReactiveFormsModule,
     RouterModule.forChild(PROFILE_ROUTES),
   ],
@@ -31,13 +47,19 @@ export const PROFILE_ROUTES: Routes = [
     OverViewComponent, 
     NgbModule, 
     NgbModalModule,
-    FormsModule, 
-    ReactiveFormsModule
+    FormsModule,
+    AngularMultiSelectModule,
+    AtenderSeguimientoComponent, 
+    ReactiveFormsModule,
+    PatientFormComponent,
+    UserFormComponent,
+    UserModalComponent,
+    RoleModalComponent
   ],
   entryComponents:[
     PatientModalComponent,
-    AtenderSeguimientoComponent
-    
+    UserModalComponent,
+    RoleModalComponent
   ]
 })
 export class ProfileModule { }

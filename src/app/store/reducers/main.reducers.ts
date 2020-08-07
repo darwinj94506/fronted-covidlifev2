@@ -7,7 +7,6 @@ export interface MainState {
   isLoading: boolean;
   users : IUsuarioEntity[];
   isLoadingUsers: boolean; 
-  isLoadingLogout: boolean;
   hospitalSession: VORoleHospitalPopulateLoginOut;
 }
 
@@ -35,7 +34,6 @@ export const initialState: MainState = {
   isLoading:false,
   users : [],
   isLoadingUsers:false,
-  isLoadingLogout:false,
   hospitalSession:{...initVORoleHospital}
 };
 
@@ -92,18 +90,6 @@ const mainReducer = createReducer(
   on(authActions.updateUserError, (state) => ({
     ...state,
     isLoadingUsers: false
-  })),
-  on(authActions.logout, (state) => ({
-    ...state,
-    isLoadingLogout: true
-  })),
-  on(authActions.logoutSuccess, (state) => ({
-    ...state,
-    isLoadingLogout: false
-  })),
-  on(authActions.logoutError, (state) => ({
-    ...state,
-    isLoadingLogout: false
   })),
   on(authActions.saveHospitalSession, (state, payload) => ({
     ...state,

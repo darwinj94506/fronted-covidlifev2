@@ -17,18 +17,20 @@ export const login = createAction(
   );
   
   export const register = createAction(
-    '[Register] Register',
+    '[Auth] Register',
     props<{ user: SignupIn }>()
   );
   
   export const registerSuccess = createAction(
-    '[Register] Register Success',
+    '[Auth] Register Success',
     props<{ user: any }>()
   );
   
   export const registerError = createAction(
-    '[Register] Register Error',
+    '[Auth] Register Error',
     props<{ error: string }>()
   );
+
+
   
   

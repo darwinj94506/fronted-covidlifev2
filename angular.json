@@ -35,8 +35,10 @@
                             "node_modules/@swimlane/ngx-datatable/index.css",
                             "node_modules/@swimlane/ngx-datatable/themes/material.css",
                             "node_modules/@swimlane/ngx-datatable/assets/icons.css",
+                            "node_modules/angular2-multiselect-dropdown/themes/default.theme.css",
                             "src/assets/vendor/css-chart.css",
                             "src/assets/scss/style.scss"
+
                         ],
                         "scripts": []
                     },
