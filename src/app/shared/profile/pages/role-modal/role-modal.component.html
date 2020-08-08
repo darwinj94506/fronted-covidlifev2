@@ -8,13 +8,22 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <form [formGroup]="roleForm" novalidate>
-                    <div class="form-group">
-                        <label for="name">Roles</label>
-                        <angular2-multiselect [data]="itemList" [(ngModel)]="selectedItems" [settings]="settings" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)" formControlName="skills">
-                        </angular2-multiselect>
+                <!-- <form [formGroup]="form" novalidate>
+                    <checkbox-group formControlName="items">
+                        <checkbox value="DOCTOR" (click)="onSubmit(DOCTOR)">Doctor</checkbox>
+                        <checkbox value="ADMIN" (click)="onSubmit(ADMIN)">Administrador</checkbox>
+                        <checkbox value="DIRECTOR" (click)="onSubmit(DIRECTOR)">Director</checkbox>
+                        <checkbox value="PACIENTE" (click)="onSubmit(PACIENTE)">Paciente</checkbox>
+                    </checkbox-group>
+                </form> -->
+
+                <form [formGroup]="form">
+                    <div *ngFor="let rol of rolesFormArray.controls; let i = index" class="row col">
+                        <label formArrayName="roles">
+                            <input type="checkbox" [formControlName]="i" (click)="onSubmit(rolesData[i])">{{rolesData[i]}}
+                        </label>
                     </div>
-                    <button (click)="onSubmit()" [disabled]="!roleForm.valid" class="btn btn-success btn-block">Guardar</button>
+
                 </form>
             </div>
         </div>

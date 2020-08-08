@@ -62,6 +62,21 @@ export const sendNotificationAgendadoError = createAction(
   props<{ error }>()
 )
 
+export const sendNotificationVideoLlamada = createAction(
+  '[Seguimiento] Send Notification Video Llamada',
+  props<{ tokenMovil?:String, idSeguimiento: String }>()
+)
+
+export const sendNotificationVideoLlamadaSuccess = createAction(
+  '[Seguimiento] Send Notification Video Llamada Success',
+  props<{ msg }>()
+)
+
+export const sendNotificationVideoLlamadaError = createAction(
+  '[Seguimiento] Send Notification Video Llamada Error',
+  props<{ error }>()
+)
+
 
 
 export const loadSeguimientosAgendados = createAction(

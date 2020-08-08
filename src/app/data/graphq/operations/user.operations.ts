@@ -1,5 +1,5 @@
 import { IOperations, IOperation} from '../interfaces/operation.interface';
-import { REGISTER, LOGIN, LOGOUT, FILTER_USERS, PERFIL} from '../gql/user';
+import { REGISTER, LOGIN, LOGOUT, FILTER_USERS, PERFIL, TOGGLE_ROLE} from '../gql/user';
 
 export interface IUserOperationsAuth extends IOperations{
     login: IOperation;
@@ -7,6 +7,7 @@ export interface IUserOperationsAuth extends IOperations{
     logout:IOperation;
     filterUsers:IOperation;
     perfil:IOperation;
+    toggle: IOperation;
 }  
 
 export const USER_OPERATIONS : IUserOperationsAuth = {
@@ -43,6 +44,10 @@ export const USER_OPERATIONS : IUserOperationsAuth = {
     perfil:{
         resolve:'verUserPerfil',
         gql:PERFIL
+    },
+    toggle:{
+        resolve:'toggleRole',
+        gql:TOGGLE_ROLE
     }
 }
 

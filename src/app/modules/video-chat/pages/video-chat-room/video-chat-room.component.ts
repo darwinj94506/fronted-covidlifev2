@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserFacade, SeguimientoFacade } from '../../../../store/facade';
 import { IdIn } from '../../../../core/domain/inputs';
 import { FiltrarSeguimientoOut, UserPerfilOut } from '../../../../core/domain/outputs';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AgoraClient, ClientEvent, NgxAgoraService, Stream, StreamEvent } from 'ngx-agora';
+import { ToastService } from '../../../../services';
+
 @Component({
   selector: 'app-video-chat-room',
   templateUrl: './video-chat-room.component.html',
   styleUrls: ['./video-chat-room.component.css']
 })
-export class VideoChatRoomComponent implements OnInit {
+export class VideoChatRoomComponent implements OnInit, OnDestroy {
 
   seguimientoPorAtender : FiltrarSeguimientoOut = history.state.data;
   userProfile$ : Observable<UserPerfilOut>;
@@ -23,6 +25,7 @@ export class VideoChatRoomComponent implements OnInit {
   private uid: number;
 
   constructor( private _userFacade: UserFacade,
+               private _toastService: ToastService,
                private _ngxAgoraService: NgxAgoraService ) {
                 this.uid = Math.floor(Math.random() * 100);
               }
@@ -91,6 +94,7 @@ export class VideoChatRoomComponent implements OnInit {
       if (!this.remoteCalls.length) {
         this.remoteCalls.push(id);
         this.remoteStreams.push(stream);
+        this._toastService.showSuccess("Se ha establecido comunicación con éxito");
         setTimeout(() => stream.play(id), 1000);
       }
     });
@@ -159,10 +163,14 @@ export class VideoChatRoomComponent implements OnInit {
       //   this.remoteCalls = [];
       //   this.remoteStreams = [];
       // }
+      this._toastService.showInfo('Se ha terminado la video llamada con éxito');
       console.log("client leaves channel success");
     },(err)=>{
         console.log("channel leave failed");
         console.error(err);
     });
+  }
+  ngOnDestroy(){
+    this.terminarLlamada()
   }
 } 

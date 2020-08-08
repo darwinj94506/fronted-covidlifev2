@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as userActions from '../actions/user.actions';
-import { IdIn, AsignarRoleIn } from '../../core/domain/inputs';
-import { UserPerfilOut, FiltrarSeguimientoOut } from '../../core/domain/outputs';
-import { AppState, selectUserPerfil, selectLoadingUserPerfile, selectLoadingMiPerfil, selectMiPerfil} from '../app.reducer';
+import { IdIn, AsignarRoleIn, FilterUserIn } from '../../core/domain/inputs';
+import { RolesUserEnum } from '../../core/domain/enums';
+import { UserPerfilOut, FiltrarSeguimientoOut, VORoleHospitalPopulateLoginOut, FilterUserOut } from '../../core/domain/outputs';
+import { AppState, selectUserPerfil, selectLoadingUserPerfile, selectLoadingMiPerfil, selectMiPerfil, selectSearchingUsers, selectFindedUsers} from '../app.reducer';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -47,7 +48,24 @@ export class UserFacade {
   dispatchActionAsignarRole(roles: AsignarRoleIn):void{
     this.store.dispatch(userActions.asignarRoles({roles}))
   }
-  dispatchActionOpenModalAsignarRole(roles: AsignarRoleIn):void{
-    this.store.dispatch(userActions.openModalAsignarRoles({roles}))
+  dispatchActionOpenModalAsignarRole(hospitalRoles: VORoleHospitalPopulateLoginOut, idUsuario:String):void{
+    this.store.dispatch(userActions.openModalAsignarRoles({hospitalRoles, idUsuario}))
   }
+
+  distpachActionSearchUser(filter: FilterUserIn){
+    this.store.dispatch(userActions.searchUser({filter}))
+  }
+
+  distpachActionOpenModalSearchUser():void{
+    this.store.dispatch(userActions.openModalSearchUser())
+  }
+
+  getFindedUsersFromStore(): Observable<FilterUserOut[]>{
+    return this.store.select(selectFindedUsers)
+  }
+
+  getSearchingUsersFromStorage(): Observable<boolean>{
+    return this.store.select(selectSearchingUsers)
+  }
+
 }

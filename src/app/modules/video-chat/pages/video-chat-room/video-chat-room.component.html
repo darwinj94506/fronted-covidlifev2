@@ -1,10 +1,11 @@
 <div class="row border h-75 no-gutters">
     <div class="col-8 bg-light border h-100 d-flex justify-content-center overlay-container">
 
-        <div [id]="localCallId" class="border border-danger border-video" #myVideo>
-        </div>
+        <!-- <div [id]="localCallId" class="border border-danger border-video" >
+        </div> -->
+        <!-- <div *ngFor="let callId of remoteCalls" [id]="callId" class="remote border border-danger tamanio"></div> -->
         <!-- [id]="localCallId" -->
-        <!-- <video class="border border-danger w-100 h-100 tamanio"></video> -->
+        <video *ngFor="let callId of remoteCalls" [id]="callId" class="border border-danger w-100 h-100"></video>
 
         <div class="justify-content-center overlay-item">
             <input type="button" value="Video" class="btn btn-sm btn-primary">
@@ -39,6 +40,7 @@
         <!-- <div class="col" *ngFor="let mitronPeer of mitronPeers">
         <video [id]="mitronPeer?.peerId" class="h-100 border border-danger" #peerVideo></video>
     </div> -->
-        <div *ngFor="let callId of remoteCalls" [id]="callId" class="col"></div>
+        <!-- <div *ngFor="let callId of remoteCalls" [id]="callId" class="col"></div> -->
+        <div [id]="localCallId" class="local"></div>
     </div>
 </div>

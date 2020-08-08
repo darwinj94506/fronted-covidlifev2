@@ -4,12 +4,11 @@ import { UseCase } from '../base/use-case';
 import { Observable } from 'rxjs';
 import { FilterUserIn } from '../domain/inputs';
 import { FilterUserOut } from '../domain/outputs';
-
 @Injectable({
   providedIn: 'root'
 })
 
-export class ListarUsuariosUseCase implements UseCase<FilterUserIn, FilterUserOut[]> {
+export class BuscarUsuarioUseCase implements UseCase<FilterUserIn, FilterUserOut[]> {
 
   constructor(private _userRepositorio: UsuarioRepository) { }
   

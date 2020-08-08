@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h4 class="modal-title">Agregar usuarios</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="d-flex mb-3 mt-3">
+
+            <input type="text" class="form-control" placeholder="email" #input>
+            <div *ngIf="isLoading$ | async as isLoading">Buscando...</div>
+
+        </div>
+        <ng-container *ngIf="findedUsers$ | async as users">
+            <div class="list-group">
+                <a class="list-group-item list-group-item-action flex-column align-items-start active" *ngFor="let user of users">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{user.name}} {{user.lastname}}</h5>
+                        <small (click)="addToHospital(user)">Agregar</small>
+                    </div>
+                    <p class="mb-1">{{user.email}}</p>
+                    <small>{{user.ci}}</small>
+                </a>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+</div>

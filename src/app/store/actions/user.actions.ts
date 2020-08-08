@@ -1,6 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { IdIn, AsignarRoleIn } from '../../core/domain/inputs';
-import { UserPerfilOut, FiltrarSeguimientoOut, AsignarRoleOut } from '../../core/domain/outputs';
+import { IdIn, AsignarRoleIn, FilterUserIn } from '../../core/domain/inputs';
+import { UserPerfilOut, FiltrarSeguimientoOut, AsignarRoleOut,VORoleHospitalPopulateLoginOut,
+  FilterUserOut } from '../../core/domain/outputs';
+import { RolesUserEnum } from '../../core/domain/enums';
 
 export const loadMiPerfil = createAction(
   '[User] Load Mi Perfil',
@@ -43,6 +45,10 @@ export const openModalPatient = createAction(
   props<{ seguimiento: FiltrarSeguimientoOut }>()
 )
 
+export const openModalSearchUser = createAction(
+  '[User] Open Modal Search User'
+)
+
 export const asignarRoles = createAction(
   '[User] Asignar Roles',
   props<{ roles: AsignarRoleIn }>()
@@ -60,5 +66,21 @@ export const asignarRolesError = createAction(
 
 export const openModalAsignarRoles = createAction(
   '[User] Open Modal Asignar Roles',
-  props<{ roles: AsignarRoleIn }>()
+  props<{ hospitalRoles: VORoleHospitalPopulateLoginOut, idUsuario:String }>()
+)
+
+
+export const searchUser = createAction(
+  '[User] Search User',
+  props<{ filter: FilterUserIn }>()
+)
+
+export const searchUserSuccess = createAction(
+  '[User] Search User Success',
+  props<{ findedUsers: FilterUserOut[] }>()
+)
+
+export const searchUserError = createAction(
+  '[User] Search User Error',
+  props<{ error: String }>()
 )

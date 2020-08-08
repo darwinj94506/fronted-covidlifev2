@@ -1,11 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as authActions  from '../actions/main.actions';
 import { IUsuarioEntity } from '../../core/domain/entities';
-import { LoginOut, VORoleHospitalPopulateLoginOut } from '../../core/domain/outputs';
+import { LoginOut, VORoleHospitalPopulateLoginOut, FilterUserOut } from '../../core/domain/outputs';
 export interface MainState {
   userLogged: LoginOut;
   isLoading: boolean;
-  users : IUsuarioEntity[];
+  users : FilterUserOut[];
   isLoadingUsers: boolean; 
   hospitalSession: VORoleHospitalPopulateLoginOut;
 }

@@ -14,7 +14,8 @@ import { UserModalComponent } from './pages/user-modal/user-modal.component';
 import { PatientFormComponent } from './components/patient-form/patient-form.component';
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { RoleModalComponent } from './pages/role-modal/role-modal.component';
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+import { SearchInviteModalComponent } from './pages/search-invite-modal/search-invite-modal.component';
+
 export const PROFILE_ROUTES: Routes = [
 	{
 		path: '', component: ProfilePageComponent,
@@ -32,11 +33,11 @@ export const PROFILE_ROUTES: Routes = [
      PatientFormComponent,
      UserFormComponent,
      UserModalComponent,
-     RoleModalComponent ],
+     RoleModalComponent,
+     SearchInviteModalComponent ],
   imports: [
     CommonModule,
     NgbModule,
-    AngularMultiSelectModule,
     FormsModule, ReactiveFormsModule,
     RouterModule.forChild(PROFILE_ROUTES),
   ],
@@ -48,18 +49,19 @@ export const PROFILE_ROUTES: Routes = [
     NgbModule, 
     NgbModalModule,
     FormsModule,
-    AngularMultiSelectModule,
     AtenderSeguimientoComponent, 
     ReactiveFormsModule,
     PatientFormComponent,
     UserFormComponent,
     UserModalComponent,
-    RoleModalComponent
+    RoleModalComponent,
+    SearchInviteModalComponent
   ],
   entryComponents:[
     PatientModalComponent,
     UserModalComponent,
-    RoleModalComponent
+    RoleModalComponent,
+    SearchInviteModalComponent
   ]
 })
 export class ProfileModule { }

@@ -30,6 +30,8 @@ export const selectMiPerfil = createSelector(selectUserState,(state: UserState) 
 export const selectLoadingMiPerfil = createSelector(selectUserState,(state: UserState) => state.isLoadingMiPerfil);
 export const selectUserPerfil = createSelector(selectUserState,(state: UserState) => state.userPerfil);
 export const selectLoadingUserPerfile = createSelector(selectUserState,(state: UserState) => state.isLoadingPerfilUser);
+export const selectFindedUsers = createSelector(selectUserState,(state: UserState) => state.findedUsers);
+export const selectSearchingUsers = createSelector(selectUserState,(state: UserState) => state.isSearchingUsers);
 
 export const selectSeguimientoState = (state: AppState) => state.seguimiento;
 export const selectSeguimientosAgendados = createSelector(selectSeguimientoState,(state: fromSeguimientoReducer.SeguimientoState) => state.seguimientosAgendados);

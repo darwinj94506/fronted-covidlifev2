@@ -20,7 +20,7 @@ export class ProfilePageComponent implements OnInit {
         this._userFacade.loadMiPerfil(id)
       })
 
-    this.userPerfil$ = this._userFacade.getPerfilUser()
+    this.userPerfil$ = this._userFacade.getMiPerfil()
   } 
 
 }

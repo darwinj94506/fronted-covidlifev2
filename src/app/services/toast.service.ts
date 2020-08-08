@@ -13,4 +13,7 @@ export class ToastService {
     this.toastr.error(msg);
     }
 
+    showInfo(msg) {
+        this.toastr.info(msg);
+    }
 }

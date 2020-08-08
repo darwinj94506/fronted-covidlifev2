@@ -4,7 +4,7 @@ import { ICredentialsInput, SignupIn, IdIn } from '../domain/inputs';
 import { UserPerfilOut } from '../domain/outputs'; 
 import { Observable } from 'rxjs';
 import { FilterUserIn, AsignarRoleIn } from '../domain/inputs';
-import { LoginOut, AsignarRoleOut } from '../domain/outputs';
+import { LoginOut, AsignarRoleOut, FilterUserOut } from '../domain/outputs';
 
 export abstract class UsuarioRepository extends GenericRepository<IUsuarioEntity> {
     
@@ -17,7 +17,7 @@ export abstract class UsuarioRepository extends GenericRepository<IUsuarioEntity
     abstract logout(): Observable<boolean>;
     // abstract logout(): Observable<String>;
 
-    abstract allUsers(filter: FilterUserIn): Observable<IUsuarioEntity[]>;
+    abstract allUsers(filter: FilterUserIn): Observable<FilterUserOut[]>;
 
     abstract verPerfil( filter: IdIn) : Observable<UserPerfilOut>;
 

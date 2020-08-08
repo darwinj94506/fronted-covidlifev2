@@ -6,3 +6,4 @@ export { LogoutUsecase } from './logout.usecase';
 export { ListarUsuariosUseCase } from './listar-usuarios.usecase';
 export { VerPerfilUseCase } from './ver-perfil.usecase';
 export { AsignarRolesUseCase } from './asignar-roles.usecase';
+export { BuscarUsuarioUseCase } from './buscar-usuario.usecase';

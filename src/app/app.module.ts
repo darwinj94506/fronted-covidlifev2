@@ -49,6 +49,8 @@ import { UsuarioRepository,
 import { InitComponent } from './init/init.component';
 
 import { NgxAgoraModule } from 'ngx-agora';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -81,6 +83,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgbModule,
     Ng2SearchPipeModule,
     GraphQLModule,
+    AngularMultiSelectModule,
     RouterModule.forRoot(Approutes),
     PerfectScrollbarModule,
     NgxAgoraModule.forRoot({ AppID: environment.agora.appId }),

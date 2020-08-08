@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RolesUserEnum } from '../../../../core/domain/enums';
-import { IUsuarioEntity } from '../../../../core/domain/entities/usuario.entity';
 import { MainFacade } from '../../../../store/facade/main.facade';
 import { Observable } from 'rxjs';
-import { FilterUserIn } from '../../../../core/domain/inputs'
+import { FilterUserIn } from '../../../../core/domain/inputs';
+import { FilterUserOut } from '../../../../core/domain/outputs';
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
@@ -12,7 +12,7 @@ import { FilterUserIn } from '../../../../core/domain/inputs'
 export class StaffComponent implements OnInit {
 
   tableForRolAdmin : RolesUserEnum.ADMIN;
-  users$: Observable<IUsuarioEntity[]>;
+  users$: Observable<FilterUserOut[]>;
   constructor(private _mainFacade: MainFacade) {
   }
 

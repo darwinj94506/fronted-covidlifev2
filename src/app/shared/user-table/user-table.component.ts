@@ -1,10 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IUsuarioEntity } from '../../core/domain/entities';
 import { RolesUserEnum } from '../../core/domain/enums';
 import { Observable } from 'rxjs';
-import { UserFacade } from '../../store/facade';
-
-import { AsignarRoleIn } from '../../core/domain/inputs'
+import { UserFacade, MainFacade } from '../../store/facade';
+import { FilterUserOut, VORoleHospitalPopulateLoginOut } from '../../core/domain/outputs';
 @Component({
   selector: 'app-user-table',
   templateUrl: './user-table.component.html',
@@ -14,11 +12,11 @@ export class UserTableComponent implements OnInit {
 
   @Input() tableFor: RolesUserEnum; 
 
-  @Input() users$ : Observable<IUsuarioEntity[]>;  
+  @Input() users$ : Observable<FilterUserOut[]>;  
     
   searchItem : string = ""; 
 
-  constructor(private _userFacade:UserFacade )   {
+  constructor(private _userFacade:UserFacade, private _mainFacade:MainFacade)   {
   }
 
   ngOnInit(): void {
@@ -45,9 +43,16 @@ export class UserTableComponent implements OnInit {
 
   }
 
-  openModalAsignarRoles(){
-    let roles :AsignarRoleIn = {idUser:'', idHospital:'', role:RolesUserEnum.DOCTOR}
-    this._userFacade.dispatchActionOpenModalAsignarRole(roles)
+  openModalAsignarRoles(user: FilterUserOut){
+    this._mainFacade.getHospitalSesion()
+      .subscribe(hospitalSession=>{
+        let rolesHospital: VORoleHospitalPopulateLoginOut = user.roles.find(obj=> obj.idHospital._id === hospitalSession.idHospital._id)
+        this._userFacade.dispatchActionOpenModalAsignarRole(rolesHospital,user._id)
+    })
+  }
+
+  openModalSearchAddUsers(){
+    this._userFacade.distpachActionOpenModalSearchUser();
   }
   
 }

@@ -6,7 +6,7 @@ import { USER_OPERATIONS } from '../../../graphq';
 import { IUsuarioEntity } from '../../../../core/domain/entities';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LoginOut, UserPerfilOut, AsignarRoleOut} from 'src/app/core/domain/outputs';
+import { LoginOut, UserPerfilOut, AsignarRoleOut, FilterUserOut} from 'src/app/core/domain/outputs';
 
 @Injectable({ providedIn:'root'})
 export class UserMDBRepository extends MongoDBRepository<IUsuarioEntity> implements UsuarioRepository{
@@ -43,7 +43,7 @@ export class UserMDBRepository extends MongoDBRepository<IUsuarioEntity> impleme
         return of(true)
     }
 
-    allUsers(filtro: FilterUserIn):Observable<IUsuarioEntity[]>{
+    allUsers(filtro: FilterUserIn):Observable<FilterUserOut[]>{
         return this.apollo
             .watchQuery(
             { 
@@ -69,17 +69,16 @@ export class UserMDBRepository extends MongoDBRepository<IUsuarioEntity> impleme
                 map(( { data } ) => data[USER_OPERATIONS.perfil.resolve] ))
     }
 
-    asignarRole():Observable<AsignarRoleOut>{
-        return this.apollo
-        .watchQuery(
-        { 
-            query: USER_OPERATIONS.perfil.gql,
-            // variables:{
-            //     data:id
-            // }
-        })
-        .valueChanges.pipe(
-            map(( { data } ) => data[USER_OPERATIONS.perfil.resolve] ))
+    asignarRole(roleIn: AsignarRoleIn):Observable<AsignarRoleOut>{
+
+        return this.apollo.mutate({
+            mutation: USER_OPERATIONS.toggle.gql,
+            variables: {
+                data: roleIn
+            },
+        }).pipe(
+            map(( { data } )=> data[USER_OPERATIONS.toggle.resolve] )) 
+
     }
 
 }

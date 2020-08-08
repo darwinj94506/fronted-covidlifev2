@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RolesUserEnum } from '../../../../core/domain/enums';
-import { IUsuarioEntity } from '../../../../core/domain/entities/usuario.entity';
+import { FilterUserOut } from '../../../../core/domain/outputs';
 import { MainFacade } from '../../../../store/facade/main.facade';
 import { Observable } from 'rxjs';
 
@@ -13,15 +13,12 @@ import { Observable } from 'rxjs';
 export class AdministratorsComponent implements OnInit{
     
     tableForRolAdmin : RolesUserEnum.ADMIN;
-    users$: Observable<IUsuarioEntity[]>;
+    users$: Observable<FilterUserOut[]>;
     constructor(private _mainFacade: MainFacade) {
     }
 
     ngOnInit() {
       this._mainFacade.loadUsers({});
       this.users$ = this._mainFacade.getUsers()
-
     }
- 
- 
 }

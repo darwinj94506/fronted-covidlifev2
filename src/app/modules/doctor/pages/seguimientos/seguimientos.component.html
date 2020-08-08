@@ -11,14 +11,13 @@
         </div>
     </div>
     <div class="container" id="segConLlamada" dragula="SEGUIMIENTOS" [(dragulaModel)]="segConLlamada">
-        Solicitando llamada
+        Solicitando video llamada
         <div class="vamp" *ngFor="let seg of segConLlamada">
             <h5> {{ seg?.idPaciente.name }} {{ seg?.idPaciente.lastname }}</h5>
             <small>{{seg?.estado}}</small>
             <p>{{seg?.estado_diario_paciente}}</p>
             <small>{{seg?.idHospital.nombre}}</small>
             <p>{{seg.nota_paciente}}</p>
-            <button (click)="goToVideoCalling(seg)">Atender</button>
         </div>
     </div>
 
@@ -30,6 +29,7 @@
             <p>{{seg?.estado_diario_paciente}}</p>
             <small>{{seg?.idHospital.nombre}}</small>
             <p>{{seg.nota_paciente}}</p>
+            <button (click)="goToVideoCalling(seg)">Atender</button>
         </div>
     </div>
 

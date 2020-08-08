@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { IUsuarioEntity } from '../../core/domain/entities';
 import { FilterUserIn } from '../../core/domain/inputs';
-import { LoginOut, VORoleHospitalPopulateLoginOut } from '../../core/domain/outputs';
+import { LoginOut, VORoleHospitalPopulateLoginOut, FilterUserOut } from '../../core/domain/outputs';
 
 export const loadUserLogged = createAction(
   '[Main] Load User Logged'
@@ -34,7 +34,7 @@ export const loadUsers = createAction(
 
 export const loadUsersSuccess = createAction(
   '[Main] Load Users Success',
-  props<{ users: IUsuarioEntity [] }>()
+  props<{ users: FilterUserOut [] }>()
 )
 
 export const loadUsersError = createAction(

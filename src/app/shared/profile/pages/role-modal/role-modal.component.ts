@@ -1,49 +1,68 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { Formulario } from '../../../../core/domain/class/formulario';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MainFacade } from '../../../../store/facade/main.facade';
+import { UserFacade } from '../../../../store/facade';
 import { RolesUserEnum } from '../../../../core/domain/enums';
+import { AsignarRoleIn } from '../../../../core/domain/inputs';
+import { VORoleHospitalPopulateLoginOut } from '../../../../core/domain/outputs';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-role-modal',
   templateUrl: './role-modal.component.html',
   styleUrls: ['./role-modal.component.css']
 })
 
-export class RoleModalComponent extends Formulario implements OnInit {
-  roleForm: FormGroup;
-  dropdownList = [];
-  selectedItems = [];
-  dropdownSettings = {};
- 
-  constructor(public modal: NgbActiveModal, private fb: FormBuilder, private _mainFacade:MainFacade) { 
-    super({})
-  }
+export class RoleModalComponent implements OnInit {
 
-  ngOnInit(): void {
-    this.dropdownSettings = { 
-      singleSelection: false, 
-      text:"Seleccione Roles",
-      selectAllText:'Seleccionar todo',
-      unSelectAllText:'Limpiar',
-      enableSearchFilter: true,
-      classes:"myclass custom-class"
-    };
+  @Input() idUsuario: String;
+  @Input() hospitalRoles: VORoleHospitalPopulateLoginOut;
 
-    this.dropdownList = [RolesUserEnum.DOCTOR, RolesUserEnum.DIRECTOR, RolesUserEnum.PACIENTE, RolesUserEnum.ADMIN]  
-  }
-
-  initForm(){
-    this._mainFacade.getHospitalSesion().subscribe(hospital=> {
-      this.roleForm = this.fb.group({
-        roles: [ hospital.roles ],
-      });
-    })
-  }
-
-  onSubmit(){
+  constructor(public modal: NgbActiveModal, private fb: FormBuilder, private _userFacade:UserFacade) { 
     
+  }
 
+  form: FormGroup;
+
+  rolesData = [
+    RolesUserEnum.DOCTOR,
+    RolesUserEnum.DIRECTOR,
+    RolesUserEnum.PACIENTE,
+    RolesUserEnum.ADMIN 
+  ];
+
+  get rolesFormArray() {
+    return this.form.controls.roles as FormArray;
+  }
+
+  ngOnInit(): void {    
+    this.form = this.fb.group({
+      roles: new FormArray([])
+    });
+
+    this.addCheckboxes();
+    // console.log(this.hospitalRoles);
+    // this.form = new FormGroup({
+    //   items: new FormControl(this.hospitalRoles.roles)
+    // });
+  }
+
+  
+
+  private addCheckboxes() {
+    this.rolesData.forEach((rol) => {
+        this.rolesFormArray.push(this.hospitalRoles.roles.includes(rol)? new FormControl(true):new FormControl(false))
+    });
+  }
+
+  
+  onSubmit(role: RolesUserEnum){
+    console.log(role);
+    let asignarRoleIn: AsignarRoleIn = {
+      idUser: this.idUsuario,
+      idHospital: this.hospitalRoles.idHospital._id,
+      role: role
+    }
+    this._userFacade.dispatchActionAsignarRole(asignarRoleIn)
   }
 
 }

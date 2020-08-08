@@ -1,11 +1,13 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as userActions  from '../actions/user.actions';
-import { UserPerfilOut } from '../../core/domain/outputs';
+import { UserPerfilOut, FilterUserOut } from '../../core/domain/outputs';
 export interface UserState {
   isLoadingMiPerfil: boolean;
   isLoadingPerfilUser: boolean; 
+  isSearchingUsers:boolean;
   miPerfil: UserPerfilOut,
-  userPerfil: UserPerfilOut 
+  userPerfil: UserPerfilOut,
+  findedUsers: FilterUserOut[]
 }
 
 
@@ -27,8 +29,10 @@ const userInit: UserPerfilOut = {
 export const initialState: UserState = {
   isLoadingMiPerfil: false,
   isLoadingPerfilUser: false,
+  isSearchingUsers:false,
   miPerfil: {...userInit},
-  userPerfil: { ...userInit}
+  userPerfil: { ...userInit},
+  findedUsers: []
 };
 
 const userReducer = createReducer(
@@ -58,6 +62,20 @@ const userReducer = createReducer(
   on(userActions.loadPerfilUserError, state => ({
     ...state,
     isLoadingPerfilUser:false,
+  })),
+
+  on(userActions.searchUser, (state) => ({
+    ...state,
+    isSearchingUsers:true,
+  })),
+  on(userActions.searchUserSuccess, (state, payload) => ({
+    ...state,
+    findedUsers:payload.findedUsers,
+    isSearchingUsers:false
+  })),
+  on(userActions.searchUserError, state => ({
+    ...state,
+    isSearchingUsers:false,
   })),
 
 );

@@ -37,6 +37,10 @@ export class SeguimientoFacade {
     this.store.dispatch(seguimientoActions.loadCitasPaciente({filter}))
   } 
 
+  dispatchActionSendNotificationVideoLlamada(tokenMovil:String, idSeguimiento:String):void{
+    this.store.dispatch(seguimientoActions.sendNotificationVideoLlamada({tokenMovil, idSeguimiento}))
+  } 
+
   getCitasPacienteFromStore():Observable<FiltrarSeguimientoOut[]>{
     return this.store.select(selectCitasPacientes)
   }

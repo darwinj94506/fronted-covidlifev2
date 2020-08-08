@@ -3,7 +3,7 @@ import { Actions, Effect, ofType  } from '@ngrx/effects';
 import { catchError, map, switchMap, tap, mergeMap} from 'rxjs/operators';
 import { Observable, from, of} from 'rxjs';
 import * as seguimientoActions  from '../actions/seguimiento.actions';
-import { ToastService } from '../../services';
+import { ToastService, NotificationService } from '../../services';
 import { SolicitarSeguimentoUseCase,
          VerCitasUseCase } from '../../core/usecases/paciente';
 import { MacarSeguimientoComoAtendido,
@@ -13,8 +13,6 @@ import { SeguimientoEstadoEnum } from '../../core/domain/enums'
 import { FiltrarSeguimientoIn } from '../../core/domain/inputs'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MainFacade } from '../facade';
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class SeguimientoEffects {
     constructor( private actions$: Actions, 
@@ -26,7 +24,7 @@ export class SeguimientoEffects {
         private _verSeguimientosAgendadosUseCase: VerSeguimientosAgendadosUseCase,
         private _verCitasUseCase:VerCitasUseCase,
         private _mainFacade : MainFacade,
-        private httpClient: HttpClient
+        private _notificationService:NotificationService
          ) { }
    
     @Effect()
@@ -55,7 +53,6 @@ export class SeguimientoEffects {
             .pipe(
                 map(scheduledSeguimiento => {
                     this._toastService.showSuccess(`Agendado con éxito`);
-                    // this.sendNotification(payload.tokenMovil);
                     return seguimientoActions.agendarSeguimientoSuccess({scheduledSeguimiento, tokenMovil: payload.tokenMovil})
                              
                 }),
@@ -67,22 +64,39 @@ export class SeguimientoEffects {
             )),
         tap( _=> this._spinner.hide()))
 
-        @Effect()
-        agendarSeguimientosExito: Observable<any> = this.actions$.pipe(
-            ofType(seguimientoActions.agendarSeguimientoSuccess),
-            switchMap((payload) => this.sendNotification(payload.tokenMovil)
-                .pipe(
-                    map(msg => {
-                        return seguimientoActions.sendNotificationAgendadoSuccess({msg})
-                    }),
-                    catchError( error => {
-                        // this._toastService.showError(`Error al atender, por inténtelo nuevamente, Error:${error.message}`);
-                        return of( seguimientoActions.sendNotificationAgendadoError({error: error.message}))
-                        }
-                    )
-                    
-                )),
-            )
+    @Effect()
+    agendarSeguimientosExito: Observable<any> = this.actions$.pipe(
+        ofType(seguimientoActions.agendarSeguimientoSuccess),
+        switchMap((payload) => this._notificationService.sendMovilNotification(payload.tokenMovil,
+                '* ¡Su solicitud ha sido aceptada por un médico! * Esté pendiente, en un momento el doctor se comunicará con  usted *',
+                'Aviso')
+            .pipe(
+                map(msg => {
+                    return seguimientoActions.sendNotificationAgendadoSuccess({msg})
+                }),
+                catchError( error => {
+                    return of( seguimientoActions.sendNotificationAgendadoError({error: error.message}))
+                    }
+                )
+                
+            )),
+        )
+    @Effect()
+    enviarNotificacionVideoLlamada: Observable<any> = this.actions$.pipe(
+        ofType(seguimientoActions.sendNotificationVideoLlamada),
+        switchMap((payload) => this._notificationService.sendMovilNotification(payload.tokenMovil,
+                '* Por favor unase a la video llamada, un médico lo está esperando *',
+                'Importante')
+            .pipe(
+                map(msg => {
+                    return seguimientoActions.sendNotificationVideoLlamadaSuccess({msg})
+                }),
+                catchError( error => {
+                    return of( seguimientoActions.sendNotificationVideoLlamadaError({error: error.message}))
+                    }
+                ) 
+            )),
+        )
 
     @Effect()
     atender: Observable<any> = this.actions$.pipe(
@@ -107,14 +121,10 @@ export class SeguimientoEffects {
         ofType(seguimientoActions.loadSeguimientosAgendados),
         tap( _=> this._spinner.show()),
         switchMap( _=> this._mainFacade.getHospitalSesion()),
-        switchMap( hospitalSession => {
-            let today = new Date();
-            // today.setHours(0,0,0,0);
- 
+        switchMap( hospitalSession => { 
             let filter: FiltrarSeguimientoIn = {
-                
                 fechaUltimos:{ 
-                    createAt: today,
+                    createAt: new Date(),
                     isUltimos: true,
                     AndIdHospital:hospitalSession.idHospital._id,
                     AndEstado: SeguimientoEstadoEnum.AGENDADO
@@ -151,40 +161,4 @@ export class SeguimientoEffects {
                 )}),
         tap( _=> this._spinner.hide()))
 
-    sendNotification(token:String){
-        const httpOptions = {
-            headers: new HttpHeaders({
-              'Content-Type':  'application/json',
-              Authorization: 'key=AAAAPF0UZl8:APA91bHpp0-YTRUkw3euurLDJbu6ds62sbI-Jx6YLPO5nSWCt4XvfODXpxZuSnF0EFMHCXf6Gn0O4n0ZwS8gurbo3xo_gPJcWDdrd_l5mQJfm3usipKp9u1CxW-A2eamYsdcMCKohHuU'
-            })
-          };
-
-        return this.httpClient.post<any>('https://fcm.googleapis.com/fcm/send', {            
-                to: token,
-                priority:"high",
-                notification: {
-                    body:" * ¡Su solicitud ha sido aceptada por un médico! * Esté pendiente, en un momento el doctor se comunicará con  usted *",
-                    title:"Recordatorio","sound":"default"
-                },
-                data: { enlace:"https://us04web.zoom.us/j/73090944667?pwd=bkZUNXdDdGhXNmdQajJPRGoxVmVoQT13"}
-                }, httpOptions );
-
-    }
-
 }
-
-
-// return $.ajax(settings).done(function (response) {
-//     console.log(response);
-// })
-
-// var settings = {
-        //     "url": "https://fcm.googleapis.com/fcm/send",
-        //     "method": "POST",
-        //     "timeout": 0,
-        //     "headers": {
-        //     "Authorization": "key=AAAAPF0UZl8:APA91bHpp0-YTRUkw3euurLDJbu6ds62sbI-Jx6YLPO5nSWCt4XvfODXpxZuSnF0EFMHCXf6Gn0O4n0ZwS8gurbo3xo_gPJcWDdrd_l5mQJfm3usipKp9u1CxW-A2eamYsdcMCKohHuU",
-        //     "Content-Type": "application/json"
-        //     },
-        //     "data": JSON.stringify({"to":token,"priority":"high","notification":{"body":" * ¡Sus signos vitales han sido ingresados con éxito! * Si es necesario nos comunicaremos contigo ** ¡Recuerda!  Los signos vitales se ingresan a las 6H00, 12h00 y 18H00.","title":"Recordatorio","sound":"default"},"data":{"enlace":"https://us04web.zoom.us/j/73090944667?pwd=bkZUNXdDdGhXNmdQajJPRGoxVmVoQT13"}}),
-        // };

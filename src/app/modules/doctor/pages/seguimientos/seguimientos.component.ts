@@ -154,8 +154,8 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     }
   }
 
-  goToVideoCalling(seguimiento){
+  goToVideoCalling(seguimiento:FiltrarSeguimientoOut){
+    this._seguimientoFacade.dispatchActionSendNotificationVideoLlamada(seguimiento.idPaciente.token_notificacion_movil, seguimiento._id)
     this._router.navigate(['/video-llamada'], {state: {data: {...seguimiento}}});
   }
-
 }

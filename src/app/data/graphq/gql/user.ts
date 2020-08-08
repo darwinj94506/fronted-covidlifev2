@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 export const LOGIN = gql `
 mutation loginUser($data: LoginIn!){
   loginUser(data:$data){
+    _id
     name
     lastname
     ci
@@ -49,7 +50,18 @@ export const FILTER_USERS = gql`
       name
       lastname
       ci
+      email
+      state
+      roles{
+        roles
+        idHospital{
+          _id
+        }
+      }
       telefono
+      ultimoAcceso
+      genero
+      direccion
     }
   }
 `;
@@ -101,3 +113,11 @@ query verUserPerfil($data:IdIn!){
 }
 
 `;
+
+export const TOGGLE_ROLE = gql `
+  mutation toggleRole($data: AsignarRoleIn!){
+    toggleRole(data:$data){
+      _id
+      name
+    }
+}`; 
