@@ -12,18 +12,27 @@
             <div *ngIf="isLoading$ | async as isLoading">Buscando...</div>
 
         </div>
-        <ng-container *ngIf="findedUsers$ | async as users">
+    </div>
+    <div class="row">
+
+        <div class="col col-md-12">
             <div class="list-group">
-                <a class="list-group-item list-group-item-action flex-column align-items-start active" *ngFor="let user of users">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{user.name}} {{user.lastname}}</h5>
-                        <small (click)="addToHospital(user)">Agregar</small>
+                <ng-container *ngIf="findedUsers$ | async as users">
+                    <div class="list-group-item list-group-item-action flex-column align-items-start" *ngFor="let user of users">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{user.name}} {{user.lastname}}</h5>
+                            <a (click)="addToHospital(user)" class="btn btn-success" *ngIf="!isAdded(user)">Agregar</a>
+                            <a class="btn btn-info" *ngIf="isAdded(user)">Ya está agregado</a>
+                        </div>
+                        <p class="mb-1">{{user.email}}</p>
+                        <small>{{user.ci}}</small>
                     </div>
-                    <p class="mb-1">{{user.email}}</p>
-                    <small>{{user.ci}}</small>
-                </a>
+                </ng-container>
             </div>
-        </ng-container>
+
+        </div>
+
+
     </div>
 </div>
 <div class="modal-footer">

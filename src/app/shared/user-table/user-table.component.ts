@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { RolesUserEnum } from '../../core/domain/enums';
 import { Observable } from 'rxjs';
 import { UserFacade, MainFacade } from '../../store/facade';
-import { FilterUserOut, VORoleHospitalPopulateLoginOut } from '../../core/domain/outputs';
+import { FilterUserOut, VORoleHospitalPopulateOut } from '../../core/domain/outputs';
 @Component({
   selector: 'app-user-table',
   templateUrl: './user-table.component.html',
@@ -46,7 +46,7 @@ export class UserTableComponent implements OnInit {
   openModalAsignarRoles(user: FilterUserOut){
     this._mainFacade.getHospitalSesion()
       .subscribe(hospitalSession=>{
-        let rolesHospital: VORoleHospitalPopulateLoginOut = user.roles.find(obj=> obj.idHospital._id === hospitalSession.idHospital._id)
+        let rolesHospital: VORoleHospitalPopulateOut = user.roles.find(obj=> obj.idHospital._id === hospitalSession.idHospital._id)
         this._userFacade.dispatchActionOpenModalAsignarRole(rolesHospital,user._id)
     })
   }
