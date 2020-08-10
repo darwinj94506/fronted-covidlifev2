@@ -1,0 +1,24 @@
+.container_table {
+    /* max-width: 40em; */
+    /* max-height: 20em; */
+    overflow: scroll;
+    position: relative;
+}
+  
+table {
+    position: relative;
+    border-collapse: collapse;
+}
+
+tbody td div{
+    width: 150px;
+    text-align: center;
+}
+  
+tbody th {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    left: 0;
+    background: #FFF;
+    border-right: 1px solid #CCC;
+}
