@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { SolicitarSeguimientoOut, AtenderSolicitudSeguimientoOut, AgendarSolicitudSeguimientoOut, FiltrarSeguimientoOut } from '../../core/domain/outputs';
+import { SolicitarSeguimientoOut, AtenderSolicitudSeguimientoOut,
+   AgendarSolicitudSeguimientoOut, FiltrarSeguimientoOut, LoginOut } from '../../core/domain/outputs';
 import { SolicitarSeguimientoIn, AtenderSolicitudSeguimientoIn, AgendarSolicitudSeguimientoIn, FiltrarSeguimientoIn } from '../../core/domain/inputs';
 
 export const createSeguimiento = createAction(
@@ -34,12 +35,12 @@ export const atenderSeguimientoError = createAction(
 
 export const agendarSeguimiento = createAction(
   '[Seguimiento] Agendar Seguimiento',
-  props<{ seguimiento: AgendarSolicitudSeguimientoIn, tokenMovil?:String }>()
+  props<{ seguimiento: FiltrarSeguimientoOut, doctor?: LoginOut }>()
 )
 
 export const agendarSeguimientoSuccess = createAction(
   '[Seguimiento] Agendar Seguimiento Success',
-  props<{ scheduledSeguimiento: AgendarSolicitudSeguimientoOut, tokenMovil?:String }>()
+  props<{ scheduledSeguimiento: AgendarSolicitudSeguimientoOut, seguimiento:FiltrarSeguimientoOut, doctor?:LoginOut }>()
 )
 
 export const agendarSeguimientoError = createAction(
@@ -47,10 +48,10 @@ export const agendarSeguimientoError = createAction(
   props<{ error: String }>()
 )
 
-export const sendNotificationAgendado = createAction(
-  '[Seguimiento] Send Notification Agendado',
-  props<{ tokenMovil?:String }>()
-)
+// export const sendNotificationAgendado = createAction(
+//   '[Seguimiento] Send Notification Agendado',
+//   props<{ tokenMovil?:String }>()
+// )
 
 export const sendNotificationAgendadoSuccess = createAction(
   '[Seguimiento] Send Notification Success',
@@ -64,7 +65,7 @@ export const sendNotificationAgendadoError = createAction(
 
 export const sendNotificationVideoLlamada = createAction(
   '[Seguimiento] Send Notification Video Llamada',
-  props<{ tokenMovil?:String, idSeguimiento: String }>()
+  props<{ seguimiento: FiltrarSeguimientoOut, doctor?:LoginOut }>()
 )
 
 export const sendNotificationVideoLlamadaSuccess = createAction(

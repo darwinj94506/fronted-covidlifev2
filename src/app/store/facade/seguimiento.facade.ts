@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as seguimientoActions from '../actions/seguimiento.actions';
-import { SolicitarSeguimientoIn, AtenderSolicitudSeguimientoIn, AgendarSolicitudSeguimientoIn, FiltrarSeguimientoIn } from '../../core/domain/inputs';
-import { FiltrarSeguimientoOut } from '../../core/domain/outputs';
+import { SolicitarSeguimientoIn, AtenderSolicitudSeguimientoIn, FiltrarSeguimientoIn } from '../../core/domain/inputs';
+import { FiltrarSeguimientoOut, LoginOut } from '../../core/domain/outputs';
 import { AppState, selectSeguimientosAgendados, selectCitasPacientes }from '../app.reducer';
 import { Observable } from 'rxjs';
 
@@ -21,8 +21,8 @@ export class SeguimientoFacade {
     this.store.dispatch(seguimientoActions.atenderSeguimiento({seguimiento}))
   }
 
-  agendarSeguimiento(seguimiento: AgendarSolicitudSeguimientoIn, tokenMovil?:string): void {
-    this.store.dispatch(seguimientoActions.agendarSeguimiento({seguimiento, tokenMovil}))
+  agendarSeguimiento(seguimiento: FiltrarSeguimientoOut, doctor:LoginOut): void {
+    this.store.dispatch(seguimientoActions.agendarSeguimiento({seguimiento, doctor}))
   }
 
   getSeguimientosAgendadosStore():Observable<FiltrarSeguimientoOut[]>{
@@ -37,8 +37,8 @@ export class SeguimientoFacade {
     this.store.dispatch(seguimientoActions.loadCitasPaciente({filter}))
   } 
 
-  dispatchActionSendNotificationVideoLlamada(tokenMovil:String, idSeguimiento:String):void{
-    this.store.dispatch(seguimientoActions.sendNotificationVideoLlamada({tokenMovil, idSeguimiento}))
+  dispatchActionSendNotificationVideoLlamada(seguimiento:FiltrarSeguimientoOut, doctor:LoginOut):void{
+    this.store.dispatch(seguimientoActions.sendNotificationVideoLlamada({seguimiento, doctor}))
   } 
 
   getCitasPacienteFromStore():Observable<FiltrarSeguimientoOut[]>{

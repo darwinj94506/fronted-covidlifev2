@@ -55,10 +55,10 @@ export class MedicalAppointmentsComponent extends Formulario implements OnInit {
   initForm(){
     this.seguimientoForm = this.fb.group({
         temperatura: [ '', [ Validators.required, Validators.pattern("^[0-9]*$"), Validators.min(20), Validators.max(50)] ],
-        ritmo_cardiaco: [ '', [Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],
-        saturacion_oxigeno: [ '', [Validators.pattern("^[0-9]*$"), Validators.min(20), Validators.max(200)] ],
+        ritmo_cardiaco: [ null, [Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],
+        saturacion_oxigeno: [ null, [Validators.pattern("^[0-9]*$"), Validators.min(20), Validators.max(200)] ],
         dificultad_respirar: [ '', [Validators.required]],
-        examen: [''],
+        examen: [null],
         nota_paciente: [ '', [ Validators.maxLength(250)] ],
         estado: ['', Validators.required],
         estado_diario_paciente:['', Validators.required ]

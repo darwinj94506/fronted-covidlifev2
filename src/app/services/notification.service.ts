@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { FiltrarSeguimientoOut, LoginOut } from '../core/domain/outputs';
 const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -14,9 +15,9 @@ export class NotificationService {
     
     constructor(private httpClient: HttpClient){}
    
-    sendMovilNotification(token:String, message:String, title:String, idSeguimiento?: String): Observable<any>{
+    sendMovilNotification(message:String, title:String, seguimiento?: FiltrarSeguimientoOut, doctor?: LoginOut): Observable<any>{
         return this.httpClient.post<any>('https://fcm.googleapis.com/fcm/send', {            
-                to: token,
+                to: seguimiento.idPaciente.token_notificacion_movil,
                 priority:"high",
                 notification: {
                     body: message,
@@ -24,8 +25,10 @@ export class NotificationService {
                     sound: "default"
                 },
                 data: { 
-                    idSeguimiento: idSeguimiento,
-                    click_action: "FLUTTER_NOTIFICATION_CLICK"
+                    idSeguimiento: seguimiento._id,
+                    nombreDoctor: `${doctor.name} ${doctor.lastname}`,
+                    nombrePaciente:`${seguimiento.idPaciente.name} ${seguimiento.idPaciente.lastname}`,
+                    click_action: "FLUTTER_NOTIFICATION_CLICK",
                 }
             }, httpOptions );
     }

@@ -10,7 +10,7 @@ import { MacarSeguimientoComoAtendido,
          VerSeguimientosAgendadosUseCase, 
          MacarSeguimientoComoAgendado } from '../../core/usecases/doctor';
 import { SeguimientoEstadoEnum } from '../../core/domain/enums'
-import { FiltrarSeguimientoIn } from '../../core/domain/inputs'
+import { FiltrarSeguimientoIn, AgendarSolicitudSeguimientoIn } from '../../core/domain/inputs'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MainFacade } from '../facade';
 @Injectable()
@@ -49,27 +49,30 @@ export class SeguimientoEffects {
     agendar: Observable<any> = this.actions$.pipe(
         ofType(seguimientoActions.agendarSeguimiento),
         tap( _=> this._spinner.show()),
-        mergeMap((payload) => this._macarSeguimientoComoAgendado.execute(payload.seguimiento)
-            .pipe(
-                map(scheduledSeguimiento => {
-                    this._toastService.showSuccess(`Agendado con éxito`);
-                    return seguimientoActions.agendarSeguimientoSuccess({scheduledSeguimiento, tokenMovil: payload.tokenMovil})
-                             
-                }),
-                catchError( error => {
-                    this._toastService.showError(`Error al agendar, por inténtelo nuevamente, Error:${error.message}`);
-                    return of( seguimientoActions.agendarSeguimientoError({error: error.message}))
-                    }
-                )
-            )),
+        switchMap((payload) => {
+            let segForAgendar: AgendarSolicitudSeguimientoIn ={ _id: payload.seguimiento._id }
+            return this._macarSeguimientoComoAgendado.execute(segForAgendar)
+                .pipe(
+                    map(scheduledSeguimiento => {
+                        this._toastService.showSuccess(`Agendado con éxito`);
+                        return seguimientoActions.agendarSeguimientoSuccess({scheduledSeguimiento,
+                            seguimiento: payload.seguimiento, doctor:payload.doctor})
+                                
+                    }),
+                    catchError( error => {
+                        this._toastService.showError(`Error al agendar, por inténtelo nuevamente, Error:${error.message}`);
+                        return of( seguimientoActions.agendarSeguimientoError({error: error.message}))
+                        }
+                    )
+                )}),
         tap( _=> this._spinner.hide()))
 
     @Effect()
     agendarSeguimientosExito: Observable<any> = this.actions$.pipe(
         ofType(seguimientoActions.agendarSeguimientoSuccess),
-        switchMap((payload) => this._notificationService.sendMovilNotification(payload.tokenMovil,
-                '* ¡Su solicitud ha sido aceptada por un médico! * Esté pendiente, en un momento el doctor se comunicará con  usted *',
-                'Aviso')
+        switchMap((payload) => this._notificationService.sendMovilNotification(
+            '* ¡Su solicitud ha sido aceptada por un médico!* Esté pendiente, en un momento el doctor se comunicará con  usted *',
+            'Aviso', payload.seguimiento, payload.doctor)
             .pipe(
                 map(msg => {
                     return seguimientoActions.sendNotificationAgendadoSuccess({msg})
@@ -84,9 +87,9 @@ export class SeguimientoEffects {
     @Effect()
     enviarNotificacionVideoLlamada: Observable<any> = this.actions$.pipe(
         ofType(seguimientoActions.sendNotificationVideoLlamada),
-        switchMap((payload) => this._notificationService.sendMovilNotification(payload.tokenMovil,
+        switchMap((payload) => this._notificationService.sendMovilNotification(
                 '* Por favor unase a la video llamada, un médico lo está esperando *',
-                'Importante')
+                'Importante', payload.seguimiento, payload.doctor)
             .pipe(
                 map(msg => {
                     return seguimientoActions.sendNotificationVideoLlamadaSuccess({msg})

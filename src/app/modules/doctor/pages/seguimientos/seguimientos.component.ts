@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 import { DragulaService } from 'ng2-dragula';
 import { Observable, forkJoin, Subject} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FiltrarSeguimientoOut, AtenderSolicitudSeguimientoOut } from '../../../../core/domain/outputs';
+import { FiltrarSeguimientoOut, AtenderSolicitudSeguimientoOut,LoginOut } from '../../../../core/domain/outputs';
 import { FiltrarSeguimientoIn, IdIn, AtenderSolicitudSeguimientoIn, AgendarSolicitudSeguimientoIn } from '../../../../core/domain/inputs';
 import { SeguimientoEstadoEnum, DiagnosticoActualEnum} from '../../../../core/domain/enums';
 import { MainFacade, UserFacade, SeguimientoFacade } from '../../../../store/facade';
@@ -35,6 +35,9 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   segConLlamada = [];
   segAtendidos = [];
   segAgendados = [];
+  userLogged: LoginOut;
+
+  
 
   constructor(
      private dragulaService: DragulaService,
@@ -51,10 +54,11 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.dragulaService.dropModel("SEGUIMIENTOS").subscribe(args => {
       this.makeAction(args);  
     });
-
+ 
 
     forkJoin(this._mainFacade.getHospitalSesion(),this._mainFacade.getUserLogged())
       .subscribe(([hospital, userLogged])=>{
+        this.userLogged = userLogged;
         let filter : FiltrarSeguimientoIn = { 
           fechaUltimos :{
             isUltimos:true,
@@ -75,37 +79,34 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
  
   ngOnInit(){
     this.subscribeToSeguimientos();
-    this.seguimientos.subscribe(data => {
-      let conLlamada = [];
-      let sinLlamda = [];
-      let agendados = [];
-      let atendidos = []; 
-      if(data.loading) this._spinner.show();
-      if(!data.loading) this._spinner.hide();
-      console.log(data);
-      data.data.filterSeguimiento.forEach((seguimiento : FiltrarSeguimientoOut) => {
+    this.seguimientos.subscribe(response => {
+      this.segSinLlamada = [];
+      this.segConLlamada = [];
+      this.segAgendados = [];
+      this.segAtendidos = [];
+      
+      if(response.data.loading) this._spinner.show();
+      if(!response.data.loading) this._spinner.hide();
+      console.log(response);
+      response.data.filterSeguimiento.forEach((seguimiento : FiltrarSeguimientoOut) => {
         switch (seguimiento.estado){
           case SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA:
-            sinLlamda.push(seguimiento);
+            this.segSinLlamada.push(seguimiento);
           break;
           case SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA:
-            conLlamada.push(seguimiento);
+            this.segConLlamada.push(seguimiento);
           break;
           case SeguimientoEstadoEnum.AGENDADO:   
-          agendados.push(seguimiento);
+            this.segAgendados.push(seguimiento);
           break;
           case SeguimientoEstadoEnum.REVISADO_CON_LLAMADA:
-            atendidos.push(seguimiento);
+            this.segAtendidos.push(seguimiento);
           break;
           case SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
-            atendidos.push(seguimiento);
+            this.segAtendidos.push(seguimiento);
           break;
         } 
       });
-      this.segAgendados = agendados;
-      this.segConLlamada = conLlamada;
-      this.segSinLlamada = sinLlamda;
-      this.segAtendidos = atendidos;
     });
   }
   
@@ -121,14 +122,24 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         if (!subscriptionData.data) {
           return prev;
         }
-        console.log([subscriptionData, prev]);
-        const segAdd = subscriptionData.data.cambioSeguimientoNotificacion;
+ 
+        const newDataQuery = this.getDataForUpdateGrapqlQuery(subscriptionData.data.cambioSeguimientoNotificacion, prev.filterSeguimiento)
+
         return {
           ...prev,
-          filterSeguimiento: [segAdd, ...prev.filterSeguimiento]
+          filterSeguimiento: [...newDataQuery]
         };
       }
     });
+  }
+
+  getDataForUpdateGrapqlQuery(entrySeguimiento: FiltrarSeguimientoOut, previousSeguimientos: FiltrarSeguimientoOut []): FiltrarSeguimientoOut[]{
+    let index = previousSeguimientos.findIndex(item=>item._id === entrySeguimiento._id)
+    if(index === -1)
+      return [entrySeguimiento, ...previousSeguimientos]
+    
+    previousSeguimientos[index] = {...entrySeguimiento}
+    return [...previousSeguimientos]
   }
 
   showModalAtencion(seguimiento:FiltrarSeguimientoOut) {
@@ -139,10 +150,8 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
      console.log(args.item);
     switch(args.target.getAttribute('id')){
       case 'segAgendados':
-        let seguimientoForAgendar: AgendarSolicitudSeguimientoIn = {
-          _id:args.item._id
-        } 
-        this._seguimientoFacade.agendarSeguimiento(seguimientoForAgendar, args.item.idPaciente.token_notificacion_movil)
+        
+        this._seguimientoFacade.agendarSeguimiento(args.item, this.userLogged)
       break;
       
       case 'segAtendidos':
@@ -155,7 +164,8 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   }
 
   goToVideoCalling(seguimiento:FiltrarSeguimientoOut){
-    this._seguimientoFacade.dispatchActionSendNotificationVideoLlamada(seguimiento.idPaciente.token_notificacion_movil, seguimiento._id)
+    this._seguimientoFacade.
+      dispatchActionSendNotificationVideoLlamada(seguimiento, this.userLogged)
     this._router.navigate(['/video-llamada'], {state: {data: {...seguimiento}}});
   }
 }

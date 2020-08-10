@@ -28,11 +28,6 @@ export const REGISTER = gql`
     signUser(data:$data){
       name
       lastname
-      direccion
-      email
-      telefono
-      genero
-      direccion
     }
   }
 `;

@@ -58,6 +58,7 @@ query filterSeguimiento($data:FiltrarSeguimientoIn!){
     diagnostico_actual
     latitud
     longitud
+    createAt
   }
 }
 `;
@@ -125,6 +126,8 @@ subscription {
       ci
       email
       state
+      token_notificacion_web
+      token_notificacion_movil
     }
     idHospital{
       _id
@@ -146,6 +149,7 @@ subscription {
     diagnostico_actual
     latitud
     longitud
+    createAt
   }
 }`;
 

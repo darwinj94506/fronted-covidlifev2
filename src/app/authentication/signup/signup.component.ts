@@ -24,8 +24,9 @@ const ValidationMessage = {
 
 export class SignupComponent  extends Formulario implements OnInit {
 
-  MASCULINO:UserGeneroEnum = UserGeneroEnum.M;
-  FEMENINO:UserGeneroEnum = UserGeneroEnum.F;
+  MASCULINO: UserGeneroEnum = UserGeneroEnum.M;
+  FEMENINO: UserGeneroEnum = UserGeneroEnum.F;
+  PREFIERO_NO_DECIRLO: UserGeneroEnum = UserGeneroEnum.PREFIERO_NO_DECIRLO;
 
   @ViewChild('longContent')
   longContent: ElementRef;
@@ -70,7 +71,7 @@ export class SignupComponent  extends Formulario implements OnInit {
       return false 
     }
 
-    let fechaNacimiento : NgbDateStruct = this.signupForm.get('fechaNacimiento').value;
+    let fechaNacimiento = this.signupForm.get('fechaNacimiento').value;
     let userToRegister : SignupIn = {
       name: this.signupForm.get('name').value,
       lastname: this.signupForm.get('lastname').value,
@@ -78,7 +79,7 @@ export class SignupComponent  extends Formulario implements OnInit {
       password: this.signupForm.get('password').value,
       ci: this.signupForm.get('ci').value,
       telefono: this.signupForm.get('telefono').value,
-      fechaNacimiento: new Date(fechaNacimiento.year, (fechaNacimiento.month-1), fechaNacimiento.day),
+      fechaNacimiento: fechaNacimiento,
       genero: this.signupForm.get('genero').value,
       direccion: this.signupForm.get('direccion').value,
       roles:[],

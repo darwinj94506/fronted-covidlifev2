@@ -51,7 +51,9 @@ export function createApollo(httpLink: HttpLink) {
       reconnect: true,
       connectionParams: {
         authorization: `Bearer ${token}`,
-      }
+      },
+      lazy:true,
+      timeout:60000
     }
   });
 
