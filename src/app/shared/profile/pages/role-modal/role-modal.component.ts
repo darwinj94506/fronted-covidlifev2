@@ -40,17 +40,15 @@ export class RoleModalComponent implements OnInit {
     });
 
     this.addCheckboxes();
-    // console.log(this.hospitalRoles);
-    // this.form = new FormGroup({
-    //   items: new FormControl(this.hospitalRoles.roles)
-    // });
+   
   }
 
   
 
   private addCheckboxes() {
+        
     this.rolesData.forEach((rol) => {
-        this.rolesFormArray.push(this.hospitalRoles.roles.includes(rol)? new FormControl(true):new FormControl(false))
+        this.rolesFormArray.push(this.hospitalRoles.roles.includes(rol)  ? new FormControl(true):new FormControl(false))
     });
   }
 

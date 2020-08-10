@@ -69,7 +69,7 @@ export class UserEffects {
             return this._verPerfilUseCase.execute(idUser)
             .pipe(
                 map(userPerfil => {
-                    this.modalAtenderPaciente = this.modalService.open(PatientModalComponent, { size: 'xl' });
+                    this.modalAtenderPaciente = this.modalService.open(PatientModalComponent, { size: 'xl', scrollable: true});
                     this.modalAtenderPaciente.componentInstance.userPerfil = {...userPerfil}
                     this.modalAtenderPaciente.componentInstance.seguimiento = {...seguimiento}
                     return userActions.loadPerfilUserSuccess({userPerfil})
@@ -95,7 +95,7 @@ export class UserEffects {
     openModalSearchUser: Observable<any> = this.actions$.pipe(
         ofType(userActions.openModalSearchUser),
             tap( _ => { 
-                this.modalService.open(SearchInviteModalComponent, { size: 'xl' });
+                this.modalService.open(SearchInviteModalComponent, { scrollable: true });
         }) 
     )
 
