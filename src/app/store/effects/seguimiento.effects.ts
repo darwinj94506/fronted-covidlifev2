@@ -50,7 +50,7 @@ export class SeguimientoEffects {
         ofType(seguimientoActions.agendarSeguimiento),
         tap( _=> this._spinner.show()),
         switchMap((payload) => {
-            let segForAgendar: AgendarSolicitudSeguimientoIn ={ _id: payload.seguimiento._id }
+            let segForAgendar: AgendarSolicitudSeguimientoIn = { _id: payload.seguimiento._id }
             return this._macarSeguimientoComoAgendado.execute(segForAgendar)
                 .pipe(
                     map(scheduledSeguimiento => {

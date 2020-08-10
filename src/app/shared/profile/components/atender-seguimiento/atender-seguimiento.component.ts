@@ -3,8 +3,9 @@ import { Formulario } from '../../../../core/domain/class/formulario';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AtenderSolicitudSeguimientoIn} from '../../../../core/domain/inputs';
 import { FiltrarSeguimientoOut } from '../../../../core/domain/outputs';
-import { ExamenTipoEnum,  DificultadRespirarEnum, DiagnosticoActualEnum } from '../../../../core/domain/enums';
+import { ExamenTipoEnum,  DificultadRespirarEnum, DiagnosticoActualEnum, RolesUserEnum } from '../../../../core/domain/enums';
 import { SeguimientoFacade } from '../../../../store/facade'
+// const ROLE_DOCTOR: RolesUserEnum = RolesUserEnum.DOCTOR; 
 const ValidationMessage = {
   observacion_doctor: { maxlength:'Una nota no puede tener más de 250 caracteres'}
 }
@@ -18,7 +19,7 @@ const ValidationMessage = {
 export class AtenderSeguimientoComponent extends Formulario implements OnInit {
   seguimientoForm : FormGroup;
   @Input() seguimiento: FiltrarSeguimientoOut;
-
+  
   SI: DificultadRespirarEnum = DificultadRespirarEnum.SI;
   NO: DificultadRespirarEnum = DificultadRespirarEnum.NO;
   tiposExamen = [ExamenTipoEnum.NO_REQUIERE,

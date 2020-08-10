@@ -6,7 +6,8 @@
             <small>{{seg?.estado}}</small>
             <p>{{seg?.estado_diario_paciente}}</p>
             <small>{{seg?.idHospital.nombre}}</small>
-            <p>{{seg.nota_paciente}}</p>
+            <p>{{seg?.nota_paciente}}</p>
+            <p>{{seg?.createAt | date }}</p>
             <button (click)="showModalAtencion(seg)">ver</button>
         </div>
     </div>
@@ -17,7 +18,8 @@
             <small>{{seg?.estado}}</small>
             <p>{{seg?.estado_diario_paciente}}</p>
             <small>{{seg?.idHospital.nombre}}</small>
-            <p>{{seg.nota_paciente}}</p>
+            <p>{{seg?.nota_paciente}}</p>
+            <p>{{seg?.createAt | date }}</p>
         </div>
     </div>
 
@@ -28,7 +30,8 @@
             <small>{{seg?.estado}}</small>
             <p>{{seg?.estado_diario_paciente}}</p>
             <small>{{seg?.idHospital.nombre}}</small>
-            <p>{{seg.nota_paciente}}</p>
+            <p>{{seg?.nota_paciente}}</p>
+            <p>{{seg?.createAt | date }}</p>
             <button (click)="goToVideoCalling(seg)">Atender</button>
         </div>
     </div>
@@ -40,7 +43,8 @@
             <small>{{seg?.estado}}</small>
             <p>{{seg?.estado_diario_paciente}}</p>
             <small>{{seg?.idHospital.nombre}}</small>
-            <p>{{seg.nota_paciente}}</p>
+            <p>{{seg?.nota_paciente}}</p>
+            <p>{{seg?.createAt | date }}</p>
         </div>
     </div>
 

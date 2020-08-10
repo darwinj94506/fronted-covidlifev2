@@ -23,6 +23,7 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
   private client: AgoraClient;
   private localStream: Stream;
   private uid: number;
+  isConected:boolean = false;
 
   constructor( private _userFacade: UserFacade,
                private _toastService: ToastService,
@@ -68,6 +69,8 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
   private assignClientHandlers(): void {
     this.client.on(ClientEvent.LocalStreamPublished, evt => {
       console.log('Publish local stream successfully');
+      this.isConected = true;
+      this._toastService.showInfo("Se ha unido a la sala con éxito");
     });
 
     this.client.on(ClientEvent.Error, error => {
@@ -93,7 +96,7 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
       const id = this.getRemoteId(stream);
       if (!this.remoteCalls.length) {
         this.remoteCalls.push(id);
-        this.remoteStreams.push(stream);
+        // this.remoteStreams.push(stream);
         this._toastService.showSuccess("Se ha establecido comunicación con éxito");
         setTimeout(() => stream.play(id), 1000);
       }
@@ -114,7 +117,7 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
       if (stream) {
         stream.stop();
         this.remoteCalls = this.remoteCalls.filter(call => call !== `${this.getRemoteId(stream)}`);
-        this.remoteStreams = this.remoteStreams.filter(call=>this.getRemoteId(call) !== this.getRemoteId(stream))
+        // this.remoteStreams = this.remoteStreams.filter(call=>this.getRemoteId(call) !== this.getRemoteId(stream))
         console.log(`${evt.uid} left from this channel`);
         
       }
@@ -156,13 +159,7 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
       this.localStream.stop();
       // Close the local stream
       this.localStream.close();
-      // Stop playing the remote streams and remove the views
-      // while (this.remoteStreams.length > 0) {
-      //   var stream = this.remoteStreams.shift();
-      //   stream.stop();
-      //   this.remoteCalls = [];
-      //   this.remoteStreams = [];
-      // }
+      this.isConected = false;
       this._toastService.showInfo('Se ha terminado la video llamada con éxito');
       console.log("client leaves channel success");
     },(err)=>{

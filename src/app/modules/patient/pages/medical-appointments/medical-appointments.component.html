@@ -34,12 +34,12 @@
                             </div>
                             <small class="form-text text-danger" *ngIf="formsErrors.dificultad_respirar">{{formsErrors.dificultad_respirar}}</small>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="examen">Exámen (Opcional)</label>
                             <select type="text" class="form-control" id="examen" formControlName="examen" placeholder="Seleccione">
                                 <option *ngFor="let tipo of tiposExamen" [value]="tipo">{{tipo}}</option>
                             </select>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label for="nota_paciente">Escriba una breve descripción de su estado actual (Opcional)</label>
                             <textarea type="text" class="form-control" id="nota_paciente" formControlName="nota_paciente" (keyup)=logValidationErrors(seguimientoForm)></textarea>
