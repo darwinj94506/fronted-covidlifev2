@@ -36,3 +36,5 @@ export const selectSearchingUsers = createSelector(selectUserState,(state: UserS
 export const selectSeguimientoState = (state: AppState) => state.seguimiento;
 export const selectSeguimientosAgendados = createSelector(selectSeguimientoState,(state: fromSeguimientoReducer.SeguimientoState) => state.seguimientosAgendados);
 export const selectCitasPacientes = createSelector(selectSeguimientoState,(state: fromSeguimientoReducer.SeguimientoState) => state.citasPaciente);
+export const selectSeguimientosCompletos = createSelector(selectSeguimientoState,(state: fromSeguimientoReducer.SeguimientoState) => state.seguimientosCompletosPaciente);
+export const selectIsLoadingSeguimientosCompletos = createSelector(selectSeguimientoState,(state: fromSeguimientoReducer.SeguimientoState) => state.isLoadingSeguimientosCompletos);

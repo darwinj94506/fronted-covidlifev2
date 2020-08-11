@@ -1,7 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 import { SolicitarSeguimientoOut, AtenderSolicitudSeguimientoOut,
-   AgendarSolicitudSeguimientoOut, FiltrarSeguimientoOut, LoginOut } from '../../core/domain/outputs';
-import { SolicitarSeguimientoIn, AtenderSolicitudSeguimientoIn, AgendarSolicitudSeguimientoIn, FiltrarSeguimientoIn } from '../../core/domain/inputs';
+    AgendarSolicitudSeguimientoOut, FiltrarSeguimientoOut, LoginOut,
+    SeguimientoCompletoPacienteOut
+  } from '../../core/domain/outputs';
+import { SolicitarSeguimientoIn, AtenderSolicitudSeguimientoIn,
+  SeguimientoCompletoPacienteIn, 
+  AgendarSolicitudSeguimientoIn, FiltrarSeguimientoIn } from '../../core/domain/inputs';
 
 export const createSeguimiento = createAction(
   '[Seguimiento] Create Seguimiento',
@@ -78,8 +82,6 @@ export const sendNotificationVideoLlamadaError = createAction(
   props<{ error }>()
 )
 
-
-
 export const loadSeguimientosAgendados = createAction(
   '[Seguimiento] Load Seguimientos Agendados'
 )
@@ -106,5 +108,21 @@ export const loadCitasPacienteSuccess = createAction(
 
 export const loadCitasPacienteError = createAction(
   '[Seguimiento] Load Citas Pacientes Error',
+  props<{ error: String }>()
+)
+
+
+export const loadSeguimientosCompletos = createAction(
+  '[Seguimiento] Load Seguimientos Completos',
+  props<{ params: SeguimientoCompletoPacienteIn }>()
+)
+
+export const loadSeguimientosCompletosSuccess = createAction(
+  '[Seguimiento] Load Seguimientos Completos Success',
+  props<{ seguimientos: SeguimientoCompletoPacienteOut [] }>()
+)
+
+export const loadSeguimientosCompletosError = createAction(
+  '[Seguimiento] Load Seguimientos Completos Error',
   props<{ error: String }>()
 )

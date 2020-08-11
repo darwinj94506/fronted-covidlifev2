@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as seguimientoActions from '../actions/seguimiento.actions';
-import { SolicitarSeguimientoIn, AtenderSolicitudSeguimientoIn, FiltrarSeguimientoIn } from '../../core/domain/inputs';
-import { FiltrarSeguimientoOut, LoginOut } from '../../core/domain/outputs';
-import { AppState, selectSeguimientosAgendados, selectCitasPacientes }from '../app.reducer';
+import { SolicitarSeguimientoIn, AtenderSolicitudSeguimientoIn, FiltrarSeguimientoIn, SeguimientoCompletoPacienteIn } from '../../core/domain/inputs';
+import { FiltrarSeguimientoOut, LoginOut, SeguimientoCompletoPacienteOut } from '../../core/domain/outputs';
+import { AppState, selectSeguimientosAgendados, selectCitasPacientes, 
+    selectIsLoadingSeguimientosCompletos, selectSeguimientosCompletos }from '../app.reducer';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -44,4 +45,16 @@ export class SeguimientoFacade {
   getCitasPacienteFromStore():Observable<FiltrarSeguimientoOut[]>{
     return this.store.select(selectCitasPacientes)
   }
+
+  getSeguimientosCompletosFromStore():Observable<SeguimientoCompletoPacienteOut[]>{
+    return this.store.select(selectSeguimientosCompletos)
+  }
+
+  getIsLoadingSeguimientosCompletosFromStore():Observable<boolean>{
+    return this.store.select(selectIsLoadingSeguimientosCompletos)
+  }
+
+  dispatchActionLoadSeguimientosCompletos(params: SeguimientoCompletoPacienteIn):void{
+    this.store.dispatch(seguimientoActions.loadSeguimientosCompletos({params}))
+  } 
 }

@@ -7,7 +7,8 @@ import { ToastService, NotificationService } from '../../services';
 import { SolicitarSeguimentoUseCase,
          VerCitasUseCase } from '../../core/usecases/paciente';
 import { MacarSeguimientoComoAtendido,
-         VerSeguimientosAgendadosUseCase, 
+         VerSeguimientosAgendadosUseCase,
+         VerResumenSeguimientosPacienteUseCase, 
          MacarSeguimientoComoAgendado } from '../../core/usecases/doctor';
 import { SeguimientoEstadoEnum } from '../../core/domain/enums'
 import { FiltrarSeguimientoIn, AgendarSolicitudSeguimientoIn } from '../../core/domain/inputs'
@@ -24,7 +25,8 @@ export class SeguimientoEffects {
         private _verSeguimientosAgendadosUseCase: VerSeguimientosAgendadosUseCase,
         private _verCitasUseCase:VerCitasUseCase,
         private _mainFacade : MainFacade,
-        private _notificationService:NotificationService
+        private _notificationService:NotificationService,
+        private _VerResumenSeguimientosPacienteUseCase:VerResumenSeguimientosPacienteUseCase
          ) { }
    
     @Effect()
@@ -163,5 +165,21 @@ export class SeguimientoEffects {
                     )
                 )}),
         tap( _=> this._spinner.hide()))
+
+    @Effect()
+    loadSeguimientosCompletos: Observable<any> = this.actions$.pipe(
+        ofType(seguimientoActions.loadSeguimientosCompletos),
+        switchMap( ({ params } )=> {    
+            return this._VerResumenSeguimientosPacienteUseCase.execute(params)
+                .pipe(
+                    map(seguimientos => {
+                        return seguimientoActions.loadSeguimientosCompletosSuccess({seguimientos})
+                    }),
+                    catchError( error => {
+                        this._toastService.showError(`Error al cargar resumen de seguimientos, Error:${error.message}`);
+                        return of( seguimientoActions.loadSeguimientosCompletosError({error: error.message}))
+                        }
+                    )
+                )}))
 
 }

@@ -7,11 +7,13 @@ import { SolicitarSeguimientoIn,
          ConsultarUnSeguimientoIn, 
          FiltrarSeguimientoIn, 
          AtenderSolicitudSeguimientoIn,
+         SeguimientoCompletoPacienteIn,
          AgendarSolicitudSeguimientoIn} from '../../../../core/domain/inputs';
 import { SolicitarSeguimientoOut, 
          ConsultarUnSeguimientoOut, 
          FiltrarSeguimientoOut, 
          AtenderSolicitudSeguimientoOut,
+         SeguimientoCompletoPacienteOut,
          AgendarSolicitudSeguimientoOut} from '../../../../core/domain/outputs';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -113,6 +115,20 @@ export class SeguimientoMDBRepository extends MongoDBRepository<ISeguimientoEnti
             },
         }).pipe(
             map(( { data } )=> data[SEGUIMIENTO_OPERATIONS.agendar.resolve] )) 
+    }
+
+    getResumenSeguimientosPaciente(params: SeguimientoCompletoPacienteIn){
+        return this.apollo
+            .watchQuery(
+            { 
+                query: SEGUIMIENTO_OPERATIONS.resumenSeguimientos.gql,
+                variables:{
+                    data:params
+                }
+            })
+            .valueChanges.pipe(
+                map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.resumenSeguimientos.resolve] ))
+
     }
 
 

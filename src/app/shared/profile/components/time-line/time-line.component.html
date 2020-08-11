@@ -1,3 +1,4 @@
+<!-- <ng-container *ngIf="isLoading$ | async as isLoading"> -->
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -6,223 +7,120 @@
                 <h6 class="card-subtitle">El paciente tiene 3 observaciones disponibles para el dia de hoy</h6>
             </div>
             <div class="table-responsive container_table">
-                <!-- <div class="row" > -->
-                    <!-- <div class="col-2">
-                        <table class="table" style="width: 100px;" >
-                            <tbody>
-                                <tr>
-                                    
-                                </tr>
-                                <tr>
-                                    
-                                </tr>
-                                <tr>
-                                    
-                                </tr>
-                                <tr>
-                                    
-                                </tr>
-                                <tr>
-                                    
-                                </tr>
-                                <tr>
-                                    
-                                </tr>
-                                <tr>
-                                    
-                                </tr>
-                                <tr>
-                                    
-                                </tr>
-                                <tr>
-                                    <th>Observaciones</th>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div> -->
-                    <!-- <div class="col-10"> -->
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <th class="align-middle">Dia y Fecha</th>
-                                    <td>
-                                        <div>
-                                            Día 1
-                                        </div>
-                                        <div>
-                                            2020/05/21
-                                        </div>
-                                    </td>
-                                    <td>
-                                        
-                                    </td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell 12 </td>
-                                </tr>
-                                <tr>
-                                    <th class="align-middle">Temperatura</th>
-                                    <td>
-                                        <div class="table-success" >19:13-(35.2)</div>
-                                        <div class="table-warning">01:52-(35.2) </div>
-                                        <div class="table-danger" >13:52-(35.1)</div>
-                                    </td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell 12 </td>
-                                </tr>
-                                <tr>
-                                    <th class="align-middle">Ritmo Cardiaco</th>
-                                    <td>
-                                        <div>19:13-(0)</div>
-                                        <div>13:52-(0)</div>
-                                        <div>01:52-(0)</div>
-                                    </td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell 12 </td>
-                                </tr>
-                                <tr>
-                                    <th class="align-middle">Saturacióon de Oxígeno</th>
-                                    <td>
-                                        <div>19:13-(0)</div>
-                                        <div>13:52-(0)</div>
-                                        <div>01:52-(0)</div>
-                                    </td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell 12 </td>
-                                </tr>
-                                <tr>
-                                    <th class="align-middle">Dificultad Respirar</th>
-                                    <td>
-                                        <div class="table-danger">SI</div>
-                                        <div class="table-success">NO</div>
-                                    </td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell 12 </td>
-                                </tr>
-                                <tr>
-                                    <th class="align-middle">Requerimiento</th>
-                                    <td>
-                                        <div>19:13-(0)</div>
-                                        <div>13:52-(Continuar en Domicilio)</div>
-                                    </td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell 12 </td>
-                                </tr>
-                                <tr>
-                                    <th class="align-middle">Toma de muestra</th>
-                                    <td>
-                                        <div>19:13-(0)</div>
-                                        <div>13:52-(No Requerido)</div>
-                                    </td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell 12 </td>
-                                </tr>
-                                <tr>
-                                    <th class="align-middle">Estado Actual</th>
-                                    <td>
-                                        <div>19:13-(0)</div>
-                                        <div>13:52-(Aislameinto Preventivo)</div>
-                                    </td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell 12 </td>
-                                </tr>
-                                <tr>
-                                    <th class="align-middle">Observaciones</th>
-                                    <td>
-                                        <div>19:13-(0)</div>
-                                        <div>13:52-(Aislameinto Preventivo)</div>
-                                    </td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell</td>
-                                    <td>Cell 12 </td>
-                                </tr>
+                <table class="table">
+                    <ng-container *ngIf="seguimientos$ | async as seguimientos">
+                        <tbody>
+                            <tr>
+                                <th class="align-middle">Dia y Fecha</th>
+                                <td *ngFor="let seg of seguimientos; let i=index;">
+                                    <div>
+                                        Día {{ i + 1}}
+                                    </div>
+                                    <div>
+                                        {{ seg?._id | date : 'shortDate' }}
+                                    </div>
+                                </td>
+                            </tr>
 
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                <!-- </div> -->
-                
-                
+                            <tr>
+                                <th class="align-middle">Evolución</th>
+                                <td *ngFor="let seg of seguimientos; let i=index;">
+                                    <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.estado_diario_paciente}})</div>
+                                    <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.estado_diario_paciente}})</div>
+                                    <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.estado_diario_paciente}})</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="align-middle">Temperatura</th>
+                                <td *ngFor="let seg of seguimientos; let i=index;">
+                                    <div class="table-success">{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.temperatura}})</div>
+                                    <div class="table-warning">{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.temperatura}})</div>
+                                    <div class="table-danger">{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.temperatura}})</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="align-middle">Ritmo Cardiaco</th>
+                                <td *ngFor="let seg of seguimientos; let i=index;">
+                                    <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.ritmo_cardiaco}})</div>
+                                    <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.ritmo_cardiaco}})</div>
+                                    <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.ritmo_cardiaco}})</div>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th class="align-middle">Saturacióon de Oxígeno</th>
+                                <td *ngFor="let seg of seguimientos; let i=index;">
+                                    <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.saturacion_oxigeno}})</div>
+                                    <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.saturacion_oxigeno}})</div>
+                                    <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.saturacion_oxigeno}})</div>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th class="align-middle">Dificultad Respirar</th>
+                                <td *ngFor="let seg of seguimientos; let i=index;">
+                                    <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.dificultad_respirar}})</div>
+                                    <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.dificultad_respirar}})</div>
+                                    <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.dificultad_respirar}})</div>
+                                </td>
+
+                            </tr>
+                            <!-- <tr>
+                                <th class="align-middle">Requerimiento</th>
+                                <td>
+                                    <div>19:13-(0)</div>
+                                    <div>13:52-(Continuar en Domicilio)</div>
+                                </td>
+                                <td>Cell</td>
+                                <td>Cell</td>
+                                <td>Cell</td>
+                                <td>Cell</td>
+
+                            </tr> -->
+                            <!-- <tr>
+                                <th class="align-middle">Toma de muestra</th>
+                                <td>
+                                    <div>19:13-(0)</div>
+                                    <div>13:52-(No Requerido)</div>
+                                </td>
+                                <td>Cell</td>
+                                <td>Cell</td>
+                                <td>Cell</td>
+                                <td>Cell</td>
+                           
+                            </tr> -->
+                            <tr>
+                                <th class="align-middle">Estado Actual</th>
+                                <td *ngFor="let seg of seguimientos; let i=index;">
+                                    <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.diagnostico_actual}})</div>
+                                    <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.diagnostico_actual}})</div>
+                                    <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.diagnostico_actual}})</div>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <th class="align-middle">Observaciones</th>
+                                <td *ngFor="let seg of seguimientos; let i=index;">
+                                    <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.observacion_doctor}})</div>
+                                    <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.observacion_doctor}})</div>
+                                    <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.observacion_doctor}})</div>
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+                    </ng-container>
+                </table>
+            </div>
+            <!-- </div> -->
+
+
             <!-- </div> -->
         </div>
     </div>
 </div>
+
+<div *ngIf="isLoading$ | async">cargando...</div>
+
+<!-- </ng-container> -->

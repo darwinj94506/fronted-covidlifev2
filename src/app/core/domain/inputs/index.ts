@@ -12,3 +12,4 @@ export { FiltrarSeguimientoIn } from './filtrar-seguimiento.in';
 export { AtenderSolicitudSeguimientoIn } from './atender-solicitud-seguimiento.in';
 export { AgendarSolicitudSeguimientoIn } from './agendar-solicitud-seguimiento.in';
 export { AsignarRoleIn } from './asignar-role-in';
+export { SeguimientoCompletoPacienteIn } from './seguimiento-completo-paciente.in';

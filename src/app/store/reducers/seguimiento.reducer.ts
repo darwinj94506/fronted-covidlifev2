@@ -1,19 +1,24 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as seguimientosActions  from '../actions/seguimiento.actions';
-import { FiltrarSeguimientoOut } from '../../core/domain/outputs';
+import { FiltrarSeguimientoOut, SeguimientoCompletoPacienteOut } from '../../core/domain/outputs';
 export interface SeguimientoState {
   isLoadingSeguimiento: boolean;
-  isLoadingSeguimientosAgendados:boolean;
+  isLoadingSeguimientosAgendados: boolean;
   seguimientosAgendados : FiltrarSeguimientoOut [];
   citasPaciente: FiltrarSeguimientoOut[];
-  isLoadingCitasPacientes:boolean;
+  isLoadingCitasPacientes: boolean;
+  seguimientosCompletosPaciente: SeguimientoCompletoPacienteOut[];
+  isLoadingSeguimientosCompletos: boolean,
+
 } 
 export const initialState: SeguimientoState = {
   isLoadingSeguimiento:false,
   isLoadingSeguimientosAgendados:false,
   seguimientosAgendados:[],
   citasPaciente:[],
-  isLoadingCitasPacientes:false
+  isLoadingCitasPacientes:false,
+  seguimientosCompletosPaciente: [],
+  isLoadingSeguimientosCompletos: false,
 };
 
 const mainReducer = createReducer(
@@ -69,6 +74,19 @@ const mainReducer = createReducer(
     ...state,
     isLoadingCitasPacientes: false
   })),
+  on(seguimientosActions.loadSeguimientosCompletos, (state) => ({
+    ...state,
+    isLoadingSeguimientosCompletos: true
+  })),
+  on(seguimientosActions.loadSeguimientosCompletosSuccess, (state, payload) => ({
+    ...state,
+    isLoadingSeguimientosCompletos: false,
+    seguimientosCompletosPaciente: [...payload.seguimientos]
+  })),
+  on(seguimientosActions.loadSeguimientosCompletosError, (state) => ({
+    ...state,
+    isLoadingSeguimientosCompletos: false
+  }))
 );
 
 export function reducer(state: SeguimientoState | undefined, action: Action) {

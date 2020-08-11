@@ -11,3 +11,4 @@ export { AgendarSolicitudSeguimientoOut } from './agendar-seguimiento.out';
 export { AsignarRoleOut } from './asignar-role-out'; 
 export { FilterUserOut } from './filter-user.out';
 export { VORoleHospitalPopulateOut } from './vo-role-hospital-populate.out';
+export { SeguimientoCompletoPacienteOut } from './seguimiento-completo-paciente.out';

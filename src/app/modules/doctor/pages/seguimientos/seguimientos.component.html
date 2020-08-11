@@ -7,7 +7,7 @@
             <p>{{seg?.estado_diario_paciente}}</p>
             <small>{{seg?.idHospital.nombre}}</small>
             <p>{{seg?.nota_paciente}}</p>
-            <p>{{seg?.createAt | date }}</p>
+            <p>{{seg?.createAt | date:'shortTime' }}</p>
             <button (click)="showModalAtencion(seg)">ver</button>
         </div>
     </div>
@@ -19,7 +19,7 @@
             <p>{{seg?.estado_diario_paciente}}</p>
             <small>{{seg?.idHospital.nombre}}</small>
             <p>{{seg?.nota_paciente}}</p>
-            <p>{{seg?.createAt | date }}</p>
+            <p>{{seg?.createAt | date:'shortTime' }}</p>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
             <p>{{seg?.estado_diario_paciente}}</p>
             <small>{{seg?.idHospital.nombre}}</small>
             <p>{{seg?.nota_paciente}}</p>
-            <p>{{seg?.createAt | date }}</p>
+            <p>{{seg?.createAt | date:'shortTime' }}</p>
             <button (click)="goToVideoCalling(seg)">Atender</button>
         </div>
     </div>
@@ -44,7 +44,7 @@
             <p>{{seg?.estado_diario_paciente}}</p>
             <small>{{seg?.idHospital.nombre}}</small>
             <p>{{seg?.nota_paciente}}</p>
-            <p>{{seg?.createAt | date }}</p>
+            <p>{{seg?.createAt | date:'shortTime'}}</p>
         </div>
     </div>
 

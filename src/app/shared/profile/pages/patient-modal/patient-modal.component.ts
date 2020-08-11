@@ -16,7 +16,7 @@ export class PatientModalComponent implements OnInit {
 
   constructor( public modal: NgbActiveModal) {}
   ngOnInit(){
-    console.log(this.userPerfil);
+    // console.log(this.userPerfil);
     this.userPerfil$ = of(this.userPerfil);
   } 
 

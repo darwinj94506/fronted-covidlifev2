@@ -168,3 +168,41 @@ export const AGENDAR_SEGUIMIENTO = gql`
     }
   }
 `;
+ 
+export const RESUMEN_SEGUIMIENTOS_COMPLETOS = gql`
+  query getSeguimientoCompletoPaciente($data: SeguimientoCompletoPacienteIn!){
+    getSeguimientoCompletoPaciente(data:$data){
+      _id
+      seguimientos{
+        idPaciente{
+        name
+        lastname
+      }
+      idDoctor{
+        name
+        lastname
+      }
+      idHospital{
+        _id
+        nombre
+        descripcion
+        idEspacio
+        estado_entidad
+      }
+      estado
+      temperatura
+      ritmo_cardiaco
+      saturacion_oxigeno
+      dificultad_respirar
+      examen
+      nota_paciente
+      observacion_doctor
+      estado_diario_paciente
+      fecha_atencion_medica
+      diagnostico_actual
+      latitud
+      longitud
+      createAt
+      }   
+    }
+  }`;
