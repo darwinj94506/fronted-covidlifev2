@@ -209,8 +209,8 @@ export const RESUMEN_SEGUIMIENTOS_COMPLETOS = gql`
 
 
   export const CREATE_NOTIFICATION = gql`
-    mutation addNotificacion($data9:CrearNotificacionIn!){
-      addNotificacion(data:$data9){
+    mutation addNotificacion($data:CrearNotificacionIn!){
+      addNotificacion(data:$data){
         _id
         titulo
         descripcion

@@ -143,32 +143,32 @@ export class SeguimientoEffects {
             )),
         tap( _=> this._spinner.hide()))
 
-    @Effect()
-    loadSeguimientosAgendados: Observable<any> = this.actions$.pipe(
-        ofType(seguimientoActions.loadSeguimientosAgendados),
-        tap( _=> this._spinner.show()),
-        switchMap( _=> this._mainFacade.getHospitalSesion()),
-        switchMap( hospitalSession => { 
-            let filter: FiltrarSeguimientoIn = {
-                fechaUltimos:{ 
-                    createAt: new Date(),
-                    isUltimos: true,
-                    AndIdHospital:hospitalSession.idHospital._id,
-                    AndEstado: SeguimientoEstadoEnum.AGENDADO
-                } 
-            }
-            return this._verSeguimientosAgendadosUseCase.execute(filter)
-                .pipe(
-                    map(seguimientosAgendados => {
-                        return seguimientoActions.loadSeguimientosAgendadosSuccess({seguimientosAgendados})
-                    }),
-                    catchError( error => {
-                        this._toastService.showError(`Error al cargar seguimientos agendados, Error:${error.message}`);
-                        return of( seguimientoActions.loadSeguimientosAgendadosError({error: error.message}))
-                        }
-                    )
-                )}),
-        tap( _=> this._spinner.hide()))
+    // @Effect()
+    // loadSeguimientosAgendados: Observable<any> = this.actions$.pipe(
+    //     ofType(seguimientoActions.loadSeguimientosAgendados),
+    //     tap( _=> this._spinner.show()),
+    //     switchMap( _=> this._mainFacade.getHospitalSesion()),
+    //     switchMap( hospitalSession => { 
+    //         let filter: FiltrarSeguimientoIn = {
+    //             fechaUltimos:{ 
+    //                 createAt: new Date(),
+    //                 isUltimos: true,
+    //                 AndIdHospital:hospitalSession.idHospital._id,
+    //                 AndEstado: SeguimientoEstadoEnum.AGENDADO
+    //             } 
+    //         }
+    //         return this._verSeguimientosAgendadosUseCase.execute(filter)
+    //             .pipe(
+    //                 map(seguimientosAgendados => {
+    //                     return seguimientoActions.loadSeguimientosAgendadosSuccess({seguimientosAgendados})
+    //                 }),
+    //                 catchError( error => {
+    //                     this._toastService.showError(`Error al cargar seguimientos agendados, Error:${error.message}`);
+    //                     return of( seguimientoActions.loadSeguimientosAgendadosError({error: error.message}))
+    //                     }
+    //                 )
+    //             )}),
+    //     tap( _=> this._spinner.hide()))
 
     @Effect()
     loadCitasPaciente: Observable<any> = this.actions$.pipe(

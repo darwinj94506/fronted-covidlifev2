@@ -70,6 +70,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.dragulaService.destroy('SEGUIMIENTOS');
     this.dragulaService.createGroup("SEGUIMIENTOS", {});
     this.dragulaService.dropModel("SEGUIMIENTOS").subscribe(args => {
+      console.log(args);
       this.makeAction(args);  
     });
  
@@ -197,6 +198,6 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   getDate(date){
     // ISODate("2012-07-14T01:00:00+01:00").toLocaleTimeString() 
     // ISODate(date).toLocaleTimeString();
-    console.log(new date(date)); 
+    // console.log(new date(date)); 
   }
 }
