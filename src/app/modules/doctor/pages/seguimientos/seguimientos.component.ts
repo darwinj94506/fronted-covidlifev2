@@ -157,7 +157,6 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
      console.log(args.item);
     switch(args.target.getAttribute('id')){
       case 'segAgendados':
-        
         this._seguimientoFacade.agendarSeguimiento(args.item, this.userLogged)
       break;
       
