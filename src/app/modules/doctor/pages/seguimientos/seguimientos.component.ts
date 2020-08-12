@@ -12,6 +12,12 @@ import { FiltrarSeguimientoIn,
          AgendarSolicitudSeguimientoIn } from '../../../../core/domain/inputs';
 import { SeguimientoEstadoEnum, 
          DiagnosticoActualEnum} from '../../../../core/domain/enums';
+import { VerSeguimientosAgendadosUseCase,
+         VerSeguimientosAtendidosUseCase,
+         VerSeguimientosNoAtendidosSinLLamadaUseCase,
+         VerSeguimientosNoAtendidosConLLamadaUseCase
+} from '../../../../core/usecases/doctor';
+
 import { MainFacade, UserFacade, SeguimientoFacade } from '../../../../store/facade';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { SEGUIMIENTO_OPERATIONS } from '../../../../data/graphq';
@@ -43,8 +49,10 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   segAtendidos = [];
   segAgendados = [];
   userLogged: LoginOut;
-
-  
+  seguimientosAgendados$: Observable<FiltrarSeguimientoOut[]>;
+  seguimientosSinLlamada$ : Observable<FiltrarSeguimientoOut[]>;
+  seguimientosConLlamada$ : Observable<FiltrarSeguimientoOut[]>;
+  seguimientosAtendidos$ : Observable<FiltrarSeguimientoOut[]>;
 
   constructor(
      private dragulaService: DragulaService,
@@ -52,8 +60,11 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
      private _mainFacade: MainFacade,
      private _spinner: NgxSpinnerService,
      private _userFacade: UserFacade,
-     private _seguimientoFacade:SeguimientoFacade,
-     private _router:Router
+     private _seguimientoFacade: SeguimientoFacade,
+     private _router: Router,
+     private _verSeguimientosAgendadosUseCase: VerSeguimientosAgendadosUseCase,
+     private _verSeguimientosNoAtendidosSinLLamadaUseCase :VerSeguimientosNoAtendidosSinLLamadaUseCase,
+     private _verSeguimientosNoAtendidosConLLamadaUseCase :VerSeguimientosNoAtendidosConLLamadaUseCase 
 
      ) {
     this.dragulaService.destroy('SEGUIMIENTOS');
@@ -66,6 +77,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     forkJoin(this._mainFacade.getHospitalSesion(),this._mainFacade.getUserLogged())
       .subscribe(([hospital, userLogged])=>{
         this.userLogged = userLogged;
+        
         let filter : FiltrarSeguimientoIn = { 
           fechaUltimos :{
             isUltimos:true,
@@ -80,7 +92,8 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
           }
         });  
         this.seguimientos = this.segQuery.valueChanges;
-    })
+    
+      })
    
   }
  
@@ -94,6 +107,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
       
       if(response.data.loading) this._spinner.show();
       if(!response.data.loading) this._spinner.hide();
+      console.log(response.data);
       console.log(response);
       response.data.filterSeguimiento.forEach((seguimiento : FiltrarSeguimientoOut) => {
         switch (seguimiento.estado){
@@ -181,9 +195,8 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   }
 
   getDate(date){
-    console.log(new Date(date).toLocaleDateString())
-    console.log(date);
-    console.log(new Date(date));
-    Date.parse(date);
+    // ISODate("2012-07-14T01:00:00+01:00").toLocaleTimeString() 
+    // ISODate(date).toLocaleTimeString();
+    console.log(new date(date)); 
   }
 }
