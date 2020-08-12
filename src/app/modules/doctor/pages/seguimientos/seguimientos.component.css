@@ -26,6 +26,7 @@ h3 code {
     list-style: none;
     padding: 8px;
     color: #222;
+    cursor: pointer;
 }
 
 .vamp:not(:last-child) {
@@ -37,4 +38,10 @@ a:visited,
 a:hover,
 a:active {
     color: lightblue;
+}
+
+.centrar{
+    height: 60px;
+    display: flex;
+    align-items: center;
 }
