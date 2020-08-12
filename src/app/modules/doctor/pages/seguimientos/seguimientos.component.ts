@@ -41,7 +41,7 @@ interface args {
   styleUrls: ['./seguimientos.component.css']
 })
 export class SeguimientosComponent implements OnInit, OnDestroy {
-  segQuery: QueryRef<any>;
+  segQueryRef: QueryRef<any>;
   seguimientos:Observable<any>;
   
   segSinLlamada = [];
@@ -77,21 +77,11 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     forkJoin(this._mainFacade.getHospitalSesion(),this._mainFacade.getUserLogged())
       .subscribe(([hospital, userLogged])=>{
         this.userLogged = userLogged;
+
+        this._verSeguimientosNoAtendidosConLLamadaUseCase.execute(hospital.idHospital._id);
         
-        let filter : FiltrarSeguimientoIn = { 
-          fechaUltimos :{
-            isUltimos:true,
-            createAt: new Date(),
-            AndIdHospital: hospital.idHospital._id
-          }
-        }
-        this.segQuery = this.apollo.watchQuery({
-          query: SEGUIMIENTO_OPERATIONS.filter.gql,
-          variables: {
-            data: filter
-          }
-        });  
-        this.seguimientos = this.segQuery.valueChanges;
+        
+        this.seguimientos = this.segQueryRef.valueChanges;
     
       })
    
@@ -137,7 +127,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   }
 
   subscribeToSeguimientos() {
-    this.segQuery.subscribeToMore({
+    this.segQueryRef.subscribeToMore({
       document: SEGUIMIENTO_OPERATIONS.suscription.gql,
       updateQuery: (prev, {subscriptionData}) => {
         if (!subscriptionData.data) {
