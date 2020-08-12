@@ -1,12 +1,14 @@
 import { IOperations, IOperation } from '../interfaces/operation.interface';
-import { CREATE, UPDATE, DELETE, GET_BY_ID, FILTER, SUSCRIPTION, ATENDER_SEGUIMIENTO, AGENDAR_SEGUIMIENTO, RESUMEN_SEGUIMIENTOS_COMPLETOS } from '../gql/seguimiento';
+import { CREATE, UPDATE, DELETE, GET_BY_ID, FILTER, CREATE_NOTIFICATION,
+     SUSCRIPTION, ATENDER_SEGUIMIENTO, AGENDAR_SEGUIMIENTO, RESUMEN_SEGUIMIENTOS_COMPLETOS } from '../gql/seguimiento';
 export interface SeguimientoOperations extends IOperations{
     filter: IOperation,
     getById: IOperation,
     suscription: IOperation,
     atender: IOperation,
     agendar: IOperation,
-    resumenSeguimientos: IOperation
+    resumenSeguimientos: IOperation,
+    createNotification: IOperation
 }
 
 export const SEGUIMIENTO_OPERATIONS : SeguimientoOperations = {
@@ -45,6 +47,10 @@ export const SEGUIMIENTO_OPERATIONS : SeguimientoOperations = {
     resumenSeguimientos: {
         resolve: 'getSeguimientoCompletoPaciente',
         gql: RESUMEN_SEGUIMIENTOS_COMPLETOS
+    },
+    createNotification:{
+        resolve:'addNotificacion',
+        gql: CREATE_NOTIFICATION
     }
    
 }

@@ -8,3 +8,4 @@ export { VerSeguimientosAtendidosUseCase } from './ver-seg-atendidos.usecase';
 export { VerSeguimientosUseCase } from './ver-seguimientos.usecase';
 export { GetSuscriptionSeguimientosUseCase } from './get-suscription-seg.usecase'; 
 export { VerResumenSeguimientosPacienteUseCase } from './ver-resumen-seguimientos-paciente.usecase';
+export { EnviarNotificacionUseCase } from './enviar-notificacion.usecase';

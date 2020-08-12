@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType  } from '@ngrx/effects';
-import { catchError, map, switchMap, tap, mergeMap} from 'rxjs/operators';
+import { catchError, map, switchMap, tap, mergeMap, concatMapTo, concatMap} from 'rxjs/operators';
 import { Observable, from, of} from 'rxjs';
 import * as seguimientoActions  from '../actions/seguimiento.actions';
 import { ToastService, NotificationService } from '../../services';
@@ -9,9 +9,10 @@ import { SolicitarSeguimentoUseCase,
 import { MacarSeguimientoComoAtendido,
          VerSeguimientosAgendadosUseCase,
          VerResumenSeguimientosPacienteUseCase, 
+         EnviarNotificacionUseCase,
          MacarSeguimientoComoAgendado } from '../../core/usecases/doctor';
 import { SeguimientoEstadoEnum } from '../../core/domain/enums'
-import { FiltrarSeguimientoIn, AgendarSolicitudSeguimientoIn } from '../../core/domain/inputs'
+import { FiltrarSeguimientoIn, AgendarSolicitudSeguimientoIn, CrearNotificacionIn } from '../../core/domain/inputs'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MainFacade } from '../facade';
 @Injectable()
@@ -26,6 +27,7 @@ export class SeguimientoEffects {
         private _verCitasUseCase:VerCitasUseCase,
         private _mainFacade : MainFacade,
         private _notificationService:NotificationService,
+        private _enviarNotificacionUseCase:EnviarNotificacionUseCase,
         private _VerResumenSeguimientosPacienteUseCase:VerResumenSeguimientosPacienteUseCase
          ) { }
    
@@ -68,40 +70,60 @@ export class SeguimientoEffects {
                     )
                 )}),
         tap( _=> this._spinner.hide()))
-
+      
     @Effect()
     agendarSeguimientosExito: Observable<any> = this.actions$.pipe(
         ofType(seguimientoActions.agendarSeguimientoSuccess),
-        switchMap((payload) => this._notificationService.sendMovilNotification(
-            '* ¡Su solicitud ha sido aceptada por un médico!* Esté pendiente, en un momento el doctor se comunicará con  usted *',
-            'Aviso', payload.seguimiento, payload.doctor)
-            .pipe(
-                map(msg => {
-                    return seguimientoActions.sendNotificationAgendadoSuccess({msg})
-                }),
-                catchError( error => {
-                    return of( seguimientoActions.sendNotificationAgendadoError({error: error.message}))
-                    }
-                )
-                
-            )),
+        concatMap( payload =>
+            {   let notificacion : CrearNotificacionIn = {
+                    descripcion:'* ¡Su solicitud ha sido aceptada por un médico! * Esté pendiente, en un momento un doctor se comunicará con usted *',
+                    idReceptor: payload.seguimiento.idPaciente._id,
+                    titulo:'Notificación',
+                    idSeguimiento: payload.seguimiento._id
+                }
+                return [seguimientoActions.sendPushNotification({ seguimiento: payload.seguimiento,
+                                                    notificacion: notificacion,
+                                                    doctor: payload.doctor }), 
+                        seguimientoActions.createNotification({ notification: notificacion })]
+            }
         )
+    )
+
     @Effect()
-    enviarNotificacionVideoLlamada: Observable<any> = this.actions$.pipe(
+    sendNotificationVideoLlamada: Observable<any> = this.actions$.pipe(
         ofType(seguimientoActions.sendNotificationVideoLlamada),
-        switchMap((payload) => this._notificationService.sendMovilNotification(
-                '* Por favor unase a la video llamada, un médico lo está esperando *',
-                'Importante', payload.seguimiento, payload.doctor)
-            .pipe(
-                map(msg => {
-                    return seguimientoActions.sendNotificationVideoLlamadaSuccess({msg})
-                }),
-                catchError( error => {
-                    return of( seguimientoActions.sendNotificationVideoLlamadaError({error: error.message}))
-                    }
-                ) 
-            )),
+        concatMap( payload => [seguimientoActions.sendPushNotification({ seguimiento: payload.seguimiento,
+                                                    notificacion: payload.notification,
+                                                    doctor: payload.doctor }), 
+                               seguimientoActions.createNotification({ notification: payload.notification })]
+            
         )
+    )
+    
+    @Effect()
+    createNotification: Observable<any> = this.actions$.pipe(
+        ofType(seguimientoActions.createNotification),
+        switchMap( ({ notification } ) => 
+            this._enviarNotificacionUseCase.execute(notification)
+                .pipe(
+                    map(notification => seguimientoActions.createNotificationSuccess({notification})),
+                    catchError( error => of( seguimientoActions.createNotificationError({error})))
+            )))
+
+    @Effect()
+    enviarPushNotificacion: Observable<any> = this.actions$.pipe(
+        ofType(seguimientoActions.sendPushNotification),
+        switchMap((payload) => this._notificationService.sendMovilNotification(
+                   payload.notificacion.descripcion,
+                   payload.notificacion.titulo,
+                   payload.seguimiento, 
+                   payload.doctor)
+            .pipe(
+                map(msg => seguimientoActions.sendPushNotificationSuccess({msg})),
+                catchError( error => of( seguimientoActions.sendPushNotificationError({error}))
+            ) 
+        )),
+    )
 
     @Effect()
     atender: Observable<any> = this.actions$.pipe(
@@ -180,6 +202,5 @@ export class SeguimientoEffects {
                         return of( seguimientoActions.loadSeguimientosCompletosError({error: error.message}))
                         }
                     )
-                )}))
-
+    )}))
 }

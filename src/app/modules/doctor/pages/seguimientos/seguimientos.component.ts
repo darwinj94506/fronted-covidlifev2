@@ -2,9 +2,16 @@ import { Component, OnInit, OnDestroy} from '@angular/core';
 import { DragulaService } from 'ng2-dragula';
 import { Observable, forkJoin, Subject} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FiltrarSeguimientoOut, AtenderSolicitudSeguimientoOut,LoginOut } from '../../../../core/domain/outputs';
-import { FiltrarSeguimientoIn, IdIn, AtenderSolicitudSeguimientoIn, AgendarSolicitudSeguimientoIn } from '../../../../core/domain/inputs';
-import { SeguimientoEstadoEnum, DiagnosticoActualEnum} from '../../../../core/domain/enums';
+import { FiltrarSeguimientoOut, 
+         AtenderSolicitudSeguimientoOut,
+         LoginOut } from '../../../../core/domain/outputs';
+import { FiltrarSeguimientoIn, 
+         IdIn, 
+         AtenderSolicitudSeguimientoIn,
+         CrearNotificacionIn, 
+         AgendarSolicitudSeguimientoIn } from '../../../../core/domain/inputs';
+import { SeguimientoEstadoEnum, 
+         DiagnosticoActualEnum} from '../../../../core/domain/enums';
 import { MainFacade, UserFacade, SeguimientoFacade } from '../../../../store/facade';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { SEGUIMIENTO_OPERATIONS } from '../../../../data/graphq';
@@ -164,8 +171,20 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   }
 
   goToVideoCalling(seguimiento:FiltrarSeguimientoOut){
-    this._seguimientoFacade.
-      dispatchActionSendNotificationVideoLlamada(seguimiento, this.userLogged)
+    let notification: CrearNotificacionIn = {
+        descripcion: '* ¡El médico se ha conectado para la video llamada ! * Por favor únase a la video llamada *',
+        titulo: 'Importante',
+        idReceptor: seguimiento.idPaciente._id,
+        idSeguimiento: seguimiento._id
+    }
+    this._seguimientoFacade.dispatchActionSendNotificationVideoLlamada(seguimiento, this.userLogged, notification)
     this._router.navigate(['/video-llamada'], {state: {data: {...seguimiento}}});
+  }
+
+  getDate(date){
+    console.log(new Date(date).toLocaleDateString())
+    console.log(date);
+    console.log(new Date(date));
+    Date.parse(date);
   }
 }

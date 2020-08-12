@@ -8,12 +8,14 @@ import { SolicitarSeguimientoIn,
          FiltrarSeguimientoIn, 
          AtenderSolicitudSeguimientoIn,
          SeguimientoCompletoPacienteIn,
+         CrearNotificacionIn,
          AgendarSolicitudSeguimientoIn} from '../../../../core/domain/inputs';
 import { SolicitarSeguimientoOut, 
          ConsultarUnSeguimientoOut, 
          FiltrarSeguimientoOut, 
          AtenderSolicitudSeguimientoOut,
          SeguimientoCompletoPacienteOut,
+         CrearNotificacionOut,
          AgendarSolicitudSeguimientoOut} from '../../../../core/domain/outputs';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -131,5 +133,14 @@ export class SeguimientoMDBRepository extends MongoDBRepository<ISeguimientoEnti
 
     }
 
+    createNotification(crearNotificacionIn:CrearNotificacionIn){
+        return this.apollo.mutate({
+            mutation: SEGUIMIENTO_OPERATIONS.createNotification.gql,
+            variables: {
+                data: crearNotificacionIn
+            },
+        }).pipe(
+            map(( { data } )=> data[SEGUIMIENTO_OPERATIONS.createNotification.resolve] )) 
+    }
 
 }

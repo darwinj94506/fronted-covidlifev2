@@ -84,3 +84,4 @@ export const searchUserError = createAction(
   '[User] Search User Error',
   props<{ error: String }>()
 )
+

@@ -1,22 +1,27 @@
 <div class="modal-header">
     <h4 class="modal-title">Modal paciente</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+            <span aria-hidden="true">&times;</span>
+          </button>
 </div>
 <div class="modal-body">
     <div class="row">
         <!-- Column -->
-        <div class="col-lg-4 col-xlg-3 col-md-5">
+        <!-- <div class="col-lg-4 col-xlg-3 col-md-5">
             <app-over-view [userPerfil$]="userPerfil$"></app-over-view>
-        </div>
+        </div> -->
         <!-- Column -->
-        <div class="col-lg-8 col-xlg-9 col-md-7">
+        <div class="col-lg-12 col-xlg-12 col-md-12">
             <div class="card">
                 <ngb-tabset type="pills" class="custom-pills">
                     <ngb-tab title="Atender">
                         <ng-template ngbTabContent>
                             <app-atender-seguimiento [seguimiento]="seguimiento"></app-atender-seguimiento>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Datos paciente">
+                        <ng-template ngbTabContent>
+                            <app-over-view [userPerfil$]="userPerfil$"></app-over-view>
                         </ng-template>
                     </ngb-tab>
                     <ngb-tab title="Historial">

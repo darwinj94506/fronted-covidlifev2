@@ -1,11 +1,15 @@
 import { createAction, props } from '@ngrx/store';
 import { SolicitarSeguimientoOut, AtenderSolicitudSeguimientoOut,
     AgendarSolicitudSeguimientoOut, FiltrarSeguimientoOut, LoginOut,
+    CrearNotificacionOut,
     SeguimientoCompletoPacienteOut
   } from '../../core/domain/outputs';
-import { SolicitarSeguimientoIn, AtenderSolicitudSeguimientoIn,
+import { SolicitarSeguimientoIn, 
+  AtenderSolicitudSeguimientoIn,
   SeguimientoCompletoPacienteIn, 
-  AgendarSolicitudSeguimientoIn, FiltrarSeguimientoIn } from '../../core/domain/inputs';
+  AgendarSolicitudSeguimientoIn,
+  CrearNotificacionIn, 
+  FiltrarSeguimientoIn } from '../../core/domain/inputs';
 
 export const createSeguimiento = createAction(
   '[Seguimiento] Create Seguimiento',
@@ -52,34 +56,9 @@ export const agendarSeguimientoError = createAction(
   props<{ error: String }>()
 )
 
-// export const sendNotificationAgendado = createAction(
-//   '[Seguimiento] Send Notification Agendado',
-//   props<{ tokenMovil?:String }>()
-// )
-
-export const sendNotificationAgendadoSuccess = createAction(
-  '[Seguimiento] Send Notification Success',
-  props<{ msg }>()
-)
-
-export const sendNotificationAgendadoError = createAction(
-  '[Seguimiento] Send Notification Error',
-  props<{ error }>()
-)
-
 export const sendNotificationVideoLlamada = createAction(
   '[Seguimiento] Send Notification Video Llamada',
-  props<{ seguimiento: FiltrarSeguimientoOut, doctor?:LoginOut }>()
-)
-
-export const sendNotificationVideoLlamadaSuccess = createAction(
-  '[Seguimiento] Send Notification Video Llamada Success',
-  props<{ msg }>()
-)
-
-export const sendNotificationVideoLlamadaError = createAction(
-  '[Seguimiento] Send Notification Video Llamada Error',
-  props<{ error }>()
+  props<{ seguimiento: FiltrarSeguimientoOut, doctor?:LoginOut, notification: CrearNotificacionIn}>()
 )
 
 export const loadSeguimientosAgendados = createAction(
@@ -125,4 +104,34 @@ export const loadSeguimientosCompletosSuccess = createAction(
 export const loadSeguimientosCompletosError = createAction(
   '[Seguimiento] Load Seguimientos Completos Error',
   props<{ error: String }>()
+)
+
+export const createNotification = createAction(
+  '[Seguimiento] Create Notification',
+  props<{ notification: CrearNotificacionIn }>()
+)
+
+export const createNotificationSuccess = createAction(
+  '[Seguimiento] Create Notification Success',
+  props<{ notification: CrearNotificacionOut }>()
+)
+
+export const createNotificationError = createAction(
+  '[Seguimiento] Create Notification Error',
+  props<{ error }>()
+)
+
+export const sendPushNotification = createAction(
+  '[Seguimiento] Send Push Notification',
+  props<{ seguimiento: FiltrarSeguimientoOut, doctor?:LoginOut, notificacion: CrearNotificacionIn}>()
+)
+
+export const sendPushNotificationSuccess = createAction(
+  '[Seguimiento] Send Push Notification Success',
+  props<{ msg }>()
+)
+
+export const sendPushNotificationError = createAction(
+  '[Seguimiento] Send Push Notification Error',
+  props<{ error }>()
 )

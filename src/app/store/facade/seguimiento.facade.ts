@@ -1,10 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as seguimientoActions from '../actions/seguimiento.actions';
-import { SolicitarSeguimientoIn, AtenderSolicitudSeguimientoIn, FiltrarSeguimientoIn, SeguimientoCompletoPacienteIn } from '../../core/domain/inputs';
-import { FiltrarSeguimientoOut, LoginOut, SeguimientoCompletoPacienteOut } from '../../core/domain/outputs';
-import { AppState, selectSeguimientosAgendados, selectCitasPacientes, 
-    selectIsLoadingSeguimientosCompletos, selectSeguimientosCompletos }from '../app.reducer';
+import { SolicitarSeguimientoIn, 
+         AtenderSolicitudSeguimientoIn,
+         FiltrarSeguimientoIn,
+         SeguimientoCompletoPacienteIn, 
+         CrearNotificacionIn } from '../../core/domain/inputs';
+import { FiltrarSeguimientoOut, 
+         LoginOut, 
+         SeguimientoCompletoPacienteOut } from '../../core/domain/outputs';
+import { AppState, 
+         selectSeguimientosAgendados, 
+         selectCitasPacientes, 
+         selectIsLoadingSeguimientosCompletos, 
+         selectSeguimientosCompletos }from '../app.reducer';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -38,8 +47,8 @@ export class SeguimientoFacade {
     this.store.dispatch(seguimientoActions.loadCitasPaciente({filter}))
   } 
 
-  dispatchActionSendNotificationVideoLlamada(seguimiento:FiltrarSeguimientoOut, doctor:LoginOut):void{
-    this.store.dispatch(seguimientoActions.sendNotificationVideoLlamada({seguimiento, doctor}))
+  dispatchActionSendNotificationVideoLlamada(seguimiento:FiltrarSeguimientoOut, doctor:LoginOut, notification: CrearNotificacionIn):void{
+    this.store.dispatch(seguimientoActions.sendNotificationVideoLlamada({seguimiento, doctor, notification}))
   } 
 
   getCitasPacienteFromStore():Observable<FiltrarSeguimientoOut[]>{
