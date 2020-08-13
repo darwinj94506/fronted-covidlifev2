@@ -14,12 +14,14 @@ export abstract class SeguimientoRepositorio extends GenericRepository<ISeguimie
     abstract getSeguimientosAtendidos(): any
     abstract createSeguimiento(seguimiento: SolicitarSeguimientoIn) : Observable<SolicitarSeguimientoOut>;
     abstract getSeguimientoById(idSeguimiento : ConsultarUnSeguimientoIn): Observable<ConsultarUnSeguimientoOut>;
-    abstract filterSeguimiento(filter: FiltrarSeguimientoIn): Observable<FiltrarSeguimientoOut[]>;
+    // abstract filterSeguimiento(filter: FiltrarSeguimientoIn): Observable<FiltrarSeguimientoOut[]>;
+
     // abstract suscriptionSeguimiento():  Observable<ConsultarUnSeguimientoOut>;
     abstract suscriptionSeguimiento(filter: FiltrarSeguimientoIn): any;
     abstract atenderSeguimiento(seguimiento: AtenderSolicitudSeguimientoIn):Observable<AtenderSolicitudSeguimientoOut>;
     abstract agendarSeguimiento(seguimiento: AgendarSolicitudSeguimientoIn):Observable<AgendarSolicitudSeguimientoOut>;
     abstract getResumenSeguimientosPaciente(data: SeguimientoCompletoPacienteIn):Observable<SeguimientoCompletoPacienteOut []>;
     abstract createNotification(data: CrearNotificacionIn):Observable<CrearNotificacionOut>;
-    
+    abstract filterSeguimiento(filter: FiltrarSeguimientoIn): Observable<FiltrarSeguimientoOut[]>;
+
 }
