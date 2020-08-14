@@ -42,7 +42,6 @@ export class AuthEffects {
             this._authService.saveLocalStorage({...userLogged})
             this._authService.navigateToInit(userLogged)})
     )     
-
  
     @Effect()
     register: Observable<any> = this.actions$.pipe(

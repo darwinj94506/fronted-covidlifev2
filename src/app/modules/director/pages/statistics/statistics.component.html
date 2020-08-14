@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-12">
         <!-- You can find this in the dashboard-component -->
-        <app-project-counter></app-project-counter>
+        <app-project-counter [contadoresEstadisticas$]="contadoresEstadisticas$"></app-project-counter>
     </div>
 </div>
 <!-- ============================================================== -->
@@ -26,6 +26,12 @@
                             </li>
                             <li class="list-inline-item">
                                 <h6 class="text-info"><i class="fa fa-circle font-10 m-r-10"></i>Confirmados</h6>
+                            </li>
+                            <li class="list-inline-item">
+                                <h6 class="text-info"><i class="fa fa-circle font-10 m-r-10"></i>Recurperados</h6>
+                            </li>
+                            <li class="list-inline-item">
+                                <h6 class="text-info"><i class="fa fa-circle font-10 m-r-10"></i>Fallecidos</h6>
                             </li>
                         </ul>
                     </div>

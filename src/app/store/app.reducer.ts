@@ -20,6 +20,7 @@ export const AppReducers: ActionReducerMap<AppState> = {
 export const selectMainState = (state: AppState) => state.main;
 
 export const selectUserLogged = createSelector(selectMainState,(state: MainState) => state.userLogged);
+export const selectIsLogged = createSelector(selectMainState,(state: MainState) => state.isLogged);
 export const selectUsers = createSelector(selectMainState,(state: MainState) => state.users);
 export const selectUsersLoading = createSelector(selectMainState,(state: MainState) => state.isLoadingUsers);
 // export const selectLogoutLoading = createSelector(selectMainState,(state: MainState) => state.isLoadingLogout);

@@ -1,0 +1,1 @@
+export { VerTotalPacientesDiagnosticoUseCase } from './ver-total-pacientes-diagnostico.usecase';

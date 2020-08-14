@@ -10,6 +10,7 @@ import { AppState,
          selectUserLogged,
          selectUsers,
          selectHospitalSession,
+         selectIsLogged,
          selectUsersLoading }from '../app.reducer';
          
 @Injectable({
@@ -37,6 +38,10 @@ export class MainFacade {
 
   getLoadingUser(): Observable<boolean>{
     return this.store.select(selectUsersLoading);
+  }
+
+  getIsLoggedFromStore(): Observable<boolean>{
+    return this.store.select(selectIsLogged).pipe(first());
   }
 
   loadUsers(filter:FilterUserIn): void {

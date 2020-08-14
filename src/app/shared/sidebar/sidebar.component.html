@@ -4,7 +4,7 @@
         <li class="sidebar-item user-profile" [class.active]="showMenu === 'user'">
             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" (click)="addExpandClass('user')" aria-expanded="false"><span><img src="assets/images/users/profile.png" alt="user" /></span><span class="hide-menu">{{userLogged.name}} {{userLogged.lastname}}</span></a>
             <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'user'">
-                <li><a href="javascript:void()" (click)="goToPerfil()" lass="sidebar-link p-0">Mi perfil </a></li>
+                <li><a href="javascript:void()" (click)="goToPerfil()" class="sidebar-link p-0">Mi perfil </a></li>
                 <!-- <li><a href="javascript:void()" class="sidebar-link p-0">My Balance</a></li> -->
                 <!-- <li><a href="javascript:void()" class="sidebar-link p-0">Inbox</a></li> -->
                 <li><a href="javascript:void()" class="sidebar-link p-0" (click)="cambiarHospital()">Cambiar de hospital</a></li>

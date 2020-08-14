@@ -8,6 +8,7 @@ export interface MainState {
   users : FilterUserOut[];
   isLoadingUsers: boolean; 
   hospitalSession: VORoleHospitalPopulateLoginOut;
+  isLogged:boolean;
 }
 
 const initUser: LoginOut = {
@@ -34,7 +35,8 @@ export const initialState: MainState = {
   isLoading:false,
   users : [],
   isLoadingUsers:false,
-  hospitalSession:{...initVORoleHospital}
+  hospitalSession:{...initVORoleHospital},
+  isLogged:false
 };
 
 const mainReducer = createReducer(
@@ -44,10 +46,11 @@ const mainReducer = createReducer(
       isLoading:true,
   })),
   on(authActions.loadUserLoggedSuccess, (state, payload) => { 
-    console.log(payload.userLogged)
+    // console.log(payload.userLogged)
     return({
     ...state,
     isLoading:false,
+    isLogged:true,
     userLogged: {...payload.userLogged}
   })}),
   on(authActions.loadUserLoggedError, (state) => ({
@@ -97,7 +100,12 @@ const mainReducer = createReducer(
   })),
   on(authActions.saveUserLogged, (state, payload) => ({
     ...state,
-    userLogged:payload.userLogged
+    userLogged:payload.userLogged,
+    isLogged:true
+  })),
+  on(authActions.logout, state=>({
+    ...state,
+    isLogged:false,
   }))
 );
 

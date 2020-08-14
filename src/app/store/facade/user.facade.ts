@@ -4,7 +4,8 @@ import * as userActions from '../actions/user.actions';
 import { IdIn, AsignarRoleIn, FilterUserIn } from '../../core/domain/inputs';
 import { RolesUserEnum } from '../../core/domain/enums';
 import { UserPerfilOut, FiltrarSeguimientoOut, VORoleHospitalPopulateLoginOut, FilterUserOut } from '../../core/domain/outputs';
-import { AppState, selectUserPerfil, selectLoadingUserPerfile, selectLoadingMiPerfil, selectMiPerfil, selectSearchingUsers, selectFindedUsers} from '../app.reducer';
+import { AppState, selectUserPerfil, selectLoadingUserPerfile, selectIsLogged, 
+        selectLoadingMiPerfil, selectMiPerfil, selectSearchingUsers, selectFindedUsers} from '../app.reducer';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -66,6 +67,10 @@ export class UserFacade {
 
   getSearchingUsersFromStorage(): Observable<boolean>{
     return this.store.select(selectSearchingUsers)
+  }
+
+  getIsLoggedFromStore():Observable<boolean>{
+    return this.store.select(selectIsLogged)
   }
 
 }

@@ -58,6 +58,7 @@ export class MainEffects {
     saveHospitalSession: Observable<any> = this.actions$.pipe(
         ofType(mainActions.saveHospitalSession),
         tap(({hospitalSession})=>{
+                console.log(hospitalSession);
                 this._authService.saveHospitalSesion(hospitalSession);
                 this._authService.navigateToDashboard(hospitalSession)})
     ) 

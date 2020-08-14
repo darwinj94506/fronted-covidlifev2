@@ -4,22 +4,27 @@ import { ToastrService } from 'ngx-toastr';
 import { VORoleHospital, IUsuarioEntity } from '../core/domain/entities';
 import { RolesUserEnum } from '../core/domain/enums';
 import { Apollo } from 'apollo-angular';
-import { VORoleHospitalPopulateLoginOut } from '../core/domain/outputs';
-
+import { VORoleHospitalPopulateLoginOut, LoginOut } from '../core/domain/outputs';
+import { JwtHelperService } from "@auth0/angular-jwt";
+const helper = new JwtHelperService();
 @Injectable({providedIn:'root'})
+
 export class AuthService {
     
-    constructor( private router: Router, private toastr: ToastrService, private apollo: Apollo){}
+    constructor( private router: Router, private toastr: ToastrService,
+                private apollo: Apollo){}
 
     saveLocalStorage( userLogged: any ) {
+        console.log(userLogged);
         localStorage.setItem('token', userLogged.token);
         let userToSave = JSON.stringify(userLogged);
         localStorage.setItem('userLogged', userToSave );
     }
 
     saveHospitalSesion(hospitalSession: VORoleHospitalPopulateLoginOut){
-        let hospitalToSave = JSON.stringify(hospitalSession)
-        localStorage.setItem('hospital',hospitalToSave)
+        // let hospitalToSave = JSON.stringify(hospitalSession)
+        let idHospital = hospitalSession.idHospital._id;
+        localStorage.setItem('hospitalSession', idHospital.toString())
     }
 
     clearLocalStorage(){
@@ -29,7 +34,7 @@ export class AuthService {
     
     logout() {
         // this.apollo.getClient().resetStore();
-        localStorage.removeItem('hospital');
+        localStorage.removeItem('hospitalSession');
         localStorage.removeItem('userLogged');
         localStorage.removeItem('token');
         this.navigateToLogin();
@@ -67,12 +72,21 @@ export class AuthService {
         } 
     }
 
-    navigateToInit(userLogged: IUsuarioEntity){
+    navigateToInit(userLogged){
         if(userLogged.isRoot) 
             this.router.navigate(['/root'])
         else
             this.router.navigate(['/inicio'])
     }
 
-}
+    public isAuthenticated(): boolean {
+        const token = localStorage.getItem('token');
+        // Check whether the token is expired and return true or false
 
+        if (token == null){
+            return false;
+        } else {
+        return !helper.isTokenExpired(token);
+        }
+    }
+}

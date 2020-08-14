@@ -40,12 +40,15 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { UserMDBRepository,
          HospitalMDBRepository,
          SeguimientoMDBRepository,
+         EstaditicasMDBRepository,
          EspacioMDBRepository } from './data/repositories/mongodb';
 
 import { UsuarioRepository,
          EspacioRepositorio,
          HospitalRepositorio,
-         SeguimientoRepositorio } from './core/repositories';
+         SeguimientoRepositorio,
+         EstadisticasRepository
+         } from './core/repositories';
 import { InitComponent } from './init/init.component';
 
 import { NgxAgoraModule } from 'ngx-agora';
@@ -99,6 +102,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     { provide: EspacioRepositorio, useClass: EspacioMDBRepository },
     { provide: HospitalRepositorio, useClass: HospitalMDBRepository },
     { provide: SeguimientoRepositorio, useClass: SeguimientoMDBRepository},
+    { provide: EstadisticasRepository, useClass: EstaditicasMDBRepository},
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG

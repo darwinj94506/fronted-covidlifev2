@@ -14,3 +14,4 @@ export { AgendarSolicitudSeguimientoIn } from './agendar-solicitud-seguimiento.i
 export { AsignarRoleIn } from './asignar-role-in';
 export { SeguimientoCompletoPacienteIn } from './seguimiento-completo-paciente.in';
 export { CrearNotificacionIn } from './crear-notificacion.in';
+export { ContadoresEstadisticaIn } from './contadores-estadistica.in';

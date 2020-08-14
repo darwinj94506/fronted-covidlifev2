@@ -10,7 +10,9 @@
             <ngb-tabset type="pills" class="custom-pills">
                 <ngb-tab title="Timeline">
                     <ng-template ngbTabContent>
-                        <app-time-line></app-time-line>
+                        <ng-container *ngIf="userPerfil$ | async as userPerfil">
+                            <app-time-line [idPaciente]="userPerfil._id"></app-time-line>
+                        </ng-container>
                     </ng-template>
                 </ngb-tab>
                 <ngb-tab title="Profile">

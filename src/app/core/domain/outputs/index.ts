@@ -13,3 +13,4 @@ export { FilterUserOut } from './filter-user.out';
 export { VORoleHospitalPopulateOut } from './vo-role-hospital-populate.out';
 export { SeguimientoCompletoPacienteOut } from './seguimiento-completo-paciente.out';
 export { CrearNotificacionOut } from './crear-notificacion.out';
+export { ContadoresEstadisticaOut } from './contadores-estadistica.out';

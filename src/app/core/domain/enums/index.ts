@@ -15,3 +15,4 @@ export { UserStateEnum } from './user-state.enum';
 export { RolesUserEnum } from './roles-user.enum';
 export { EstadoEntidadEnum } from './estado-entidad.enum';
 export { NotificacionEstadoEnum } from'./notification-estado.enum';
+export { EstadisticaTipoEnum } from './estadistica-tipo.enum';
