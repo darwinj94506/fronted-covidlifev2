@@ -83,21 +83,25 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.subscribeToSeguimientosAgendadas();
     this.subscribeToSeguimientosAtendidos();
     this.segSinLlamada$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
+      this.segSinLlamada = [];
       console.log(response);
       this.segSinLlamada = response;
     })
 
     this.segConLlamada$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
+      this.segConLlamada = [];
       console.log(response);
       this.segConLlamada= response;
     })
 
     this.segAgendados$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
+      this.segAgendados = [];
       console.log(response);
       this.segAgendados= response;
     })
 
     this.segAtendidos$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
+      this.segAtendidos = [];
       console.log(response);
       this.segAtendidos= response;
     })
@@ -111,8 +115,10 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
 
 
   queryAgendados(hospital: VORoleHospitalPopulateLoginOut, userLogged: LoginOut){
+    let date=new Date();
+    date.setHours(0,0,0);
     let filter:FiltrarSeguimientoIn = {  fechaUltimos: 
-      { createAt: new Date(), 
+      { createAt: date,
         isUltimos: false, 
         AndIdHospital: hospital.idHospital._id,
         AndIdDoctor: userLogged._id,
@@ -127,8 +133,11 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   }
 
   querySinLlamada(hospital: VORoleHospitalPopulateLoginOut){
+    let date=new Date();
+    date.setHours(0,0,0);
+    console.log(date);
     let filter:FiltrarSeguimientoIn = {  fechaUltimos: 
-      { createAt: new Date(), 
+      { createAt: date, 
         isUltimos: true, 
         AndIdHospital: hospital.idHospital._id,
         AndEstado: SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA
@@ -142,8 +151,10 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   }
 
   queryConLlamada(hospital: VORoleHospitalPopulateLoginOut){
+    let date = new Date();
+    date.setHours(0,0,0);
     let filter: FiltrarSeguimientoIn = {  fechaUltimos: 
-      { createAt: new Date(), 
+      { createAt: date, 
         isUltimos: true, 
         AndIdHospital: hospital.idHospital._id,
         AndEstado: SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA 
@@ -157,8 +168,10 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   }
 
   queryAtendidos(hospital: VORoleHospitalPopulateLoginOut, userLogged: LoginOut){
+    let date=new Date();
+    date.setHours(0,0,0);
     let filterAgendados:FiltrarSeguimientoIn = {  fechaUltimos: 
-      { createAt: new Date(), 
+      { createAt: date, 
         isUltimos: false, 
         AndIdHospital: hospital.idHospital._id,
         AndIdDoctor: userLogged._id 
