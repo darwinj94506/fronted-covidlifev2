@@ -83,6 +83,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.subscribeToSeguimientosAgendadas();
     this.subscribeToSeguimientosAtendidos();
     this.segSinLlamada$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
+      
       this.segSinLlamada = [];
       console.log(response);
       this.segSinLlamada = response;
@@ -170,14 +171,15 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   queryAtendidos(hospital: VORoleHospitalPopulateLoginOut, userLogged: LoginOut){
     let date=new Date();
     date.setHours(0,0,0);
-    let filterAgendados:FiltrarSeguimientoIn = {  fechaUltimos: 
+    let filterAtendidos:FiltrarSeguimientoIn = {  fechaUltimos: 
       { createAt: date, 
         isUltimos: false, 
         AndIdHospital: hospital.idHospital._id,
-        AndIdDoctor: userLogged._id 
+        AndIdDoctor: userLogged._id,
+        AndEstado: SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA 
       }
     }
-    this.segAtendidosQueryRef = this._suscriptionService.filterSeguimiento(filterAgendados);
+    this.segAtendidosQueryRef = this._suscriptionService.filterSeguimiento(filterAtendidos);
     this.segAtendidos$ = this.segAtendidosQueryRef.valueChanges
       .pipe(
       map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.filter.resolve] ))
@@ -188,9 +190,10 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.segSinLlamadaQueryRef.subscribeToMore({
       document: SEGUIMIENTO_OPERATIONS.suscription.gql,
       updateQuery: (prev, {subscriptionData}) => {
-        if (!subscriptionData.data) {
+        if (!subscriptionData.data || subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA) {
           return prev;
         }
+        console.log(prev);
         // console.log(subscriptionData);
         // console.log(subscriptionData.data.cambioSeguimientoNotificacion);
         const newDataQuery = this.getDataForUpdateGrapqlQuery(subscriptionData.data.cambioSeguimientoNotificacion, prev.filterSeguimiento)
@@ -203,7 +206,6 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   }
 
   getDataForUpdateGrapqlQuery(entrySeguimiento: FiltrarSeguimientoOut, previousSeguimientos: FiltrarSeguimientoOut []): FiltrarSeguimientoOut[]{
-    // console.log(previousSeguimientos);
     let index = previousSeguimientos.findIndex(item=>item.idPaciente._id === entrySeguimiento.idPaciente._id)
     if(index === -1)
       return [entrySeguimiento, ...previousSeguimientos]
@@ -216,8 +218,8 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.segConLlamadaQueryRef.subscribeToMore({
       document: SEGUIMIENTO_OPERATIONS.suscription.gql,
       updateQuery: (prev, {subscriptionData}) => {
-        if (!subscriptionData.data) {
-          return prev;
+        if (!subscriptionData.data || subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA) {
+          return prev; 
         }
         const newDataQuery = this.getDataForSegConLlamadaQuery(subscriptionData.data.cambioSeguimientoNotificacion, prev.filterSeguimiento)
         return {
@@ -241,7 +243,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.segAgendadosQueryRef.subscribeToMore({
       document: SEGUIMIENTO_OPERATIONS.suscription.gql,
       updateQuery: (prev, {subscriptionData}) => {
-        if (!subscriptionData.data) {
+        if (!subscriptionData.data ||  subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.AGENDADO) {
           return prev;
         }
         const newDataQuery = [subscriptionData.data.cambioSeguimientoNotificacion, ...prev.filterSeguimiento]
@@ -257,7 +259,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.segAtendidosQueryRef.subscribeToMore({
       document: SEGUIMIENTO_OPERATIONS.suscription.gql,
       updateQuery: (prev, {subscriptionData}) => {
-        if (!subscriptionData.data) {
+        if (!subscriptionData.data || subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA) {
           return prev;
         }
         const newDataQuery = [subscriptionData.data.cambioSeguimientoNotificacion, ...prev.filterSeguimiento]
