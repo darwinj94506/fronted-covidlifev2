@@ -224,3 +224,68 @@ export const RESUMEN_SEGUIMIENTOS_COMPLETOS = gql`
       }
     }
   `;
+
+  export const VER_NOTIFICACIONES_ENVIADAS = gql `
+    query getNotificacionesEnviadas($data:ObtenerNotificacionesEnviadasIn!){
+      getNotificacionesEnviadas(data:$data){
+        _id
+        titulo
+        descripcion
+        idSeguimiento
+        idEmisor{
+          _id
+          name
+          lastname
+          ci
+          email
+          state
+        }
+        idReceptor{
+          _id
+          name
+          lastname
+          ci
+          email
+          state
+        }
+        vistaEn
+        estadoNotificacion
+        fechaCambioUltimoEstado
+        createAt
+      }
+      
+    }
+  `;
+
+  export const GET_NOTIFICAIONES_RECIBIDAS = gql ` 
+  query getNotificacionesrecibidas($data:ObtenerNotificacionesRecibidasIn!){
+    getNotificacionesRecibidas(data:$data){
+      _id
+      titulo
+      descripcion
+      idSeguimiento
+      idEmisor{
+        _id
+        name
+        lastname
+        ci
+        email
+        state
+      }
+      idReceptor{
+         _id
+        name
+        lastname
+        ci
+        email
+        state
+      }
+      vistaEn
+      estadoNotificacion
+      fechaCambioUltimoEstado
+      createAt
+    }
+    
+  }
+
+  `;

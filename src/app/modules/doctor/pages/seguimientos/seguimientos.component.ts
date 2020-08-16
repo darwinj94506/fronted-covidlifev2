@@ -74,7 +74,6 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
       this.makeAction(args);  
     });
  
-
     forkJoin(this._mainFacade.getHospitalSesion(),this._mainFacade.getUserLogged())
       .subscribe(([hospital, userLogged])=>{
         this.userLogged = userLogged;
