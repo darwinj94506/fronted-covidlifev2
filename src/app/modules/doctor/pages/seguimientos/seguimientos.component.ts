@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy} from '@angular/core';
 import { DragulaService } from 'ng2-dragula';
 import { Observable, forkJoin, Subject} from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, map} from 'rxjs/operators';
 import { FiltrarSeguimientoOut, 
          AtenderSolicitudSeguimientoOut,
+         VORoleHospitalPopulateLoginOut,
+         ItemDragula,
          LoginOut } from '../../../../core/domain/outputs';
 import { FiltrarSeguimientoIn, 
          IdIn, 
@@ -23,129 +25,202 @@ import { Apollo, QueryRef } from 'apollo-angular';
 import { SEGUIMIENTO_OPERATIONS } from '../../../../data/graphq';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
-
-interface args {
-  name: string;
-  el: Element;
-  target: Element;
-  source: Element;
-  sibling: Element;
-  item: FiltrarSeguimientoOut;
-  sourceModel: FiltrarSeguimientoOut[];
-  targetModel: FiltrarSeguimientoOut[];
-}
-
+import { SuscriptionService } from '../../../../services';
 @Component({
   selector: 'app-seguimientos',
   templateUrl: './seguimientos.component.html',
   styleUrls: ['./seguimientos.component.css']
 })
 export class SeguimientosComponent implements OnInit, OnDestroy {
-  segQuery: QueryRef<any>;
-  seguimientos:Observable<any>;
+  // segQueryRef: QueryRef<any>;
+  // seguimientos:Observable<any>;
+  userLogged: LoginOut;
+  private _destroyed$ = new Subject();
   
   segSinLlamada = [];
   segConLlamada = [];
   segAtendidos = [];
   segAgendados = [];
-  userLogged: LoginOut;
-  seguimientosAgendados$: Observable<FiltrarSeguimientoOut[]>;
-  seguimientosSinLlamada$ : Observable<FiltrarSeguimientoOut[]>;
-  seguimientosConLlamada$ : Observable<FiltrarSeguimientoOut[]>;
-  seguimientosAtendidos$ : Observable<FiltrarSeguimientoOut[]>;
+  
+  segAgendados$: Observable<FiltrarSeguimientoOut[]>;
+  segSinLlamada$ : Observable<FiltrarSeguimientoOut[]>;
+  segConLlamada$ : Observable<FiltrarSeguimientoOut[]>;
+  segAtendidos$ : Observable<FiltrarSeguimientoOut[]>;
 
+  segSinLlamadaQueryRef: QueryRef<any>;
+  segConLlamadaQueryRef: QueryRef<any>;
+  segAgendadosQueryRef: QueryRef<any>;
+  segAtendidosQueryRef: QueryRef<any>;
   constructor(
      private dragulaService: DragulaService,
-     private apollo: Apollo,
      private _mainFacade: MainFacade,
-     private _spinner: NgxSpinnerService,
      private _userFacade: UserFacade,
      private _seguimientoFacade: SeguimientoFacade,
      private _router: Router,
-     private _verSeguimientosAgendadosUseCase: VerSeguimientosAgendadosUseCase,
-     private _verSeguimientosNoAtendidosSinLLamadaUseCase :VerSeguimientosNoAtendidosSinLLamadaUseCase,
-     private _verSeguimientosNoAtendidosConLLamadaUseCase :VerSeguimientosNoAtendidosConLLamadaUseCase 
+     private _suscriptionService:SuscriptionService,  
 
      ) {
     this.dragulaService.destroy('SEGUIMIENTOS');
     this.dragulaService.createGroup("SEGUIMIENTOS", {});
-    this.dragulaService.dropModel("SEGUIMIENTOS").subscribe(args => {
-      console.log(args);
+    this.dragulaService.dropModel("SEGUIMIENTOS").pipe(takeUntil(this._destroyed$)).subscribe(args => {
       this.makeAction(args);  
     });
  
     forkJoin(this._mainFacade.getHospitalSesion(),this._mainFacade.getUserLogged())
       .subscribe(([hospital, userLogged])=>{
         this.userLogged = userLogged;
-        
-        let filter : FiltrarSeguimientoIn = { 
-          fechaUltimos :{
-            isUltimos:true,
-            createAt: new Date(),
-            AndIdHospital: hospital.idHospital._id
-          }
-        }
-        this.segQuery = this.apollo.watchQuery({
-          query: SEGUIMIENTO_OPERATIONS.filter.gql,
-          variables: {
-            data: filter
-          }
-        });  
-        this.seguimientos = this.segQuery.valueChanges;
-    
+        this.querySinLlamada(hospital)
+        this.queryConLlamada(hospital);
+        this.queryAgendados(hospital, userLogged);
+        this.queryAtendidos(hospital, userLogged);
       })
-   
   }
  
   ngOnInit(){
-    this.subscribeToSeguimientos();
-    this.seguimientos.subscribe(response => {
-      this.segSinLlamada = [];
-      this.segConLlamada = [];
-      this.segAgendados = [];
-      this.segAtendidos = [];
+    this.subscribeToSeguimientosSinLlamada();
+    this.subscribeToSeguimientosConLlamada();
+    this.subscribeToSeguimientosAgendadas();
+    this.subscribeToSeguimientosAtendidos();
+    this.segSinLlamada$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
       
-      if(response.data.loading) this._spinner.show();
-      if(!response.data.loading) this._spinner.hide();
-      console.log(response.data);
+      this.segSinLlamada = [];
       console.log(response);
-      response.data.filterSeguimiento.forEach((seguimiento : FiltrarSeguimientoOut) => {
-        switch (seguimiento.estado){
-          case SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA:
-            this.segSinLlamada.push(seguimiento);
-          break;
-          case SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA:
-            this.segConLlamada.push(seguimiento);
-          break;
-          case SeguimientoEstadoEnum.AGENDADO:   
-            this.segAgendados.push(seguimiento);
-          break;
-          case SeguimientoEstadoEnum.REVISADO_CON_LLAMADA:
-            this.segAtendidos.push(seguimiento);
-          break;
-          case SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
-            this.segAtendidos.push(seguimiento);
-          break;
-        } 
-      });
-    });
+      this.segSinLlamada = response;
+    })
+
+    this.segConLlamada$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
+      this.segConLlamada = [];
+      console.log(response);
+      this.segConLlamada= response;
+    })
+
+    this.segAgendados$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
+      this.segAgendados = [];
+      console.log(response);
+      this.segAgendados= response;
+    })
+
+    this.segAtendidos$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
+      this.segAtendidos = [];
+      console.log(response);
+      this.segAtendidos= response;
+    })
+
   }
   
   ngOnDestroy(){
-    // this._destroyed$.next();
-    // this._destroyed$.complete();
+    this._destroyed$.next();
+    this._destroyed$.complete();
   }
 
-  subscribeToSeguimientos() {
-    this.segQuery.subscribeToMore({
+
+  queryAgendados(hospital: VORoleHospitalPopulateLoginOut, userLogged: LoginOut){
+    let date=new Date();
+    date.setHours(0,0,0);
+    let filter:FiltrarSeguimientoIn = {  fechaUltimos: 
+      { createAt: date,
+        isUltimos: false, 
+        AndIdHospital: hospital.idHospital._id,
+        AndIdDoctor: userLogged._id,
+        AndEstado: SeguimientoEstadoEnum.AGENDADO 
+      }
+    }
+    this.segAgendadosQueryRef = this._suscriptionService.filterSeguimiento(filter);
+    this.segAgendados$ = this.segAgendadosQueryRef.valueChanges
+      .pipe(
+      map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.filter.resolve] ))
+
+  }
+
+  querySinLlamada(hospital: VORoleHospitalPopulateLoginOut){
+    let date=new Date();
+    date.setHours(0,0,0);
+    console.log(date);
+    let filter:FiltrarSeguimientoIn = {  fechaUltimos: 
+      { createAt: date, 
+        isUltimos: true, 
+        AndIdHospital: hospital.idHospital._id,
+        AndEstado: SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA
+      }
+    }
+    this.segSinLlamadaQueryRef = this._suscriptionService.filterSeguimiento(filter);
+    this.segSinLlamada$ = this.segSinLlamadaQueryRef.valueChanges
+      .pipe(
+      map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.filter.resolve] ))
+
+  }
+
+  queryConLlamada(hospital: VORoleHospitalPopulateLoginOut){
+    let date = new Date();
+    date.setHours(0,0,0);
+    let filter: FiltrarSeguimientoIn = {  fechaUltimos: 
+      { createAt: date, 
+        isUltimos: true, 
+        AndIdHospital: hospital.idHospital._id,
+        AndEstado: SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA 
+      }
+    }
+    this.segConLlamadaQueryRef = this._suscriptionService.filterSeguimiento(filter);
+    this.segConLlamada$ = this.segConLlamadaQueryRef.valueChanges
+      .pipe(
+      map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.filter.resolve] ))
+
+  }
+
+  queryAtendidos(hospital: VORoleHospitalPopulateLoginOut, userLogged: LoginOut){
+    let date=new Date();
+    date.setHours(0,0,0);
+    let filterAtendidos:FiltrarSeguimientoIn = {  fechaUltimos: 
+      { createAt: date, 
+        isUltimos: false, 
+        AndIdHospital: hospital.idHospital._id,
+        AndIdDoctor: userLogged._id,
+        AndEstado: SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA 
+      }
+    }
+    this.segAtendidosQueryRef = this._suscriptionService.filterSeguimiento(filterAtendidos);
+    this.segAtendidos$ = this.segAtendidosQueryRef.valueChanges
+      .pipe(
+      map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.filter.resolve] ))
+
+  }
+
+  subscribeToSeguimientosSinLlamada() {
+    this.segSinLlamadaQueryRef.subscribeToMore({
       document: SEGUIMIENTO_OPERATIONS.suscription.gql,
       updateQuery: (prev, {subscriptionData}) => {
-        if (!subscriptionData.data) {
+        if (!subscriptionData.data || subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA) {
           return prev;
         }
- 
+        console.log(prev);
+        // console.log(subscriptionData);
+        // console.log(subscriptionData.data.cambioSeguimientoNotificacion);
         const newDataQuery = this.getDataForUpdateGrapqlQuery(subscriptionData.data.cambioSeguimientoNotificacion, prev.filterSeguimiento)
+        return {
+          ...prev,
+          filterSeguimiento: [...newDataQuery]
+        };
+      }
+    });  
+  }
 
+  getDataForUpdateGrapqlQuery(entrySeguimiento: FiltrarSeguimientoOut, previousSeguimientos: FiltrarSeguimientoOut []): FiltrarSeguimientoOut[]{
+    let index = previousSeguimientos.findIndex(item=>item.idPaciente._id === entrySeguimiento.idPaciente._id)
+    if(index === -1)
+      return [entrySeguimiento, ...previousSeguimientos]
+    
+    previousSeguimientos[index] = {...entrySeguimiento}
+    return [...previousSeguimientos]
+  }
+
+  subscribeToSeguimientosConLlamada() {
+    this.segConLlamadaQueryRef.subscribeToMore({
+      document: SEGUIMIENTO_OPERATIONS.suscription.gql,
+      updateQuery: (prev, {subscriptionData}) => {
+        if (!subscriptionData.data || subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA) {
+          return prev; 
+        }
+        const newDataQuery = this.getDataForSegConLlamadaQuery(subscriptionData.data.cambioSeguimientoNotificacion, prev.filterSeguimiento)
         return {
           ...prev,
           filterSeguimiento: [...newDataQuery]
@@ -154,8 +229,8 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     });
   }
 
-  getDataForUpdateGrapqlQuery(entrySeguimiento: FiltrarSeguimientoOut, previousSeguimientos: FiltrarSeguimientoOut []): FiltrarSeguimientoOut[]{
-    let index = previousSeguimientos.findIndex(item=>item._id === entrySeguimiento._id)
+  getDataForSegConLlamadaQuery(entrySeguimiento: FiltrarSeguimientoOut, previousSeguimientos: FiltrarSeguimientoOut []): FiltrarSeguimientoOut[]{
+    let index = previousSeguimientos.findIndex(item=>item.idPaciente._id === entrySeguimiento.idPaciente._id)
     if(index === -1)
       return [entrySeguimiento, ...previousSeguimientos]
     
@@ -163,11 +238,43 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     return [...previousSeguimientos]
   }
 
+  subscribeToSeguimientosAgendadas() {
+    this.segAgendadosQueryRef.subscribeToMore({
+      document: SEGUIMIENTO_OPERATIONS.suscription.gql,
+      updateQuery: (prev, {subscriptionData}) => {
+        if (!subscriptionData.data ||  subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.AGENDADO) {
+          return prev;
+        }
+        const newDataQuery = [subscriptionData.data.cambioSeguimientoNotificacion, ...prev.filterSeguimiento]
+        return {
+          ...prev,
+          filterSeguimiento: [...newDataQuery]
+        };
+      }
+    });
+  }
+
+  subscribeToSeguimientosAtendidos() {
+    this.segAtendidosQueryRef.subscribeToMore({
+      document: SEGUIMIENTO_OPERATIONS.suscription.gql,
+      updateQuery: (prev, {subscriptionData}) => {
+        if (!subscriptionData.data || subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA) {
+          return prev;
+        }
+        const newDataQuery = [subscriptionData.data.cambioSeguimientoNotificacion, ...prev.filterSeguimiento]
+        return {
+          ...prev,
+          filterSeguimiento: [...newDataQuery]
+        };
+      }
+    });
+  }
+
   showModalAtencion(seguimiento:FiltrarSeguimientoOut) {
     this._userFacade.openModalPerfil(seguimiento)
   }
 
-   makeAction(args: args){
+   makeAction(args: ItemDragula){
      console.log(args.item);
     switch(args.target.getAttribute('id')){
       case 'segAgendados':

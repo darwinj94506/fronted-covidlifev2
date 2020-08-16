@@ -11,17 +11,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 
-export class VerSeguimientosNoAtendidosConLLamadaUseCase implements UseCase<{ idHospital:String, idDoctor }, FiltrarSeguimientoOut[]> {
+export class VerSeguimientosNoAtendidosConLLamadaUseCase implements UseCase<String, FiltrarSeguimientoOut[]> {
   
   constructor(private _segRepositorio: SeguimientoRepositorio) { }
   
-  execute(data: { idHospital:String, idDoctor }): Observable<FiltrarSeguimientoOut[]> {
+  execute(idHospital: String) : Observable<FiltrarSeguimientoOut[]> {
       let filter : FiltrarSeguimientoIn = {
       fechaUltimos:{
         createAt:new Date(),
         isUltimos: true,
-        AndIdDoctor:data.idDoctor,
-        AndIdHospital:data.idHospital,
+        AndIdHospital:idHospital,
         AndEstado: SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA
       }
     }
