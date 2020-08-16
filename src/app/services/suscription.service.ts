@@ -12,7 +12,7 @@ export class SuscriptionService {
 
     }
 
-    filterSeguimiento(filter: FiltrarSeguimientoIn): QueryRef<FiltrarSeguimientoOut[]>{
+    filterSeguimiento(filter: FiltrarSeguimientoIn): QueryRef<any>{
         return this.apollo
            .watchQuery(
            { 
