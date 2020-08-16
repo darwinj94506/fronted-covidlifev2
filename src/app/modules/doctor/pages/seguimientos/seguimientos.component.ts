@@ -47,10 +47,10 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   segConLlamada$ : Observable<FiltrarSeguimientoOut[]>;
   segAtendidos$ : Observable<FiltrarSeguimientoOut[]>;
 
-  segSinLlamadaQueryRef: QueryRef<FiltrarSeguimientoOut[]>;
-  segConLlamadaQueryRef: QueryRef<FiltrarSeguimientoOut[]>;
-  segAgendadosQueryRef: QueryRef<FiltrarSeguimientoOut[]>;
-  segAtendidosQueryRef: QueryRef<FiltrarSeguimientoOut[]>;
+  segSinLlamadaQueryRef: QueryRef<any>;
+  segConLlamadaQueryRef: QueryRef<any>;
+  segAgendadosQueryRef: QueryRef<any>;
+  segAtendidosQueryRef: QueryRef<any>;
   constructor(
      private dragulaService: DragulaService,
      private _mainFacade: MainFacade,
@@ -191,16 +191,19 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         if (!subscriptionData.data) {
           return prev;
         }
-        const newDataQuery = this.getDataForUpdateGrapqlQuery(subscriptionData.data.cambioSeguimientoNotificacion, prev)
+        // console.log(subscriptionData);
+        // console.log(subscriptionData.data.cambioSeguimientoNotificacion);
+        const newDataQuery = this.getDataForUpdateGrapqlQuery(subscriptionData.data.cambioSeguimientoNotificacion, prev.filterSeguimiento)
         return {
           ...prev,
           filterSeguimiento: [...newDataQuery]
         };
       }
-    });
+    });  
   }
 
   getDataForUpdateGrapqlQuery(entrySeguimiento: FiltrarSeguimientoOut, previousSeguimientos: FiltrarSeguimientoOut []): FiltrarSeguimientoOut[]{
+    // console.log(previousSeguimientos);
     let index = previousSeguimientos.findIndex(item=>item.idPaciente._id === entrySeguimiento.idPaciente._id)
     if(index === -1)
       return [entrySeguimiento, ...previousSeguimientos]
@@ -216,7 +219,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         if (!subscriptionData.data) {
           return prev;
         }
-        const newDataQuery = this.getDataForSegConLlamadaQuery(subscriptionData.data.cambioSeguimientoNotificacion, prev)
+        const newDataQuery = this.getDataForSegConLlamadaQuery(subscriptionData.data.cambioSeguimientoNotificacion, prev.filterSeguimiento)
         return {
           ...prev,
           filterSeguimiento: [...newDataQuery]
@@ -241,7 +244,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         if (!subscriptionData.data) {
           return prev;
         }
-        const newDataQuery = [subscriptionData.data.cambioSeguimientoNotificacion, ...prev]
+        const newDataQuery = [subscriptionData.data.cambioSeguimientoNotificacion, ...prev.filterSeguimiento]
         return {
           ...prev,
           filterSeguimiento: [...newDataQuery]
@@ -257,7 +260,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         if (!subscriptionData.data) {
           return prev;
         }
-        const newDataQuery = [subscriptionData.data.cambioSeguimientoNotificacion, ...prev]
+        const newDataQuery = [subscriptionData.data.cambioSeguimientoNotificacion, ...prev.filterSeguimiento]
         return {
           ...prev,
           filterSeguimiento: [...newDataQuery]

@@ -6,7 +6,7 @@
         </div> -->
         <div class="card vamp border border-secondary" *ngFor="let seg of segSinLlamada">
             <div class="card-header alert" [ngClass]="{'alert-success': seg.estado_diario_paciente == 'MEJOR_EVOLUCION', 'alert-danger': seg.estado_diario_paciente == 'EMPEORANDO' }">
-                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente.name }} {{ seg?.idPaciente.lastname }}</h5>
+                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente?.name }} {{ seg?.idPaciente?.lastname }}</h5>
             </div>
             <small>{{seg?.estado}}</small>
             <p class="p-3">{{seg?.createAt | date:'full' }}</p>
@@ -23,7 +23,7 @@
         </div> -->
         <div class="card border border-secondary vamp" *ngFor="let seg of segConLlamada">
             <div class="card-header alert" [ngClass]="{'alert-success': seg.estado_diario_paciente == 'MEJOR_EVOLUCION', 'alert-danger': seg.estado_diario_paciente == 'EMPEORANDO' }">
-                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente.name }} {{ seg?.idPaciente.lastname }}</h5>
+                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente?.name }} {{ seg?.idPaciente?.lastname }}</h5>
             </div>
             <small>{{seg?.estado}}</small>
             <p class="p-3">{{seg?.createAt | date:'full' }}</p>
@@ -39,13 +39,13 @@
         </div> -->
         <div class="card border border-secondary vamp" *ngFor="let seg of segAgendados">
             <div class="card-header alert" [ngClass]="{'alert-success': seg.estado_diario_paciente == 'MEJOR_EVOLUCION', 'alert-danger': seg.estado_diario_paciente == 'EMPEORANDO' }">
-                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente.name }} {{ seg?.idPaciente.lastname }}</h5>
+                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente?.name }} {{ seg?.idPaciente?.lastname }}</h5>
             </div>
             <small>{{seg?.estado}}</small>
             <p class="p-3">{{seg?.createAt | date:'full' }}</p>
             <p>{{seg?.estado_diario_paciente}}</p>
             <small>{{seg?.idHospital.nombre}}</small>
-            <p>{{seg.nota_paciente}}</p>
+            <p>{{seg?.nota_paciente}}</p>
             <button type="button" class="btn btn-outline-success" (click)="goToVideoCalling(seg)">Atender</button>
         </div>
     </div>
@@ -61,10 +61,10 @@
             <small>{{seg?.estado}}</small>
             <p class="p-3">{{seg?.createAt | date:'full'}}</p>
             <p>{{seg?.estado_diario_paciente}}</p>
-            <small>{{seg?.idHospital.nombre}}</small>
+            <small>{{seg?.idHospital?.nombre}}</small>
             <p>{{seg?.nota_paciente}}</p>
             <p>{{getDate(seg?.createAt)}} </p>
-            <p>{{seg?.idDoctor.name}} {{seg?.idDoctor.lastname}}</p>
+            <p>{{seg?.idDoctor?.name}} {{seg?.idDoctor?.lastname}}</p>
         </div>
     </div>
 
