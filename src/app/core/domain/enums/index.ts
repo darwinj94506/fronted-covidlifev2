@@ -16,5 +16,5 @@ export { RolesUserEnum } from './roles-user.enum';
 export { EstadoEntidadEnum } from './estado-entidad.enum';
 export { NotificacionEstadoEnum } from'./notification-estado.enum';
 export { EstadisticaTipoEnum } from './estadistica-tipo.enum';
-export { EmisorNotRecibOut } from './emisor-not-recib-out';
-export { ReceptorNotRecibOut } from './receptor-not-recib-out';
+export { EmisorNotRecibOut } from '../outputs/emisor-not-recib-out';
+export { ReceptorNotRecibOut } from '../outputs/receptor-not-recib-out';

@@ -18,7 +18,7 @@ export interface SeguimientoOperations extends IOperations{
     agendar: IOperation,
     resumenSeguimientos: IOperation,
     createNotification: IOperation,
-    verNotificaionesEnvadasr:IOperation,
+    verNotificaionesEnviadas:IOperation,
     getNoficacionesRecibidas:IOperation
 }
 
@@ -63,7 +63,7 @@ export const SEGUIMIENTO_OPERATIONS : SeguimientoOperations = {
         resolve:'addNotificacion',
         gql: CREATE_NOTIFICATION
     },
-    verNotificaionesEnvadasr:{
+    verNotificaionesEnviadas:{
         resolve:'getNotificacionesEnviadas',
         gql: VER_NOTIFICACIONES_ENVIADAS
     },

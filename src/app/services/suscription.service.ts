@@ -4,7 +4,9 @@ import { SEGUIMIENTO_OPERATIONS } from '../data/graphq';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FiltrarSeguimientoOut } from '../core/domain/outputs';
-import { FiltrarSeguimientoIn } from '../core/domain/inputs';
+import { FiltrarSeguimientoIn, 
+         ObtenerNotificacionesEnviadasIn,
+         ObtenerNotificacionesRecibidasIn } from '../core/domain/inputs';
 @Injectable({providedIn:'root'})
 export class SuscriptionService {
     
@@ -24,6 +26,28 @@ export class SuscriptionService {
         //    .valueChanges.pipe(
         //        map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.filter.resolve] ))
    }
+
+   getNotificationesEnviadas(filter: ObtenerNotificacionesEnviadasIn): QueryRef<any>{
+        return this.apollo
+            .watchQuery(
+            { 
+                query: SEGUIMIENTO_OPERATIONS.verNotificaionesEnviadas.gql,
+                variables:{
+                    data:filter
+                }
+            })
+    }
+
+    getNotificationesRecibidas(filter: ObtenerNotificacionesRecibidasIn): QueryRef<any>{
+        return this.apollo
+            .watchQuery(
+            { 
+                query: SEGUIMIENTO_OPERATIONS.getNoficacionesRecibidas.gql,
+                variables:{
+                    data:filter
+                }
+            })
+    }
 
 } 
 

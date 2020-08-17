@@ -15,3 +15,7 @@ export { SeguimientoCompletoPacienteOut } from './seguimiento-completo-paciente.
 export { CrearNotificacionOut } from './crear-notificacion.out';
 export { ContadoresEstadisticaOut } from './contadores-estadistica.out';
 export { ItemDragula } from './item.dragula';
+export { ObtenerNotificacionesRecibidasOut } from './obtener-notificaciones-recibidas.out';
+export { ObtenerNotificacionesEnviadasOut } from './obtener-notificaciones-enviadas.out';
+export { ReceptorNotRecibOut } from './receptor-not-recib-out';
+export { EmisorNotRecibOut } from './emisor-not-recib-out';

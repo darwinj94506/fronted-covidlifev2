@@ -1,4 +1,4 @@
-import { UserStateEnum } from './user-state.enum';
+import { UserStateEnum } from '../enums/user-state.enum';
 export interface  EmisorNotRecibOut {
     _id: String;
     name: String;
