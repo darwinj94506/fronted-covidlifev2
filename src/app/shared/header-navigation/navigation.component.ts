@@ -7,9 +7,16 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { MainFacade } from '../../store/facade';
-import { LoginOut } from '../../core/domain/outputs';
+import { LoginOut, 
+         ObtenerNotificacionesEnviadasOut, 
+         ObtenerNotificacionesRecibidasOut } from '../../core/domain/outputs';
+import { ObtenerNotificacionesEnviadasIn } from '../../core/domain/inputs';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { SuscriptionService } from '../../services';
+import { SEGUIMIENTO_OPERATIONS } from '../../data/graphq';
+import { QueryRef } from 'apollo-angular';
 declare var $: any;
 
 @Component({
@@ -19,13 +26,20 @@ declare var $: any;
 export class NavigationComponent implements AfterViewInit, OnInit {
   @Output() toggleSidebar = new EventEmitter<void>();
   userLogged$ : Observable<LoginOut>;
-  public config: PerfectScrollbarConfigInterface = {};
+  notiRecibidas$ : Observable<ObtenerNotificacionesRecibidasOut[]>;
+  notifRecibQueryRef: QueryRef<any>;
 
+  public config: PerfectScrollbarConfigInterface = {};
   public showSearch = false;
+  
 
   constructor(private modalService: NgbModal,
-     private _router:Router,
-     private _mainFacade: MainFacade) {}
+     private _router: Router,
+     private _suscriptionService: SuscriptionService,
+     private _mainFacade: MainFacade) {
+      let filter: ObtenerNotificacionesEnviadasIn = { };
+      this.queryObtenerNotificacionesRecibidasOut(filter);
+     }
 
   // This is for Notifications
   notifications: Object[] = [
@@ -98,11 +112,46 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(){
-   
-    this.userLogged$ = this._mainFacade.getUserLogged()
-     
+    this.userLogged$ = this._mainFacade.getUserLogged();
+    this.subscribeToNotifications();
+    
   }
   
+  queryObtenerNotificacionesRecibidasOut(filter: ObtenerNotificacionesEnviadasIn){
+    this.notifRecibQueryRef = this._suscriptionService.getNotificationesRecibidas(filter);
+    this.notiRecibidas$ = this.notifRecibQueryRef.valueChanges
+      .pipe(
+        map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.getNoficacionesRecibidas.resolve] ))
+  }
+
+
+  subscribeToNotifications() {
+    this.notifRecibQueryRef.subscribeToMore({
+      document: SEGUIMIENTO_OPERATIONS.suscriptionNotificaciones.gql,
+      updateQuery: (prev, {subscriptionData}) => {
+        if (!subscriptionData.data) {
+          return prev;
+        }
+        const newDataQuery = this.getDataForUpdateGrapqlQuery(subscriptionData.data[SEGUIMIENTO_OPERATIONS.suscriptionNotificaciones.resolve],
+                                prev[SEGUIMIENTO_OPERATIONS.getNoficacionesRecibidas.resolve])
+        return {
+          ...prev,
+          getNotificacionesRecibidas: [...newDataQuery]
+        };
+      }
+    });  
+  }
+
+  getDataForUpdateGrapqlQuery(entryNotification: ObtenerNotificacionesRecibidasOut, 
+                              previusNotifications: ObtenerNotificacionesRecibidasOut []): ObtenerNotificacionesRecibidasOut[]{
+    let index = previusNotifications.findIndex(item=>item._id === entryNotification._id)
+    if(index === -1)
+      return [entryNotification, ...previusNotifications]
+    
+    previusNotifications[index] = {...entryNotification}
+    return [...previusNotifications]
+  }
+
   cambiarHospital(){
     this._router.navigate(['/inicio']);
   }

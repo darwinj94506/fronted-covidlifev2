@@ -21,7 +21,7 @@ import { VerSeguimientosAgendadosUseCase,
 } from '../../../../core/usecases/doctor';
 
 import { MainFacade, UserFacade, SeguimientoFacade } from '../../../../store/facade';
-import { Apollo, QueryRef } from 'apollo-angular';
+import { QueryRef } from 'apollo-angular';
 import { SEGUIMIENTO_OPERATIONS } from '../../../../data/graphq';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
@@ -32,8 +32,6 @@ import { SuscriptionService } from '../../../../services';
   styleUrls: ['./seguimientos.component.css']
 })
 export class SeguimientosComponent implements OnInit, OnDestroy {
-  // segQueryRef: QueryRef<any>;
-  // seguimientos:Observable<any>;
   userLogged: LoginOut;
   private _destroyed$ = new Subject();
   
@@ -193,8 +191,6 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
           return prev;
         }
         console.log(prev);
-        // console.log(subscriptionData);
-        // console.log(subscriptionData.data.cambioSeguimientoNotificacion);
         const newDataQuery = this.getDataForUpdateGrapqlQuery(subscriptionData.data.cambioSeguimientoNotificacion, prev.filterSeguimiento)
         return {
           ...prev,
@@ -302,8 +298,5 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   }
 
   getDate(date){
-    // ISODate("2012-07-14T01:00:00+01:00").toLocaleTimeString() 
-    // ISODate(date).toLocaleTimeString();
-    // console.log(new date(date)); 
   }
 }

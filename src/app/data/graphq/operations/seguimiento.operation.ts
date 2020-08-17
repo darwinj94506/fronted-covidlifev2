@@ -9,7 +9,9 @@ import { CREATE,
         ATENDER_SEGUIMIENTO, 
         VER_NOTIFICACIONES_ENVIADAS, 
         GET_NOTIFICAIONES_RECIBIDAS,
-        AGENDAR_SEGUIMIENTO, RESUMEN_SEGUIMIENTOS_COMPLETOS } from '../gql/seguimiento';
+        AGENDAR_SEGUIMIENTO, 
+        RESUMEN_SEGUIMIENTOS_COMPLETOS,
+        SUSCRIPTIONS_NOTIFICATIONS } from '../gql/seguimiento';
 export interface SeguimientoOperations extends IOperations{
     filter: IOperation,
     getById: IOperation,
@@ -19,7 +21,8 @@ export interface SeguimientoOperations extends IOperations{
     resumenSeguimientos: IOperation,
     createNotification: IOperation,
     verNotificaionesEnviadas:IOperation,
-    getNoficacionesRecibidas:IOperation
+    getNoficacionesRecibidas:IOperation,
+    suscriptionNotificaciones:IOperation
 }
 
 export const SEGUIMIENTO_OPERATIONS : SeguimientoOperations = {
@@ -70,5 +73,9 @@ export const SEGUIMIENTO_OPERATIONS : SeguimientoOperations = {
     getNoficacionesRecibidas:{
         resolve:'getNotificacionesRecibidas',
         gql: GET_NOTIFICAIONES_RECIBIDAS
+    },
+    suscriptionNotificaciones:{
+        resolve:'cambioNotificacionNotif',
+        gql: SUSCRIPTIONS_NOTIFICATIONS
     }
 }
