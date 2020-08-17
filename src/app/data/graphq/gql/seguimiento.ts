@@ -108,58 +108,57 @@ query consultarUnSeguimiento($data:ConsultarUnSeguimientoIn!){
 `;
 
 export const SUSCRIPTION = gql`
-subscription {
-  cambioSeguimientoNotificacion{
-    _id
-    idDoctor{
+  subscription {
+    cambioSeguimientoNotificacion{
       _id
-      name
-      lastname
-      ci
-      email
-      state
+      idDoctor{
+        _id
+        name
+        lastname
+        ci
+        email
+        state
+      }
+      idPaciente{
+        _id
+        name
+        lastname
+        ci
+        email
+        state
+        token_notificacion_web
+        token_notificacion_movil
+      }
+      idHospital{
+        _id
+        nombre
+        descripcion
+        idEspacio
+        estado_entidad
+      }
+      estado
+      temperatura
+      ritmo_cardiaco
+      saturacion_oxigeno
+      dificultad_respirar
+      examen
+      nota_paciente
+      observacion_doctor
+      estado_diario_paciente
+      fecha_atencion_medica
+      diagnostico_actual
+      latitud
+      longitud
+      createAt
     }
-    idPaciente{
-      _id
-      name
-      lastname
-      ci
-      email
-      state
-      token_notificacion_web
-      token_notificacion_movil
-    }
-    idHospital{
-      _id
-      nombre
-      descripcion
-      idEspacio
-      estado_entidad
-    }
-    estado
-    temperatura
-    ritmo_cardiaco
-    saturacion_oxigeno
-    dificultad_respirar
-    examen
-    nota_paciente
-    observacion_doctor
-    estado_diario_paciente
-    fecha_atencion_medica
-    diagnostico_actual
-    latitud
-    longitud
-    createAt
-  }
-}`;
+  }`;
 
 export const ATENDER_SEGUIMIENTO = gql `
   mutation atenderSolicitudSeguimiento($data:AtenderSolicitudSeguimientoIn!){
     atenderSolicitudSeguimiento(data:$data){
       _id
     }
-  }
-`;
+  }`;
 
 export const AGENDAR_SEGUIMIENTO = gql`
   mutation agendarSolicitudSeguimiento($data: AgendarSolicitudSeguimientoIn!){
@@ -208,58 +207,26 @@ export const RESUMEN_SEGUIMIENTOS_COMPLETOS = gql`
   }`;
 
 
-  export const CREATE_NOTIFICATION = gql`
-    mutation addNotificacion($data:CrearNotificacionIn!){
-      addNotificacion(data:$data){
-        _id
-        titulo
-        descripcion
-        idSeguimiento
-        idEmisor
-        idReceptor
-        vistaEn
-        estadoNotificacion
-        fechaCambioUltimoEstado
-        createAt
-      }
+export const CREATE_NOTIFICATION = gql`
+  mutation addNotificacion($data:CrearNotificacionIn!){
+    addNotificacion(data:$data){
+      _id
+      titulo
+      descripcion
+      idSeguimiento
+      idEmisor
+      idReceptor
+      vistaEn
+      estadoNotificacion
+      fechaCambioUltimoEstado
+      createAt
     }
-  `;
+  }
+`;
 
-  export const VER_NOTIFICACIONES_ENVIADAS = gql `
-    query getNotificacionesEnviadas($data:ObtenerNotificacionesEnviadasIn!){
-      getNotificacionesEnviadas(data:$data){
-        _id
-        titulo
-        descripcion
-        idSeguimiento
-        idEmisor{
-          _id
-          name
-          lastname
-          ci
-          email
-          state
-        }
-        idReceptor{
-          _id
-          name
-          lastname
-          ci
-          email
-          state
-        }
-        vistaEn
-        estadoNotificacion
-        fechaCambioUltimoEstado
-        createAt
-      }
-      
-    }
-  `;
-
-  export const GET_NOTIFICAIONES_RECIBIDAS = gql ` 
-  query getNotificacionesrecibidas($data:ObtenerNotificacionesRecibidasIn!){
-    getNotificacionesRecibidas(data:$data){
+export const VER_NOTIFICACIONES_ENVIADAS = gql `
+  query getNotificacionesEnviadas($data:ObtenerNotificacionesEnviadasIn!){
+    getNotificacionesEnviadas(data:$data){
       _id
       titulo
       descripcion
@@ -273,7 +240,7 @@ export const RESUMEN_SEGUIMIENTOS_COMPLETOS = gql`
         state
       }
       idReceptor{
-         _id
+        _id
         name
         lastname
         ci
@@ -287,5 +254,84 @@ export const RESUMEN_SEGUIMIENTOS_COMPLETOS = gql`
     }
     
   }
+`;
 
-  `;
+export const GET_NOTIFICAIONES_RECIBIDAS = gql ` 
+query getNotificacionesrecibidas($data:ObtenerNotificacionesRecibidasIn!){
+  getNotificacionesRecibidas(data:$data){
+    _id
+    titulo
+    descripcion
+    idSeguimiento
+    idEmisor{
+      _id
+      name
+      lastname
+      ci
+      email
+      state
+    }
+    idReceptor{
+        _id
+      name
+      lastname
+      ci
+      email
+      state
+    }
+    vistaEn
+    estadoNotificacion
+    fechaCambioUltimoEstado
+    createAt
+  }
+  
+}`;
+
+export const SUSCRIPTIONS_NOTIFICATIONS = gql `
+  subscription cambioNotificacionNotif{
+    cambioNotificacionNotif{
+      _id
+      titulo
+      descripcion
+      idSeguimiento{
+        _id
+        idPaciente
+        idDoctor
+        idHospital
+        estado
+        temperatura
+        ritmo_cardiaco
+        saturacion_oxigeno
+        dificultad_respirar
+        examen
+        nota_paciente
+        observacion_doctor
+        estado_diario_paciente
+        fecha_atencion_medica
+        diagnostico_actual
+        latitud
+        longitud
+        createAt
+      }
+      idEmisor{
+        _id
+        name
+        lastname
+        ci
+        email
+        state
+      }
+      idReceptor{
+        _id
+        name
+        lastname
+        ci
+        email
+        state
+      }
+      vistaEn
+      estadoNotificacion
+      fechaCambioUltimoEstado
+      createAt
+    }
+  }`;

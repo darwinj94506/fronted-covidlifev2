@@ -19,3 +19,6 @@ export { ObtenerNotificacionesRecibidasOut } from './obtener-notificaciones-reci
 export { ObtenerNotificacionesEnviadasOut } from './obtener-notificaciones-enviadas.out';
 export { ReceptorNotRecibOut } from './receptor-not-recib-out';
 export { EmisorNotRecibOut } from './emisor-not-recib-out';
+export { SeguimientoConsulNotOut } from './seguimiento-consult-not.out';
+export { ReceptorConsulNotOut } from './receptor-consul-not.out';
+export { ConsultarUnaNotificacionOut } from './consultar-una-notificacion.out';
