@@ -22,3 +22,4 @@ export { EmisorNotRecibOut } from './emisor-not-recib-out';
 export { SeguimientoConsulNotOut } from './seguimiento-consult-not.out';
 export { ReceptorConsulNotOut } from './receptor-consul-not.out';
 export { ConsultarUnaNotificacionOut } from './consultar-una-notificacion.out';
+export { CountPacientesPorDiaPorDiagnosticoOut } from './count-pacientes-por-dia-por-diagnostico.out';

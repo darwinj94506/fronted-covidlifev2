@@ -31,6 +31,7 @@
         "@ngrx/store-devtools": "^9.2.0",
         "@swimlane/ngx-charts": "^12.0.0",
         "@swimlane/ngx-datatable": "^16.0.3",
+        "@types/lodash": "^4.14.159",
         "@types/simple-peer": "^9.6.0",
         "@types/socket.io-client": "^1.4.33",
         "agora-rtc-sdk": "3.0.2",

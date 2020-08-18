@@ -3,3 +3,5 @@ export interface CountPacientesPorDiagnosticoOut {
     _id: DiagnosticoOut;
     contador: number;
 }
+
+
