@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 
-export class VerTotalPacientesDiagnosticoUseCase implements UseCase<ContadoresEstadisticaIn, ContadoresEstadisticaOut> {
+export class VerEvolucionDiariaDiagnosticoUseCase implements UseCase<ContadoresEstadisticaIn, ContadoresEstadisticaOut> {
   constructor(private _estRepo: EstadisticasRepository) { }
 
   execute(params: ContadoresEstadisticaIn ): Observable<ContadoresEstadisticaOut> {    

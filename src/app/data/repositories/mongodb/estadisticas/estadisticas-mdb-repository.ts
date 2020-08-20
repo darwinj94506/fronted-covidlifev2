@@ -5,7 +5,7 @@ import { ESTADISTICAS_OPERATIONS } from '../../../graphq';
 import { IEntity } from '../../../../core/domain/entities';
 import { ContadoresEstadisticaIn} from '../../../../core/domain/inputs';
 import { ContadoresEstadisticaOut } from '../../../../core/domain/outputs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 @Injectable({ providedIn:'root'})
 export class EstaditicasMDBRepository extends MongoDBRepository<IEntity> implements EstadisticasRepository{
@@ -13,7 +13,7 @@ export class EstaditicasMDBRepository extends MongoDBRepository<IEntity> impleme
     constructor(injector: Injector){
         super(ESTADISTICAS_OPERATIONS, injector);
     }
-    getCountPacientes(filter: ContadoresEstadisticaIn): Observable<ContadoresEstadisticaOut>{
+    getCountStatistics(filter: ContadoresEstadisticaIn): Observable<ContadoresEstadisticaOut>{
         return this.apollo
             .watchQuery(
             { 
@@ -23,6 +23,7 @@ export class EstaditicasMDBRepository extends MongoDBRepository<IEntity> impleme
                 }
             })
             .valueChanges.pipe(
+                // tap(console.log),
                 map(( { data } ) => data[ESTADISTICAS_OPERATIONS.getCountPacientes.resolve] ))
 
     }

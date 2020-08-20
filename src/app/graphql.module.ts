@@ -35,16 +35,7 @@ export function createApollo(httpLink: HttpLink) {
   });
 
   const http = ApolloLink.from([basic, auth, httpLink.create({ uri })]);
-  // const cache = new InMemoryCache();
-
-
-
-
-  // const http = httpLink.create({
-  //   uri:'https://atencionmedic.herokuapp.com/graphql',
-  //   withCredentials:true
-  // });
-
+  
   const ws = new WebSocketLink({
     uri:"ws://atencionmedic.herokuapp.com/graphql",
     options: {

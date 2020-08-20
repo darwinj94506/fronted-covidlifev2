@@ -2,8 +2,15 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as estadisticasActions from './estadisticas.actions';
 import { ContadoresEstadisticaIn } from '../../../core/domain/inputs';
-import { ContadoresEstadisticaOut } from '../../../core/domain/outputs';
-import { EstadisticasState, selectEstadisticasState } from './estadisticas.reducer';
+import { CountPacientesPorDiaPorDiagnosticoOut, CountPacientesPorDiagnosticoOut } from '../../../core/domain/outputs';
+import { EstadisticasState, 
+         selectContPacientesPorDiagnosticoDiario, 
+         selectCountPacientesPorDiagnostico,
+         selectIsloadingCountPacientesPorDiagnostico,
+         selectIsloadingCountPacientesPorDiagnosticoDiario,
+         selectTotalDoctores,
+         selectTotalPacientes
+        } from './estadisticas.reducer';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -12,12 +19,40 @@ import { Observable } from 'rxjs';
 export class EstadisticasFacade {
   constructor(private store: Store<EstadisticasState>) {}
 
-  distpachActionLoadTotalesPacientes(input: ContadoresEstadisticaIn){
-    this.store.dispatch(estadisticasActions.loadTotalesPacientes({input}))
+  getCountPacientesPorDiagnosticoDiarioFromStorage(): Observable<CountPacientesPorDiaPorDiagnosticoOut[]>{
+    return this.store.select(selectContPacientesPorDiagnosticoDiario)
   }
 
-  getTotalEstadisticasFromStorage(): Observable<ContadoresEstadisticaOut>{
-    return this.store.select(selectEstadisticasState)
+  distpachActionLoadEvolucionDiariaPacientes(input: ContadoresEstadisticaIn){
+    this.store.dispatch(estadisticasActions.loadEvolucionDiariaPacientes({input}))
+  }
+
+  getCountPacientesPorDiagnosticoFromStorage(): Observable<CountPacientesPorDiagnosticoOut[]>{
+    return this.store.select(selectCountPacientesPorDiagnostico)
+  }
+
+  distpachActionLoadPacientesPorDiagnostico(input: ContadoresEstadisticaIn){
+    this.store.dispatch(estadisticasActions.loadPacientesPorDiagnostico({input}))
+  }
+
+  getIsloadingCountDiagnoticoDiarioFromStorage():Observable<boolean>{
+    return this.store.select(selectIsloadingCountPacientesPorDiagnosticoDiario)
+  }
+
+  getIsloadingCountDiagnoticoFromStorage():Observable<boolean>{
+    return this.store.select(selectIsloadingCountPacientesPorDiagnostico)
+  }
+
+  distpachActionLoadUsuariosPorRol(input: ContadoresEstadisticaIn){
+    this.store.dispatch(estadisticasActions.loadTotalUsuariosPorRol({input}))
+  }
+
+  getTotalPacientesFromStorage():Observable<number>{
+    return this.store.select(selectTotalPacientes)
+  }
+  
+  getTotalDoctoresFromStorage():Observable<number>{
+    return this.store.select(selectTotalDoctores)
   }
 
 }

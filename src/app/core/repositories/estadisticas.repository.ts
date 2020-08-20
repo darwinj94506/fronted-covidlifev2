@@ -7,6 +7,6 @@ import { Observable } from 'rxjs';
 
 export abstract class EstadisticasRepository extends GenericRepository<IEntity> {
     
-    abstract getCountPacientes(contadoresIn: ContadoresEstadisticaIn): Observable<ContadoresEstadisticaOut>
+    abstract getCountStatistics(contadoresIn: ContadoresEstadisticaIn): Observable<ContadoresEstadisticaOut>
      
 }
