@@ -11,6 +11,7 @@ import { LoginOut,
          ObtenerNotificacionesEnviadasOut, 
          ObtenerNotificacionesRecibidasOut } from '../../core/domain/outputs';
 import { ObtenerNotificacionesEnviadasIn } from '../../core/domain/inputs';
+import { RolesUserEnum } from '../../core/domain/enums';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -28,6 +29,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   userLogged$ : Observable<LoginOut>;
   notiRecibidas$ : Observable<ObtenerNotificacionesRecibidasOut[]>;
   notifRecibQueryRef: QueryRef<any>;
+  showNotifications:boolean = false;
 
   public config: PerfectScrollbarConfigInterface = {};
   public showSearch = false;
@@ -114,6 +116,9 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   ngOnInit(){
     this.userLogged$ = this._mainFacade.getUserLogged();
     this.subscribeToNotifications();
+    this._mainFacade.getHospitalSesion().subscribe(data=>{
+      this.showNotifications = data.roles.includes(RolesUserEnum.PACIENTE)
+    })
     
   }
   
@@ -155,4 +160,6 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   cambiarHospital(){
     this._router.navigate(['/inicio']);
   }
+  
+  
 }

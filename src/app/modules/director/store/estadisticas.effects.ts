@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType  } from '@ngrx/effects';
-import { catchError, map, switchMap, tap} from 'rxjs/operators';
+import { catchError, map, switchMap, tap, mergeMap} from 'rxjs/operators';
 import { Observable, of} from 'rxjs';
 import * as estadisticasActions  from './estadisticas.actions';
 import { VerTotalPacientesDiagnosticoUseCase, 
@@ -49,7 +49,7 @@ export class EstadisticasEffects {
     @Effect()
     loadTotalPersonal: Observable<any> = this.actions$.pipe(
         ofType(estadisticasActions.loadTotalUsuariosPorRol),
-        switchMap(({input}) => this._verTotalUsuariosPorRolUseCase.execute(input)
+        mergeMap(({input}) => this._verTotalUsuariosPorRolUseCase.execute(input)
             .pipe(
                 map(output => {
                     return estadisticasActions.loadTotalUsuariosPorRolSuccess({output, role: input.role})

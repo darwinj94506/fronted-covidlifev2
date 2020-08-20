@@ -1,6 +1,6 @@
 import { DiagnosticoOut } from './diagnostico.out';
 export interface CountPacientesPorDiagnosticoOut {
-    _id: DiagnosticoOut;
+    agrupadoPor: DiagnosticoOut;
     contador: number;
 }
 

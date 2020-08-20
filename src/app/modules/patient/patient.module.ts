@@ -5,6 +5,7 @@ import { PatientRoutingModule } from './patient-routing.module';
 import{ MedicalAppointmentsComponent, VideoCallComponent } from './pages';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CitasComponent } from './pages/citas/citas.component';
+import { VideoChatModule } from '../video-chat/video-chat.module';
 
 
 @NgModule({
@@ -13,7 +14,9 @@ import { CitasComponent } from './pages/citas/citas.component';
     CommonModule,
     PatientRoutingModule,
     NgSelectModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    VideoChatModule
   ]
 })
 export class PatientModule { }

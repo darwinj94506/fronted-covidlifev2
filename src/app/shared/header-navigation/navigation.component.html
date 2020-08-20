@@ -15,7 +15,7 @@
     <!-- ============================================================== -->
     <!-- Search -->
     <!-- ============================================================== -->
-    <li class="nav-item search-box">
+    <!-- <li class="nav-item search-box">
         <a (click)="showSearch = !showSearch" class="nav-link waves-effect waves-dark" href="javascript:void(0)">
             <i class="ti-search"></i>
         </a>
@@ -25,11 +25,11 @@
                 <i class="ti-close"></i>
             </a>
         </form>
-    </li>
+    </li> -->
     <!-- ============================================================== -->
     <!-- Comment -->
     <!-- ============================================================== -->
-    <li class="nav-item dropdown" ngbDropdown placement="bottom-right">
+    <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="showNotifications">
         <a ngbDropdownToggle class="nav-link dropdown-toggle waves-effect waves-dark" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="mdi mdi-message"></i>
             <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
@@ -45,7 +45,7 @@
                         <div class="message-center notifications" [perfectScrollbar]="config">
                             <!-- Message -->
 
-                            <a href="javascript:void(0)" class="message-item" *ngFor="let notification of noticaciones">
+                            <a [routerLink]="['/video-llamada', notification.idSeguimiento]" class="message-item" *ngFor="let notification of noticaciones">
                                 <span class="btn btn-circle btn-success">
                                         <i class="ti-link"></i>
                                     </span>

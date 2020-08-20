@@ -82,15 +82,7 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 		maintainAspectRatio: false
 	};
 	public lineChartColors: Array<any> = [
-		{
-			// dark grey
-			backgroundColor: 'rgba(234,237,242,1)',
-			borderColor: 'rgba(234,237,242,1)',
-			pointBackgroundColor: 'rgba(234,237,242,1)',
-			pointBorderColor: '#fff',
-			pointHoverBackgroundColor: '#fff',
-			pointHoverBorderColor: 'rgba(234,237,242,1)'
-		},
+		
 		{
 			// grey
 			backgroundColor: 'rgba(76,139,236,1)',
@@ -110,6 +102,15 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 
 			pointHoverBackgroundColor: '#fff',
 			pointHoverBorderColor: 'rgba(117,91,241,1)'
+		},
+		{
+			// dark grey
+			backgroundColor: 'rgba(234,237,242,1)',
+			borderColor: 'rgba(234,237,242,1)',
+			pointBackgroundColor: 'rgba(234,237,242,1)',
+			pointBorderColor: '#fff',
+			pointHoverBackgroundColor: '#fff',
+			pointHoverBorderColor: 'rgba(234,237,242,1)'
 		}
 	];
 	public lineChartLegend = false;
@@ -169,7 +170,12 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 
 		this.suscriptionPacientesPorDiagnostico = this._estadisticasFacade.getCountPacientesPorDiagnosticoFromStorage()
 			.subscribe(data=>{
-			// this.doughnutChartDataDiagnostico = data
+				let NConfirmados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.CONFIRMADO);
+				let NSospechosos = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.SOSPECHOSO);
+				let NAislados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.AISLAMIENTO_PREVENTIVO);
+				this.doughnutChartDataDiagnostico = [ NConfirmados? NConfirmados.contador: 0, 
+													  NSospechosos?NSospechosos.contador: 0,
+													  NAislados?NAislados.contador: 0 ]
 		})
 		this.isLoadingPacientesPorDiagnostico$ = this._estadisticasFacade.getIsloadingCountDiagnoticoFromStorage();
 		this.isLoadingChartEvolucionDiariaPacietes$ = this._estadisticasFacade.getIsloadingCountDiagnoticoDiarioFromStorage();
@@ -183,19 +189,19 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 	buildLineChartData(data: CountPacientesPorDiaPorDiagnosticoOut []){   
 		let seguimientosPorDia = _.chain(data)
 			.map(item=>({...item, 
-						_id:{ fecha_creacion:item._id.fecha_creacion,
-							diagnostico_enum:item._id.diagnostico_enum,
-							fecha_trasformada: this.transformDate(item._id.fecha_creacion).toLocaleDateString()
+						agrupadoPor: { fecha_creacion:item.agrupadoPor.fecha_creacion,
+							diagnostico_enum:item.agrupadoPor.diagnostico_enum,
+							fecha_trasformada: this.transformDate(item.agrupadoPor.fecha_creacion).toLocaleDateString()
 						}}))
-			.orderBy(item=> item._id.fecha_creacion)
-			.groupBy(item=>item._id.fecha_trasformada).value();
+			.orderBy(item=> item.agrupadoPor.fecha_creacion)
+			.groupBy(item=>item.agrupadoPor.fecha_trasformada).value();
 		let dias = []
 		for (const dia in seguimientosPorDia) {    
 			dias.push(dia);
-			let sospechosos = seguimientosPorDia[dia].find(item=>item._id.diagnostico_enum === DiagnosticoActualEnum.SOSPECHOSO)
-			let confirmados = seguimientosPorDia[dia].find(item=>item._id.diagnostico_enum === DiagnosticoActualEnum.CONFIRMADO)
+			let sospechosos = seguimientosPorDia[dia].find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.SOSPECHOSO)
+			let confirmados = seguimientosPorDia[dia].find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.CONFIRMADO)
 			let aislados = seguimientosPorDia[dia].find(
-			  	item=>item._id.diagnostico_enum === DiagnosticoActualEnum.AISLAMIENTO_PREVENTIVO)
+			  	item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.AISLAMIENTO_PREVENTIVO)
 			let contSosp: number = sospechosos?sospechosos.contador:0
 			let contConf: number = confirmados?confirmados.contador:0
 			let contAis: number = aislados?aislados.contador:0

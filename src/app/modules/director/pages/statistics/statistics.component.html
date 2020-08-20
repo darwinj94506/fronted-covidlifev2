@@ -51,7 +51,7 @@
                 <h4 class="card-title"><span class="lstick"></span>Pacientes</h4>
                 <div *ngIf="isLoadingPacientesPorDiagnostico$ | async">Cargando.. </div>
                 <div style="height: 220px">
-                    <canvas baseChart height="100px" [data]="doughnutChartData" [labels]="doughnutChartLabels" [options]="doughnutChartOptions" [legend]="doughnutChartLegend" [chartType]="doughnutChartType" [colors]="[{backgroundColor: ['rgb(116, 90, 242)', 'rgb(30, 136, 229)', '#06d79c', 'rgb(236, 239, 241)']}]">
+                    <canvas baseChart height="100px" [data]="doughnutChartDataDiagnostico" [labels]="doughnutChartLabels" [options]="doughnutChartOptions" [legend]="doughnutChartLegend" [chartType]="doughnutChartType" [colors]="[{backgroundColor: ['rgb(116, 90, 242)', 'rgb(30, 136, 229)', '#06d79c', 'rgb(236, 239, 241)']}]">
                     </canvas>
                 </div>
                 <table class="table vm font-14 m-b-0">
@@ -80,16 +80,14 @@
 <!-- Report and Comments -->
 <!-- ============================================================== -->
 <!-- Row -->
-<div class="row">
+<!-- <div class="row">
     <div class="col-lg-6">
-        <!-- You can find this in the dashboard-component -->
         <app-earning-report></app-earning-report>
     </div>
     <div class="col-lg-6">
-        <!-- You can find this in the dashboard-component -->
         <app-recent-comment></app-recent-comment>
     </div>
-</div>
+</div> -->
 <!-- Row -->
 <!-- ============================================================== -->
 <!-- Carousel widgets -->

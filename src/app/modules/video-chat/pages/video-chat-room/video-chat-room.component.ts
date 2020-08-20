@@ -3,7 +3,6 @@ import { UserFacade, SeguimientoFacade } from '../../../../store/facade';
 import { IdIn } from '../../../../core/domain/inputs';
 import { FiltrarSeguimientoOut, UserPerfilOut } from '../../../../core/domain/outputs';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { AgoraClient, ClientEvent, NgxAgoraService, Stream, StreamEvent } from 'ngx-agora';
 import { ToastService } from '../../../../services';
 

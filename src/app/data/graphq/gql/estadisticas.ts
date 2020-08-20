@@ -2,24 +2,22 @@ import gql from 'graphql-tag';
 
 export const COUNT_PACIENTES = gql`
 query contadoresEstadisticos($data: ContadoresEstadisticaIn!){
-    contadoresEstadisticos(data:$data){
-      countPacientesPorDiagnostico{
-        _id{
-          diagnostico_enum
-        }
-        contador
+  contadoresEstadisticos(data:$data){
+    countPacientesPorDiagnostico{
+      agrupadoPor{
+        diagnostico_enum
       }
-      countPacientesPorDiaPorDiagnosticoOut{
-        _id{
-          fecha_creacion
-          diagnostico_enum
-        }
-        contador
-      }
-      countUserPorRoleAndHospital
+      contador
     }
+    countPacientesPorDiaPorDiagnosticoOut{
+      agrupadoPor{
+        fecha_creacion
+        diagnostico_enum
+      }
+      contador
+    }
+    countUserPorRoleAndHospital
   }
-  
-`;
+}`;
 
   

@@ -20,4 +20,5 @@ export interface FiltrarSeguimientoOut {
     diagnostico_actual?: DiagnosticoActualEnum;
     latitud?: number;
     longitud?: number; 
+    createAt:Date;
 } 
