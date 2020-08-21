@@ -50,6 +50,7 @@ export class DatosPacienteComponent implements OnInit {
   ngOnInit(){
     this.hospitalesSelect$ = this._mainFacade.getHospitales();
     this.cargandoHospitales$ = this._mainFacade.getLoadingHospitales();
+    this._mainFacade.dispatchActionLoadHospitales({});
     this.initForm();
   }
 

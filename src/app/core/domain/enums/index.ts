@@ -18,3 +18,4 @@ export { NotificacionEstadoEnum } from'./notification-estado.enum';
 export { EstadisticaTipoEnum } from './estadistica-tipo.enum';
 export { EmisorNotRecibOut } from '../outputs/emisor-not-recib-out';
 export { ReceptorNotRecibOut } from '../outputs/receptor-not-recib-out';
+export { TipoNotificacionEnum } from './tipo-notificacion.enum';

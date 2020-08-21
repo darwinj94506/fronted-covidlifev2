@@ -12,6 +12,8 @@ export interface ObtenerNotificacionesRecibidasOut {
     estadoNotificacion: NotificacionEstadoEnum;
     fechaCambioUltimoEstado: Date;
     createAt: Date;
+    body: Object;
 }
+
 
 

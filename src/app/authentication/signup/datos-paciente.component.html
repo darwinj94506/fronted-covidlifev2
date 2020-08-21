@@ -34,7 +34,15 @@
     </div>
     <div class="form-group row">
         <div class="col-12 ">
-            <input class="form-control" type="text" formControlName="es_diagnosticado_cancer" (blur)=logValidationErrors(pacientesForm) placeholder="¿Tiene cáncer?">
+            <label class="form-check-label" for="materialUnchecked2">¿Tiene cáncer?</label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="es_diagnosticado_cancer" [value]="true" (blur)=logValidationErrors(pacientesForm) formControlName="es_diagnosticado_cancer" name="es_diagnosticado_cancer">
+                <label class="form-check-label" for="es_diagnosticado_cancer">Sí</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="es_diagnosticado_cancer2" [value]="false" (blur)=logValidationErrors(pacientesForm) formControlName="es_diagnosticado_cancer" name="es_diagnosticado_cancer">
+                <label class="form-check-label " for="es_diagnosticado_cancer2">No</label>
+            </div>
             <span class="help-block" *ngIf="formsErrors.es_diagnosticado_cancer">
                 {{formsErrors.es_diagnosticado_cancer}}
             </span>

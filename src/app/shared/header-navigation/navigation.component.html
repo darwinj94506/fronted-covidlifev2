@@ -45,14 +45,16 @@
                         <div class="message-center notifications" [perfectScrollbar]="config">
                             <!-- Message -->
 
-                            <a [routerLink]="['/video-llamada', notification.idSeguimiento]" class="message-item" *ngFor="let notification of noticaciones">
-                                <span class="btn btn-circle btn-success">
-                                        <i class="ti-link"></i>
+                            <a (click)="irVideoLlamada(notification)" class="message-item" *ngFor="let notification of noticaciones">
+                                <span class="btn btn-circle" [ngClass]="{'btn-success':notification.body && notification.body.NOTIFICATION_LLAMADA, 
+                                        'btn-info': notification.body && notification.body.tipo === NOTIFICATION_AGENDADA}">
+                                        <i [ngClass]="{'ti-link': notification.body && notification.body.tipo === NOTIFICATION_LLAMADA,
+                                             'ti-calendar': notification.body && notification.body.tipo === NOTIFICATION_AGENDADA}">></i>
                                     </span>
                                 <span class="mail-contnet">
                                         <h5 class="message-title">{{ notification.titulo }}</h5>
                                         <span class="mail-desc">{{ notification.descripcion }}</span>
-                                <span class="time">{{ notification.createAt | date }}</span>
+                                <span class="time">{{ getDate(notification.createAt) | date:'HH:mm' }}</span>
                                 </span>
                             </a>
 

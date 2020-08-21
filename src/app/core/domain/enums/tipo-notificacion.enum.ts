@@ -1,0 +1,4 @@
+export enum TipoNotificacionEnum{
+    HA_SIDO_AGENDADA = "HA_SIDO_AGENDADA",
+    DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA = "DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA"
+}

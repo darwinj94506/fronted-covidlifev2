@@ -3,22 +3,17 @@ import { DragulaService } from 'ng2-dragula';
 import { Observable, forkJoin, Subject} from 'rxjs';
 import { takeUntil, map} from 'rxjs/operators';
 import { FiltrarSeguimientoOut, 
-         AtenderSolicitudSeguimientoOut,
          VORoleHospitalPopulateLoginOut,
          ItemDragula,
          LoginOut } from '../../../../core/domain/outputs';
 import { FiltrarSeguimientoIn, 
-         IdIn, 
          AtenderSolicitudSeguimientoIn,
          CrearNotificacionIn, 
          AgendarSolicitudSeguimientoIn } from '../../../../core/domain/inputs';
-import { SeguimientoEstadoEnum, 
-         DiagnosticoActualEnum} from '../../../../core/domain/enums';
-
+import { SeguimientoEstadoEnum, TipoNotificacionEnum } from '../../../../core/domain/enums';
 import { MainFacade, UserFacade, SeguimientoFacade } from '../../../../store/facade';
 import { QueryRef } from 'apollo-angular';
 import { SEGUIMIENTO_OPERATIONS } from '../../../../data/graphq';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { SuscriptionService } from '../../../../services';
 @Component({
@@ -319,10 +314,17 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
 
   goToVideoCalling(seguimiento:FiltrarSeguimientoOut){
     let notification: CrearNotificacionIn = {
-        descripcion: '* ¡El médico se ha conectado para la video llamada ! * Por favor únase a la video llamada *',
-        titulo: 'Importante',
+        descripcion: '* Un médico lo está esperando *',
+        titulo: 'Únase a la video llamada',
         idReceptor: seguimiento.idPaciente._id,
-        idSeguimiento: seguimiento._id
+        idSeguimiento: seguimiento._id,
+        body: { 
+          doctor: {
+            nombres:this.userLogged.name,
+            apellidos:this.userLogged.lastname
+          },
+          tipo: TipoNotificacionEnum.DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA
+        }
     }
     this._seguimientoFacade.dispatchActionSendNotificationVideoLlamada(seguimiento, this.userLogged, notification)
     this._router.navigate(['/video-llamada'], {state: {data: {...seguimiento}}});

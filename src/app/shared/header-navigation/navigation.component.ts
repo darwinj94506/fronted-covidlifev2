@@ -7,11 +7,10 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { MainFacade } from '../../store/facade';
-import { LoginOut, 
-         ObtenerNotificacionesEnviadasOut, 
+import { LoginOut,  
          ObtenerNotificacionesRecibidasOut } from '../../core/domain/outputs';
 import { ObtenerNotificacionesEnviadasIn } from '../../core/domain/inputs';
-import { RolesUserEnum } from '../../core/domain/enums';
+import { RolesUserEnum, TipoNotificacionEnum } from '../../core/domain/enums';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -30,6 +29,9 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   notiRecibidas$ : Observable<ObtenerNotificacionesRecibidasOut[]>;
   notifRecibQueryRef: QueryRef<any>;
   showNotifications:boolean = false;
+  NOTIFICATION_LLAMADA: TipoNotificacionEnum.DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA;
+  NOTIFICATION_AGENDADA : TipoNotificacionEnum.HA_SIDO_AGENDADA 
+
 
   public config: PerfectScrollbarConfigInterface = {};
   public showSearch = false;
@@ -160,6 +162,14 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   cambiarHospital(){
     this._router.navigate(['/inicio']);
   }
-  
+
+  getDate(d): Date {
+    let date = new Date(d);
+    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDay(), date.getUTCHours(), date.getUTCMinutes())
+  }
+
+  irVideoLlamada(notification: ObtenerNotificacionesRecibidasOut){
+    this._router.navigate(['/video-llamada', notification.idSeguimiento]);
+  }
   
 }
