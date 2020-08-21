@@ -1,10 +1,10 @@
 import {Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { VORoleHospital, IUsuarioEntity } from '../core/domain/entities';
+import { VORoleHospital } from '../core/domain/entities';
 import { RolesUserEnum } from '../core/domain/enums';
 import { Apollo } from 'apollo-angular';
-import { VORoleHospitalPopulateLoginOut, LoginOut } from '../core/domain/outputs';
+import { VORoleHospitalPopulateLoginOut } from '../core/domain/outputs';
 import { JwtHelperService } from "@auth0/angular-jwt";
 const helper = new JwtHelperService();
 @Injectable({providedIn:'root'})
@@ -32,8 +32,8 @@ export class AuthService {
         localStorage.removeItem('userLogged');
     }
     
-    logout() {
-        // this.apollo.getClient().resetStore();
+    logout() { 
+        this.apollo.getClient().resetStore();
         localStorage.removeItem('hospitalSession');
         localStorage.removeItem('userLogged');
         localStorage.removeItem('token');
@@ -73,10 +73,14 @@ export class AuthService {
     }
 
     navigateToInit(userLogged){
+        
         if(userLogged.isRoot) 
             this.router.navigate(['/root'])
         else
             this.router.navigate(['/inicio'])
+
+    
+    
     }
 
     public isAuthenticated(): boolean {

@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { IUsuarioEntity } from '../../core/domain/entities';
-import { FilterUserIn } from '../../core/domain/inputs';
+import { IUsuarioEntity, IHospitalEntity } from '../../core/domain/entities';
+import { FilterUserIn, FilterHospitalIn } from '../../core/domain/inputs';
 import { LoginOut, VORoleHospitalPopulateLoginOut, FilterUserOut } from '../../core/domain/outputs';
 
 export const loadUserLogged = createAction(
@@ -81,3 +81,18 @@ export const logoutSuccess = createAction(
 export const logoutError = createAction(
   '[Main] Logout Error'
 )
+
+export const cargarHospitales = createAction(
+  '[Main] Cargar Hospitales',
+  props<{ filter: FilterHospitalIn}>()
+);
+
+export const cargarHospitalesExito = createAction(
+  '[Main] Cargar Hospitales Éxito',
+  props<{ Hospitales: IHospitalEntity[] }>()
+);
+
+export const cargarHospitalesError = createAction(
+  '[Main] Cargar Hospital Error',
+  props<{ error: string }>()
+);

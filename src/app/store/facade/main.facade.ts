@@ -3,14 +3,16 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import * as mainActions from '../actions/main.actions';
-import { IUsuarioEntity, VORoleHospital} from '../../core/domain/entities';
-import { FilterUserIn } from '../../core/domain/inputs';
+import { IUsuarioEntity, VORoleHospital, IHospitalEntity} from '../../core/domain/entities';
+import { FilterUserIn, FilterHospitalIn } from '../../core/domain/inputs';
 import { LoginOut, VORoleHospitalPopulateLoginOut} from '../../core/domain/outputs'; 
 import { AppState,
          selectUserLogged,
          selectUsers,
          selectHospitalSession,
          selectIsLogged,
+         selectAllHospitales,
+         selectIsLoadingHospitales,
          selectUsersLoading }from '../app.reducer';
          
 @Injectable({
@@ -72,5 +74,18 @@ export class MainFacade {
   logout(){
     this.store.dispatch(mainActions.logout())
   }
+
+  dispatchActionLoadHospitales(filter: FilterHospitalIn):void{
+    this.store.dispatch(mainActions.cargarHospitales({filter}))
+  }
+
+  getLoadingHospitales(): Observable<boolean>{
+    return this.store.select(selectIsLoadingHospitales)
+  }
+  
+  getHospitales(): Observable<IHospitalEntity[]>{
+    return this.store.select(selectAllHospitales)
+  }
+
   
 }

@@ -283,9 +283,9 @@ query getNotificacionesrecibidas($data:ObtenerNotificacionesRecibidasIn!){
     estadoNotificacion
     fechaCambioUltimoEstado
     createAt
-  }
-  
-}`;
+  }  
+}
+`;
 
 export const SUSCRIPTIONS_NOTIFICATIONS = gql `
   subscription cambioNotificacionNotif{

@@ -25,6 +25,8 @@ export const selectUsers = createSelector(selectMainState,(state: MainState) => 
 export const selectUsersLoading = createSelector(selectMainState,(state: MainState) => state.isLoadingUsers);
 // export const selectLogoutLoading = createSelector(selectMainState,(state: MainState) => state.isLoadingLogout);
 export const selectHospitalSession = createSelector(selectMainState,(state: MainState) => state.hospitalSession);
+export const selectAllHospitales = createSelector(selectMainState,(state: MainState) => state.hospitales);
+export const selectIsLoadingHospitales = createSelector(selectMainState,(state: MainState) => state.isLoadingHospitales);
 
 export const selectUserState = (state: AppState) => state.user;
 export const selectMiPerfil = createSelector(selectUserState,(state: UserState) => state.miPerfil);

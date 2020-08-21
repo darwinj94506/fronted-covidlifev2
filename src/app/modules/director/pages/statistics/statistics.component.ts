@@ -6,7 +6,6 @@ import { ContadoresEstadisticaIn } from '../../../../core/domain/inputs';
 import { ContadoresEstadisticaOut, CountPacientesPorDiaPorDiagnosticoOut } from '../../../../core/domain/outputs';
 import { EstadisticaTipoEnum, RolesUserEnum, DiagnosticoActualEnum } from '../../../../core/domain/enums';
 import { Observable, Subscription } from 'rxjs';
-// import {  } from 'rxjs/operators';
 import * as _ from "lodash";
 
 declare var require: any;

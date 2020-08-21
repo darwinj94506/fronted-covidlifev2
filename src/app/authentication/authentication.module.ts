@@ -13,6 +13,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { reducer } from './store/auth.reducers';
 import { AuthEffects } from './store/auth.effects';
+import { DatosPacienteComponent } from './signup/datos-paciente.component';
+import { DatosUserComponent } from './signup/datos-user.component';
 // import { AuthService } from './auth.service';
 
 @NgModule({
@@ -30,6 +32,8 @@ import { AuthEffects } from './store/auth.effects';
     LoginComponent,
     SignupComponent,
     LockComponent,
+    DatosPacienteComponent,
+    DatosUserComponent,
   ],
   providers:[
    

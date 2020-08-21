@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as authActions  from '../actions/main.actions';
-import { IUsuarioEntity } from '../../core/domain/entities';
+import { IUsuarioEntity, IHospitalEntity } from '../../core/domain/entities';
 import { LoginOut, VORoleHospitalPopulateLoginOut, FilterUserOut } from '../../core/domain/outputs';
 export interface MainState {
   userLogged: LoginOut;
@@ -8,7 +8,10 @@ export interface MainState {
   users : FilterUserOut[];
   isLoadingUsers: boolean; 
   hospitalSession: VORoleHospitalPopulateLoginOut;
-  isLogged:boolean;
+  isLogged: boolean;
+  hospitales: IHospitalEntity[];
+  isLoadingHospitales: boolean;
+  
 }
 
 const initUser: LoginOut = {
@@ -32,11 +35,13 @@ const initVORoleHospital: VORoleHospitalPopulateLoginOut = {
 
 export const initialState: MainState = {
   userLogged: { ...initUser },
-  isLoading:false,
+  isLoading: false,
   users : [],
-  isLoadingUsers:false,
-  hospitalSession:{...initVORoleHospital},
-  isLogged:false
+  isLoadingUsers: false,
+  hospitalSession: {...initVORoleHospital},
+  isLogged: false,
+  isLoadingHospitales: false,
+  hospitales: []
 };
 
 const mainReducer = createReducer(
@@ -106,7 +111,20 @@ const mainReducer = createReducer(
   on(authActions.logout, state=>({
     ...state,
     isLogged:false,
-  }))
+  })),
+  on(authActions.cargarHospitales, state => ({
+    ...state,
+    isLoadingHospitales: true,
+  })),
+  on(authActions.cargarHospitalesExito, (state, payload) => ({
+    ...state,
+    isLoadingHospitales: false,
+    hospitales: payload.Hospitales
+  })),
+  on(authActions.cargarHospitalesError, (state) => ({
+    ...state,
+    isLoadingHospitales: false
+  })),
 );
 
 export function reducer(state: MainState | undefined, action: Action) {

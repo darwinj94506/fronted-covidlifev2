@@ -1,4 +1,3 @@
-import { Injector } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 export abstract class Formulario {

@@ -1,0 +1,158 @@
+<form [formGroup]="pacientesForm" (ngSubmit)="onSubmit()" class="form-horizontal m-t-20" action="index.html">
+    <div class="form-group row">
+        <div class="col-12">
+            <select class="form-control" type="text" formControlName="idHospital" (blur)=logValidationErrors(pacientesForm) placeholder="Elija un hospital">
+                <ng-container *ngIf="hospitalesSelect$ | async as hospitales" >
+                    <option [value]="h._id" *ngFor="let h of hospitales">{{h.nombre}}</option>
+                </ng-container>
+            </select>
+            <div *ngIf="cargandoHospitales$ | async">cargando...</div>
+            <span class="help-block" *ngIf="formsErrors.idHospital">
+                {{formsErrors.idHospital}}
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-12">
+            <select class="form-control" type="text" formControlName="aislado_por" (blur)=logValidationErrors(pacientesForm) placeholder="Aislado por">
+                <option [value]="institucion" *ngFor="let institucion of instituciones">{{institucion}}</option>
+            </select>
+            <span class="help-block" *ngIf="formsErrors.aislado_por">
+                {{formsErrors.aislado_por}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12 ">
+            <textarea class="form-control" type="text" formControlName="alergia_medicamentos" (blur)=logValidationErrors(pacientesForm) placeholder="¿Tiene alergia a algún medicamentos?">
+            </textarea>
+            <span class="help-block" *ngIf="formsErrors.alergia_medicamentos">
+                {{formsErrors.alergia_medicamentos}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12 ">
+            <input class="form-control" type="text" formControlName="es_diagnosticado_cancer" (blur)=logValidationErrors(pacientesForm) placeholder="¿Tiene cáncer?">
+            <span class="help-block" *ngIf="formsErrors.es_diagnosticado_cancer">
+                {{formsErrors.es_diagnosticado_cancer}}
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-12">
+            <label class="form-check-label" for="materialUnchecked2">¿Está embarazada?</label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="materialUnchecked2" [value]="true" (blur)=logValidationErrors(pacientesForm) formControlName="es_embarazada" name="es_embarazada">
+                <label class="form-check-label" for="materialUnchecked2">Sí</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="materialChecked2" [value]="false" (blur)=logValidationErrors(pacientesForm) formControlName="es_embarazada" name="es_embarazada">
+                <label class="form-check-label " for="materialChecked2 ">No</label>
+            </div>
+            <span class="help-block" *ngIf="formsErrors.es_embarazada">
+                {{formsErrors.es_embarazada}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12 ">
+            <label class="form-check-label">¿Está dando de lactar?</label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="esta_dando_lactar" [value]="true" (blur)=logValidationErrors(pacientesForm) formControlName="esta_dando_lactar" name="esta_dando_lactar">
+                <label class="form-check-label" for="esta_dando_lactar">Sí</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="materialChecked2" [value]="false" (blur)=logValidationErrors(pacientesForm) formControlName="esta_dando_lactar" name="esta_dando_lactar">
+                <label class="form-check-label " for="materialChecked2 ">No</label>
+            </div>
+            <span class="help-block" *ngIf="formsErrors.esta_dando_lactar">
+                {{formsErrors.esta_dando_lactar}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12 ">
+            <input class="form-control" type="text" formControlName="familiares_cerco" (blur)=logValidationErrors(pacientesForm) placeholder="Número de familiares en cerco">
+            <span class="help-block" *ngIf="formsErrors.familiares_cerco">
+                {{formsErrors.familiares_cerco}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12 ">
+            <label class="form-check-label">¿Fue o es fumador?</label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="fue_es_fumador" [value]="true" (blur)=logValidationErrors(pacientesForm) formControlName="fue_es_fumador" name="fue_es_fumador">
+                <label class="form-check-label" for="fue_es_fumador">Sí</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="fue_es_fumador2" [value]="false" (blur)=logValidationErrors(pacientesForm) formControlName="fue_es_fumador" name="fue_es_fumador">
+                <label class="form-check-label " for="fue_es_fumador2">No</label>
+            </div>
+            <span class="help-block" *ngIf="formsErrors.fue_es_fumador">
+                {{formsErrors.fue_es_fumador}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12 ">
+            <label class="form-check-label">¿Tiene carnet de discapacidad?</label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="tiene_carnet_discapacidad" [value]="true" (blur)=logValidationErrors(pacientesForm) formControlName="tiene_carnet_discapacidad" name="tiene_carnet_discapacidad">
+                <label class="form-check-label" for="tiene_carnet_discapacidad">Sí</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="tiene_carnet_discapacidad2" [value]="false" (blur)=logValidationErrors(pacientesForm) formControlName="tiene_carnet_discapacidad" name="tiene_carnet_discapacidad">
+                <label class="form-check-label " for="tiene_carnet_discapacidad2">No</label>
+            </div>
+            <span class="help-block" *ngIf="formsErrors.tiene_carnet_discapacidad">
+                {{formsErrors.tiene_carnet_discapacidad}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-12">
+            <label class="form-check-label">¿Tiene diabetes?</label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="tiene_diabetes" [value]="true" (blur)=logValidationErrors(pacientesForm) formControlName="tiene_diabetes" name="tiene_diabetes">
+                <label class="form-check-label" for="tiene_diabetes">Sí</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="tiene_diabetes2" [value]="false" (blur)=logValidationErrors(pacientesForm) formControlName="tiene_diabetes" name="tiene_diabetes">
+                <label class="form-check-label " for="tiene_diabetes2">No</label>
+            </div>
+            <span class="help-block" *ngIf="formsErrors.tiene_diabetes">
+                {{formsErrors.tiene_diabetes}}
+            </span>
+        </div>
+    </div>
+    <div class=" form-group row">
+        <div class="col-12 ">
+            <textarea class="form-control" type="text" formControlName="tiene_diagnosticado_enfermedad" (blur)=logValidationErrors(pacientesForm) placeholder="¿Tiene dianósticada alguna enfermedad?">
+            </textarea>
+            <span class="help-block" *ngIf="formsErrors.tiene_diagnosticado_enfermedad">
+                {{formsErrors.tiene_diagnosticado_enfermedad}}
+            </span>
+        </div>
+    </div>
+    <div class=" form-group row ">
+        <div class="col-12 ">
+            <label class="form-check-label">¿Tiene la presión alta?</label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="tiene_presion_alta" [value]="true" (blur)=logValidationErrors(pacientesForm) formControlName="tiene_presion_alta" name="tiene_presion_alta">
+                <label class="form-check-label" for="tiene_presion_alta">Sí</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="tiene_presion_alta2" [value]="false" (blur)=logValidationErrors(pacientesForm) formControlName="tiene_presion_alta" name="tiene_presion_alta">
+                <label class="form-check-label " for="tiene_presion_alta2">No</label>
+            </div>
+            <span class="help-block" *ngIf="formsErrors.tiene_presion_alta">
+                {{formsErrors.tiene_presion_alta}}
+            </span>
+        </div>
+    </div>
+
+</form>

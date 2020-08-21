@@ -2,9 +2,8 @@ import { Component, OnInit,ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthFacade } from '../store/auth.facade';
 import { Formulario } from '../../core/domain/class/formulario';
-import { SignupIn } from '../../core/domain/inputs';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { UserGeneroEnum } from '../../core/domain/enums';
+import { SignupIn, VOPacienteIn } from '../../core/domain/inputs';
+import { UserGeneroEnum, RolesUserEnum } from '../../core/domain/enums';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 const ValidationMessage = {
@@ -34,8 +33,10 @@ export class SignupComponent  extends Formulario implements OnInit {
   content: ElementRef;
 
   signupForm: FormGroup;
+  pacienteForm:FormGroup;
 
   terminosCondiciones:boolean = false;
+  showDatosMedico:boolean = true;
 
   constructor( private fb: FormBuilder, private _authFacade: AuthFacade, private modalService: NgbModal ) {
     super({...ValidationMessage}, )
@@ -43,7 +44,11 @@ export class SignupComponent  extends Formulario implements OnInit {
 
   ngOnInit(){
     this.initForm();
+  }
 
+  recibirFormPaciente($event){
+    console.log($event);
+    this.pacienteForm = $event
   }
   
   initForm(){
@@ -72,6 +77,7 @@ export class SignupComponent  extends Formulario implements OnInit {
     }
 
     let fechaNacimiento = this.signupForm.get('fechaNacimiento').value;
+
     let userToRegister : SignupIn = {
       name: this.signupForm.get('name').value,
       lastname: this.signupForm.get('lastname').value,
@@ -84,6 +90,38 @@ export class SignupComponent  extends Formulario implements OnInit {
       direccion: this.signupForm.get('direccion').value,
       roles:[],
     }
+
+    if(this.showDatosMedico){
+      if(!this.pacienteForm.valid) {
+        alert("Datos incorrectos");
+        return false
+      }
+      
+      let datosPaciente : VOPacienteIn = {
+        aislado_por: this.pacienteForm.get('aislado_por').value,
+        alergia_medicamentos: this.pacienteForm.get('alergia_medicamentos').value,
+        es_diagnosticado_cancer: this.pacienteForm.get('es_diagnosticado_cancer').value,
+        es_embarazada: this.pacienteForm.get('es_embarazada').value,
+        esta_dando_lactar: this.pacienteForm.get('esta_dando_lactar').value,
+        familiares_cerco: this.pacienteForm.get('familiares_cerco').value,
+        fue_es_fumador: this.pacienteForm.get('fue_es_fumador').value,
+        tiene_carnet_discapacidad: this.pacienteForm.get('tiene_carnet_discapacidad').value,
+        tiene_diabetes:this.pacienteForm.get('tiene_diabetes').value,
+        tiene_diagnosticado_enfermedad: this.pacienteForm.get('tiene_diagnosticado_enfermedad').value,
+        tiene_presion_alta: this.pacienteForm.get('tiene_presion_alta').value
+      }
+
+      userToRegister = {
+        ...userToRegister,
+        roles:[{
+          idHospital: this.signupForm.get('idHospital').value, 
+          roles:[RolesUserEnum.PACIENTE]
+        }],
+        datos_paciente: { ...datosPaciente }
+      }
+
+    }
+
     console.log(userToRegister);
     this._authFacade.register(userToRegister)
   }
@@ -94,6 +132,15 @@ export class SignupComponent  extends Formulario implements OnInit {
     } else {
       this.terminosCondiciones=false;
     }
+  }
+
+  onCheckboxChangeMedico(e){
+    if (e.target.checked) {
+      this.showDatosMedico=false;
+    } else {
+      this.showDatosMedico=true;
+    }
+
   }
 
 }
