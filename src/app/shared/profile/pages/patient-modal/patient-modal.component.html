@@ -13,7 +13,7 @@
         <!-- Column -->
         <div class="col-lg-12 col-xlg-12 col-md-12">
             <div class="card">
-                <ngb-tabset type="pills" class="custom-pills">
+                <ngb-tabset type="pills" class="custom-pills" (tabChange)="onChangeNav($event)">
                     <ngb-tab title="Atender">
                         <ng-template ngbTabContent>
                             <app-atender-seguimiento [seguimiento]="seguimiento"></app-atender-seguimiento>
@@ -21,19 +21,14 @@
                     </ngb-tab>
                     <ngb-tab title="Datos personales">
                         <ng-template ngbTabContent>
-                            <app-datos-usuario [userPerfil$]="userPerfil$"></app-datos-usuario>
+                            <app-datos-usuario id="segumientos" [userPerfil$]="userPerfil$"></app-datos-usuario>
                         </ng-template>
                     </ngb-tab>
                     <ngb-tab title="Datos médicos">
                         <ng-template ngbTabContent>
-                            <app-datos-paciente [userPerfil$]="userPerfil$"></app-datos-paciente>
+                            <app-datos-paciente id="segumientos" [userPerfil$]="userPerfil$"></app-datos-paciente>
                         </ng-template>
                     </ngb-tab>
-                    <!-- <ngb-tab title="Historial">
-                        <ng-template ngbTabContent>
-                            <app-profile></app-profile>
-                        </ng-template>
-                    </ngb-tab> -->
                     <ngb-tab title="Resumen">
                         <ng-template ngbTabContent>
                             <app-time-line [idPaciente]="userPerfil._id"></app-time-line>

@@ -43,7 +43,7 @@ export class UserEffects {
             )),
         tap( _=> this._spinner.hide()))
     
-        @Effect()
+    @Effect()
     verPerfilUsuario: Observable<any> = this.actions$.pipe(
         ofType(userActions.loadPerfilUser),
         switchMap(({idUser}) => this._verPerfilUseCase.execute(idUser)
@@ -62,7 +62,7 @@ export class UserEffects {
     @Effect()
     openModalAtenderPaciente: Observable<any> = this.actions$.pipe(
         ofType(userActions.openModalPatient),
-        tap( _=> this._spinner.show()),
+        // tap( _=> this._spinner.show()),
         switchMap(({seguimiento}) => {
             let idUser: IdIn = { _id: seguimiento.idPaciente._id } 
             return this._verPerfilUseCase.execute(idUser)
@@ -79,7 +79,8 @@ export class UserEffects {
                     }
                 )
             )}),
-        tap( _=> this._spinner.hide()))
+        // tap( _=> this._spinner.hide())
+        )
 
     @Effect({dispatch:false})
     openModalCreateUpdateUser: Observable<any> = this.actions$.pipe(

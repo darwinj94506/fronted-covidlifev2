@@ -20,4 +20,9 @@ export class PatientModalComponent implements OnInit {
     this.userPerfil$ = of(this.userPerfil);
   } 
 
+  onChangeNav(){
+
+  }
+
+
 }
