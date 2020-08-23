@@ -3,5 +3,5 @@ export interface CrearNotificacionIn {
     descripcion: String;
     idSeguimiento?: String
     idReceptor: String;
-    body?: Object
+    body?: any
 }

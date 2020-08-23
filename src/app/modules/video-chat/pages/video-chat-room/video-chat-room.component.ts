@@ -16,6 +16,7 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
   seguimientoPorAtender : FiltrarSeguimientoOut = history.state.data;
   userProfile$ : Observable<UserPerfilOut>;
   isLoading$: Observable<boolean>;
+  showResumen:boolean = false;
   localCallId = 'agora_local';
   remoteCalls: string[] = [];
   remoteStreams: Stream[];
@@ -49,6 +50,8 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
       let userId : IdIn = { _id : this.seguimientoPorAtender.idPaciente._id }
       this._userFacade.loadPerfilUser(userId);
     }
+    if(nextId === 'resumen')
+    this.showResumen = true;
   }
 
   /**

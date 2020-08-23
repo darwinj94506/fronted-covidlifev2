@@ -12,7 +12,7 @@ import { LoginOut,
 import { ObtenerNotificacionesEnviadasIn } from '../../core/domain/inputs';
 import { RolesUserEnum, TipoNotificacionEnum } from '../../core/domain/enums';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SuscriptionService } from '../../services';
 import { SEGUIMIENTO_OPERATIONS } from '../../data/graphq';
@@ -29,8 +29,8 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   notiRecibidas$ : Observable<ObtenerNotificacionesRecibidasOut[]>;
   notifRecibQueryRef: QueryRef<any>;
   showNotifications:boolean = false;
-  NOTIFICATION_LLAMADA: TipoNotificacionEnum.DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA;
-  NOTIFICATION_AGENDADA : TipoNotificacionEnum.HA_SIDO_AGENDADA 
+  NOTIFICATION_LLAMADA: TipoNotificacionEnum = TipoNotificacionEnum.DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA;
+  NOTIFICATION_AGENDADA : TipoNotificacionEnum = TipoNotificacionEnum.HA_SIDO_AGENDADA 
 
 
   public config: PerfectScrollbarConfigInterface = {};
@@ -128,6 +128,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
     this.notifRecibQueryRef = this._suscriptionService.getNotificationesRecibidas(filter);
     this.notiRecibidas$ = this.notifRecibQueryRef.valueChanges
       .pipe(
+        tap(console.log),
         map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.getNoficacionesRecibidas.resolve] ))
   }
 

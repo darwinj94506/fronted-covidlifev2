@@ -12,6 +12,7 @@ import { PatientModalComponent } from '../../shared/profile/pages/patient-modal/
 import { UserModalComponent } from '../../shared/profile/pages/user-modal/user-modal.component';
 import { RoleModalComponent } from '../../shared/profile/pages/role-modal/role-modal.component';
 import { SearchInviteModalComponent } from '../../shared/profile/pages/search-invite-modal/search-invite-modal.component';
+import { FindValueSubscriber } from 'rxjs/internal/operators/find';
 @Injectable()
 export class UserEffects {
     modalAtenderPaciente: NgbModalRef;
@@ -59,29 +60,36 @@ export class UserEffects {
             ))
         )
 
-    @Effect()
+    // @Effect()
+    // openModalAtenderPaciente: Observable<any> = this.actions$.pipe(
+    //     ofType(userActions.openModalPatient),
+    //     switchMap(({seguimiento}) => {
+    //         let idUser: IdIn = { _id: seguimiento.idPaciente._id } 
+    //         return this._verPerfilUseCase.execute(idUser)
+    //         .pipe(
+    //             map(userPerfil => {
+    //                 this.modalAtenderPaciente = this.modalService.open(PatientModalComponent, { size: 'xl', scrollable: true});
+    //                 this.modalAtenderPaciente.componentInstance.userPerfil = {...userPerfil}
+    //                 this.modalAtenderPaciente.componentInstance.seguimiento = {...seguimiento}
+    //                 return userActions.loadPerfilUserSuccess({userPerfil})
+    //             }),
+    //             catchError( error => {
+    //                 this._toastService.showError(`Error al abrir modal. Por favor Vuelva a itentarlo, Error:${error.message}`);
+    //                 return of( userActions.loadPerfilUserError({error: error.message}))
+    //                 }
+    //             )
+    //         )}),
+    //     )
+
+    @Effect({dispatch:false})
     openModalAtenderPaciente: Observable<any> = this.actions$.pipe(
         ofType(userActions.openModalPatient),
-        // tap( _=> this._spinner.show()),
-        switchMap(({seguimiento}) => {
-            let idUser: IdIn = { _id: seguimiento.idPaciente._id } 
-            return this._verPerfilUseCase.execute(idUser)
-            .pipe(
-                map(userPerfil => {
+        tap(({seguimiento}) => {
                     this.modalAtenderPaciente = this.modalService.open(PatientModalComponent, { size: 'xl', scrollable: true});
-                    this.modalAtenderPaciente.componentInstance.userPerfil = {...userPerfil}
                     this.modalAtenderPaciente.componentInstance.seguimiento = {...seguimiento}
-                    return userActions.loadPerfilUserSuccess({userPerfil})
-                }),
-                catchError( error => {
-                    this._toastService.showError(`Error al abrir modal. Por favor Vuelva a itentarlo, Error:${error.message}`);
-                    return of( userActions.loadPerfilUserError({error: error.message}))
-                    }
-                )
-            )}),
-        // tap( _=> this._spinner.hide())
+                })
         )
-
+        
     @Effect({dispatch:false})
     openModalCreateUpdateUser: Observable<any> = this.actions$.pipe(
         ofType(userActions.openModalCreateUpdateUser),

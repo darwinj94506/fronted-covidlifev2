@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title">Modal paciente</h4>
+    <h4 class="modal-title">Atender un seguimiento</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -19,19 +19,17 @@
                             <app-atender-seguimiento [seguimiento]="seguimiento"></app-atender-seguimiento>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Datos personales">
+                    <ngb-tab title="Datos personales" id="datos-personales">
                         <ng-template ngbTabContent>
-                            <app-datos-usuario id="segumientos" [userPerfil$]="userPerfil$"></app-datos-usuario>
+                            <app-over-view [userPerfil$]="userPerfil$" *ngIf="!(isLoadingPerfilUser$ | async); else datosPersonales"></app-over-view>
+                            <ng-template #datosPersonales>
+                                <div>cargando...</div>
+                            </ng-template>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Datos médicos">
+                    <ngb-tab title="Resumen" id="resumen">
                         <ng-template ngbTabContent>
-                            <app-datos-paciente id="segumientos" [userPerfil$]="userPerfil$"></app-datos-paciente>
-                        </ng-template>
-                    </ngb-tab>
-                    <ngb-tab title="Resumen">
-                        <ng-template ngbTabContent>
-                            <app-time-line [idPaciente]="userPerfil._id"></app-time-line>
+                            <app-time-line [idPaciente]="seguimiento.idPaciente._id" *ngIf="showResumen"></app-time-line>
                         </ng-template>
                     </ngb-tab>
 
@@ -42,5 +40,5 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+    <button type="button" class="btn btn-light " (click)="modal.close('Close click') ">Cerrar</button>
 </div>

@@ -24,4 +24,7 @@ export interface ConsultarUnSeguimientoOut {
     diagnostico_actual: DiagnosticoActualEnum;
     latitud?: number;
     longitud?: number;
+    createAt: Date;
 }
+
+

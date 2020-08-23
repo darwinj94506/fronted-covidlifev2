@@ -1,5 +1,5 @@
 <!-- <ng-container *ngIf="isLoading$ | async as isLoading"> -->
-<div class="row">
+<div class="row" *ngIf="!(isLoading$ | async)">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -65,30 +65,7 @@
                                 </td>
 
                             </tr>
-                            <!-- <tr>
-                                <th class="align-middle">Requerimiento</th>
-                                <td>
-                                    <div>19:13-(0)</div>
-                                    <div>13:52-(Continuar en Domicilio)</div>
-                                </td>
-                                <td>Cell</td>
-                                <td>Cell</td>
-                                <td>Cell</td>
-                                <td>Cell</td>
 
-                            </tr> -->
-                            <!-- <tr>
-                                <th class="align-middle">Toma de muestra</th>
-                                <td>
-                                    <div>19:13-(0)</div>
-                                    <div>13:52-(No Requerido)</div>
-                                </td>
-                                <td>Cell</td>
-                                <td>Cell</td>
-                                <td>Cell</td>
-                                <td>Cell</td>
-                           
-                            </tr> -->
                             <tr>
                                 <th class="align-middle">Estado Actual</th>
                                 <td *ngFor="let seg of seguimientos; let i=index;">

@@ -33,6 +33,11 @@
                         <div *ngIf="isLoading$ | async">cargando...</div>
                     </ng-template>
                 </ngb-tab>
+                <ngb-tab title="Resumen" id="resumen">
+                    <ng-template ngbTabContent>
+                        <app-time-line [idPaciente]="seguimientoPorAtender.idPaciente._id" *ngIf="showResumen"></app-time-line>
+                    </ng-template>
+                </ngb-tab>
             </ngb-tabset>
         </div>
     </div>
