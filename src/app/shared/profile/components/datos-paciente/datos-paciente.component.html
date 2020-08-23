@@ -1,0 +1,31 @@
+<ng-container *ngIf="userPerfil$ | async as userPerfil">
+    <div class="card">
+        <div class="card-body" *ngIf="userPerfil.datos_paciente">
+            <div class="text-center">
+                <h4 class="card-title m-t-5">Ficha médica</h4>
+            </div>
+            <small class="text-muted">Aislado por</small>
+            <h6> {{ userPerfil?.datos_paciente?.aislado_por }} </h6>
+            <small class="text-muted p-t-30 db">Alergia a medicamentos</small>
+            <h6> {{ userPerfil?.datos_paciente?.alergia_medicamentos }} </h6>
+            <small class="text-muted p-t-30 db">Tiene diagnosticada enferdad</small>
+            <h6> {{ userPerfil?.datos_paciente?.tiene_diagnosticado_enfermedad }} </h6>
+            <small class="text-muted p-t-30 db">Ha sido diagnosticado con cáncer</small>
+            <h6> {{ getResult(userPerfil?.datos_paciente?.es_diagnosticado_cancer) }} </h6>
+            <small class="text-muted p-t-30 db">¿Está embarazada?</small>
+            <h6> {{ getResult(userPerfil?.datos_paciente?.es_embarazada) }} </h6>
+            <small class="text-muted p-t-30 db">¿Está dando de lactar?</small>
+            <h6> {{ getResult(userPerfil?.datos_paciente?.esta_dando_lactar) }} </h6>
+            <small class="text-muted p-t-30 db">¿fue o es fumador?</small>
+            <h6> {{ getResult(userPerfil?.datos_paciente?.fue_es_fumador) }} </h6>
+            <small class="text-muted p-t-30 db">¿Tiene carnet de discapacidad?</small>
+            <h6> {{ getResult(userPerfil?.datos_paciente?.tiene_carnet_discapacidad) }} </h6>
+            <small class="text-muted p-t-30 db">¿Tiene diabetes?</small>
+            <h6> {{ getResult(userPerfil?.datos_paciente?.tiene_diabetes) }} </h6>
+            <small class="text-muted p-t-30 db">¿Tiene la presión alta??</small>
+            <h6> {{ getResult(userPerfil?.datos_paciente?.tiene_presion_alta) }} </h6>
+            <small class="text-muted p-t-30 db">Familiares en cerco epidemiológico</small>
+            <h6> {{ userPerfil?.datos_paciente?.familiares_cerco }} </h6>
+        </div>
+    </div>
+</ng-container>

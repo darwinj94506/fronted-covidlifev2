@@ -53,10 +53,7 @@ export const Approutes: Routes = [
 			// 	loadChildren: () => import('./sample-pages/sample-pages.module').then(m => m.SamplePagesModule)
 			// },
 			// nuevos módulos
-			{ 
-				path: 'perfil', 
-				loadChildren: () => import('./shared/profile/profile.module').then(m => m.ProfileModule)
-			},
+			
 			{ 
 				path: 'root',
 				// canActivate:[ RoleGuardService ],
@@ -87,6 +84,10 @@ export const Approutes: Routes = [
 				data: { expectedRole: RolesUserEnum.DIRECTOR }, 
 				loadChildren: () => import('./modules/director/director.module').then(m => m.DirectorModule) 
 			},
+			{ 
+				path: 'perfil', 
+				loadChildren: () => import('./shared/profile/profile.module').then(m => m.ProfileModule)
+			}
 		]
 	},
 	{

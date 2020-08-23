@@ -1,30 +1,32 @@
 <div class="row">
     <!-- Column -->
-    <div class="col-lg-4 col-xlg-3 col-md-5">
+    <!-- <div class="col-lg-4 col-xlg-3 col-md-5">
         <app-over-view [userPerfil$]="userPerfil$"></app-over-view>
-    </div>
+    </div> -->
     <!-- Column -->
-    <!-- Column -->
-    <div class="col-lg-8 col-xlg-9 col-md-7">
+    <!-- Column  <div class="col-lg-8 col-xlg-9 col-md-7"> -->
+    <div class="col-lg-12 col-xlg-12 col-md-12">
         <div class="card">
             <ngb-tabset type="pills" class="custom-pills">
-                <ngb-tab title="Timeline">
+                <ngb-tab title="Datos personales">
+                    <ng-template ngbTabContent>
+                        <app-over-view [userPerfil$]="userPerfil$"></app-over-view>
+                    </ng-template>
+                </ngb-tab>
+
+                <ngb-tab title="Resumen">
                     <ng-template ngbTabContent>
                         <ng-container *ngIf="userPerfil$ | async as userPerfil">
                             <app-time-line [idPaciente]="userPerfil._id"></app-time-line>
                         </ng-container>
                     </ng-template>
                 </ngb-tab>
-                <ngb-tab title="Profile">
-                    <ng-template ngbTabContent>
-                        <app-profile></app-profile>
-                    </ng-template>
-                </ngb-tab>
-                <ngb-tab title="Settings">
+
+                <!-- <ngb-tab title="Settings">
                     <ng-template ngbTabContent>
                         <app-settings></app-settings>
                     </ng-template>
-                </ngb-tab>
+                </ngb-tab> -->
             </ngb-tabset>
         </div>
     </div>

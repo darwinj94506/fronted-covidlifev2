@@ -247,6 +247,7 @@ export const VER_NOTIFICACIONES_ENVIADAS = gql `
         email
         state
       }
+      body
       vistaEn
       estadoNotificacion
       fechaCambioUltimoEstado
@@ -279,6 +280,7 @@ query getNotificacionesrecibidas($data:ObtenerNotificacionesRecibidasIn!){
       email
       state
     }
+    body
     vistaEn
     estadoNotificacion
     fechaCambioUltimoEstado
@@ -329,6 +331,7 @@ export const SUSCRIPTIONS_NOTIFICATIONS = gql `
         email
         state
       }
+      body
       vistaEn
       estadoNotificacion
       fechaCambioUltimoEstado

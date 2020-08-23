@@ -3,6 +3,8 @@ import { RolesUserEnum } from '../../../../core/domain/enums';
 import { FilterUserOut } from '../../../../core/domain/outputs';
 import { MainFacade } from '../../../../store/facade/main.facade';
 import { Observable } from 'rxjs';
+import { FilterUserIn } from 'src/app/core/domain/inputs';
+
 
 @Component({
   selector: 'app-administrators',
@@ -18,7 +20,20 @@ export class AdministratorsComponent implements OnInit{
     }
 
     ngOnInit() {
-      this._mainFacade.loadUsers({});
-      this.users$ = this._mainFacade.getUsers()
+      // this._mainFacade.loadUsers({});
+      // this.users$ = this._mainFacade.getUsers()
+
+      this._mainFacade.getHospitalSesion()
+      .subscribe(hospital=>{
+        let filter: FilterUserIn = {
+          idHospital: hospital.idHospital._id,
+          role: RolesUserEnum.ADMIN
+        }
+        this._mainFacade.loadUsers(filter);
+      })
+   
+    this.users$ = this._mainFacade.getUsers()
+
+
     }
 }

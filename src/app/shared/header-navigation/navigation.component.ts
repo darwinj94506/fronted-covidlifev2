@@ -151,6 +151,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
 
   getDataForUpdateGrapqlQuery(entryNotification: ObtenerNotificacionesRecibidasOut, 
                               previusNotifications: ObtenerNotificacionesRecibidasOut []): ObtenerNotificacionesRecibidasOut[]{
+    console.log([entryNotification, previusNotifications])
     let index = previusNotifications.findIndex(item=>item._id === entryNotification._id)
     if(index === -1)
       return [entryNotification, ...previusNotifications]
@@ -169,7 +170,11 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   }
 
   irVideoLlamada(notification: ObtenerNotificacionesRecibidasOut){
-    this._router.navigate(['/video-llamada', notification.idSeguimiento]);
+    console.log(notification);
+    if(notification.body && notification.body.tipo === TipoNotificacionEnum.DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA
+          || notification.body.tipo === TipoNotificacionEnum.HA_SIDO_AGENDADA )
+            alert("Navegando a video llamada");
+          // this._router.navigate(['/video-llamada', notification.idSeguimiento]);
   }
   
 }

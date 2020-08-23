@@ -33,7 +33,8 @@ export class AuthService {
     }
     
     logout() { 
-        this.apollo.getClient().resetStore();
+        // this.apollo.getClient().resetStore();
+        this.apollo.getClient().cache.reset();
         localStorage.removeItem('hospitalSession');
         localStorage.removeItem('userLogged');
         localStorage.removeItem('token');
@@ -55,32 +56,29 @@ export class AuthService {
     navigateToDashboard(hospitalSession: VORoleHospital){
         switch(hospitalSession.roles[0]){
             case RolesUserEnum.ROOT:
-                this.router.navigate(['/root'])
+                this.router.navigate(['/root/administradores'])
             break;
             case RolesUserEnum.ADMIN:
-                this.router.navigate(['/admin'])
+                this.router.navigate(['/admin/personal'])
             break;
             case RolesUserEnum.DOCTOR:
-                this.router.navigate(['/doctor'])
+                this.router.navigate(['/doctor/seguimientos'])
             break;
             case RolesUserEnum.PACIENTE:
-                this.router.navigate(['/paciente'])
+                this.router.navigate(['/paciente/enviar-sintomas'])
             break;
                 case RolesUserEnum.DIRECTOR:
-                this.router.navigate(['/director'])
+                this.router.navigate(['/director/estadisticas'])
             break;
         } 
     }
 
     navigateToInit(userLogged){
         
-        if(userLogged.isRoot) 
-            this.router.navigate(['/root'])
-        else
-            this.router.navigate(['/inicio'])
-
-    
-    
+        // if(userLogged.isRoot) 
+        //     this.router.navigate(['/root'])
+        // else
+        this.router.navigate(['/inicio'])
     }
 
     public isAuthenticated(): boolean {

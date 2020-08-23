@@ -1,9 +1,12 @@
 import { Component, OnInit,OnDestroy } from '@angular/core';
 import { MainFacade } from '../store/facade/main.facade';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, of } from 'rxjs';
 import { LoginOut, VORoleHospitalPopulateLoginOut } from '../core/domain/outputs';
+import { IHospitalEntity } from '../core/domain/entities';
+import { RolesUserEnum } from '../core/domain/enums';
 declare var $: any;
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-init',
@@ -37,23 +40,37 @@ export class InitComponent implements OnInit,OnDestroy {
     this.expandLogo = !this.expandLogo;
   }
 
-
   userLogged: LoginOut;
   suscription: Subscription;
+  hospitales$: Observable<IHospitalEntity[]>;
 
   constructor( private _mainFacade: MainFacade) { }
 
   ngOnInit(): void {
     this.suscription = this._mainFacade.getUserLogged()
-      .subscribe(userLogged=>this.userLogged=userLogged);
-  }
-
-  ngOnDestroy(){
-    this.suscription.unsubscribe();
+      .subscribe(userLogged => {
+        this.userLogged = userLogged;     
+        if(userLogged.isRoot){
+          this._mainFacade.dispatchActionLoadHospitales({});
+          this.hospitales$ = this._mainFacade.getHospitales()
+        }
+      });
   }
 
   selectHospital(hospital:VORoleHospitalPopulateLoginOut){
-    this._mainFacade.setHospitalSession(hospital);
+      this._mainFacade.setHospitalSession(hospital);
+  }
+
+  selectHospitalRoot(hospital: IHospitalEntity){
+    let newHospital: VORoleHospitalPopulateLoginOut = {
+      idHospital:{
+        _id:hospital._id,
+        nombre:hospital.nombre,
+        idEspacio:hospital.idEspacio
+      },
+      roles:[RolesUserEnum.ROOT]
+    }
+    this._mainFacade.setHospitalSession(newHospital);
   }
   
   toggleSidebarType() {
@@ -77,6 +94,10 @@ export class InitComponent implements OnInit,OnDestroy {
 
       default:
     }
+  }
+
+  ngOnDestroy(){
+    this.suscription.unsubscribe();
   }
 
 }

@@ -28,5 +28,4 @@ export class StaffComponent implements OnInit {
     this.users$ = this._mainFacade.getUsers()
 
   }
-
 }

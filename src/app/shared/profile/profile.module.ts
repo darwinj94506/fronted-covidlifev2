@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfilePageComponent } from './pages/profile/profile-page.component';
-import { ProfileComponent } from './components/profile/profile.component';
+// import { ProfileComponent } from './components/profile/profile.component';
 import { TimeLineComponent } from './components/time-line/time-line.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -15,6 +15,8 @@ import { PatientFormComponent } from './components/patient-form/patient-form.com
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { RoleModalComponent } from './pages/role-modal/role-modal.component';
 import { SearchInviteModalComponent } from './pages/search-invite-modal/search-invite-modal.component';
+import { DatosPacienteComponent } from './components/datos-paciente/datos-paciente.component';
+import { DatosUsuarioComponent } from './components/datos-usuario/datos-usuario.component';
 
 export const PROFILE_ROUTES: Routes = [
 	{
@@ -24,7 +26,7 @@ export const PROFILE_ROUTES: Routes = [
 
 @NgModule({
   declarations: [ ProfilePageComponent,
-     ProfileComponent, 
+    //  ProfileComponent, 
      TimeLineComponent, 
      SettingsComponent, 
      OverViewComponent, 
@@ -34,7 +36,9 @@ export const PROFILE_ROUTES: Routes = [
      UserFormComponent,
      UserModalComponent,
      RoleModalComponent,
-     SearchInviteModalComponent ],
+     SearchInviteModalComponent,
+     DatosPacienteComponent,
+     DatosUsuarioComponent ],
   imports: [
     CommonModule,
     NgbModule,
@@ -43,7 +47,7 @@ export const PROFILE_ROUTES: Routes = [
   ],
   exports:[
     PatientModalComponent,
-    ProfileComponent, 
+    // ProfileComponent, 
     TimeLineComponent,  
     OverViewComponent, 
     NgbModule, 
@@ -55,13 +59,16 @@ export const PROFILE_ROUTES: Routes = [
     UserFormComponent,
     UserModalComponent,
     RoleModalComponent,
-    SearchInviteModalComponent
+    SearchInviteModalComponent,
+    DatosUsuarioComponent,
+    DatosPacienteComponent
   ],
   entryComponents:[
     PatientModalComponent,
     UserModalComponent,
     RoleModalComponent,
-    SearchInviteModalComponent
+    SearchInviteModalComponent,
+    
   ]
 })
 export class ProfileModule { }

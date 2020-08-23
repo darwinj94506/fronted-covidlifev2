@@ -8,15 +8,6 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <!-- <form [formGroup]="form" novalidate>
-                    <checkbox-group formControlName="items">
-                        <checkbox value="DOCTOR" (click)="onSubmit(DOCTOR)">Doctor</checkbox>
-                        <checkbox value="ADMIN" (click)="onSubmit(ADMIN)">Administrador</checkbox>
-                        <checkbox value="DIRECTOR" (click)="onSubmit(DIRECTOR)">Director</checkbox>
-                        <checkbox value="PACIENTE" (click)="onSubmit(PACIENTE)">Paciente</checkbox>
-                    </checkbox-group>
-                </form> -->
-
                 <form [formGroup]="form">
                     <div *ngFor="let rol of rolesFormArray.controls; let i = index" class="row col">
                         <label formArrayName="roles">

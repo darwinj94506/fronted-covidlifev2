@@ -19,16 +19,21 @@
                             <app-atender-seguimiento [seguimiento]="seguimiento"></app-atender-seguimiento>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Datos paciente">
+                    <ngb-tab title="Datos personales">
                         <ng-template ngbTabContent>
-                            <app-over-view [userPerfil$]="userPerfil$"></app-over-view>
+                            <app-datos-usuario [userPerfil$]="userPerfil$"></app-datos-usuario>
                         </ng-template>
                     </ngb-tab>
-                    <ngb-tab title="Historial">
+                    <ngb-tab title="Datos médicos">
+                        <ng-template ngbTabContent>
+                            <app-datos-paciente [userPerfil$]="userPerfil$"></app-datos-paciente>
+                        </ng-template>
+                    </ngb-tab>
+                    <!-- <ngb-tab title="Historial">
                         <ng-template ngbTabContent>
                             <app-profile></app-profile>
                         </ng-template>
-                    </ngb-tab>
+                    </ngb-tab> -->
                     <ngb-tab title="Resumen">
                         <ng-template ngbTabContent>
                             <app-time-line [idPaciente]="userPerfil._id"></app-time-line>

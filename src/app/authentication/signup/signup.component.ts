@@ -103,7 +103,7 @@ export class SignupComponent  extends Formulario implements OnInit {
         es_diagnosticado_cancer: this.pacienteForm.get('es_diagnosticado_cancer').value,
         es_embarazada: this.pacienteForm.get('es_embarazada').value,
         esta_dando_lactar: this.pacienteForm.get('esta_dando_lactar').value,
-        familiares_cerco: this.pacienteForm.get('familiares_cerco').value,
+        familiares_cerco: Number.parseFloat(this.pacienteForm.get('familiares_cerco').value),
         fue_es_fumador: this.pacienteForm.get('fue_es_fumador').value,
         tiene_carnet_discapacidad: this.pacienteForm.get('tiene_carnet_discapacidad').value,
         tiene_diabetes:this.pacienteForm.get('tiene_diabetes').value,
@@ -114,7 +114,7 @@ export class SignupComponent  extends Formulario implements OnInit {
       userToRegister = {
         ...userToRegister,
         roles:[{
-          idHospital: this.signupForm.get('idHospital').value, 
+          idHospital: this.pacienteForm.get('idHospital').value, 
           roles:[RolesUserEnum.PACIENTE]
         }],
         datos_paciente: { ...datosPaciente }

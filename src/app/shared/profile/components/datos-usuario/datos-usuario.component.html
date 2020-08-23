@@ -1,0 +1,25 @@
+<ng-container *ngIf="userPerfil$ | async as userPerfil">
+
+    <div class="card">
+        <div class="card-body">
+            <div class="text-center">
+                <h4 class="card-title m-t-5">{{ userPerfil.name }} {{ userPerfil.lastname }}</h4>
+            </div>
+            <small class="text-muted">Correo electrónico </small>
+            <h6> {{ userPerfil?.email }} </h6>
+            <small class="text-muted p-t-30 db">Teléfono</small>
+            <h6> {{ userPerfil?.telefono }} </h6>
+            <small class="text-muted p-t-30 db">Dirección</small>
+            <h6> {{ userPerfil?.direccion }} </h6>
+            <small class="text-muted p-t-30 db">Cédula</small>
+            <h6> {{ userPerfil?.ci }} </h6>
+            <small class="text-muted p-t-30 db">Fecha de nacimiento</small>
+            <h6> {{ userPerfil?.fechaNacimiento | date: 'mediumDate': 'ec' }} </h6>
+            <small class="text-muted p-t-30 db">Género</small>
+            <h6> {{ userPerfil?.genero }} </h6>
+            <small class="text-muted p-t-30 db">último acceso</small>
+            <h6> {{ userPerfil?.ultimoAcceso | date : 'medium' : 'ec' }} </h6>
+        </div>
+    </div>
+
+</ng-container>

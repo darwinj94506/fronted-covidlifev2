@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MainFacade } from '../../store/facade/main.facade';
 import { RolesUserEnum } from '../../core/domain/enums';
 import { forkJoin } from 'rxjs';
-import { LoginOut } from '../../core/domain/outputs';
+import { LoginOut, VORoleHospitalPopulateLoginOut } from '../../core/domain/outputs';
 declare var $: any;
 
 @Component({
@@ -16,6 +16,7 @@ declare var $: any;
 })
 export class SidebarComponent implements OnInit {
   userLogged: LoginOut;
+  hospitalSession: VORoleHospitalPopulateLoginOut;
   showMenu = '';
   showSubMenu = '';
   public sidebarnavItems: any[];
@@ -53,6 +54,7 @@ export class SidebarComponent implements OnInit {
 
     forkJoin(this._mainFacade.getUserLogged(), this._mainFacade.getHospitalSesion())
         .subscribe(([userLogged, hospitalSesion])=> {
+          this.hospitalSession = hospitalSesion
           this.userLogged = userLogged;
           if(userLogged.isRoot)
              this.sidebarnavItems = this.getMenu([RolesUserEnum.ROOT]);

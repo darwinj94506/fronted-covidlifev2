@@ -297,7 +297,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   }
 
    makeAction(args: ItemDragula){
-     console.log(args.item);
+    //  console.log(args.item);
     switch(args.target.getAttribute('id')){
       case 'segAgendados':
         this._seguimientoFacade.agendarSeguimiento(args.item, this.userLogged)

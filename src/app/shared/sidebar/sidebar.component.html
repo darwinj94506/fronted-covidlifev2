@@ -1,5 +1,12 @@
 <nav class="sidebar-nav">
     <ul id="sidebarnav">
+        <li class="sidebar-item user-profile" [class.active]="showMenu === 'user'">
+            <a class="sidebar-link waves-effect waves-dark" aria-expanded="false">
+                <span>    
+                    {{hospitalSession?.idHospital?.nombre}}
+            </span></a>
+
+        </li>
         <!-- User Profile-->
         <li class="sidebar-item user-profile" [class.active]="showMenu === 'user'">
             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" (click)="addExpandClass('user')" aria-expanded="false"><span><img src="assets/images/users/profile.png" alt="user" /></span><span class="hide-menu">{{userLogged.name}} {{userLogged.lastname}}</span></a>

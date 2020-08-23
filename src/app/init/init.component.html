@@ -55,17 +55,33 @@
                     <!-- Row -->
                     <div class="row">
                         <!-- column -->
-                        <div class="col-lg-3 col-md-6" *ngFor="let hospital of userLogged?.roles">
-                            <!-- Card -->
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{hospital?.idHospital.nombre}}</h5>
-                                    <!-- <p class="card-text">Some content.</p> -->
-                                    <a href="javascript:void(0)" class="btn btn-primary" (click)="selectHospital(hospital)">Ingresar</a>
+                        <ng-container *ngIf="!userLogged.isRoot; else root">
+                            <div class="col-lg-3 col-md-6" *ngFor="let hospital of userLogged?.roles">
+                                <!-- Card -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{hospital?.idHospital.nombre}}</h5>
+                                        <!-- <p class="card-text">Some content.</p> -->
+                                        <a href="javascript:void(0)" class="btn btn-primary" (click)="selectHospital(hospital)">Ingresar</a>
+                                    </div>
                                 </div>
+                                <!-- Card -->
                             </div>
-                            <!-- Card -->
-                        </div>
+                        </ng-container>
+                        <ng-container #root *ngIf="hospitales$ | async as hospitales">
+                            <div class="col-lg-3 col-md-6" *ngFor="let hospital of hospitales">
+                                <!-- Card -->
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{hospital?.nombre}}</h5>
+                                        <!-- <p class="card-text">Some content.</p> -->
+                                        <a href="javascript:void(0)" class="btn btn-primary" (click)="selectHospitalRoot(hospital)">Ingresar</a>
+                                    </div>
+                                </div>
+                                <!-- Card -->
+                            </div>
+                        </ng-container>
+
                         <!-- column -->
                     </div>
                     <!-- Row -->
