@@ -1,7 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute} from '@angular/router';
 import { UserFacade, SeguimientoFacade } from '../../../../store/facade';
 import { IdIn } from '../../../../core/domain/inputs';
-import { FiltrarSeguimientoOut, UserPerfilOut } from '../../../../core/domain/outputs';
+import { FiltrarSeguimientoOut,
+         UserPerfilOut, 
+         ConsultarUnSeguimientoOut } from '../../../../core/domain/outputs';
 import { Observable } from 'rxjs';
 import { AgoraClient, ClientEvent, NgxAgoraService, Stream, StreamEvent } from 'ngx-agora';
 import { ToastService } from '../../../../services';
@@ -13,7 +16,7 @@ import { ToastService } from '../../../../services';
 })
 export class VideoChatRoomComponent implements OnInit, OnDestroy {
 
-  seguimientoPorAtender : FiltrarSeguimientoOut = history.state.data;
+  seguimientoPorAtender : ConsultarUnSeguimientoOut
   userProfile$ : Observable<UserPerfilOut>;
   isLoading$: Observable<boolean>;
   showResumen:boolean = false;
@@ -27,6 +30,7 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
 
   constructor( private _userFacade: UserFacade,
                private _toastService: ToastService,
+               private route:ActivatedRoute,
                private _ngxAgoraService: NgxAgoraService ) {
                 this.uid = Math.floor(Math.random() * 100);
               }
@@ -34,6 +38,7 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userProfile$ = this._userFacade.getPerfilUser();
     this.isLoading$ = this._userFacade.getLoadingPerfilUserStore();
+    this.seguimientoPorAtender = this.route.snapshot.data.seguimientoPorAtender
 
      //for video calling
      this.client = this._ngxAgoraService.createClient({ mode: 'rtc', codec: 'h264' });

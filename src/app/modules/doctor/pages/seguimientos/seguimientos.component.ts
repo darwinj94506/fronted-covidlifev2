@@ -307,7 +307,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         let seguimientoForAtender : AtenderSolicitudSeguimientoIn = {
             _id: args.item._id
         }
-        this._seguimientoFacade.atenderSeguimiento(seguimientoForAtender)
+        this._seguimientoFacade.atenderSeguimiento(seguimientoForAtender, args.item.estado )
       break;
     }
   }
@@ -327,7 +327,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         }
     }
     this._seguimientoFacade.dispatchActionSendNotificationVideoLlamada(seguimiento, this.userLogged, notification)
-    this._router.navigate(['/video-llamada'], {state: {data: {...seguimiento}}});
+    this._router.navigate(['/sala/llamada', seguimiento._id], {state: {data: {...seguimiento}}});
   }
 
 }

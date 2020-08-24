@@ -14,6 +14,7 @@ import { AppState,
          selectCitasPacientes, 
          selectIsLoadingSeguimientosCompletos, 
          selectSeguimientosCompletos }from '../app.reducer';
+import { SeguimientoEstadoEnum} from '../../core/domain/enums';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -27,8 +28,8 @@ export class SeguimientoFacade {
     this.store.dispatch(seguimientoActions.createSeguimiento({seguimientoIn}))
   }
 
-  atenderSeguimiento(seguimiento: AtenderSolicitudSeguimientoIn): void {
-    this.store.dispatch(seguimientoActions.atenderSeguimiento({seguimiento}))
+  atenderSeguimiento(seguimiento: AtenderSolicitudSeguimientoIn, estado: SeguimientoEstadoEnum): void {
+    this.store.dispatch(seguimientoActions.atenderSeguimiento({seguimiento, estado}))
   }
 
   agendarSeguimiento(seguimiento: FiltrarSeguimientoOut, doctor:LoginOut): void {

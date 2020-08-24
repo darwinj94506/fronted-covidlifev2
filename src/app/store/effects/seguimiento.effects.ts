@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, Effect, ofType  } from '@ngrx/effects';
 import { catchError, map, switchMap, tap, mergeMap, concatMapTo, concatMap} from 'rxjs/operators';
 import { Observable, from, of} from 'rxjs';
@@ -11,8 +12,8 @@ import { MacarSeguimientoComoAtendido,
          VerResumenSeguimientosPacienteUseCase, 
          EnviarNotificacionUseCase,
          MacarSeguimientoComoAgendado } from '../../core/usecases/doctor';
-import { SeguimientoEstadoEnum } from '../../core/domain/enums'
-import { FiltrarSeguimientoIn, AgendarSolicitudSeguimientoIn, CrearNotificacionIn } from '../../core/domain/inputs'
+import { SeguimientoEstadoEnum } from '../../core/domain/enums';
+import { FiltrarSeguimientoIn, AgendarSolicitudSeguimientoIn, CrearNotificacionIn } from '../../core/domain/inputs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MainFacade } from '../facade';
 @Injectable()
@@ -24,11 +25,12 @@ export class SeguimientoEffects {
         private _macarSeguimientoComoAtendido: MacarSeguimientoComoAtendido,
         private _macarSeguimientoComoAgendado: MacarSeguimientoComoAgendado,
         private _verSeguimientosAgendadosUseCase: VerSeguimientosAgendadosUseCase,
-        private _verCitasUseCase:VerCitasUseCase,
+        private _verCitasUseCase: VerCitasUseCase,
         private _mainFacade : MainFacade,
-        private _notificationService:NotificationService,
-        private _enviarNotificacionUseCase:EnviarNotificacionUseCase,
-        private _VerResumenSeguimientosPacienteUseCase:VerResumenSeguimientosPacienteUseCase
+        private _notificationService: NotificationService,
+        private _enviarNotificacionUseCase: EnviarNotificacionUseCase,
+        private _VerResumenSeguimientosPacienteUseCase: VerResumenSeguimientosPacienteUseCase,
+        private _router: Router
          ) { }
    
     @Effect()
@@ -76,9 +78,9 @@ export class SeguimientoEffects {
         ofType(seguimientoActions.agendarSeguimientoSuccess),
         concatMap( payload =>
             {   let notificacion : CrearNotificacionIn = {
-                    descripcion:'* ¡Su solicitud ha sido aceptada por un médico! * Esté pendiente, en un momento un doctor se comunicará con usted *',
+                    descripcion:'* Esté pendiente, en un momento un doctor se comunicará con usted *',
                     idReceptor: payload.seguimiento.idPaciente._id,
-                    titulo:'Notificación',
+                    titulo:'Solicitud aceptada',
                     idSeguimiento: payload.seguimiento._id
                 }
                 return [seguimientoActions.sendPushNotification({ seguimiento: payload.seguimiento,
@@ -129,9 +131,12 @@ export class SeguimientoEffects {
     atender: Observable<any> = this.actions$.pipe(
         ofType(seguimientoActions.atenderSeguimiento),
         tap( _=> this._spinner.show()),
-        switchMap(({seguimiento}) => this._macarSeguimientoComoAtendido.execute(seguimiento)
+        switchMap((payload) => this._macarSeguimientoComoAtendido.execute(payload.seguimiento)
             .pipe(
                 map(attendedSeguimiento => {
+                    if(payload.estado === SeguimientoEstadoEnum.AGENDADO)
+                        this._router.navigate(['/doctor/seguimientos'])
+                    
                     this._toastService.showSuccess(`Atendido con éxito`);
                     return seguimientoActions.atenderSeguimientoSuccess({attendedSeguimiento})
                 }),
@@ -142,6 +147,12 @@ export class SeguimientoEffects {
                 )
             )),
         tap( _=> this._spinner.hide()))
+    
+    // @Effect({dispatch:false})
+    // atenderSuccess : Observable<any> = this.actions$.pipe(
+    //     ofType(seguimientoActions.atenderSeguimientoSuccess),
+    //     tap({})
+    // )
 
     // @Effect()
     // loadSeguimientosAgendados: Observable<any> = this.actions$.pipe(

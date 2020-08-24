@@ -58,7 +58,7 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
       observacion_doctor: this.seguimientoForm.get('observacion_doctor').value,
       diagnostico_actual:this.seguimientoForm.get('diagnostico_actual').value,
     }
-    this._seguimientoFacade.atenderSeguimiento(seguimiento);
+    this._seguimientoFacade.atenderSeguimiento(seguimiento, this.seguimiento.estado);
   }
 
   initForm(){

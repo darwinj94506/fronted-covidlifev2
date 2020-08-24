@@ -100,7 +100,7 @@ export const Approutes: Routes = [
 					() => import('./authentication/authentication.module').then(m => m.AuthenticationModule)
 			},
 			{   
-				path: 'video-llamada', 
+				path: 'sala', 
 				loadChildren:
 					() => import('./modules/video-chat/video-chat.module').then(m=> m.VideoChatModule)  
 			},

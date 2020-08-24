@@ -10,6 +10,7 @@ import { SolicitarSeguimientoIn,
   AgendarSolicitudSeguimientoIn,
   CrearNotificacionIn, 
   FiltrarSeguimientoIn } from '../../core/domain/inputs';
+  import { SeguimientoEstadoEnum } from '../../core/domain/enums';
 
 export const createSeguimiento = createAction(
   '[Seguimiento] Create Seguimiento',
@@ -28,7 +29,7 @@ export const createSeguimientoError = createAction(
 
 export const atenderSeguimiento = createAction(
   '[Seguimiento] Atender Seguimiento',
-  props<{ seguimiento: AtenderSolicitudSeguimientoIn }>()
+  props<{ seguimiento: AtenderSolicitudSeguimientoIn, estado: SeguimientoEstadoEnum}>()
 )
 
 export const atenderSeguimientoSuccess = createAction(

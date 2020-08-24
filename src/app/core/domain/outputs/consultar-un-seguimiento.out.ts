@@ -7,7 +7,7 @@ import { PacienteConsulUnSegOut } from './paciente-consul-un-seg.out';
 import { DoctorConsulUnSegOut } from './doctor-consult-un-seg.out';
 import { HospitalConsulUnSegOut } from './hospital-consul-un-seg-out';
 export interface ConsultarUnSeguimientoOut {
-    _id: String;
+    _id: string;
     idPaciente: PacienteConsulUnSegOut;
     idDoctor?: DoctorConsulUnSegOut;
     idHospital: HospitalConsulUnSegOut;
