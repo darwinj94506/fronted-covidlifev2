@@ -37,7 +37,7 @@ export class DatosPacienteComponent implements OnInit {
     tiene_presion_alta: { required: 'Campo obligatorio'},
   }
   
-  formsErrors = {
+  formsErrors: any = {
   }
 
   @Output()
