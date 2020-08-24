@@ -12,8 +12,8 @@
             <label for="nombre" class="col-sm-4 col-form-label">Nombre</label>
             <div class="col-sm-8">
                 <input type="text" class="form-control" formControlName="nombre" id="nombre" (blur)=logValidationErrors(formulario)>
-                <span class="help-block" *ngIf="formsErrors.nombre">
-                    {{formsErrors.nombre}}
+                <span class="help-block" *ngIf="formsErrors?.nombre">
+                    {{formsErrors?.nombre}}
                 </span>
             </div>
         </div>

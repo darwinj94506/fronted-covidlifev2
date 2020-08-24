@@ -11,7 +11,6 @@ import { FilterUserOut, VORoleHospitalPopulateOut } from '../../core/domain/outp
 export class UserTableComponent implements OnInit {
 
   @Input() tableFor: RolesUserEnum; 
-
   @Input() users$ : Observable<FilterUserOut[]>;  
     
   searchItem : string = ""; 

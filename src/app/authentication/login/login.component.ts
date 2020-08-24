@@ -15,6 +15,10 @@ const ValidationMessage = {
 })
 export class LoginComponent extends Formulario implements OnInit{
   loginForm: FormGroup;
+  loginform = true;
+  recoverform = false;
+
+ 
   
   constructor( private fb: FormBuilder, private _authFacade: AuthFacade) {
     super({...ValidationMessage})
@@ -22,6 +26,11 @@ export class LoginComponent extends Formulario implements OnInit{
 
   ngOnInit(){
     this.initForm();
+  }
+  
+  showRecoverForm() {
+    this.loginform = !this.loginform;
+    this.recoverform = !this.recoverform;
   }
 
 

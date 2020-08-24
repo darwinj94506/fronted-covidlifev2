@@ -37,7 +37,7 @@ export function createApollo(httpLink: HttpLink) {
   const http = ApolloLink.from([basic, auth, httpLink.create({ uri })]);
   
   const ws = new WebSocketLink({
-    uri:"ws://atencionmedic.herokuapp.com/graphql",
+    uri:"wss://atencionmedic.herokuapp.com/graphql",
     options: {
       reconnect: true,
       connectionParams: {

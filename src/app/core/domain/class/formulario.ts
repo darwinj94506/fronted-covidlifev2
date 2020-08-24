@@ -2,10 +2,10 @@ import { FormGroup } from '@angular/forms';
 
 export abstract class Formulario {
     
-    ValidationMessage = {
+    ValidationMessage: any = {
     }
     
-    formsErrors = {
+    formsErrors: any = { 
     }
 
     constructor( ValidationMessage){

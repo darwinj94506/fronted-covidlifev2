@@ -2,7 +2,7 @@
     <div class="form-group row">
         <div class="col-12">
             <input class="form-control" type="text" formControlName="name" (keyup)=logValidationErrors(signupForm) placeholder="Nombres">
-            <span class="help-block" *ngIf="formsErrors.name">
+            <span class="help-block" *ngIf="formsErrors?.name">
                         {{formsErrors.name}}
                     </span>
         </div>
@@ -10,7 +10,7 @@
     <div class="form-group row">
         <div class="col-12 ">
             <input class="form-control" type="text" formControlName="lastname" (keyup)=logValidationErrors(signupForm) placeholder="Apellidos">
-            <span class="help-block" *ngIf="formsErrors.lastname">
+            <span class="help-block" *ngIf="formsErrors?.lastname">
                         {{formsErrors.lastname}}
                     </span>
         </div>
@@ -18,7 +18,7 @@
     <div class=" form-group row">
         <div class="col-12 ">
             <input class="form-control" type="text" formControlName="email" (keyup)=logValidationErrors(signupForm) placeholder="Correo">
-            <span class="help-block" *ngIf="formsErrors.email">
+            <span class="help-block" *ngIf="formsErrors?.email">
                         {{formsErrors.email}}
                     </span>
         </div>
@@ -26,7 +26,7 @@
     <div class="form-group row">
         <div class="col-12 ">
             <input class="form-control" type="text" formControlName="ci" (keyup)=logValidationErrors(signupForm) placeholder="Cédula o pasaporte">
-            <span class="help-block" *ngIf="formsErrors.ci">
+            <span class="help-block" *ngIf="formsErrors?.ci">
                         {{formsErrors.ci}}
                     </span>
         </div>
@@ -39,7 +39,7 @@
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"> <i class="mdi mdi-calendar"></i></button>
                 </div>
-                <span class="help-block" *ngIf="formsErrors.fechaNacimiento">
+                <span class="help-block" *ngIf="formsErrors?.fechaNacimiento">
                             {{formsErrors.fechaNacimiento}}
                         </span>
             </div>
@@ -59,7 +59,7 @@
                 <input type="radio" class="form-check-input" id="materialChecked3" [value]="PREFIERO_NO_DECIRLO" (keyup)=logValidationErrors(signupForm) formControlName="genero" name="genero">
                 <label class="form-check-label " for="materialChecked3">Prefiero no decirle</label>
             </div>
-            <span class="help-block" *ngIf="formsErrors.genero">
+            <span class="help-block" *ngIf="formsErrors?.genero">
                             {{formsErrors.genero}}
                         </span>
         </div>
@@ -77,7 +77,7 @@
     <div class="form-group row ">
         <div class="col-12 ">
             <input class="form-control" type="password" formControlName="password" (keyup)=logValidationErrors(signupForm) placeholder="Contraseña">
-            <span class="help-block" *ngIf="formsErrors.password">
+            <span class="help-block" *ngIf="formsErrors?.password">
                         {{formsErrors.password}}
             </span>
         </div>

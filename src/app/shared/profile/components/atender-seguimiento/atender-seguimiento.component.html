@@ -49,7 +49,7 @@
             <label class="col-md-12" for="observacion_doctor">Escriba una breve observación (Opcional)</label>
             <div class="col-md-12">
                 <textarea rows="5" class="form-control form-control-line" id="observacion_doctor" formControlName="observacion_doctor" (keyup)=logValidationErrors(seguimientoForm)></textarea>
-                <small class="form-text text-danger" *ngIf="formsErrors.observacion_doctor">{{formsErrors.observacion_doctor}}</small>
+                <small class="form-text text-danger" *ngIf="formsErrors?.observacion_doctor">{{formsErrors.observacion_doctor}}</small>
             </div>
         </div>
 

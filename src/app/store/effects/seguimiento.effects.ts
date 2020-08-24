@@ -12,7 +12,7 @@ import { MacarSeguimientoComoAtendido,
          VerResumenSeguimientosPacienteUseCase, 
          EnviarNotificacionUseCase,
          MacarSeguimientoComoAgendado } from '../../core/usecases/doctor';
-import { SeguimientoEstadoEnum } from '../../core/domain/enums';
+import { SeguimientoEstadoEnum, TipoNotificacionEnum } from '../../core/domain/enums';
 import { FiltrarSeguimientoIn, AgendarSolicitudSeguimientoIn, CrearNotificacionIn } from '../../core/domain/inputs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MainFacade } from '../facade';
@@ -78,10 +78,13 @@ export class SeguimientoEffects {
         ofType(seguimientoActions.agendarSeguimientoSuccess),
         concatMap( payload =>
             {   let notificacion : CrearNotificacionIn = {
-                    descripcion:'* Esté pendiente, en un momento un doctor se comunicará con usted *',
+                    descripcion:'* En un momento un doctor se comunicará con usted *',
                     idReceptor: payload.seguimiento.idPaciente._id,
                     titulo:'Solicitud aceptada',
-                    idSeguimiento: payload.seguimiento._id
+                    idSeguimiento: payload.seguimiento._id,
+                    body: { 
+                        tipo: TipoNotificacionEnum.HA_SIDO_AGENDADA
+                    }
                 }
                 return [seguimientoActions.sendPushNotification({ seguimiento: payload.seguimiento,
                                                     notificacion: notificacion,
@@ -148,39 +151,6 @@ export class SeguimientoEffects {
             )),
         tap( _=> this._spinner.hide()))
     
-    // @Effect({dispatch:false})
-    // atenderSuccess : Observable<any> = this.actions$.pipe(
-    //     ofType(seguimientoActions.atenderSeguimientoSuccess),
-    //     tap({})
-    // )
-
-    // @Effect()
-    // loadSeguimientosAgendados: Observable<any> = this.actions$.pipe(
-    //     ofType(seguimientoActions.loadSeguimientosAgendados),
-    //     tap( _=> this._spinner.show()),
-    //     switchMap( _=> this._mainFacade.getHospitalSesion()),
-    //     switchMap( hospitalSession => { 
-    //         let filter: FiltrarSeguimientoIn = {
-    //             fechaUltimos:{ 
-    //                 createAt: new Date(),
-    //                 isUltimos: true,
-    //                 AndIdHospital:hospitalSession.idHospital._id,
-    //                 AndEstado: SeguimientoEstadoEnum.AGENDADO
-    //             } 
-    //         }
-    //         return this._verSeguimientosAgendadosUseCase.execute(filter)
-    //             .pipe(
-    //                 map(seguimientosAgendados => {
-    //                     return seguimientoActions.loadSeguimientosAgendadosSuccess({seguimientosAgendados})
-    //                 }),
-    //                 catchError( error => {
-    //                     this._toastService.showError(`Error al cargar seguimientos agendados, Error:${error.message}`);
-    //                     return of( seguimientoActions.loadSeguimientosAgendadosError({error: error.message}))
-    //                     }
-    //                 )
-    //             )}),
-    //     tap( _=> this._spinner.hide()))
-
     @Effect()
     loadCitasPaciente: Observable<any> = this.actions$.pipe(
         ofType(seguimientoActions.loadCitasPaciente),
