@@ -3,8 +3,8 @@
 
         <div *ngFor="let callId of remoteCalls" [id]="callId" class="remote"></div>
         <div class="justify-content-center overlay-item" *ngIf="isConected">
-            <input type="button" value="Video" class="btn btn-sm btn-primary">
-            <input type="button" value="Audio" class="btn btn-sm btn-primary ml-1">
+            <!-- <input type="button" value="Video" class="btn btn-sm btn-primary">
+            <input type="button" value="Audio" class="btn btn-sm btn-primary ml-1"> -->
             <!-- <input type="button" value="Screen Share" class="btn btn-sm btn-primary ml-1"> -->
             <input type="button" value="Terminar" class="btn btn-sm btn-danger ml-1" (click)="terminarLlamada()">
         </div>
@@ -12,33 +12,37 @@
             <div [id]="localCallId" class="local"></div>
         </div>
 
-        <div style="padding: 100px;" *ngIf="!isConected">
+        <div style="padding: 100px;" *ngIf="!isConected && rolUser===DOCTOR && !cargandoLLamada">
             <button class="btn btn-info" [routerLink]="['/doctor/seguimientos']">
                 Volver a seguimientos</button>
         </div>
-
-    </div>
-
-    <div class="col-4 bg-light border scrollable h-100">
-        <div class="card">
-            <ngb-tabset type="pills" class="custom-pills" (tabChange)="onChangeNav($event)">
-                <ngb-tab title="Seguimiento" id="segumientos">
-                    <ng-template ngbTabContent>
-                        <app-atender-seguimiento [seguimiento]="seguimientoPorAtender"></app-atender-seguimiento>
-                    </ng-template>
-                </ngb-tab>
-                <ngb-tab title="Datos usuario" id="datos-paciente">
-                    <ng-template ngbTabContent>
-                        <app-over-view [userPerfil$]="userProfile$"></app-over-view>
-                        <div *ngIf="isLoading$ | async">cargando...</div>
-                    </ng-template>
-                </ngb-tab>
-                <ngb-tab title="Resumen" id="resumen">
-                    <ng-template ngbTabContent>
-                        <app-time-line [idPaciente]="seguimientoPorAtender.idPaciente._id" *ngIf="showResumen"></app-time-line>
-                    </ng-template>
-                </ngb-tab>
-            </ngb-tabset>
+        <div *ngIf="cargandoLLamada">
+            <h3>Uniendose a la sala....</h3>
         </div>
     </div>
+    <ng-container *ngIf="rolUser===DOCTOR">
+        <div class="col-4 bg-light border scrollable h-100">
+            <div class="card">
+                <ngb-tabset type="pills" class="custom-pills" (tabChange)="onChangeNav($event)">
+                    <ngb-tab title="Seguimiento" id="segumientos">
+                        <ng-template ngbTabContent>
+                            <app-atender-seguimiento [seguimiento]="seguimientoPorAtender"></app-atender-seguimiento>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Datos usuario" id="datos-paciente">
+                        <ng-template ngbTabContent>
+                            <app-over-view [userPerfil$]="userProfile$"></app-over-view>
+                            <div *ngIf="isLoading$ | async">cargando...</div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="Resumen" id="resumen">
+                        <ng-template ngbTabContent>
+                            <app-time-line [idPaciente]="seguimientoPorAtender.idPaciente._id" *ngIf="showResumen"></app-time-line>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+            </div>
+        </div>
+    </ng-container>
+
 </div>

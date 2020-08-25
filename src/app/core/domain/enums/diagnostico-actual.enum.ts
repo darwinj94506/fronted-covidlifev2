@@ -1,6 +1,12 @@
-export enum DiagnosticoActualEnum{
+export enum DiagnosticoActualEnum {
     AISLAMIENTO_PREVENTIVO = "AISLAMIENTO_PREVENTIVO",
     SOSPECHOSO = "SOSPECHOSO",
     CONFIRMADO = "CONFIRMADO",
-    RECUPERADO = "RECUPERADO"
+    RECUPERADO = "RECUPERADO",
+    FALLECIDO = "FALLECIDO",
+    HOSPITALIZADO = "HOSPITALIZADO",
+    
 }
+
+
+

@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType  } from '@ngrx/effects';
-import { catchError, map, switchMap, tap, mergeMap, concatMapTo, concatMap} from 'rxjs/operators';
-import { Observable, from, of} from 'rxjs';
+import { catchError, map, switchMap, tap, concatMap} from 'rxjs/operators';
+import { Observable, of} from 'rxjs';
 import * as seguimientoActions  from '../actions/seguimiento.actions';
 import { ToastService, NotificationService } from '../../services';
 import { SolicitarSeguimentoUseCase,
          VerCitasUseCase } from '../../core/usecases/paciente';
 import { MacarSeguimientoComoAtendido,
-         VerSeguimientosAgendadosUseCase,
          VerResumenSeguimientosPacienteUseCase, 
          EnviarNotificacionUseCase,
          MacarSeguimientoComoAgendado } from '../../core/usecases/doctor';
 import { SeguimientoEstadoEnum, TipoNotificacionEnum } from '../../core/domain/enums';
-import { FiltrarSeguimientoIn, AgendarSolicitudSeguimientoIn, CrearNotificacionIn } from '../../core/domain/inputs';
+import { AgendarSolicitudSeguimientoIn, CrearNotificacionIn } from '../../core/domain/inputs';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { MainFacade } from '../facade';
 @Injectable()
 export class SeguimientoEffects {
     constructor( private actions$: Actions, 
@@ -24,9 +22,7 @@ export class SeguimientoEffects {
         private _solicitarSeguimientoUseCase: SolicitarSeguimentoUseCase,
         private _macarSeguimientoComoAtendido: MacarSeguimientoComoAtendido,
         private _macarSeguimientoComoAgendado: MacarSeguimientoComoAgendado,
-        private _verSeguimientosAgendadosUseCase: VerSeguimientosAgendadosUseCase,
         private _verCitasUseCase: VerCitasUseCase,
-        private _mainFacade : MainFacade,
         private _notificationService: NotificationService,
         private _enviarNotificacionUseCase: EnviarNotificacionUseCase,
         private _VerResumenSeguimientosPacienteUseCase: VerResumenSeguimientosPacienteUseCase,
@@ -78,7 +74,7 @@ export class SeguimientoEffects {
         ofType(seguimientoActions.agendarSeguimientoSuccess),
         concatMap( payload =>
             {   let notificacion : CrearNotificacionIn = {
-                    descripcion:'* En un momento un doctor se comunicará con usted *',
+                    descripcion:'* Un doctor se comunicará con usted *',
                     idReceptor: payload.seguimiento.idPaciente._id,
                     titulo:'Solicitud aceptada',
                     idSeguimiento: payload.seguimiento._id,

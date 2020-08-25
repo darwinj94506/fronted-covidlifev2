@@ -9,7 +9,7 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { MainFacade } from '../../store/facade';
 import { LoginOut,  
          ObtenerNotificacionesRecibidasOut } from '../../core/domain/outputs';
-import { ObtenerNotificacionesEnviadasIn } from '../../core/domain/inputs';
+import { ObtenerNotificacionesEnviadasIn, ObtenerNotificacionesRecibidasIn } from '../../core/domain/inputs';
 import { RolesUserEnum, TipoNotificacionEnum } from '../../core/domain/enums';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -41,7 +41,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
      private _router: Router,
      private _suscriptionService: SuscriptionService,
      private _mainFacade: MainFacade) {
-      let filter: ObtenerNotificacionesEnviadasIn = { };
+      let filter: ObtenerNotificacionesRecibidasIn = { andCreateAt: new Date()  };
       this.queryObtenerNotificacionesRecibidasOut(filter);
      }
 
@@ -124,7 +124,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
     
   }
   
-  queryObtenerNotificacionesRecibidasOut(filter: ObtenerNotificacionesEnviadasIn){
+  queryObtenerNotificacionesRecibidasOut(filter: ObtenerNotificacionesRecibidasIn){
     this.notifRecibQueryRef = this._suscriptionService.getNotificationesRecibidas(filter);
     this.notiRecibidas$ = this.notifRecibQueryRef.valueChanges
       .pipe(
@@ -137,6 +137,8 @@ export class NavigationComponent implements AfterViewInit, OnInit {
     this.notifRecibQueryRef.subscribeToMore({
       document: SEGUIMIENTO_OPERATIONS.suscriptionNotificaciones.gql,
       updateQuery: (prev, {subscriptionData}) => {
+        console.log([prev, subscriptionData]);
+
         if (!subscriptionData.data) {
           return prev;
         }
@@ -174,8 +176,8 @@ export class NavigationComponent implements AfterViewInit, OnInit {
     console.log(notification);
     if(notification.body && notification.body.tipo === TipoNotificacionEnum.DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA
           || notification.body.tipo === TipoNotificacionEnum.HA_SIDO_AGENDADA )
-            alert("Navegando a video llamada");
-          // this._router.navigate(['/video-llamada', notification.idSeguimiento]);
+            // alert("Navegando a video llamada");
+          this._router.navigate(['/sala/llamada', notification.idSeguimiento, RolesUserEnum.PACIENTE]);
   }
   
 }

@@ -295,26 +295,7 @@ export const SUSCRIPTIONS_NOTIFICATIONS = gql `
       _id
       titulo
       descripcion
-      idSeguimiento{
-        _id
-        idPaciente
-        idDoctor
-        idHospital
-        estado
-        temperatura
-        ritmo_cardiaco
-        saturacion_oxigeno
-        dificultad_respirar
-        examen
-        nota_paciente
-        observacion_doctor
-        estado_diario_paciente
-        fecha_atencion_medica
-        diagnostico_actual
-        latitud
-        longitud
-        createAt
-      }
+      idSeguimiento
       idEmisor{
         _id
         name

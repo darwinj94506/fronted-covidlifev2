@@ -10,12 +10,14 @@ import { FiltrarSeguimientoIn,
          AtenderSolicitudSeguimientoIn,
          CrearNotificacionIn, 
          AgendarSolicitudSeguimientoIn } from '../../../../core/domain/inputs';
-import { SeguimientoEstadoEnum, TipoNotificacionEnum } from '../../../../core/domain/enums';
+import { SeguimientoEstadoEnum, TipoNotificacionEnum, RolesUserEnum } from '../../../../core/domain/enums';
 import { MainFacade, UserFacade, SeguimientoFacade } from '../../../../store/facade';
 import { QueryRef } from 'apollo-angular';
 import { SEGUIMIENTO_OPERATIONS } from '../../../../data/graphq';
 import { Router } from '@angular/router';
 import { SuscriptionService } from '../../../../services';
+import { ConfirmIrLlamadaComponent } from '../../components/confirm-ir-llamada/confirm-ir-llamada.component';
+import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-seguimientos',
   templateUrl: './seguimientos.component.html',
@@ -23,6 +25,7 @@ import { SuscriptionService } from '../../../../services';
 })
 export class SeguimientosComponent implements OnInit, OnDestroy {
   userLogged: LoginOut;
+  modalConfirm: NgbModalRef;
   private _destroyed$ = new Subject();
   
   segSinLlamada = [];
@@ -46,7 +49,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
      private _seguimientoFacade: SeguimientoFacade,
      private _router: Router,
      private _suscriptionService:SuscriptionService,  
-
+     private _modalService: NgbModal
      ) {
     this.dragulaService.destroy('SEGUIMIENTOS');
     this.dragulaService.createGroup("SEGUIMIENTOS", {});
@@ -312,10 +315,18 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     }
   }
 
+  openModalConfirmarIrVideoLLamda(seguimiento:FiltrarSeguimientoOut){
+    this.modalConfirm = this._modalService.open(ConfirmIrLlamadaComponent);
+    this.modalConfirm.componentInstance.seguimiento = { ...seguimiento };
+    this.modalConfirm.result.then(result => {
+      this.goToVideoCalling(seguimiento)
+    },()=>console.log("cancelar"));
+  } 
+
   goToVideoCalling(seguimiento:FiltrarSeguimientoOut){
     let notification: CrearNotificacionIn = {
         descripcion: '* Un médico lo está esperando *',
-        titulo: 'Únase a la video llamada',
+        titulo: '¡Únase a la video llamada!',
         idReceptor: seguimiento.idPaciente._id,
         idSeguimiento: seguimiento._id,
         body: { 
@@ -327,7 +338,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         }
     }
     this._seguimientoFacade.dispatchActionSendNotificationVideoLlamada(seguimiento, this.userLogged, notification)
-    this._router.navigate(['/sala/llamada', seguimiento._id], {state: {data: {...seguimiento}}});
+    this._router.navigate(['/sala/llamada', seguimiento._id,  RolesUserEnum.DOCTOR], {state: {data: {...seguimiento}}});
   }
 
 }

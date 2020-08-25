@@ -2,9 +2,10 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Formulario } from '../../../../core/domain/class/formulario';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AtenderSolicitudSeguimientoIn} from '../../../../core/domain/inputs';
-import { FiltrarSeguimientoOut } from '../../../../core/domain/outputs';
-import { ExamenTipoEnum,  DificultadRespirarEnum, DiagnosticoActualEnum, RolesUserEnum } from '../../../../core/domain/enums';
-import { SeguimientoFacade } from '../../../../store/facade'
+import { FiltrarSeguimientoOut, LoginOut } from '../../../../core/domain/outputs';
+import { ExamenTipoEnum,  DificultadRespirarEnum, SeguimientoEstadoEnum, 
+  DiagnosticoActualEnum, RolesUserEnum } from '../../../../core/domain/enums';
+import { SeguimientoFacade, MainFacade } from '../../../../store/facade'
 // const ROLE_DOCTOR: RolesUserEnum = RolesUserEnum.DOCTOR; 
 const ValidationMessage = {
   observacion_doctor: { maxlength:'Una nota no puede tener más de 250 caracteres'}
@@ -19,6 +20,7 @@ const ValidationMessage = {
 export class AtenderSeguimientoComponent extends Formulario implements OnInit {
   seguimientoForm : FormGroup;
   @Input() seguimiento: FiltrarSeguimientoOut;
+  doctor : LoginOut;
   
   SI: DificultadRespirarEnum = DificultadRespirarEnum.SI;
   NO: DificultadRespirarEnum = DificultadRespirarEnum.NO;
@@ -37,15 +39,21 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
   diagnosticos = [
     DiagnosticoActualEnum.AISLAMIENTO_PREVENTIVO,
     DiagnosticoActualEnum.CONFIRMADO,
-    DiagnosticoActualEnum.SOSPECHOSO
+    DiagnosticoActualEnum.SOSPECHOSO,
+    DiagnosticoActualEnum.RECUPERADO,
+    DiagnosticoActualEnum.HOSPITALIZADO,
+    DiagnosticoActualEnum.FALLECIDO
   ]
 
-  constructor( private fb: FormBuilder, private _seguimientoFacade: SeguimientoFacade ) {
+  constructor( private fb: FormBuilder, 
+    private _seguimientoFacade: SeguimientoFacade,
+    private _mainFacade:MainFacade ) {
     super({...ValidationMessage})
    }
 
   ngOnInit(): void {
     this.initForm();
+    this._mainFacade.getUserLogged().subscribe(data=> this.doctor = {...data})
   }
 
   onSubmit(){
@@ -58,20 +66,53 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
       observacion_doctor: this.seguimientoForm.get('observacion_doctor').value,
       diagnostico_actual:this.seguimientoForm.get('diagnostico_actual').value,
     }
-    this._seguimientoFacade.atenderSeguimiento(seguimiento, this.seguimiento.estado);
+    switch(this.seguimiento.estado){
+      case (SeguimientoEstadoEnum.AGENDADO || SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA):
+        this._seguimientoFacade.atenderSeguimiento(seguimiento, this.seguimiento.estado);
+      break;
+      case SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA:
+        this._seguimientoFacade.agendarSeguimiento(this.seguimiento, this.doctor)
+      break;
+      case SeguimientoEstadoEnum.REVISADO_CON_LLAMADA || SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
+        return alert("editar seguimiento")
+    }
   }
 
   initForm(){
     this.seguimientoForm = this.fb.group({
       temperatura: [{ value: this.seguimiento.temperatura, disabled:true }],
-      ritmo_cardiaco: [ this.seguimiento.ritmo_cardiaco, [Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],
-      saturacion_oxigeno: [ this.seguimiento.saturacion_oxigeno, [Validators.pattern("^[0-9]*$"), Validators.min(20), Validators.max(200)] ],
-      dificultad_respirar: this.seguimiento.dificultad_respirar,
-      examen: this.seguimiento.examen,
+      ritmo_cardiaco: [ { value: this.seguimiento.ritmo_cardiaco, disabled: this.isDisabled() }, [Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],
+      saturacion_oxigeno: [{ value: this.seguimiento.saturacion_oxigeno, disabled: this.isDisabled() }, [Validators.pattern("^[0-9]*$"), Validators.min(20), Validators.max(200)] ],
+      dificultad_respirar: [{ value: this.seguimiento.dificultad_respirar, disabled: this.isDisabled()}],
+      examen: [{value: this.seguimiento.examen, disabled: this.isDisabled()}],
       nota_paciente: [ {value: this.seguimiento.nota_paciente, disabled:true}],
-      observacion_doctor: [ '', [ Validators.maxLength(250)] ],
-      diagnostico_actual: this.seguimiento.diagnostico_actual
+      observacion_doctor: [ {value:'', disabled: this.isDisabled()}, [ Validators.maxLength(250)] ],
+      diagnostico_actual: [{value: this.seguimiento.diagnostico_actual, disabled:this.isDisabled()}]
     });
   }
 
+  isDisabled():boolean{
+    if(this.seguimiento.estado === SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA)
+      return true
+    return false
+  }
+
+  getTextButton(): String{
+    switch(this.seguimiento.estado){
+      case (SeguimientoEstadoEnum.AGENDADO || SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA):
+        return 'Atender'
+      
+      case SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA:
+        return 'Agendar'
+
+      case SeguimientoEstadoEnum.REVISADO_CON_LLAMADA || SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
+        return 'Editar'
+   
+    }
+  }
+
+  editar(){
+
+  }
+  
 }

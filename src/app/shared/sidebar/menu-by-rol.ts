@@ -131,7 +131,7 @@ export const ROUTES_DIRECTOR: RouteInfo[] = [
 	
 	{
 		path: '',
-		title: 'Director',
+		title: 'Estadísticas',
 		icon: 'mdi mdi-gauge',
 		class: 'has-arrow',
 		label: '3',

@@ -15,7 +15,7 @@ export class AuthService {
                 private apollo: Apollo){}
 
     saveLocalStorage( userLogged: any ) {
-        console.log(userLogged);
+        // console.log(userLogged);
         localStorage.setItem('token', userLogged.token);
         let userToSave = JSON.stringify(userLogged);
         localStorage.setItem('userLogged', userToSave );

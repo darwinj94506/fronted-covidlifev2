@@ -21,8 +21,9 @@ import { SeguimientosComponent } from './pages/seguimientos/seguimientos.compone
 import { UserTableModule } from '../../shared/user-table/user-table.module';
 import { ProfileModule } from '../../shared/profile/profile.module';
 import { UiModule } from '../../ui/ui.module';
+import { ConfirmIrLlamadaComponent } from './components/confirm-ir-llamada/confirm-ir-llamada.component';
 @NgModule({
-  declarations: [PatientsComponent, DailyStatusComponent, VideoCallComponent, CardComponent, SeguimientosComponent],
+  declarations: [PatientsComponent, DailyStatusComponent, VideoCallComponent, CardComponent, SeguimientosComponent, ConfirmIrLlamadaComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -42,6 +43,8 @@ import { UiModule } from '../../ui/ui.module';
   providers:[
     DatePipe, 
     DecimalPipe
-  ]
+  ],
+  entryComponents:[
+  ConfirmIrLlamadaComponent]
 })
 export class DoctorModule { }

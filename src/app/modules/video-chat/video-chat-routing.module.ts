@@ -9,7 +9,7 @@ const routes: Routes = [
     resolve:{
       seguimientoPorAtender: VideoResolveService
     },
-    path:'llamada/:id',component: VideoChatRoomComponent
+    path:'llamada/:id/:rol',component: VideoChatRoomComponent
   }
 ];
 

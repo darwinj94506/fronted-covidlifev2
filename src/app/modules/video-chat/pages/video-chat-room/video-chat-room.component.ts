@@ -5,6 +5,7 @@ import { IdIn } from '../../../../core/domain/inputs';
 import { FiltrarSeguimientoOut,
          UserPerfilOut, 
          ConsultarUnSeguimientoOut } from '../../../../core/domain/outputs';
+import { RolesUserEnum } from '../../../../core/domain/enums';
 import { Observable } from 'rxjs';
 import { AgoraClient, ClientEvent, NgxAgoraService, Stream, StreamEvent } from 'ngx-agora';
 import { ToastService } from '../../../../services';
@@ -23,10 +24,13 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
   localCallId = 'agora_local';
   remoteCalls: string[] = [];
   remoteStreams: Stream[];
+  cargandoLLamada: boolean = true; 
   private client: AgoraClient;
   private localStream: Stream;
   private uid: number;
-  isConected:boolean = false;
+  isConected: boolean = false;
+  rolUser: RolesUserEnum;
+  DOCTOR:RolesUserEnum = RolesUserEnum.DOCTOR;
 
   constructor( private _userFacade: UserFacade,
                private _toastService: ToastService,
@@ -38,7 +42,8 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userProfile$ = this._userFacade.getPerfilUser();
     this.isLoading$ = this._userFacade.getLoadingPerfilUserStore();
-    this.seguimientoPorAtender = this.route.snapshot.data.seguimientoPorAtender
+    this.seguimientoPorAtender = this.route.snapshot.data.seguimientoPorAtender;
+    this.rolUser = this.route.snapshot.params.rol;
 
      //for video calling
      this.client = this._ngxAgoraService.createClient({ mode: 'rtc', codec: 'h264' });
@@ -47,7 +52,14 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
      this.localStream = this._ngxAgoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
      this.assignLocalStreamHandlers();
      // Join and publish methods added in this step
-     this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
+     this.initLocalStream(() => this.join(uid => this.publish(), 
+      error => {
+        this.cargandoLLamada = false;
+        this._toastService.showError("Error al unirse a la sala")
+        console.error(error)
+      }
+     
+     ));
   }
 
   onChangeNav({nextId}){
@@ -76,6 +88,7 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
   private assignClientHandlers(): void {
     this.client.on(ClientEvent.LocalStreamPublished, evt => {
       console.log('Publish local stream successfully');
+      this.cargandoLLamada = false;
       this.isConected = true;
       this._toastService.showInfo("Se ha unido a la sala con éxito");
     });
@@ -110,6 +123,7 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
     });
 
     this.client.on(ClientEvent.RemoteStreamRemoved, evt => {
+      this._toastService.showInfo("El usuario a salido de la sala");
       const stream = evt.stream as Stream;
       if (stream) {
         stream.stop();
@@ -120,6 +134,7 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
     });
 
     this.client.on(ClientEvent.PeerLeave, evt => {
+      // this._toastService.showInfo('Usted a salido de la sala');
       const stream = evt.stream as Stream;
       if (stream) {
         stream.stop();
@@ -134,11 +149,13 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
   private assignLocalStreamHandlers(): void {
     this.localStream.on(StreamEvent.MediaAccessAllowed, () => {
       console.log('accessAllowed');
+      this._toastService.showInfo("Permisos de accesos a la cámara y micrófono otorgados exitosamente")
     });
 
     // The user has denied access to the camera and mic.
     this.localStream.on(StreamEvent.MediaAccessDenied, () => {
       console.log('accessDenied');
+      this._toastService.showError("No ha otorgados los accesos a la cámara ni al micrófono")
     });
   }
 
@@ -165,9 +182,10 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
       // Stop playing the local stream
       this.localStream.stop();
       // Close the local stream
+      this._toastService.showInfo('Usted a salido de la sala');
       this.localStream.close();
       this.isConected = false;
-      this._toastService.showInfo('Se ha terminado la video llamada con éxito');
+      
       console.log("client leaves channel success");
     },(err)=>{
         console.log("channel leave failed");
