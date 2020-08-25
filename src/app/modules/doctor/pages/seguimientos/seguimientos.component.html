@@ -1,70 +1,116 @@
 <div>Seleccione cada tarjeta para mover al estado correspodiente</div>
-<div class="flex">
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="header" width="25%" >
+                    <div class="text-center" >
+                        <h4><i class="fas fa-address-book"> </i> Seguimiento</h4>
+                    </div>
+                </th >
+                <th class="header" width="25%" >
+                    <div class="text-center">
+                        <h5><i class="fas fa-phone"></i> Solicitud de Video Llamada</h5>
+                    </div>
+                </th>
+                <th class="header"  width="25%" >
+                    <div class="text-center">
+                        <h4><i class="fas fa-calendar-alt"></i> Agendadas</h4>
+                    </div>
+                </th>
+                <th class="header" width="25%" >
+                    <div class="text-center">
+                        <h4><i class="fas fa-calendar-check"></i> Atendidas</h4>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="border border-secondary border-top-0 border-left-0" >
+                    <div id="segSinLlamada" dragula="SEGUIMIENTOS"
+                        [(dragulaModel)]="segSinLlamada">
+                        <div class="card vamp border border-secondary" *ngFor="let seg of segSinLlamada">
+                            <div class="card-header alert"
+                                [ngClass]="{'alert-success': seg.estado_diario_paciente == 'MEJOR_EVOLUCION', 'alert-danger': seg.estado_diario_paciente == 'EMPEORANDO' }">
+                                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente.name }}
+                                    {{ seg?.idPaciente.lastname }}</h5>
+                            </div>
+                            <p class="pl-3">
+                                <i class="fas fa-clock" ></i> | {{seg?.createAt | date:'h:mm a' }} <br>
+                                {{seg?.estado_diario_paciente}} <br>
+                                <i class="fas fa-notes-medical" ></i> | {{seg?.nota_paciente}}
+                            </p>
+                            <button type="button" class="btn btn-sm btn-outline-success"
+                                (click)="showModalAtencion(seg)">ver</button>
+                        </div>
+                    </div>
+                  
+                </td>
+                <td class="border border-secondary border-top-0 border-left-0">
+                    <div  id="segConLlamada" dragula="SEGUIMIENTOS"
+                        [(dragulaModel)]="segConLlamada">
+                        <div class="card border border-secondary vamp" *ngFor="let seg of segConLlamada">
+                            <div class="card-header alert"
+                                [ngClass]="{'alert-success': seg.estado_diario_paciente == 'MEJOR_EVOLUCION', 'alert-danger': seg.estado_diario_paciente == 'EMPEORANDO' }">
+                                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente?.name }}
+                                    {{ seg?.idPaciente?.lastname }}</h5>
+                            </div>
+                            <p class="pl-3">
+                                <i class="fas fa-clock" ></i> | {{seg?.createAt | date:'h:mm a' }} <br>
+                                {{seg?.estado_diario_paciente}} <br>
+                                <i class="fas fa-notes-medical" ></i> | {{seg?.nota_paciente}}
+                            </p>
+                        </div>
+                    </div>
+                </td>
+                <td class="border border-secondary border-top-0 border-left-0">
 
-    sin llamada
-    <div class="border border-dark border-top-0 border-left-0" id="segSinLlamada" dragula="SEGUIMIENTOS" [(dragulaModel)]="segSinLlamada">
-        <!-- <div class="centrar">
-                <h4><i class="fas fa-address-book"> </i> Seguimiento</h4>
-            </div> -->
-        <div class="card vamp border border-secondary" *ngFor="let seg of segSinLlamada">
-            <div class="card-header alert" [ngClass]="{'alert-success': seg.estado_diario_paciente == 'MEJOR_EVOLUCION', 'alert-danger': seg.estado_diario_paciente == 'EMPEORANDO' }">
-                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente.name }} {{ seg?.idPaciente.lastname }}</h5>
-            </div>
-            <p class="p-3">{{seg?.createAt | date:'h:mm a' }}</p>
-            <p>{{seg?.estado_diario_paciente}}</p>
-            <p>{{seg?.nota_paciente}}</p>
-            <button type="button" class="btn btn-outline-success" (click)="showModalAtencion(seg)">ver</button>
-        </div>
-    </div>
+                    <div  id="segAgendados" dragula="SEGUIMIENTOS"
+                        [(dragulaModel)]="segAgendados">
+                        <div class="card border border-secondary vamp" *ngFor="let seg of segAgendados">
+                            <div class="card-header alert"
+                                [ngClass]="{'alert-success': seg.estado_diario_paciente == 'MEJOR_EVOLUCION', 'alert-danger': seg.estado_diario_paciente == 'EMPEORANDO' }">
+                                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente?.name }}
+                                    {{ seg?.idPaciente?.lastname }}</h5>
+                            </div>
+                            <p class="pl-3">
+                                <i class="fas fa-clock" ></i> | {{seg?.createAt | date:'h:mm a' }} <br>
+                                {{seg?.estado_diario_paciente}} <br>
+                                <i class="fas fa-notes-medical" ></i> | {{seg?.nota_paciente}}
+                            </p>
+                            <button type="button" class="btn btn-sm btn-outline-success"
+                                (click)="goToVideoCalling(seg)">Atender</button>
+                        </div>
+                    </div>
 
-
-    con llamada
-    <div class="border border-dark border-top-0 border-left-0" id="segConLlamada" dragula="SEGUIMIENTOS" [(dragulaModel)]="segConLlamada">
-        <!-- <div class="centrar">
-                <h4><i class="fas fa-phone"></i> Solicitando Video Llamada</h4>
-            </div> -->
-        <div class="card border border-secondary vamp" *ngFor="let seg of segConLlamada">
-            <div class="card-header alert" [ngClass]="{'alert-success': seg.estado_diario_paciente == 'MEJOR_EVOLUCION', 'alert-danger': seg.estado_diario_paciente == 'EMPEORANDO' }">
-                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente?.name }} {{ seg?.idPaciente?.lastname }}</h5>
-            </div>
-            <p class="p-3">{{seg?.createAt | date:'h:mm a' }}</p>
-            <p>{{seg?.estado_diario_paciente}}</p>
-            <p>{{seg?.nota_paciente}}</p>
-        </div>
-    </div>
-
-
-    agendados
-    <div class="border border-dark border-top-0 border-left-0" id="segAgendados" dragula="SEGUIMIENTOS" [(dragulaModel)]="segAgendados">
-        <!-- <div class="centrar">
-                <h4><i class="fas fa-calendar-alt"></i> Agendadas</h4>
-            </div> -->
-        <div class="card border border-secondary vamp" *ngFor="let seg of segAgendados">
-            <div class="card-header alert" [ngClass]="{'alert-success': seg.estado_diario_paciente == 'MEJOR_EVOLUCION', 'alert-danger': seg.estado_diario_paciente == 'EMPEORANDO' }">
-                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente?.name }} {{ seg?.idPaciente?.lastname }}</h5>
-            </div>
-            <p class="p-3">{{seg?.createAt | date:'h:mm a' }}</p>
-            <p>{{seg?.estado_diario_paciente}}</p>
-            <p>{{seg?.nota_paciente}}</p>
-            <button type="button" class="btn btn-outline-success" (click)="goToVideoCalling(seg)">Atender</button>
-        </div>
-    </div>
+                </td>
+                <td class="container border border-secondary border-top-0 border-left-0" >
+                    <div  id="segAtendidos"
+                        dragula="SEGUIMIENTOS" [(dragulaModel)]="segAtendidos">
+                        <div class="card border border-secondary vamp" *ngFor="let seg of segAtendidos">
+                            <div class="card-header alert"
+                                [ngClass]="{'alert-success': seg.estado_diario_paciente == 'MEJOR_EVOLUCION', 'alert-danger': seg.estado_diario_paciente == 'EMPEORANDO' }">
+                                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente?.name }}
+                                    {{ seg?.idPaciente?.lastname }}</h5>
+                            </div>
+                            <p class="pl-3">
+                                <i class="fas fa-clock" ></i> | {{seg?.createAt | date:'h:mm a' }} <br>
+                                {{seg?.estado_diario_paciente}} <br>
+                                <i class="fas fa-notes-medical" ></i> | {{seg?.nota_paciente}}
+                            </p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 
 
-    atendidos
-    <div class="container border border-dark border-top-0 border-left-0" id="segAtendidos" dragula="SEGUIMIENTOS" [(dragulaModel)]="segAtendidos">
-        <!-- <div class="centrar">
-                <h4><i class="fas fa-calendar-check"></i> Atendidas</h4>
-            </div> -->
-        <div class="card border border-secondary vamp" *ngFor="let seg of segAtendidos">
-            <div class="card-header alert" [ngClass]="{'alert-success': seg.estado_diario_paciente == 'MEJOR_EVOLUCION', 'alert-danger': seg.estado_diario_paciente == 'EMPEORANDO' }">
-                <h5><i class="fas fa-user"></i> {{ seg?.idPaciente?.name }} {{ seg?.idPaciente?.lastname }}</h5>
-            </div>
-            <p class="p-3">{{seg?.createAt | date:'h:mm a' }}</p>
-            <p>{{seg?.estado_diario_paciente}}</p>
-            <p>{{seg?.nota_paciente}}</p>
-        </div>
-    </div>
+
+
+
+
 
 </div>
