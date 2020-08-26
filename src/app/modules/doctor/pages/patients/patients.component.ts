@@ -13,7 +13,7 @@ import { forkJoin, Observable } from 'rxjs';
 })
 export class PatientsComponent implements OnInit {
   users$: Observable<FilterUserOut []>;
-  tableForRolAdmin:RolesUserEnum.PACIENTE;
+  forRolDoctor:RolesUserEnum = RolesUserEnum.DOCTOR;
 
   constructor( private _mainFacade: MainFacade) { }
 

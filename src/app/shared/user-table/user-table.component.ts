@@ -12,6 +12,7 @@ export class UserTableComponent implements OnInit {
 
   @Input() tableFor: RolesUserEnum; 
   @Input() users$ : Observable<FilterUserOut[]>;  
+  ROL_DOCTOR : RolesUserEnum = RolesUserEnum.DOCTOR;
     
   searchItem : string = ""; 
 
@@ -19,19 +20,19 @@ export class UserTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
+   console.log(this.tableFor);
   }
 
   getTitulo(){
-    if(this.tableFor == RolesUserEnum.PACIENTE)
+    if(this.tableFor == RolesUserEnum.DOCTOR)
       return 'Pacientes';
     return 'Personal'
   }
 
   getDescripcion(){
-    if(this.tableFor == RolesUserEnum.PACIENTE)
+    if(this.tableFor == RolesUserEnum.DOCTOR)
       return 'Pacientes actuamente registrados';
-    return 'Personal registrado, médicos, directore y administradores.'
+    return 'Personal registrado, médicos, directores y administradores.'
   }
 
   openModalCreateUpdate(user){
@@ -53,5 +54,9 @@ export class UserTableComponent implements OnInit {
   openModalSearchAddUsers(){
     this._userFacade.distpachActionOpenModalSearchUser();
   }
-  
+
+  openModalVerDatosPaciente(paciente){
+    this._userFacade.dispatchActionOpenModalDatosPaciente(paciente);
+  }
+
 }

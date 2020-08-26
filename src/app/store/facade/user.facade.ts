@@ -73,4 +73,8 @@ export class UserFacade {
     return this.store.select(selectIsLogged)
   }
 
+  dispatchActionOpenModalDatosPaciente(paciente: FilterUserOut){
+    return this.store.dispatch(userActions.openModalDatosPaciente({paciente}))
+  }
+
 }

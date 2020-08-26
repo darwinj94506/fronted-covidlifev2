@@ -4,5 +4,7 @@ export interface FechaUltimos {
     createAt: Date;
     AndIdHospital?: String;
     AndIdDoctor?: String;
+    AndIdPaciente?: String;
     AndEstado?: SeguimientoEstadoEnum;   
+
  }

@@ -17,6 +17,7 @@ import { RoleModalComponent } from './pages/role-modal/role-modal.component';
 import { SearchInviteModalComponent } from './pages/search-invite-modal/search-invite-modal.component';
 import { DatosPacienteComponent } from './components/datos-paciente/datos-paciente.component';
 import { DatosUsuarioComponent } from './components/datos-usuario/datos-usuario.component';
+import { DatosPacienteModalComponent } from './pages/datos-paciente-modal/datos-paciente-modal.component';
 
 export const PROFILE_ROUTES: Routes = [
 	{
@@ -38,7 +39,8 @@ export const PROFILE_ROUTES: Routes = [
      RoleModalComponent,
      SearchInviteModalComponent,
      DatosPacienteComponent,
-     DatosUsuarioComponent ],
+     DatosUsuarioComponent,
+     DatosPacienteModalComponent ],
   imports: [
     CommonModule,
     NgbModule,
@@ -61,13 +63,15 @@ export const PROFILE_ROUTES: Routes = [
     RoleModalComponent,
     SearchInviteModalComponent,
     DatosUsuarioComponent,
-    DatosPacienteComponent
+    DatosPacienteComponent,
+    DatosPacienteModalComponent
   ],
   entryComponents:[
     PatientModalComponent,
     UserModalComponent,
     RoleModalComponent,
     SearchInviteModalComponent,
+    DatosPacienteModalComponent
     
   ]
 })

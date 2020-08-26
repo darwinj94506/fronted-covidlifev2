@@ -11,7 +11,7 @@ import { LoginOut,
          ObtenerNotificacionesRecibidasOut } from '../../core/domain/outputs';
 import { ObtenerNotificacionesEnviadasIn, ObtenerNotificacionesRecibidasIn } from '../../core/domain/inputs';
 import { RolesUserEnum, TipoNotificacionEnum } from '../../core/domain/enums';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SuscriptionService } from '../../services';
@@ -31,7 +31,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   showNotifications:boolean = false;
   NOTIFICATION_LLAMADA: TipoNotificacionEnum = TipoNotificacionEnum.DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA;
   NOTIFICATION_AGENDADA : TipoNotificacionEnum = TipoNotificacionEnum.HA_SIDO_AGENDADA 
-
+  suscription: Subscription;
 
   public config: PerfectScrollbarConfigInterface = {};
   public showSearch = false;
@@ -117,9 +117,10 @@ export class NavigationComponent implements AfterViewInit, OnInit {
 
   ngOnInit(){
     this.userLogged$ = this._mainFacade.getUserLogged();
-    this.subscribeToNotifications();
     this._mainFacade.getHospitalSesion().subscribe(data=>{
-      this.showNotifications = data.roles.includes(RolesUserEnum.PACIENTE)
+      this.showNotifications = data.roles.includes(RolesUserEnum.PACIENTE);
+      if(this.showNotifications)
+        this.subscribeToNotifications();
     })
     
   }
@@ -134,22 +135,28 @@ export class NavigationComponent implements AfterViewInit, OnInit {
 
 
   subscribeToNotifications() {
-    this.notifRecibQueryRef.subscribeToMore({
-      document: SEGUIMIENTO_OPERATIONS.suscriptionNotificaciones.gql,
-      updateQuery: (prev, {subscriptionData}) => {
-        console.log([prev, subscriptionData]);
-
-        if (!subscriptionData.data) {
-          return prev;
+      this.notifRecibQueryRef.subscribeToMore({
+        document: SEGUIMIENTO_OPERATIONS.suscriptionNotificaciones.gql,
+        updateQuery: (prev, {subscriptionData}) => {
+          try {
+            console.log([prev, subscriptionData]);
+  
+            if (!subscriptionData.data) {
+              return prev;
+            }
+            const newDataQuery = this.getDataForUpdateGrapqlQuery(subscriptionData.data[SEGUIMIENTO_OPERATIONS.suscriptionNotificaciones.resolve],
+                                    prev[SEGUIMIENTO_OPERATIONS.getNoficacionesRecibidas.resolve])
+            return {
+              ...prev,
+              getNotificacionesRecibidas: [...newDataQuery]
+            };
+            
+          } catch (error) {
+            console.log("error"); 
+          }
+         
         }
-        const newDataQuery = this.getDataForUpdateGrapqlQuery(subscriptionData.data[SEGUIMIENTO_OPERATIONS.suscriptionNotificaciones.resolve],
-                                prev[SEGUIMIENTO_OPERATIONS.getNoficacionesRecibidas.resolve])
-        return {
-          ...prev,
-          getNotificacionesRecibidas: [...newDataQuery]
-        };
-      }
-    });  
+      });   
   }
 
   getDataForUpdateGrapqlQuery(entryNotification: ObtenerNotificacionesRecibidasOut, 
@@ -176,7 +183,6 @@ export class NavigationComponent implements AfterViewInit, OnInit {
     console.log(notification);
     if(notification.body && notification.body.tipo === TipoNotificacionEnum.DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA
           || notification.body.tipo === TipoNotificacionEnum.HA_SIDO_AGENDADA )
-            // alert("Navegando a video llamada");
           this._router.navigate(['/sala/llamada', notification.idSeguimiento, RolesUserEnum.PACIENTE]);
   }
   

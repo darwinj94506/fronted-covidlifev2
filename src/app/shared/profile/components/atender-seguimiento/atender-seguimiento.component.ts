@@ -67,13 +67,17 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
       diagnostico_actual:this.seguimientoForm.get('diagnostico_actual').value,
     }
     switch(this.seguimiento.estado){
-      case (SeguimientoEstadoEnum.AGENDADO || SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA):
+      case (SeguimientoEstadoEnum.AGENDADO):
         this._seguimientoFacade.atenderSeguimiento(seguimiento, this.seguimiento.estado);
+      case (SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA):
+          this._seguimientoFacade.atenderSeguimiento(seguimiento, this.seguimiento.estado);  
       break;
       case SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA:
         this._seguimientoFacade.agendarSeguimiento(this.seguimiento, this.doctor)
       break;
-      case SeguimientoEstadoEnum.REVISADO_CON_LLAMADA || SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
+      case SeguimientoEstadoEnum.REVISADO_CON_LLAMADA:
+        return alert("editar seguimiento")
+      case SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
         return alert("editar seguimiento")
     }
   }
@@ -99,15 +103,16 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
 
   getTextButton(): String{
     switch(this.seguimiento.estado){
-      case (SeguimientoEstadoEnum.AGENDADO || SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA):
+      case SeguimientoEstadoEnum.AGENDADO:
         return 'Atender'
-      
+      case SeguimientoEstadoEnum.SOLICITADO_SIN_LLAMADA:
+        return 'Atender'
       case SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA:
         return 'Agendar'
-
-      case SeguimientoEstadoEnum.REVISADO_CON_LLAMADA || SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
-        return 'Editar'
-   
+      // case SeguimientoEstadoEnum.REVISADO_CON_LLAMADA:
+      //   return 'Editar'
+      // case SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
+      //   return 'Editar'
     }
   }
 

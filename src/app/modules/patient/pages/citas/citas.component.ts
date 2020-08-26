@@ -17,7 +17,11 @@ export class CitasComponent implements OnInit {
   ngOnInit(): void {
     this._mainFacade.getUserLogged().subscribe(userLogged=>{
       let filter: FiltrarSeguimientoIn = {
-        idPaciente: userLogged._id
+        fechaUltimos:{
+          isUltimos:false,
+          createAt:new Date(),
+          AndIdPaciente:userLogged._id
+        }
       }
       this._seguimientoFadade.dispatchActionLoadCitas(filter);
       this.citas$ = this._seguimientoFadade.getCitasPacienteFromStore()

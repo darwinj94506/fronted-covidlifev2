@@ -85,3 +85,7 @@ export const searchUserError = createAction(
   props<{ error: String }>()
 )
 
+export const openModalDatosPaciente = createAction(
+  '[User] Open Modal Datos Paciente',
+  props<{ paciente: FilterUserOut }>()
+)

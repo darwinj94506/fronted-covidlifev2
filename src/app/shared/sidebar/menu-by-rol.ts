@@ -171,7 +171,7 @@ export const ROUTES_PATIENT: RouteInfo[] = [
 		title: 'Paciente',
 		icon: 'mdi mdi-gauge',
 		class: 'has-arrow',
-		label: '3',
+		label: '2',
     	labelClass: 'side-badge badge badge-info',
 		extralink: false,
 		submenu: [
@@ -187,7 +187,7 @@ export const ROUTES_PATIENT: RouteInfo[] = [
 			},
 			{
 				path: '/paciente/citas',
-				title: 'Citas',
+				title: 'Enviados',
 				icon: 'mdi mdi-adjust',
 				class: '',
 				label: '',

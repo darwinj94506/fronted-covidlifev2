@@ -87,5 +87,9 @@ export class MainFacade {
     return this.store.select(selectAllHospitales)
   }
 
+  dispatchActionOpenModalDatosPaciente(){
+    
+  }
+
   
 }

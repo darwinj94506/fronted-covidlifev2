@@ -11,6 +11,7 @@ import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { PatientModalComponent } from '../../shared/profile/pages/patient-modal/patient-modal.component';
 import { UserModalComponent } from '../../shared/profile/pages/user-modal/user-modal.component';
 import { RoleModalComponent } from '../../shared/profile/pages/role-modal/role-modal.component';
+import { DatosPacienteModalComponent } from '../../shared/profile/pages/datos-paciente-modal/datos-paciente-modal.component';
 import { SearchInviteModalComponent } from '../../shared/profile/pages/search-invite-modal/search-invite-modal.component';
 import { FindValueSubscriber } from 'rxjs/internal/operators/find';
 @Injectable()
@@ -18,6 +19,7 @@ export class UserEffects {
     modalAtenderPaciente: NgbModalRef;
     modalCreateUpdatePaciente: NgbModalRef;
     modalAsignarRoles: NgbModalRef;
+    modalDatosPaciente: NgbModalRef;
     constructor( private actions$: Actions, 
         private _toastService: ToastService,
         private _spinner: NgxSpinnerService,
@@ -87,6 +89,15 @@ export class UserEffects {
         tap(({seguimiento}) => {
                     this.modalAtenderPaciente = this.modalService.open(PatientModalComponent, { size: 'xl', scrollable: true});
                     this.modalAtenderPaciente.componentInstance.seguimiento = {...seguimiento}
+                })
+        )
+
+    @Effect({dispatch:false})
+    openModalDatosPaciente: Observable<any> = this.actions$.pipe(
+        ofType(userActions.openModalDatosPaciente),
+        tap(({paciente}) => {
+                    this.modalDatosPaciente = this.modalService.open(DatosPacienteModalComponent, { size: 'xl', scrollable: true});
+                    this.modalDatosPaciente.componentInstance.paciente = {...paciente}
                 })
         )
         
