@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-12">
         <!-- You can find this in the dashboard-component -->
-        <app-project-counter [totalDoctores$]="totalDoctores$" [totalPacientes$]="totalPacientes$"></app-project-counter>
+        <app-project-counter [totalDoctores$]="totalDoctores$" [totalPacientes$]="totalPacientes$" [datosPorDiagnostico]="doughnutChartDataDiagnostico"></app-project-counter>
     </div>
 </div>
 <!-- ============================================================== -->
@@ -24,16 +24,16 @@
                     <div class="ml-auto">
                         <ul class="list-inline">
                             <li class="list-inline-item">
-                                <h6 class="text-success"><i class="fa fa-circle font-10 m-r-10 "></i>Sospechosos</h6>
-                            </li>
-                            <li class="list-inline-item">
                                 <h6 class="text-info"><i class="fa fa-circle font-10 m-r-10"></i>Confirmados</h6>
                             </li>
                             <li class="list-inline-item">
-                                <h6 class="text-info"><i class="fa fa-circle font-10 m-r-10"></i>Aislados</h6>
+                                <h6 class="text-success">
+                                    <i class="fa fa-circle font-10 m-r-10 "></i> Sospechosos
+                                </h6>
                             </li>
+
                             <!-- <li class="list-inline-item">
-                                <h6 class="text-info"><i class="fa fa-circle font-10 m-r-10"></i>Fallecidos</h6>
+                                <h6 class="text-info"><i class="fa fa-circle font-10 m-r-10"></i>Aislados</h6>
                             </li> -->
                         </ul>
                     </div>
@@ -51,26 +51,40 @@
                 <h4 class="card-title"><span class="lstick"></span>Pacientes</h4>
                 <div *ngIf="isLoadingPacientesPorDiagnostico$ | async">Cargando.. </div>
                 <div style="height: 220px">
-                    <canvas baseChart height="100px" [data]="doughnutChartDataDiagnostico" [labels]="doughnutChartLabels" [options]="doughnutChartOptions" [legend]="doughnutChartLegend" [chartType]="doughnutChartType" [colors]="[{backgroundColor: ['rgb(116, 90, 242)', 'rgb(30, 136, 229)', '#06d79c', 'rgb(236, 239, 241)']}]">
+                    <canvas baseChart height="100px" [data]="doughnutChartDataDiagnostico" [labels]="doughnutChartLabels" [options]="doughnutChartOptions" [legend]="doughnutChartLegend" [chartType]="doughnutChartType" [colors]="[{backgroundColor: ['rgba(76,139,236,1)', '#06d79c', 'rgb(116, 90, 242)', '#2BF60B','#F90C0C','#000000']}]">
                     </canvas>
                 </div>
                 <table class="table vm font-14 m-b-0">
-                    <tr>
-                        <td class="border-0">Confirmados</td>
-                        <td class="text-right font-medium border-0">38.5%</td>
-                    </tr>
-                    <tr>
-                        <td>Sospechosos</td>
-                        <td class="text-right font-medium">30.8%</td>
-                    </tr>
-                    <tr>
-                        <td>Aislados</td>
-                        <td class="text-right font-medium">7.7%</td>
-                    </tr>
-                    <!-- <tr>
-                        <td>Fallecidos</td>
-                        <td class="text-right font-medium">23.1%</td>
-                    </tr> -->
+                    <ng-container *ngIf="totalPacientes$ | async as totalPacientes">
+
+                        <tr>
+                            <td class="border-0">Confirmados</td>
+                            <td class="text-right font-medium border-0">
+                                {{ calcularPorcentaje(doughnutChartDataDiagnostico[0], totalPacientes) | number:'1.0-2' }} %</td>
+                        </tr>
+                        <tr>
+                            <td>Sospechosos</td>
+                            <td class="text-right font-medium">{{ calcularPorcentaje(doughnutChartDataDiagnostico[1], totalPacientes) | number:'1.0-2' }} %</td>
+                        </tr>
+                        <tr>
+                            <td>Aislados</td>
+                            <td class="text-right font-medium">{{ calcularPorcentaje(doughnutChartDataDiagnostico[2], totalPacientes) | number:'1.0-2' }} %</td>
+                        </tr>
+                        <tr>
+                            <td>Recuperados</td>
+                            <td class="text-right font-medium">{{ calcularPorcentaje(doughnutChartDataDiagnostico[3], totalPacientes) | number:'1.0-2' }} %</td>
+                        </tr>
+                        <tr>
+                            <td>Hospitalizados</td>
+                            <td class="text-right font-medium">{{ calcularPorcentaje(doughnutChartDataDiagnostico[4], totalPacientes) | number:'1.0-2' }} %</td>
+                        </tr>
+                        <tr>
+                            <td>Fallecidos</td>
+                            <td class="text-right font-medium">{{ calcularPorcentaje(doughnutChartDataDiagnostico[5], totalPacientes) | number:'1.0-2' }} %</td>
+                        </tr>
+
+                    </ng-container>
+
                 </table>
             </div>
         </div>

@@ -9,5 +9,6 @@ import { Observable } from 'rxjs';
 export class ProjectCounterComponent {
   @Input() totalPacientes$: Observable<number>;
   @Input() totalDoctores$: Observable<number>;
+  @Input() datosPorDiagnostico: number[]
   constructor() {}
 }

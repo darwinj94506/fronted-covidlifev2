@@ -51,11 +51,11 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 	public lineChartDataPacientes : Array<ItemChart> = [
 		{ data: [], label: 'Confirmados' },
 		{ data: [], label: 'Sospechosos' },
-		{ data: [], label: 'Aislados' },
+		// { data: [], label: 'Aislados' }
 	];
 	public lineChartLabelsDays : Array<String>;
 
-	public lineChartLabels: Array<any> = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto'];
+	// public lineChartLabels: Array<any> = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto'];
 	public lineChartOptions: any = {
 		scales: {
 			yAxes: [
@@ -93,14 +93,22 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 			pointHoverBorderColor: 'rgba(76,139,236,1)'
 		},
 		{
-			// grey
-			backgroundColor: 'rgba(117,91,241,1)',
-			borderColor: 'rgba(117,91,241,1)',
-			pointBackgroundColor: 'rgba(117,91,241,1)',
+			
+			backgroundColor: '#06d79c',
+			borderColor: '#06d79c',
+			pointBackgroundColor: '#06d79c',
 			pointBorderColor: '#fff',
 
 			pointHoverBackgroundColor: '#fff',
-			pointHoverBorderColor: 'rgba(117,91,241,1)'
+			pointHoverBorderColor: '#06d79c'
+			
+			// backgroundColor: 'rgba(117,91,241,1)',
+			// borderColor: 'rgba(117,91,241,1)',
+			// pointBackgroundColor: 'rgba(117,91,241,1)',
+			// pointBorderColor: '#fff',
+
+			// pointHoverBackgroundColor: '#fff',
+			// pointHoverBorderColor: 'rgba(117,91,241,1)'
 		},
 		{
 			// dark grey
@@ -116,13 +124,13 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 	public lineChartType = 'line';
 
 	// Doughnut
-	public doughnutChartLabels: string[] = ['Confirmados', 'Sospechosos', 'Aislados'];
+	public doughnutChartLabels: string[] = ['Confirmados', 'Sospechosos', 'Aislados', 'Recuperados', 'Hospitaizados', 'Fallecidos'];
 	public doughnutChartOptions: any = {
 		borderWidth: 2,
 		maintainAspectRatio: false
 	};
-	public doughnutChartDataDiagnostico: number[] = [];
-	public doughnutChartData: number[] = [150, 450, 200];
+	public doughnutChartDataDiagnostico: number[] = [0, 0, 0, 0, 0, 0];
+	// public doughnutChartData: number[] = [150, 450, 200];
 	public doughnutChartType = 'doughnut';
 	public doughnutChartLegend = false;
 
@@ -164,7 +172,6 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 			.subscribe(data=> {
 				console.log(data);
 				this.buildLineChartData(data)
-	
 		})
 
 		this.suscriptionPacientesPorDiagnostico = this._estadisticasFacade.getCountPacientesPorDiagnosticoFromStorage()
@@ -172,14 +179,22 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 				let NConfirmados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.CONFIRMADO);
 				let NSospechosos = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.SOSPECHOSO);
 				let NAislados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.AISLAMIENTO_PREVENTIVO);
+				let NRecuperados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.RECUPERADO);
+				let NHospitalizados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.HOSPITALIZADO);
+				let NFallecidos = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.FALLECIDO);
 				this.doughnutChartDataDiagnostico = [ NConfirmados? NConfirmados.contador: 0, 
 													  NSospechosos?NSospechosos.contador: 0,
-													  NAislados?NAislados.contador: 0 ]
+													  NAislados?NAislados.contador: 0,
+													  NRecuperados?NRecuperados.contador: 0,
+													  NHospitalizados?NHospitalizados.contador: 0, 
+													  NFallecidos?NFallecidos.contador: 0   
+													]
 		})
 		this.isLoadingPacientesPorDiagnostico$ = this._estadisticasFacade.getIsloadingCountDiagnoticoFromStorage();
 		this.isLoadingChartEvolucionDiariaPacietes$ = this._estadisticasFacade.getIsloadingCountDiagnoticoDiarioFromStorage();
 		this.totalDoctores$ = this._estadisticasFacade.getTotalDoctoresFromStorage();
-		this.totalPacientes$ = this._estadisticasFacade.getTotalPacientesFromStorage()
+		this.totalPacientes$ = this._estadisticasFacade.getTotalPacientesFromStorage();
+		
 	}
 	
 	transformDate(t){
@@ -228,13 +243,19 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 	
 		  this.lineChartDataPacientes[0].data = dataSospechosos;
 		  this.lineChartDataPacientes[1].data = dataConfirmados;
-		  this.lineChartDataPacientes[2].data = dataAislados;
+		//   this.lineChartDataPacientes[2].data = dataAislados;
 		  this.lineChartLabelsDays = dias; 
 
 	  }
 	ngOnDestroy(){
 		this.suscriptionEvolucionDiaria.unsubscribe();
 		this.suscriptionPacientesPorDiagnostico.unsubscribe();
+	}
+
+	calcularPorcentaje(valor, total): number{
+		if(valor<1)
+			return 0
+		return (valor*100)/total
 	}
 
 
