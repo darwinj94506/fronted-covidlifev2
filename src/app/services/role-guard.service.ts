@@ -20,8 +20,11 @@ export class RoleGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot) : Observable<boolean> {
       return this.getUserLoggedStore(route).pipe(
         tap(console.log),
-        exhaustMap(isLooged  =>
-            iif(()=>isLooged, of(true), this.getLocalStorage(route))),
+        exhaustMap(isLooged  =>{
+            if(isLooged)
+            return of(true)
+            else this.getLocalStorage(route)
+          }),  
         catchError(err=>{
           console.log(err);
           this._mainFacade.loadUserLoggedError(err);
@@ -40,6 +43,7 @@ export class RoleGuardService implements CanActivate {
               })
           )
     }
+
     isValid(isLogged: boolean, hospital: VORoleHospitalPopulateLoginOut, route: ActivatedRouteSnapshot, userLogged): boolean{
         console.log([isLogged, hospital, route])
       if(isLogged){
@@ -54,7 +58,6 @@ export class RoleGuardService implements CanActivate {
 
 
     getLocalStorage(route) : Observable<boolean> {
-      
       return this.loadLocalStorage(route).pipe(
         tap(hospitalSession=> this._mainFacade.setHospitalSession(hospitalSession)) ,
         map( _=> true)
