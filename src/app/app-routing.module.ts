@@ -56,31 +56,31 @@ export const Approutes: Routes = [
 			
 			{ 
 				path: 'root',
-				// canActivate:[ RoleGuardService ],
+				canActivate:[ RoleGuardService ],
 				data: { expectedRole: RolesUserEnum.ROOT },  
 				loadChildren: () => import('./modules/root-user/root-user.module').then(m => m.RootUserModule) 
 			},
 			{ 
 				path: 'admin',
-				// canActivate:[ RoleGuardService ],
+				canActivate:[ RoleGuardService ],
 				data: { expectedRole: RolesUserEnum.ADMIN },  
 				loadChildren: () => import('./modules/administrator/administrator.module').then(m => m.AdministratorModule) 
 			},
 			{ 
 				path: 'doctor', 
-				// canActivate:[ RoleGuardService ],
+				canActivate:[ RoleGuardService ],
 				data: { expectedRole: RolesUserEnum.DOCTOR }, 
 				loadChildren: () => import('./modules/doctor/doctor.module').then(m => m.DoctorModule) 
 			},
 			{ 
 				path: 'paciente', 
-				// canActivate:[ RoleGuardService ],
+				canActivate:[ RoleGuardService ],
 				data: { expectedRole: RolesUserEnum.PACIENTE }, 
 				loadChildren: () => import('./modules/patient/patient.module').then(m => m.PatientModule) 
 			},
 			{ 
 				path: 'director', 
-				// canActivate:[ RoleGuardService ],
+				canActivate:[ RoleGuardService ],
 				data: { expectedRole: RolesUserEnum.DIRECTOR }, 
 				loadChildren: () => import('./modules/director/director.module').then(m => m.DirectorModule) 
 			},
@@ -101,6 +101,7 @@ export const Approutes: Routes = [
 			},
 			{   
 				path: 'sala', 
+				canActivate:[ LoginGuard ],
 				loadChildren:
 					() => import('./modules/video-chat/video-chat.module').then(m=> m.VideoChatModule)  
 			},
@@ -108,6 +109,7 @@ export const Approutes: Routes = [
 	},
 	{
 		path: 'inicio',
+		canActivate:[ LoginGuard ],
 		component: InitComponent
 	},
 	

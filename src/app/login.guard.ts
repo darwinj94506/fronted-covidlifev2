@@ -14,57 +14,16 @@ export class LoginGuard implements CanActivate {
   ) {}
 
   canActivate() : Observable<boolean> {
-    return this.getUserLoggedStore().pipe(
-      exhaustMap(isLooged  =>{
+    return this._mainFacade.getIsLoggedFromStore().pipe(
+      map(isLooged  => {
         if(isLooged)
-        return of(true)
-        else this.getLocalStorage()
+          return true
+        else this._guardService.getTokenFromLocalStorage()
       }),
-      catchError(err=>{
-        this._mainFacade.loadUserLoggedError(err);
-        return of(false)
-      })
     )
   }
-
-  getUserLoggedStore():Observable<any>{
-    return this._mainFacade.getUserLogged().pipe(
-      exhaustMap((userLogged)=>
-        iif(() => userLogged.email && userLogged.email!="", of(true), of(false))  
-      ))
-  }
-
-  getLocalStorage() : Observable<boolean> {
-    return this._guardService.loadLocalStorage().pipe(
-      tap(userLogged=> this._mainFacade.loadUserLoggedSuccess({...userLogged})),
-      map( userLogged=> true)
-    )
-  }
-
 }
 
-
-
-
-
-
-
-
-
-
-
-
-// canActivate() : Observable<boolean> {
-//   return this.getUserLoggedStore().pipe(
-//     exhaustMap(isLooged  =>
-//         iif(()=>isLooged, of(true), this.getLocalStorage())),
-//     catchError(err=>{
-//       console.log(err);
-//       this._mainFacade.loadUserLoggedError(err);
-//       return of(false)
-//     })
-//   )
-// }
 
 
 
