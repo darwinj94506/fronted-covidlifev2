@@ -101,6 +101,7 @@ export const Approutes: Routes = [
 			},
 			{   
 				path: 'sala', 
+				canActivate:[ LoginGuard ],
 				loadChildren:
 					() => import('./modules/video-chat/video-chat.module').then(m=> m.VideoChatModule)  
 			},
@@ -108,6 +109,7 @@ export const Approutes: Routes = [
 	},
 	{
 		path: 'inicio',
+		canActivate:[ LoginGuard ],
 		component: InitComponent
 	},
 	

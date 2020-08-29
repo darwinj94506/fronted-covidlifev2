@@ -5,8 +5,7 @@ import { VORoleHospital } from '../core/domain/entities';
 import { RolesUserEnum } from '../core/domain/enums';
 import { Apollo } from 'apollo-angular';
 import { VORoleHospitalPopulateLoginOut } from '../core/domain/outputs';
-import { JwtHelperService } from "@auth0/angular-jwt";
-const helper = new JwtHelperService();
+
 @Injectable({providedIn:'root'})
 
 export class AuthService {
@@ -15,25 +14,15 @@ export class AuthService {
                 private apollo: Apollo){}
 
     saveLocalStorage( userLogged: any ) {
-        // console.log(userLogged);
         localStorage.setItem('token', userLogged.token);
-        let userToSave = JSON.stringify(userLogged);
-        localStorage.setItem('userLogged', userToSave );
     }
 
     saveHospitalSesion(hospitalSession: VORoleHospitalPopulateLoginOut){
-        // let hospitalToSave = JSON.stringify(hospitalSession)
         let idHospital = hospitalSession.idHospital._id;
         localStorage.setItem('hospitalSession', idHospital.toString())
     }
 
-    clearLocalStorage(){
-        
-        localStorage.removeItem('userLogged');
-    }
-    
     logout() { 
-        // this.apollo.getClient().resetStore();
         this.apollo.getClient().cache.reset();
         localStorage.removeItem('hospitalSession');
         localStorage.removeItem('userLogged');
@@ -74,21 +63,7 @@ export class AuthService {
     }
 
     navigateToInit(userLogged){
-        
-        // if(userLogged.isRoot) 
-        //     this.router.navigate(['/root'])
-        // else
         this.router.navigate(['/inicio'])
     }
 
-    public isAuthenticated(): boolean {
-        const token = localStorage.getItem('token');
-        // Check whether the token is expired and return true or false
-
-        if (token == null){
-            return false;
-        } else {
-        return !helper.isTokenExpired(token);
-        }
-    }
 }
