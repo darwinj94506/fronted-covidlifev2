@@ -18,3 +18,4 @@ export { ContadoresEstadisticaIn } from './contadores-estadistica.in';
 export { ObtenerNotificacionesEnviadasIn } from './obtener-notificaciones-enviadas.in';
 export { ObtenerNotificacionesRecibidasIn } from './obtener-notificaciones-recibidas.in';
 export { VOPacienteIn } from './vo-paciente.in';
+export { MapasDatosIn } from './mapas-datos.in';
