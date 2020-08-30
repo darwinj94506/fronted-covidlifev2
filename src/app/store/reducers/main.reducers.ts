@@ -2,6 +2,8 @@ import { Action, createReducer, on } from '@ngrx/store';
 import * as authActions  from '../actions/main.actions';
 import { IUsuarioEntity, IHospitalEntity } from '../../core/domain/entities';
 import { LoginOut, VORoleHospitalPopulateLoginOut, FilterUserOut } from '../../core/domain/outputs';
+import { IEspacioEntity } from '../../core/domain/entities'
+import { EspacioEnum } from '../../core/domain/enums';
 export interface MainState {
   userLogged: LoginOut;
   isLoading: boolean;
@@ -11,6 +13,14 @@ export interface MainState {
   isLogged: boolean;
   hospitales: IHospitalEntity[];
   isLoadingHospitales: boolean;
+  provincias: IEspacioEntity [];
+  cantones: IEspacioEntity [];
+  parroquias: IEspacioEntity [];
+  barrios: IEspacioEntity [];
+  isLoadingProvincias: boolean;
+  isLoadingCantones: boolean;
+  isLoadingParroquias: boolean;
+  isLoadingBarrios: boolean;
   
 }
 
@@ -41,7 +51,15 @@ export const initialState: MainState = {
   hospitalSession: {...initVORoleHospital},
   isLogged: false,
   isLoadingHospitales: false,
-  hospitales: []
+  hospitales: [],
+  provincias: [],
+  cantones:[],
+  parroquias:[],
+  barrios:[],
+  isLoadingProvincias: false,
+  isLoadingCantones: false,
+  isLoadingParroquias: false,
+  isLoadingBarrios: false
 };
 
 const mainReducer = createReducer(
@@ -125,6 +143,43 @@ const mainReducer = createReducer(
     ...state,
     isLoadingHospitales: false
   })),
+
+  on(authActions.cargarEspacios, (state, payload) => {
+    switch(payload.tipo){
+        case EspacioEnum.PROVINCIA :
+            return { ...state, isLoadingProvincias:true, cantones:[], parroquias:[], barrios:[] }
+        case EspacioEnum.CANTON :
+            return { ...state, isLoadingCantones:true, parroquias:[], barrios:[] }
+        case EspacioEnum.PARROQUIA :
+            return { ...state, isLoadingParroquias:true, barrios:[] }
+        case EspacioEnum.BARRIO :
+            return { ...state, isLoadingBarrios:true }
+    }
+  }), 
+  on(authActions.cargarEspacioExito, (state, payload) => {
+    switch(payload.tipo){
+        case EspacioEnum.PROVINCIA :
+            return { ...state, isLoadingProvincias:false, provincias: payload.espacios }
+        case EspacioEnum.CANTON :
+            return { ...state, isLoadingCantones:false, cantones: payload.espacios }
+        case EspacioEnum.PARROQUIA :
+            return { ...state, isLoadingParroquias:false, parroquias: payload.espacios}
+        case EspacioEnum.BARRIO :
+            return { ...state, isLoadingBarrios:false, barrios: payload.espacios}
+    }
+  }),
+  on(authActions.cargarEspacioError, (state, payload) => {
+    switch(payload.tipo){
+        case EspacioEnum.PROVINCIA :
+            return { ...state, isLoadingProvincias:false, provincias:[], cantones:[], parroquias:[], barrios:[]  }
+        case EspacioEnum.CANTON :
+            return { ...state, isLoadingCantones:false, cantones:[], parroquias:[], barrios:[] }
+        case EspacioEnum.PARROQUIA :
+            return { ...state, isLoadingParroquias:false, parroquias:[], barrios:[] }
+        case EspacioEnum.BARRIO :
+            return { ...state, isLoadingBarrios:false, barrios:[] }
+    }
+  }),
 );
 
 export function reducer(state: MainState | undefined, action: Action) {

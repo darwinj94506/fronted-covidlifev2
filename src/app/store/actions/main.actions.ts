@@ -1,7 +1,9 @@
 import { createAction, props } from '@ngrx/store';
-import { IUsuarioEntity, IHospitalEntity } from '../../core/domain/entities';
+import { IUsuarioEntity, IHospitalEntity, IEspacioEntity } from '../../core/domain/entities';
 import { FilterUserIn, FilterHospitalIn } from '../../core/domain/inputs';
 import { LoginOut, VORoleHospitalPopulateLoginOut, FilterUserOut } from '../../core/domain/outputs';
+import { EspacioEnum } from '../../core/domain/enums';
+import { FilterEspaceIn } from '../../core/domain/inputs';
 
 export const loadUserLogged = createAction(
   '[Main] Load User Logged'
@@ -95,4 +97,19 @@ export const cargarHospitalesExito = createAction(
 export const cargarHospitalesError = createAction(
   '[Main] Cargar Hospital Error',
   props<{ error: string }>()
+);
+
+export const cargarEspacios = createAction(
+  '[Main] Cargar Espacios',
+  props<{ tipo: EspacioEnum, filtro: FilterEspaceIn }>()
+);
+
+export const cargarEspacioExito = createAction(
+  '[Main] Cargar Espacios Éxito',
+  props<{ espacios: IEspacioEntity[], tipo: EspacioEnum }>()
+);
+
+export const cargarEspacioError = createAction(
+  '[Main] Cargar Espacios Error',
+  props<{ error:any ,  tipo: EspacioEnum }>()
 );

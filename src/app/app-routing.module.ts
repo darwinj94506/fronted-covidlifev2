@@ -10,7 +10,7 @@ import { RolesUserEnum } from './core/domain/enums'
 export const Approutes: Routes = [
 	{
 		path: '',
-		// canActivate:[ LoginGuard ],
+		canActivate:[ LoginGuard ],
 		component: FullComponent,
 		children: [
 			// { path: '', redirectTo: '/dashboard/dashboard1', pathMatch: 'full' },

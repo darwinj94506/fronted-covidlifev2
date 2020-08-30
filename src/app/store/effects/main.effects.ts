@@ -6,9 +6,10 @@ import { GuardService } from '../../services/guard.service';
 import * as mainActions  from '../actions/main.actions';
 import { ToastService } from '../../services';
 import { LogoutUsecase, ListarUsuariosUseCase } from '../../core/usecases';
-import { VerHospitalesPorLugarUseCase } from '../../core/usecases/root';
+import { VerHospitalesPorLugarUseCase, VerLugaresPorTipoCaseUse } from '../../core/usecases/root';
 import { AuthService } from 'src/app/authentication/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { EspacioService } from 'src/app/modules/root-user/services';
 
 @Injectable()
 export class MainEffects {
@@ -20,6 +21,8 @@ export class MainEffects {
         private _ListarUsuarios:ListarUsuariosUseCase,
         private _authService: AuthService,
         private _verHospitalesPorLugar : VerHospitalesPorLugarUseCase,
+        private _verLugaresPorTipo: VerLugaresPorTipoCaseUse,
+        private _espacioService: EspacioService
          ) { }
 
     @Effect({dispatch:false})
@@ -91,5 +94,23 @@ export class MainEffects {
                 }
             )
         )))
+
+
+    @Effect()
+    loadEspacio: Observable<any> = this.actions$.pipe(
+    ofType(mainActions.cargarEspacios),
+    switchMap(payload => this._verLugaresPorTipo.execute(payload.filtro)
+        .pipe(
+            map(espacios => mainActions.cargarEspacioExito({espacios:espacios, tipo :payload.tipo})),
+            catchError( error => {
+                this._espacioService.showError(`Error al cargar entidades de tipo: ${payload.tipo}, Error:${error.message}`);
+                return of( mainActions.cargarEspacioError({error: error.message, tipo: payload.tipo}))
+                }
+            )
+        )))
+
+
 }
+
+
 

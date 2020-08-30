@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import * as mainActions from '../actions/main.actions';
-import { IUsuarioEntity, VORoleHospital, IHospitalEntity} from '../../core/domain/entities';
-import { FilterUserIn, FilterHospitalIn } from '../../core/domain/inputs';
+import { IUsuarioEntity, VORoleHospital, IHospitalEntity, IEspacioEntity } from '../../core/domain/entities';
+import { FilterUserIn, FilterHospitalIn, FilterEspaceIn } from '../../core/domain/inputs';
 import { LoginOut, VORoleHospitalPopulateLoginOut} from '../../core/domain/outputs'; 
 import { AppState,
          selectUserLogged,
@@ -13,7 +13,17 @@ import { AppState,
          selectIsLogged,
          selectAllHospitales,
          selectIsLoadingHospitales,
-         selectUsersLoading }from '../app.reducer';
+         selectUsersLoading, 
+         selectProvincias,
+         selectCantones,
+         selectParroquias,
+         selectBarrios,
+         selectIsLoadingProvincias,
+         selectIsLoadingCantones,
+         selectIsLoadingParroquias,
+         selectIsLoadingBarrios
+        } from '../app.reducer';
+import { EspacioEnum } from 'src/app/core/domain/enums';
          
 @Injectable({
   providedIn: 'root'
@@ -91,5 +101,36 @@ export class MainFacade {
     
   }
 
-  
+  getProvinciasFromStorage(): Observable<IEspacioEntity[]>{
+    return this.store.select(selectProvincias)
+  }
+  getCantonesFromStorage(): Observable<IEspacioEntity[]>{
+    return this.store.select(selectCantones)
+  }
+  getParroquiasFromStorage(): Observable<IEspacioEntity[]>{
+    return this.store.select(selectParroquias)
+  }
+  getBarriosFromStorage(): Observable<IEspacioEntity[]>{
+    return this.store.select(selectBarrios)
+  }
+
+  getIsLoadingProvinciasFromStorage():Observable<boolean>{
+    return this.store.select(selectIsLoadingProvincias)
+  }
+
+  getIsLoadingCantones():Observable<boolean>{
+    return this.store.select(selectIsLoadingCantones)
+  }
+
+  getIsLoadingParroquias():Observable<boolean>{
+    return this.store.select(selectIsLoadingParroquias)
+  }
+
+  getIsLoadingBarrios():Observable<boolean>{
+    return this.store.select(selectIsLoadingBarrios)
+  }
+
+  distatchActionLoadEspacios(tipo:EspacioEnum, filtro:FilterEspaceIn ){
+    return this.store.dispatch(mainActions.cargarEspacios({tipo, filtro}))
+  }
 }

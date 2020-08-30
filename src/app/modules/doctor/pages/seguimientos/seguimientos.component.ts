@@ -8,8 +8,7 @@ import { FiltrarSeguimientoOut,
          LoginOut } from '../../../../core/domain/outputs';
 import { FiltrarSeguimientoIn, 
          AtenderSolicitudSeguimientoIn,
-         CrearNotificacionIn, 
-         AgendarSolicitudSeguimientoIn } from '../../../../core/domain/inputs';
+         CrearNotificacionIn } from '../../../../core/domain/inputs';
 import { SeguimientoEstadoEnum, TipoNotificacionEnum, RolesUserEnum } from '../../../../core/domain/enums';
 import { MainFacade, UserFacade, SeguimientoFacade } from '../../../../store/facade';
 import { QueryRef } from 'apollo-angular';

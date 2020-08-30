@@ -2,13 +2,21 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Pacientes sospechosos</h4>
-                <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" #map1></agm-map>
+                <h4 class="card-title">Mapa de calor</h4>
+                <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" #map1></agm-map> -->
+                <div id="floating-panel">
+                    <button (click)="confirmados()">Confirmados</button>
+                    <button (click)="sospechosos()">Sospechosos</button>
+                    <button (click)="recuperados()">Recuperados</button>
+                    <button (click)="fallecidos()">Facellidos</button>
+                    <button (click)="hospitalizados()">Hospitalizados</button>
+                </div>
+                <div #mapWrapper id="map"></div>
             </div>
         </div>
     </div>
 </div>
-<div class="row">
+<!-- <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -49,4 +57,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

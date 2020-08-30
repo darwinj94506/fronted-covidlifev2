@@ -3,10 +3,12 @@ import { NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
 import { EstadisticasFacade } from '../../store/estadisticas.facade';
 import { MainFacade } from '../../../../store/facade';
 import { ContadoresEstadisticaIn } from '../../../../core/domain/inputs';
-import { ContadoresEstadisticaOut, CountPacientesPorDiaPorDiagnosticoOut } from '../../../../core/domain/outputs';
+import { ContadoresEstadisticaOut, CountPacientesPorDiaPorDiagnosticoOut, VORoleHospitalPopulateLoginOut } from '../../../../core/domain/outputs';
 import { EstadisticaTipoEnum, RolesUserEnum, DiagnosticoActualEnum } from '../../../../core/domain/enums';
 import { Observable, Subscription } from 'rxjs';
 import * as _ from "lodash";
+import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { FilterModalComponent } from '../../../../modules/director/components/filter-modal/filter-modal.component';
 
 declare var require: any;
 // const data: any = require('./data.json');
@@ -32,7 +34,11 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 	totalDoctores$: Observable <number>;
 	totalPacientes$: Observable <number>;
 	subtitle: string;
+	modalFilter: NgbModalRef;
+	hospital: VORoleHospitalPopulateLoginOut;
+
 	constructor( private _estadisticasFacade: EstadisticasFacade,
+				 private _modalService: NgbModal,
 				 private _mainFacade: MainFacade) {
 		this.subtitle = 'This is some text within a card block.';
 	}
@@ -138,6 +144,7 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 
 	ngOnInit(){
 		this._mainFacade.getHospitalSesion().subscribe(hospital=>{
+			this.hospital = hospital;
 			let input: ContadoresEstadisticaIn = {
 				idHospital:hospital.idHospital._id,
 				role: RolesUserEnum.PACIENTE,
@@ -257,6 +264,47 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 			return 0
 		return (valor*100)/total
 	}
+
+	openModalFilter(){
+		this.modalFilter = this._modalService.open(FilterModalComponent);
+
+		// this.modalFilter.componentInstance.seguimiento = { ...seguimiento };
+		this.modalFilter.result.then(result => {
+			// console.log(result);
+			let input: ContadoresEstadisticaIn = {
+				idHospital: this.hospital.idHospital._id,
+				role: RolesUserEnum.PACIENTE,
+				tipo: EstadisticaTipoEnum.COUNT_PACIENTES_POR_DIA_POR_DIAGNOSTICO,
+				idEspacioPadre:result
+			}
+			let input2: ContadoresEstadisticaIn = {
+				idHospital: this.hospital.idHospital._id,
+				role: RolesUserEnum.PACIENTE,
+				tipo: EstadisticaTipoEnum.COUNT_PACIENTES_POR_DIAGNOSTICO,
+				idEspacioPadre:result
+			}
+			this._estadisticasFacade.distpachActionLoadEvolucionDiariaPacientes(input);
+			this._estadisticasFacade.distpachActionLoadPacientesPorDiagnostico(input2);
+
+			let inputTotalPacientes: ContadoresEstadisticaIn = {
+				idHospital: this.hospital.idHospital._id,
+				role: RolesUserEnum.PACIENTE,
+				tipo: EstadisticaTipoEnum.COUNT_USER_POR_ROLE_AND_HOSPITAL,
+				idEspacioPadre:result
+			}
+
+			let inputTotalDoctores: ContadoresEstadisticaIn = {
+				idHospital: this.hospital.idHospital._id,
+				role: RolesUserEnum.DOCTOR,
+				tipo: EstadisticaTipoEnum.COUNT_USER_POR_ROLE_AND_HOSPITAL,
+				idEspacioPadre:result
+			} 
+
+			this._estadisticasFacade.distpachActionLoadUsuariosPorRol(inputTotalPacientes);
+			this._estadisticasFacade.distpachActionLoadUsuariosPorRol(inputTotalDoctores);
+		
+		},()=>console.log("cancelar"));
+	  } 
 
 
 }

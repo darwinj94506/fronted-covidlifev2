@@ -11,6 +11,7 @@ import { EstadisticasEffects } from "./store/estadisticas.effects";
 import { reducer } from './store/estadisticas.reducer';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+
 @NgModule({
   declarations: [
     StatisticsComponent, 

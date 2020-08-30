@@ -28,6 +28,18 @@ export const selectHospitalSession = createSelector(selectMainState,(state: Main
 export const selectAllHospitales = createSelector(selectMainState,(state: MainState) => state.hospitales);
 export const selectIsLoadingHospitales = createSelector(selectMainState,(state: MainState) => state.isLoadingHospitales);
 
+export const selectProvincias = createSelector(selectMainState,(state: MainState) => state.provincias);
+export const selectCantones = createSelector(selectMainState,(state: MainState) => state.cantones);
+export const selectParroquias = createSelector(selectMainState,(state: MainState) => state.parroquias);
+export const selectBarrios = createSelector(selectMainState,(state: MainState) => state.barrios);
+
+export const selectIsLoadingProvincias = createSelector(selectMainState,(state: MainState) => state.isLoadingProvincias);
+export const selectIsLoadingCantones = createSelector(selectMainState,(state: MainState) => state.isLoadingCantones);
+export const selectIsLoadingParroquias = createSelector(selectMainState,(state: MainState) => state.isLoadingParroquias);
+export const selectIsLoadingBarrios = createSelector(selectMainState,(state: MainState) => state.isLoadingBarrios);
+
+
+
 export const selectUserState = (state: AppState) => state.user;
 export const selectMiPerfil = createSelector(selectUserState,(state: UserState) => state.miPerfil);
 export const selectLoadingMiPerfil = createSelector(selectUserState,(state: UserState) => state.isLoadingMiPerfil);

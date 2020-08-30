@@ -81,7 +81,6 @@ export class GuardService {
     }
 
     convertToVORoleHospitalPopulateLoginOut(rolesHosp): VORoleHospitalPopulateLoginOut[]{
-        console.log(rolesHosp);
         if(!rolesHosp) return []
         let rolesHospital: VORoleHospitalPopulateLoginOut[] = [];
         rolesHosp.forEach(element => {

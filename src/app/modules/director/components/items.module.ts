@@ -20,15 +20,20 @@ import { FeedsComponent } from './feeds/feeds.component';
 import { EarningComponent } from './earning-report/earning-report.component';
 import { ActivityComponent } from './activity-timeline/activity.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { FilterModalComponent } from './filter-modal/filter-modal.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [  
     FormsModule, 
+    ReactiveFormsModule,
     CommonModule, 
     NgbModule, 
     ChartsModule, 
     ChartistModule, 
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    NgSelectModule
   ],
   declarations: [
  
@@ -46,7 +51,8 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
     TotalEarningComponent,
     FeedsComponent,
     EarningComponent,
-    ActivityComponent
+    ActivityComponent,
+    FilterModalComponent
   ],
   exports:[
     IncomeCounterComponent,
@@ -68,6 +74,10 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
     ChartsModule, 
     ChartistModule, 
     PerfectScrollbarModule
+  ],
+  entryComponents:[
+    FilterModalComponent
   ]
+  
 })
 export class ItemsModule {}

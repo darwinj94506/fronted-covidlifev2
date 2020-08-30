@@ -15,9 +15,9 @@ export interface EspacioState {
 
 export const initialState: EspacioState = {
   provincias: [],
-  cantones:  [],
-  parroquias:  [],
-  barrios:[],
+  cantones: [],
+  parroquias: [],
+  barrios: [],
   isLoadingProvincias: false,
   isLoadingCantones: false,
   isLoadingParroquias: false,
