@@ -2,7 +2,9 @@ import { Action, createReducer, on, createFeatureSelector, createSelector} from 
 import * as estadisticasActions  from './estadisticas.actions';
 import { ContadoresEstadisticaOut, 
          CountPacientesPorDiagnosticoOut, 
-         CountPacientesPorDiaPorDiagnosticoOut} from '../../../core/domain/outputs';
+         CountPacientesPorDiaPorDiagnosticoOut,
+         MapasDatosOut
+        } from '../../../core/domain/outputs';
 
 import { RolesUserEnum } from '../../../core/domain/enums';
 
@@ -17,12 +19,19 @@ export interface EstadisticasState {
   countPacientesPorDiaPorDiagnostico: CountPacientesPorDiaPorDiagnosticoOut [];
   totalDoctores:number;
   totalPacientes:number;
+  isLoadingCoordenadasPorDiagnostico:boolean;
+  coordenasPorDiagnostico: MapasDatosOut
 }
 
 const contadoresInit: ContadoresEstadisticaOut = {
     countPacientesPorDiaPorDiagnosticoOut : [],
     countPacientesPorDiagnostico : [],
     countUserPorRoleAndHospital : 0
+}
+const mapasOutInit:MapasDatosOut = {
+  mapaPacientesPorDiaPorDiagnosticoOut:[],
+  mapaPacientesPorDiagnostico:[],
+  mapaUserPorRoleAndHospital:[]
 }
 
 export const initialState: EstadisticasState = {
@@ -35,7 +44,9 @@ export const initialState: EstadisticasState = {
     countPacientesPorDiagnostico: [],
     countPacientesPorDiaPorDiagnostico: [],
     totalDoctores: 0,
-    totalPacientes: 0
+    totalPacientes: 0,
+    isLoadingCoordenadasPorDiagnostico:false,
+    coordenasPorDiagnostico:mapasOutInit
   }
  
 const estadisticasReducer = createReducer(
@@ -106,8 +117,20 @@ const estadisticasReducer = createReducer(
         isLoadingTotalPacientes: false,
       }
   }),
+  on(estadisticasActions.loadCoordenadasPorDiagnostico, (state) => ({
+    ...state,
+    isLoadingCoordenadasPorDiagnostico: true,
+  })),
+  on(estadisticasActions.loadCoordenadasPorDiagnosticoSuccess, (state, payload) => ({
+    ...state,
+    coordenadasPorDiagnostico: payload.output.mapaPacientesPorDiagnostico,
+    isLoadingCoordenadasPorDiagnostico: false
+  })),
+  on(estadisticasActions.loadCoordenadasPorDiagnosticoError, state => ({
+    ...state,
+    isLoadingCoordenadasPorDiagnostico: false,
+  })),
   
-
 );
 
 export function reducer(state: EstadisticasState | undefined, action: Action) {
@@ -125,3 +148,6 @@ export const selectIsloadingCountPacientesPorDiagnosticoDiario = createSelector(
                                                             (state) => state.isLoadingPacientesPorDiagnosticoDiario);
 export const selectTotalPacientes = createSelector(selectEstadisticasState, (state) => state.totalPacientes);
 export const selectTotalDoctores = createSelector(selectEstadisticasState, (state) => state.totalDoctores);
+
+export const selectCoordenasPorDiagnostico = createSelector(selectEstadisticasState, (state) => state.coordenasPorDiagnostico);
+export const selectIsLoadingCoordenasPorDiagnostico = createSelector(selectEstadisticasState, (state) => state.isLoadingCoordenadasPorDiagnostico);

@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-
+import { MainFacade } from '../../../../store/facade';
+import { EstadisticasFacade } from '../../store/estadisticas.facade';
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
@@ -11,6 +12,11 @@ export class MapsComponent implements AfterViewInit {
 map: google.maps.Map;
 heatmap: google.maps.visualization.HeatmapLayer;
 @ViewChild('mapWrapper', {static: false}) mapElement: ElementRef;
+
+constructor( private _mainFacade: MainFacade,
+             private _estadisticaFacade: EstadisticasFacade){
+
+}
 
 ngAfterViewInit() {
   this.initMap();

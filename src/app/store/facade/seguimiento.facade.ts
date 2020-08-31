@@ -5,9 +5,11 @@ import { SolicitarSeguimientoIn,
          AtenderSolicitudSeguimientoIn,
          FiltrarSeguimientoIn,
          SeguimientoCompletoPacienteIn, 
+         EditarSeguimientoIn,
          CrearNotificacionIn } from '../../core/domain/inputs';
 import { FiltrarSeguimientoOut, 
          LoginOut, 
+         EditarSeguimientoOut,
          SeguimientoCompletoPacienteOut } from '../../core/domain/outputs';
 import { AppState, 
          selectSeguimientosAgendados, 
@@ -66,5 +68,9 @@ export class SeguimientoFacade {
 
   dispatchActionLoadSeguimientosCompletos(params: SeguimientoCompletoPacienteIn):void{
     this.store.dispatch(seguimientoActions.loadSeguimientosCompletos({params}))
+  } 
+
+  dispatchActionUpdateSeguimiento(seguimiento: EditarSeguimientoIn):void{
+    this.store.dispatch(seguimientoActions.updateSeguimiento({seguimiento}))
   } 
 }

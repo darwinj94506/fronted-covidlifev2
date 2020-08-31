@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Formulario } from '../../../../core/domain/class/formulario';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AtenderSolicitudSeguimientoIn} from '../../../../core/domain/inputs';
+import { AtenderSolicitudSeguimientoIn, EditarSeguimientoIn } from '../../../../core/domain/inputs';
 import { FiltrarSeguimientoOut, LoginOut } from '../../../../core/domain/outputs';
 import { ExamenTipoEnum,  DificultadRespirarEnum, SeguimientoEstadoEnum, 
   DiagnosticoActualEnum, RolesUserEnum } from '../../../../core/domain/enums';
@@ -66,6 +66,9 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
       observacion_doctor: this.seguimientoForm.get('observacion_doctor').value,
       diagnostico_actual:this.seguimientoForm.get('diagnostico_actual').value,
     }
+
+    let seguimientoUpdate: EditarSeguimientoIn = {...seguimiento}
+
     switch(this.seguimiento.estado){
       case (SeguimientoEstadoEnum.AGENDADO):
         this._seguimientoFacade.atenderSeguimiento(seguimiento, this.seguimiento.estado);
@@ -76,9 +79,9 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
         this._seguimientoFacade.agendarSeguimiento(this.seguimiento, this.doctor)
       break;
       case SeguimientoEstadoEnum.REVISADO_CON_LLAMADA:
-        return alert("editar seguimiento")
+        this._seguimientoFacade.dispatchActionUpdateSeguimiento(seguimientoUpdate)
       case SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
-        return alert("editar seguimiento")
+        this._seguimientoFacade.dispatchActionUpdateSeguimiento(seguimientoUpdate)
     }
   }
 
@@ -109,15 +112,11 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
         return 'Atender'
       case SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA:
         return 'Agendar'
-      // case SeguimientoEstadoEnum.REVISADO_CON_LLAMADA:
-      //   return 'Editar'
-      // case SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
-      //   return 'Editar'
+      case SeguimientoEstadoEnum.REVISADO_CON_LLAMADA:
+        return 'Editar'
+      case SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
+        return 'Editar'
     }
-  }
-
-  editar(){
-
   }
   
 }

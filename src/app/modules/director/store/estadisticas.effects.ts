@@ -5,15 +5,16 @@ import { Observable, of} from 'rxjs';
 import * as estadisticasActions  from './estadisticas.actions';
 import { VerTotalPacientesDiagnosticoUseCase, 
          VerEvolucionDiariaDiagnosticoUseCase,
+         VerCoordenasPorDiagnosticoUseCase,
          VerTotalUsuariosPorRolUseCase  } from '../../../core/usecases/estadisticas';
-
 
 @Injectable()
 export class EstadisticasEffects {
     constructor( private actions$: Actions, 
         private _verTotalPacientesDiagnosticoUseCase: VerTotalPacientesDiagnosticoUseCase,
         private _verEvolucionDiariaDiagnosticoUseCase: VerEvolucionDiariaDiagnosticoUseCase,
-        private _verTotalUsuariosPorRolUseCase: VerTotalUsuariosPorRolUseCase
+        private _verTotalUsuariosPorRolUseCase: VerTotalUsuariosPorRolUseCase,
+        private _verCoordenasPorDiagnosticoUseCase: VerCoordenasPorDiagnosticoUseCase
          ) { }
    
     @Effect()
@@ -59,8 +60,22 @@ export class EstadisticasEffects {
                     }
                 )
             ))
-    )    
+    )
 
+    @Effect()
+    loadCoordenadasPorDiagnostico: Observable<any> = this.actions$.pipe(
+        ofType(estadisticasActions.loadCoordenadasPorDiagnostico),
+        switchMap(({input}) => this._verCoordenasPorDiagnosticoUseCase.execute(input)
+            .pipe(
+                map(output => {
+                    return estadisticasActions.loadCoordenadasPorDiagnosticoSuccess({output})
+                }),
+                catchError( error => {
+                    return of( estadisticasActions.loadCoordenadasPorDiagnosticoError({error}))
+                    }
+                )
+            ))
+    )      
 
 }
 

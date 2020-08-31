@@ -1,14 +1,19 @@
 import { IOperations, IOperation } from '../interfaces/operation.interface';
-import { COUNT_PACIENTES } from '../gql/estadisticas';
+import { COUNT_PACIENTES, ESTADISTICAS_MAPAS } from '../gql/estadisticas';
 
 export interface EstadisticasOPerations extends IOperations{
-    getCountPacientes: IOperation
+    getCountPacientes: IOperation,
+    getEstadisticasMapas: IOperation
 }
 
 export const ESTADISTICAS_OPERATIONS: EstadisticasOPerations = {
     getCountPacientes: {
         resolve:'contadoresEstadisticos',
         gql: COUNT_PACIENTES
+    },
+    getEstadisticasMapas:{
+        resolve:'mapasEstadisticos',
+        gql: ESTADISTICAS_MAPAS
     },
     create:{
         resolve:'',

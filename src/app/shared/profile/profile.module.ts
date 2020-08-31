@@ -18,7 +18,13 @@ import { SearchInviteModalComponent } from './pages/search-invite-modal/search-i
 import { DatosPacienteComponent } from './components/datos-paciente/datos-paciente.component';
 import { DatosUsuarioComponent } from './components/datos-usuario/datos-usuario.component';
 import { DatosPacienteModalComponent } from './pages/datos-paciente-modal/datos-paciente-modal.component';
-
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+ 
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};   
 export const PROFILE_ROUTES: Routes = [
 	{
 		path: '', component: ProfilePageComponent,
@@ -46,6 +52,7 @@ export const PROFILE_ROUTES: Routes = [
     NgbModule,
     FormsModule, ReactiveFormsModule,
     RouterModule.forChild(PROFILE_ROUTES),
+    PerfectScrollbarModule
   ],
   exports:[
     PatientModalComponent,
@@ -65,6 +72,12 @@ export const PROFILE_ROUTES: Routes = [
     DatosUsuarioComponent,
     DatosPacienteComponent,
     DatosPacienteModalComponent
+  ],
+  providers:[
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
   ],
   entryComponents:[
     PatientModalComponent,

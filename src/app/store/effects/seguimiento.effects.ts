@@ -10,6 +10,7 @@ import { SolicitarSeguimentoUseCase,
 import { MacarSeguimientoComoAtendido,
          VerResumenSeguimientosPacienteUseCase, 
          EnviarNotificacionUseCase,
+         EditarSeguimientosUseCase,
          MacarSeguimientoComoAgendado } from '../../core/usecases/doctor';
 import { SeguimientoEstadoEnum, TipoNotificacionEnum } from '../../core/domain/enums';
 import { AgendarSolicitudSeguimientoIn, CrearNotificacionIn } from '../../core/domain/inputs';
@@ -26,6 +27,7 @@ export class SeguimientoEffects {
         private _notificationService: NotificationService,
         private _enviarNotificacionUseCase: EnviarNotificacionUseCase,
         private _VerResumenSeguimientosPacienteUseCase: VerResumenSeguimientosPacienteUseCase,
+        private _editarSeguimientosUseCase: EditarSeguimientosUseCase,
         private _router: Router
          ) { }
    
@@ -42,6 +44,24 @@ export class SeguimientoEffects {
                 catchError( error => {
                     this._toastService.showError(`Error al enviar, Error:${error.message}`);
                     return of( seguimientoActions.createSeguimientoError({error: error.message}))
+                    }
+                )
+            )),
+        tap( _=> this._spinner.hide()))
+
+    @Effect()
+    update: Observable<any> = this.actions$.pipe(
+        ofType(seguimientoActions.updateSeguimiento),
+        tap( _=> this._spinner.show()),
+        switchMap(({seguimiento}) => this._editarSeguimientosUseCase.execute(seguimiento)
+            .pipe(
+                map(seguimientoOut => {
+                    this._toastService.showSuccess(`Actualizado con éxito`);
+                    return seguimientoActions.updateSeguimientoSuccess({seguimiento: seguimientoOut})
+                }),
+                catchError( error => {
+                    this._toastService.showError(`Error al actualizar, Error:${error.message}`);
+                    return of( seguimientoActions.updateSeguimientoError({error}))
                     }
                 )
             )),

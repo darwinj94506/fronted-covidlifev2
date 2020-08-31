@@ -9,7 +9,6 @@ export interface SeguimientoState {
   isLoadingCitasPacientes: boolean;
   seguimientosCompletosPaciente: SeguimientoCompletoPacienteOut[];
   isLoadingSeguimientosCompletos: boolean,
-
 } 
 export const initialState: SeguimientoState = {
   isLoadingSeguimiento:false,

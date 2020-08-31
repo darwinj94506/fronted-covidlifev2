@@ -20,4 +20,29 @@ query contadoresEstadisticos($data: ContadoresEstadisticaIn!){
   }
 }`;
 
+
+export const ESTADISTICAS_MAPAS = gql`
+  query mapasEstadisticos($data:MapasDatosIn!){
+    mapasEstadisticos(data:$data){
+      mapaUserPorRoleAndHospital{
+        latitud
+        longitud
+      },
+      mapaPacientesPorDiagnostico{
+        contador{
+          last{
+            latitud
+            longitud
+          }
+        }
+      },
+      mapaUserPorRoleAndHospital{
+        latitud
+        longitud
+      }
+    }
+  }
+`;
+
+
   

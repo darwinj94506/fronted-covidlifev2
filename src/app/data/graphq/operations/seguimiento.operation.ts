@@ -31,7 +31,7 @@ export const SEGUIMIENTO_OPERATIONS : SeguimientoOperations = {
         gql: CREATE
     },
     update: {
-        resolve:'',
+        resolve:'editSeguimiento',
         gql: UPDATE
     },
     delete: {

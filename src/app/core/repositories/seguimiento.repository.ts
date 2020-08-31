@@ -1,10 +1,23 @@
 import { GenericRepository } from './generic-repository';
 import { ISeguimientoEntity, } from '../domain/entities';
-import { SeguimientoEstadoEnum, SeguimientoTipoEnum } from '../domain/enums';
-import { SolicitarSeguimientoIn, ConsultarUnSeguimientoIn, FiltrarSeguimientoIn,
-         AtenderSolicitudSeguimientoIn, AgendarSolicitudSeguimientoIn, SeguimientoCompletoPacienteIn, CrearNotificacionIn } from '../domain/inputs';
-import { SolicitarSeguimientoOut, ConsultarUnSeguimientoOut, SeguimientoCompletoPacienteOut, CrearNotificacionOut,
-         FiltrarSeguimientoOut, AtenderSolicitudSeguimientoOut, AgendarSolicitudSeguimientoOut } from '../domain/outputs';
+import { SeguimientoEstadoEnum, 
+         SeguimientoTipoEnum } from '../domain/enums';
+import { SolicitarSeguimientoIn, 
+         ConsultarUnSeguimientoIn, 
+         FiltrarSeguimientoIn,
+         AtenderSolicitudSeguimientoIn, 
+         AgendarSolicitudSeguimientoIn, 
+         SeguimientoCompletoPacienteIn, 
+         EditarSeguimientoIn,
+         CrearNotificacionIn } from '../domain/inputs';
+import { SolicitarSeguimientoOut, 
+         ConsultarUnSeguimientoOut, 
+         SeguimientoCompletoPacienteOut, 
+         CrearNotificacionOut,
+         FiltrarSeguimientoOut, 
+         AtenderSolicitudSeguimientoOut,
+         EditarSeguimientoOut, 
+         AgendarSolicitudSeguimientoOut } from '../domain/outputs';
 
 import { Observable } from 'rxjs';
 
@@ -18,10 +31,11 @@ export abstract class SeguimientoRepositorio extends GenericRepository<ISeguimie
 
     // abstract suscriptionSeguimiento():  Observable<ConsultarUnSeguimientoOut>;
     abstract suscriptionSeguimiento(filter: FiltrarSeguimientoIn): any;
-    abstract atenderSeguimiento(seguimiento: AtenderSolicitudSeguimientoIn):Observable<AtenderSolicitudSeguimientoOut>;
-    abstract agendarSeguimiento(seguimiento: AgendarSolicitudSeguimientoIn):Observable<AgendarSolicitudSeguimientoOut>;
-    abstract getResumenSeguimientosPaciente(data: SeguimientoCompletoPacienteIn):Observable<SeguimientoCompletoPacienteOut []>;
-    abstract createNotification(data: CrearNotificacionIn):Observable<CrearNotificacionOut>;
+    abstract atenderSeguimiento(seguimiento: AtenderSolicitudSeguimientoIn): Observable<AtenderSolicitudSeguimientoOut>;
+    abstract agendarSeguimiento(seguimiento: AgendarSolicitudSeguimientoIn): Observable<AgendarSolicitudSeguimientoOut>;
+    abstract getResumenSeguimientosPaciente(data: SeguimientoCompletoPacienteIn): Observable<SeguimientoCompletoPacienteOut []>;
+    abstract createNotification(data: CrearNotificacionIn): Observable<CrearNotificacionOut>;
     abstract filterSeguimiento(filter: FiltrarSeguimientoIn): Observable<FiltrarSeguimientoOut[]>;
+    abstract editarSeguimiento(editar: EditarSeguimientoIn ): Observable<EditarSeguimientoOut>;
 
 }

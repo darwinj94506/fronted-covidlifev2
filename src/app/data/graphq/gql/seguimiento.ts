@@ -8,8 +8,12 @@ export const CREATE = gql`
     }
 `;
   
-export const UPDATE = `
-
+export const UPDATE = gql`
+  mutation editSeguimiento($data:EditarSeguimientoIn!){
+    editSeguimiento(data:$data){
+      _id
+    }
+  }
 `;
 
 export const DELETE = `
@@ -319,3 +323,7 @@ export const SUSCRIPTIONS_NOTIFICATIONS = gql `
       createAt
     }
   }`;
+
+  // export const 
+  
+  

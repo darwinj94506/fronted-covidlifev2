@@ -87,7 +87,9 @@ export class UserEffects {
     openModalAtenderPaciente: Observable<any> = this.actions$.pipe(
         ofType(userActions.openModalPatient),
         tap(({seguimiento}) => {
+                    // this.modalAtenderPaciente = this.modalService.open(PatientModalComponent, { size: 'xl' });
                     this.modalAtenderPaciente = this.modalService.open(PatientModalComponent, { size: 'xl', scrollable: true});
+// 
                     this.modalAtenderPaciente.componentInstance.seguimiento = {...seguimiento}
                 })
         )

@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as estadisticasActions from './estadisticas.actions';
-import { ContadoresEstadisticaIn } from '../../../core/domain/inputs';
-import { CountPacientesPorDiaPorDiagnosticoOut, CountPacientesPorDiagnosticoOut } from '../../../core/domain/outputs';
+import { ContadoresEstadisticaIn, MapasDatosIn } from '../../../core/domain/inputs';
+import { CountPacientesPorDiaPorDiagnosticoOut,
+         MapasDatosOut, 
+         CountPacientesPorDiagnosticoOut } from '../../../core/domain/outputs';
 import { EstadisticasState, 
          selectContPacientesPorDiagnosticoDiario, 
          selectCountPacientesPorDiagnostico,
          selectIsloadingCountPacientesPorDiagnostico,
          selectIsloadingCountPacientesPorDiagnosticoDiario,
          selectTotalDoctores,
-         selectTotalPacientes
+         selectTotalPacientes,
+         selectCoordenasPorDiagnostico,
+         selectIsLoadingCoordenasPorDiagnostico
         } from './estadisticas.reducer';
 import { Observable } from 'rxjs';
 @Injectable({
@@ -55,4 +59,15 @@ export class EstadisticasFacade {
     return this.store.select(selectTotalDoctores)
   }
 
+  getIsLoadingCoordenadasPorDiagnosticoFromStorage():Observable<boolean>{
+    return this.store.select(selectIsLoadingCoordenasPorDiagnostico)
+  }
+  
+  getCoordenadasPorDiagnosticoFromStorage():Observable<MapasDatosOut>{
+    return this.store.select(selectCoordenasPorDiagnostico)
+  }
+
+  distpachActionLoadCoordenadasPorDiagnostico(input: MapasDatosIn){
+    this.store.dispatch(estadisticasActions.loadCoordenadasPorDiagnostico({input}))
+  }
 }

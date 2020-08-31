@@ -19,3 +19,4 @@ export { ObtenerNotificacionesEnviadasIn } from './obtener-notificaciones-enviad
 export { ObtenerNotificacionesRecibidasIn } from './obtener-notificaciones-recibidas.in';
 export { VOPacienteIn } from './vo-paciente.in';
 export { MapasDatosIn } from './mapas-datos.in';
+export { EditarSeguimientoIn } from './editar-seguimiento.in';

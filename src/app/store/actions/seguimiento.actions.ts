@@ -1,14 +1,17 @@
 import { createAction, props } from '@ngrx/store';
-import { SolicitarSeguimientoOut, AtenderSolicitudSeguimientoOut,
-    AgendarSolicitudSeguimientoOut, FiltrarSeguimientoOut, LoginOut,
+import { SolicitarSeguimientoOut, 
+    AtenderSolicitudSeguimientoOut,
+    AgendarSolicitudSeguimientoOut, 
+    FiltrarSeguimientoOut, LoginOut,
     CrearNotificacionOut,
-    SeguimientoCompletoPacienteOut
-  } from '../../core/domain/outputs';
+    EditarSeguimientoOut,
+    SeguimientoCompletoPacienteOut} from '../../core/domain/outputs';
 import { SolicitarSeguimientoIn, 
   AtenderSolicitudSeguimientoIn,
   SeguimientoCompletoPacienteIn, 
   AgendarSolicitudSeguimientoIn,
   CrearNotificacionIn, 
+  EditarSeguimientoIn,
   FiltrarSeguimientoIn } from '../../core/domain/inputs';
   import { SeguimientoEstadoEnum } from '../../core/domain/enums';
 
@@ -25,6 +28,21 @@ export const createSeguimientoSuccess = createAction(
 export const createSeguimientoError = createAction(
   '[Seguimiento] Create Seguimiento Error',
   props<{ error: String }>()
+)
+
+export const updateSeguimiento = createAction(
+  '[Seguimiento] Update Seguimiento',
+  props<{ seguimiento: EditarSeguimientoIn }>()
+)
+
+export const updateSeguimientoSuccess = createAction(
+  '[Seguimiento] Update Seguimiento Success',
+  props<{ seguimiento: EditarSeguimientoOut }>()
+)
+
+export const updateSeguimientoError = createAction(
+  '[Seguimiento] Update Seguimiento Error',
+  props<{ error }>()
 )
 
 export const atenderSeguimiento = createAction(

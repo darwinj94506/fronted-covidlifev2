@@ -25,3 +25,4 @@ export { ConsultarUnaNotificacionOut } from './consultar-una-notificacion.out';
 export { CountPacientesPorDiaPorDiagnosticoOut } from './count-pacientes-por-dia-por-diagnostico.out';
 export { CountPacientesPorDiagnosticoOut } from './count-pacientes-por-diagnostico.out';
 export { MapasDatosOut } from './mapas-datos.out';
+export { EditarSeguimientoOut } from './editar-seguimiento.out';

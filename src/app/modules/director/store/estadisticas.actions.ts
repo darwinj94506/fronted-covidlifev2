@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { ContadoresEstadisticaIn } from '../../../core/domain/inputs';
-import { ContadoresEstadisticaOut } from '../../../core/domain/outputs';
+import { ContadoresEstadisticaIn, MapasDatosIn } from '../../../core/domain/inputs';
+import { ContadoresEstadisticaOut, MapasDatosOut } from '../../../core/domain/outputs';
 import { RolesUserEnum } from '../../../core/domain/enums';
 
 export const loadTotalUsuariosPorRol = createAction(
@@ -48,20 +48,20 @@ export const loadPacientesPorDiagnosticoError = createAction(
   props<{ error }>()
 )
 
-// export const loadTotalDoctores = createAction(
-//   '[Estadisticas] Load Pacientes Por Diagnostico',
-//   props<{input: ContadoresEstadisticaIn }>()
-// )
+export const loadCoordenadasPorDiagnostico = createAction(
+  '[Estadisticas] Load coordenadas Por Diagnostico',
+  props<{input: MapasDatosIn }>()
+)
 
-// export const loadPacientesPorDiagnosticoSuccess = createAction(
-//   '[Estadisticas] Load Pacientes Por Diagnostico Success',
-//   props<{ output: ContadoresEstadisticaOut }>()
-// )
+export const loadCoordenadasPorDiagnosticoSuccess = createAction(
+  '[Estadisticas] Load coordenadas Por Diagnostico Success',
+  props<{ output: MapasDatosOut }>()
+)
 
-// export const loadPacientesPorDiagnosticoError = createAction(
-//   '[Estadisticas] Load Pacientes Por Diagnostico Error',
-//   props<{ error }>()
-// )
+export const loadCoordenadasPorDiagnosticoError = createAction(
+  '[Estadisticas] Load coordenadas Por Diagnostico Error',
+  props<{ error }>()
+)
 
 
 

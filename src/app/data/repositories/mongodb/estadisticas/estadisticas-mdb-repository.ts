@@ -3,8 +3,8 @@ import { EstadisticasRepository } from '../../../../core/repositories';
 import { MongoDBRepository} from '../mongo-repository';
 import { ESTADISTICAS_OPERATIONS } from '../../../graphq';
 import { IEntity } from '../../../../core/domain/entities';
-import { ContadoresEstadisticaIn} from '../../../../core/domain/inputs';
-import { ContadoresEstadisticaOut } from '../../../../core/domain/outputs';
+import { ContadoresEstadisticaIn, MapasDatosIn } from '../../../../core/domain/inputs';
+import { ContadoresEstadisticaOut, MapasDatosOut } from '../../../../core/domain/outputs';
 import { map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 @Injectable({ providedIn:'root'})
@@ -23,8 +23,21 @@ export class EstaditicasMDBRepository extends MongoDBRepository<IEntity> impleme
                 }
             })
             .valueChanges.pipe(
-                // tap(console.log),
                 map(( { data } ) => data[ESTADISTICAS_OPERATIONS.getCountPacientes.resolve] ))
+
+    }
+
+    getEstadisticasMapas(filter: MapasDatosIn ):Observable<MapasDatosOut>{
+        return this.apollo
+        .watchQuery(
+        { 
+            query: ESTADISTICAS_OPERATIONS.getEstadisticasMapas.gql,
+            variables:{
+                data:filter
+            }
+        })
+        .valueChanges.pipe(
+            map(( { data } ) => data[ESTADISTICAS_OPERATIONS.getEstadisticasMapas.resolve] ))
 
     }
 
