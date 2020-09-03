@@ -2,26 +2,33 @@
     overflow: scroll;
     position: relative;
 }
-  
+
 table {
     position: relative;
     border-collapse: collapse;
 }
 
-tbody td div{
+tbody td div {
     width: 150px;
     text-align: center;
 }
-  
+
 tbody th {
     position: -webkit-sticky;
     position: sticky;
     left: 0;
     background: #FFF;
     border-right: 1px solid #CCC;
+}
+
+thead tr th {
+    float: left;
+    background-color: #f39c12;
+    border-color: #e67e22;
 } */
 
-body {
+
+/* body {
     background-color: #bdc3c7;
 }
 
@@ -52,4 +59,90 @@ body {
     float: left;
     background-color: #f39c12;
     border-color: #e67e22;
+} */
+
+
+/* .container_table {
+    overflow: scroll;
+    position: relative;
+}
+
+table {
+    position: relative;
+    border-collapse: collapse;
+}
+
+tbody td div {
+    width: 150px;
+    text-align: center;
+}
+
+tbody th {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    background: #FFF;
+    border-right: 1px solid #CCC;
+}
+
+thead tr th {
+    float: left;
+    background-color: #f39c12;
+    border-color: #e67e22;
+} */
+
+
+/* div {
+    max-width: 40em;
+    max-height: 20em;
+    overflow: scroll;
+    position: relative;
+} */
+
+.tabla {
+    max-width: 40em;
+    max-height: 20em;
+    overflow: scroll;
+    position: relative;
+}
+
+table {
+    position: relative;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table,
+td,
+th {
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+td,
+th {
+    padding: 0.20em;
+}
+
+thead th {
+    position: -webkit-sticky;
+    /* for Safari */
+    position: sticky;
+    top: 0;
+    background: #000;
+    color: #FFF;
+}
+
+thead th:first-child {
+    left: 0;
+    z-index: 1;
+}
+
+tbody th {
+    position: -webkit-sticky;
+    /* for Safari */
+    position: sticky;
+    left: 0;
+    background: #FFF;
+    border-right: 1px solid #CCC;
 }

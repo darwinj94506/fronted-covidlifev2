@@ -1,9 +1,12 @@
 import { createAction, props } from '@ngrx/store';
 import { IUsuarioEntity, IHospitalEntity, IEspacioEntity } from '../../core/domain/entities';
 import { FilterUserIn, FilterHospitalIn } from '../../core/domain/inputs';
-import { LoginOut, VORoleHospitalPopulateLoginOut, FilterUserOut } from '../../core/domain/outputs';
+import { LoginOut, 
+         VORoleHospitalPopulateLoginOut, 
+         FilterUserOut,
+         VerEspacioOut } from '../../core/domain/outputs';
 import { EspacioEnum } from '../../core/domain/enums';
-import { FilterEspaceIn } from '../../core/domain/inputs';
+import { FilterEspaceIn, VerEspacioIn, ContadoresEstadisticaIn } from '../../core/domain/inputs';
 
 export const loadUserLogged = createAction(
   '[Main] Load User Logged'
@@ -112,4 +115,28 @@ export const cargarEspacioExito = createAction(
 export const cargarEspacioError = createAction(
   '[Main] Cargar Espacios Error',
   props<{ error:any ,  tipo: EspacioEnum }>()
+);
+
+export const verDetalleEspacio = createAction(
+  '[Main] Ver Detalle Espacio',
+  props<{ filtro: VerEspacioIn }>()
+);
+
+export const verDetalleEspacioSuccess = createAction(
+  '[Main] Ver Detalle Espacio Success',
+  props<{ espacio: VerEspacioOut }>()
+);
+
+export const verDetalleEspacioError = createAction(
+  '[Main] Ver Detalle Espacio Error',
+  props<{ error }>()
+);
+
+export const openModalFiltrarEspacio = createAction(
+  '[Main] Open Modal Filtrar Espacio',
+  props<{ filtro: VerEspacioIn, 
+          filterEvolucion: ContadoresEstadisticaIn,
+          filterDiagnosticos :ContadoresEstadisticaIn,
+          filterTotalDoctores: ContadoresEstadisticaIn,
+          filterTotalPacientes: ContadoresEstadisticaIn  }>()
 );

@@ -26,3 +26,5 @@ export { CountPacientesPorDiaPorDiagnosticoOut } from './count-pacientes-por-dia
 export { CountPacientesPorDiagnosticoOut } from './count-pacientes-por-diagnostico.out';
 export { MapasDatosOut } from './mapas-datos.out';
 export { EditarSeguimientoOut } from './editar-seguimiento.out';
+export { MapasPacientesPorDiagnosticoOut } from './mapas-pacientes-por-diagnostico.out';
+export { VerEspacioOut } from './ver-espacio.out';

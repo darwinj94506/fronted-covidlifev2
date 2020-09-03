@@ -4,8 +4,12 @@ import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import * as mainActions from '../actions/main.actions';
 import { IUsuarioEntity, VORoleHospital, IHospitalEntity, IEspacioEntity } from '../../core/domain/entities';
-import { FilterUserIn, FilterHospitalIn, FilterEspaceIn } from '../../core/domain/inputs';
-import { LoginOut, VORoleHospitalPopulateLoginOut} from '../../core/domain/outputs'; 
+import { FilterUserIn, 
+         FilterHospitalIn, 
+         FilterEspaceIn, 
+         VerEspacioIn, 
+         ContadoresEstadisticaIn} from '../../core/domain/inputs';
+import { LoginOut, VORoleHospitalPopulateLoginOut, VerEspacioOut} from '../../core/domain/outputs'; 
 import { AppState,
          selectUserLogged,
          selectUsers,
@@ -21,7 +25,9 @@ import { AppState,
          selectIsLoadingProvincias,
          selectIsLoadingCantones,
          selectIsLoadingParroquias,
-         selectIsLoadingBarrios
+         selectIsLoadingBarrios,
+         selectDetalleEspacio,
+         selectIsLoagingDetalleEspacio
         } from '../app.reducer';
 import { EspacioEnum } from 'src/app/core/domain/enums';
          
@@ -133,4 +139,28 @@ export class MainFacade {
   distatchActionLoadEspacios(tipo:EspacioEnum, filtro:FilterEspaceIn ){
     return this.store.dispatch(mainActions.cargarEspacios({tipo, filtro}))
   }
+
+  distatchActionDetalleEspacio(filtro:VerEspacioIn ){
+    return this.store.dispatch(mainActions.verDetalleEspacio({filtro}))
+  }
+  
+  getDetalleEspacioFromStorage():Observable<VerEspacioOut>{
+    return this.store.select(selectDetalleEspacio)
+  }
+
+ 
+
+  distatchActionOpenModalFiltro(filtro:VerEspacioIn,
+    filterEvolucion: ContadoresEstadisticaIn,
+    filterDiagnosticos :ContadoresEstadisticaIn,
+    filterTotalDoctores: ContadoresEstadisticaIn,
+    filterTotalPacientes: ContadoresEstadisticaIn){
+    return this.store.dispatch(mainActions
+      .openModalFiltrarEspacio({filtro, 
+        filterEvolucion, 
+        filterDiagnosticos, 
+        filterTotalDoctores, 
+        filterTotalPacientes}))
+  }
+
 }

@@ -5,7 +5,6 @@ import { Observable, from, of} from 'rxjs';
 import * as userActions  from '../actions/user.actions';
 import { ToastService } from '../../services';
 import { VerPerfilUseCase, AsignarRolesUseCase, BuscarUsuarioUseCase  } from '../../core/usecases';
-import { IdIn } from '../../core/domain/inputs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { PatientModalComponent } from '../../shared/profile/pages/patient-modal/patient-modal.component';
@@ -13,7 +12,6 @@ import { UserModalComponent } from '../../shared/profile/pages/user-modal/user-m
 import { RoleModalComponent } from '../../shared/profile/pages/role-modal/role-modal.component';
 import { DatosPacienteModalComponent } from '../../shared/profile/pages/datos-paciente-modal/datos-paciente-modal.component';
 import { SearchInviteModalComponent } from '../../shared/profile/pages/search-invite-modal/search-invite-modal.component';
-import { FindValueSubscriber } from 'rxjs/internal/operators/find';
 @Injectable()
 export class UserEffects {
     modalAtenderPaciente: NgbModalRef;

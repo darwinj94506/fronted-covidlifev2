@@ -22,26 +22,28 @@ query contadoresEstadisticos($data: ContadoresEstadisticaIn!){
 
 
 export const ESTADISTICAS_MAPAS = gql`
-  query mapasEstadisticos($data:MapasDatosIn!){
-    mapasEstadisticos(data:$data){
-      mapaUserPorRoleAndHospital{
-        latitud
-        longitud
-      },
-      mapaPacientesPorDiagnostico{
-        contador{
-          last{
-            latitud
-            longitud
-          }
-        }
-      },
-      mapaUserPorRoleAndHospital{
+query mapasEstadisticos($data:MapasDatosIn!){
+  mapasEstadisticos(data:$data){
+    mapaUserPorRoleAndHospital{
+      latitud
+      longitud
+    },
+    mapaPacientesPorDiagnostico{
+     agrupadoPor{
+      diagnostico_enum
+    },
+      contador{
         latitud
         longitud
       }
+    },
+    mapaUserPorRoleAndHospital{
+      latitud
+      longitud
     }
   }
+}
+
 `;
 
 

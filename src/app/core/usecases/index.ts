@@ -8,3 +8,4 @@ export { VerPerfilUseCase } from './ver-perfil.usecase';
 export { AsignarRolesUseCase } from './asignar-roles.usecase';
 export { BuscarUsuarioUseCase } from './buscar-usuario.usecase';
 export { VerSeguimientoDetalleUseCase } from './ver-seg-detalle.usecase';
+export { VerDetalleEspacioUseCase } from './ver-detalle-espacio.usecase'; 

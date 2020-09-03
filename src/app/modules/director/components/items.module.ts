@@ -36,7 +36,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgSelectModule
   ],
   declarations: [
- 
     IncomeCounterComponent,
     ProjectCounterComponent,
     ProjectComponent,
@@ -73,7 +72,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgbModule, 
     ChartsModule, 
     ChartistModule, 
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    NgSelectModule
   ],
   entryComponents:[
     FilterModalComponent

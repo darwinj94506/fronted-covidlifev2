@@ -5,6 +5,8 @@ import { DirectorRoutingModule } from './director-routing.module';
 import { MapsComponent, StatisticsComponent } from './pages';
 // import { DashboardModule } from '../../dashboards/dashboard.module';
 // import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+// import { NgSelectModule } from '@ng-select/ng-select';
+
 import { ItemsModule } from './components/items.module'
 import { AgmCoreModule } from '@agm/core';
 import { EstadisticasEffects } from "./store/estadisticas.effects";
@@ -21,6 +23,7 @@ import { EffectsModule } from '@ngrx/effects';
     DirectorRoutingModule,
     AgmCoreModule,
     ItemsModule,
+    // NgSelectModule,
     StoreModule.forFeature('estadisticas', reducer),
     EffectsModule.forFeature([ EstadisticasEffects ])
   ]

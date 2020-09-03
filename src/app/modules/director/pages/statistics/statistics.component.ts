@@ -1,14 +1,18 @@
 import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
-import { NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
 import { EstadisticasFacade } from '../../store/estadisticas.facade';
 import { MainFacade } from '../../../../store/facade';
-import { ContadoresEstadisticaIn } from '../../../../core/domain/inputs';
-import { ContadoresEstadisticaOut, CountPacientesPorDiaPorDiagnosticoOut, VORoleHospitalPopulateLoginOut } from '../../../../core/domain/outputs';
+import { ContadoresEstadisticaIn, 
+	     VerEspacioIn } from '../../../../core/domain/inputs';
+import { ContadoresEstadisticaOut, 
+		 CountPacientesPorDiaPorDiagnosticoOut, 
+		 VORoleHospitalPopulateLoginOut } from '../../../../core/domain/outputs';
 import { EstadisticaTipoEnum, RolesUserEnum, DiagnosticoActualEnum } from '../../../../core/domain/enums';
 import { Observable, Subscription } from 'rxjs';
 import * as _ from "lodash";
 import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import { FilterModalComponent } from '../../../../modules/director/components/filter-modal/filter-modal.component';
+
+// import { FilterModalComponent } from '../../../../modules/director/components/filter-modal/filter-modal.component';
 
 declare var require: any;
 // const data: any = require('./data.json');
@@ -266,44 +270,50 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 	}
 
 	openModalFilter(){
-		this.modalFilter = this._modalService.open(FilterModalComponent);
-
-		// this.modalFilter.componentInstance.seguimiento = { ...seguimiento };
-		this.modalFilter.result.then(result => {
-			// console.log(result);
-			let input: ContadoresEstadisticaIn = {
+		
+		// this.modalFilter = this._modalService.open(FilterModalComponent);
+		// this.modalFilter.componentInstance.espacio = {}
+		// this.modalFilter.result.then(result => {
+			let espacio: VerEspacioIn = {
+				idEspacio:this.hospital.idHospital.idEspacio
+			}
+			let filterEvolucion: ContadoresEstadisticaIn = {
 				idHospital: this.hospital.idHospital._id,
 				role: RolesUserEnum.PACIENTE,
 				tipo: EstadisticaTipoEnum.COUNT_PACIENTES_POR_DIA_POR_DIAGNOSTICO,
-				idEspacioPadre:result
+				idEspacioPadre:''
 			}
-			let input2: ContadoresEstadisticaIn = {
+			let filterDiagnosticos: ContadoresEstadisticaIn = {
 				idHospital: this.hospital.idHospital._id,
 				role: RolesUserEnum.PACIENTE,
 				tipo: EstadisticaTipoEnum.COUNT_PACIENTES_POR_DIAGNOSTICO,
-				idEspacioPadre:result
+				idEspacioPadre:''
 			}
-			this._estadisticasFacade.distpachActionLoadEvolucionDiariaPacientes(input);
-			this._estadisticasFacade.distpachActionLoadPacientesPorDiagnostico(input2);
-
-			let inputTotalPacientes: ContadoresEstadisticaIn = {
+			let filterTotalPacientes: ContadoresEstadisticaIn = {
 				idHospital: this.hospital.idHospital._id,
 				role: RolesUserEnum.PACIENTE,
 				tipo: EstadisticaTipoEnum.COUNT_USER_POR_ROLE_AND_HOSPITAL,
-				idEspacioPadre:result
+				idEspacioPadre:''
 			}
-
-			let inputTotalDoctores: ContadoresEstadisticaIn = {
+			let filterTotalDoctores: ContadoresEstadisticaIn = {
 				idHospital: this.hospital.idHospital._id,
 				role: RolesUserEnum.DOCTOR,
 				tipo: EstadisticaTipoEnum.COUNT_USER_POR_ROLE_AND_HOSPITAL,
-				idEspacioPadre:result
+				idEspacioPadre:''
 			} 
 
-			this._estadisticasFacade.distpachActionLoadUsuariosPorRol(inputTotalPacientes);
-			this._estadisticasFacade.distpachActionLoadUsuariosPorRol(inputTotalDoctores);
+			this._mainFacade.distatchActionOpenModalFiltro(espacio,
+				filterEvolucion,
+				filterDiagnosticos,
+				filterTotalPacientes,
+				filterTotalDoctores)
+
+		// 	this._estadisticasFacade.distpachActionLoadEvolucionDiariaPacientes(filterEvolucion);
+		// 	this._estadisticasFacade.distpachActionLoadPacientesPorDiagnostico(filterDiagnosticos);
+		// 	this._estadisticasFacade.distpachActionLoadUsuariosPorRol(filterTotalPacientes);
+		// 	this._estadisticasFacade.distpachActionLoadUsuariosPorRol(filterTotalDoctores);
 		
-		},()=>console.log("cancelar"));
+		// },()=>console.log("cancelar"));
 	  } 
 
 

@@ -1,213 +1,114 @@
 <!-- <ng-container *ngIf="isLoading$ | async as isLoading"> -->
 
 <div class="row" *ngIf="!(isLoading$ | async)">
-    <!-- <perfect-scrollbar class="scroll-container" fxFlex="auto" [config]="config" [scrollIndicators]="true"> -->
     <div class="col-12">
         <div class="card">
             <div class="card-body">
                 <!-- <h4 class="card-title">Ultimos seguimientos del paciente</h4>
                 <h6 class="card-subtitle">El paciente tiene 3 observaciones disponibles para el dia de hoy</h6> -->
-            </div>
 
-            <!-- <div class="table-responsive container_table">
-                <table class="table">
-                    <ng-container *ngIf="seguimientos$ | async as seguimientos">
-                        <tbody>
-                                <tr>
-                                    <th class="align-middle">Dia y Fecha</th>
-                                    <td *ngFor="let seg of seguimientos; let i=index;">
-                                        <div>
-                                            Día {{ i + 1}}
-                                        </div>
-                                        <div>
-                                            {{ seg?._id | date : 'shortDate' }}
-                                        </div>
-                                    </td>
-                                </tr>
-
-
+                <div class="tabla">
+                    <table>
+                        <ng-container *ngIf="seguimientos$ | async as seguimientos">
+                            <thead>
+                                <th>Dia y Fecha</th>
+                                <th *ngFor="let seg of seguimientos; let i=index;">
+                                    <label>Día {{ i + 1}} </label><br>
+                                    <label>{{ seg?._id | date : 'shortDate' }}</label>
+                                </th>
+                            </thead>
+                            <tbody>
                                 <tr>
                                     <th class="align-middle">Evolución</th>
                                     <td *ngFor="let seg of seguimientos; let i=index;">
-                                        <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.estado_diario_paciente}})</div>
-                                        <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.estado_diario_paciente}})</div>
-                                        <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.estado_diario_paciente}})</div>
+                                        <label [ngClass]="{'table-success': seg?.seguimientos[0]?.estado_diario_paciente==='MEJOR_EVOLUCION', 
+                                                'table-warning': seg?.seguimientos[0]?.estado_diario_paciente==='IGUAL_EVOLUCION', 
+                                                'table-danger': seg?.seguimientos[0]?.estado_diario_paciente==='EMPEORANDO'}">
+                                            {{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - 
+                                            ({{seg?.seguimientos[0]?.estado_diario_paciente}})
+                                        </label>
+                                        <label [ngClass]="{'table-success': seg?.seguimientos[1]?.estado_diario_paciente==='MEJOR_EVOLUCION', 
+                                            'table-warning': seg?.seguimientos[1]?.estado_diario_paciente==='IGUAL_EVOLUCION', 
+                                            'table-danger': seg?.seguimientos[1]?.estado_diario_paciente==='EMPEORANDO'}">
+                                            {{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - 
+                                            ({{seg?.seguimientos[1]?.estado_diario_paciente}})</label>
+
+                                        <label [ngClass]="{'table-success': seg?.seguimientos[2]?.estado_diario_paciente==='MEJOR_EVOLUCION', 
+                                                'table-warning': seg?.seguimientos[2]?.estado_diario_paciente==='IGUAL_EVOLUCION', 
+                                                'table-danger': seg?.seguimientos[2]?.estado_diario_paciente==='EMPEORANDO'}">
+                                            {{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - 
+                                            ({{seg?.seguimientos[2]?.estado_diario_paciente}})</label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th class="align-middle">Temperatura</th>
                                     <td *ngFor="let seg of seguimientos; let i=index;">
-                                        <div class="table-success">{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.temperatura}})</div>
-                                        <div class="table-warning">{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.temperatura}})</div>
-                                        <div class="table-danger">{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.temperatura}})</div>
+                                        <label [ngClass]="{'table-success': seg?.seguimientos[0]?.temperatura <= 37.4, 
+                                             'table-warning': seg?.seguimientos[0]?.temperatura > 37.4 && seg?.seguimientos[0]?.temperatura <= 37.9, 
+                                             'table-danger': seg?.seguimientos[0]?.temperatura > 37.9}">
+                                            {{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - 
+                                            ({{seg?.seguimientos[0]?.temperatura}})</label>
+                                        <label [ngClass]="{'table-success': seg?.seguimientos[1]?.temperatura <= 37.4, 
+                                                'table-warning': seg?.seguimientos[1]?.temperatura > 37.4 && seg?.seguimientos[0]?.temperatura <= 37.9, 
+                                               'table-danger': seg?.seguimientos[1]?.temperatura > 37.9}">
+                                               {{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - 
+                                               ({{seg?.seguimientos[1]?.temperatura}})</label>
+                                        <label [ngClass]="{'table-success': seg?.seguimientos[2]?.temperatura <= 37.4, 
+                                            'table-warning': seg?.seguimientos[2]?.temperatura > 37.4 && seg?.seguimientos[0]?.temperatura <= 37.9, 
+                                            'table-danger': seg?.seguimientos[2]?.temperatura > 37.9}">
+                                                {{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - 
+                                                ({{seg?.seguimientos[2]?.temperatura}})</label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th class="align-middle">Ritmo Cardiaco</th>
                                     <td *ngFor="let seg of seguimientos; let i=index;">
-                                        <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.ritmo_cardiaco}})</div>
-                                        <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.ritmo_cardiaco}})</div>
-                                        <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.ritmo_cardiaco}})</div>
+                                        <label>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.ritmo_cardiaco}})</label>
+                                        <label>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.ritmo_cardiaco}})</label>
+                                        <label>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.ritmo_cardiaco}})</label>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th class="align-middle">Saturacióon de Oxígeno</th>
+                                    <th class="align-middle">Saturación de Oxígeno</th>
                                     <td *ngFor="let seg of seguimientos; let i=index;">
-                                        <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.saturacion_oxigeno}})</div>
-                                        <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.saturacion_oxigeno}})</div>
-                                        <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.saturacion_oxigeno}})</div>
+                                        <label>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.saturacion_oxigeno}})</label>
+                                        <label>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.saturacion_oxigeno}})</label>
+                                        <label>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.saturacion_oxigeno}})</label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th class="align-middle">Dificultad Respirar</th>
                                     <td *ngFor="let seg of seguimientos; let i=index;">
-                                        <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.dificultad_respirar}})</div>
-                                        <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.dificultad_respirar}})</div>
-                                        <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.dificultad_respirar}})</div>
+                                        <label>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.dificultad_respirar}})</label>
+                                        <label>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.dificultad_respirar}})</label>
+                                        <label>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.dificultad_respirar}})</label>
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <th class="align-middle">Estado Actual</th>
                                     <td *ngFor="let seg of seguimientos; let i=index;">
-                                        <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.diagnostico_actual}})</div>
-                                        <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.diagnostico_actual}})</div>
-                                        <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.diagnostico_actual}})</div>
+                                        <label>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.diagnostico_actual}})</label>
+                                        <label>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.diagnostico_actual}})</label>
+                                        <label>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.diagnostico_actual}})</label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th class="align-middle">Observaciones</th>
                                     <td *ngFor="let seg of seguimientos; let i=index;">
-                                        <div>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.observacion_doctor}})</div>
-                                        <div>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.observacion_doctor}})</div>
-                                        <div>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.observacion_doctor}})</div>
+                                        <label>{{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.observacion_doctor}})</label>
+                                        <label>{{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.observacion_doctor}})</label>
+                                        <label>{{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.observacion_doctor}})</label>
                                     </td>
                                 </tr>
-                        </tbody>
-                    </ng-container>
-                </table>
-            </div> -->
-
-            <div class="container">
-                <table class="table table-fixed">
-                    <thead>
-                        <tr>
-                            <th class="col-xs-3">First Name</th>
-                            <th class="col-xs-3">Last Name</th>
-                            <th class="col-xs-6">E-mail</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                        <tr>
-                            <td class="col-xs-3">John</td>
-                            <td class="col-xs-3">Doe</td>
-                            <td class="col-xs-6">johndoe@email.com</td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </tbody>
+                        </ng-container>
+                    </table>
+                </div>
             </div>
 
         </div>
     </div>
-    <!-- </perfect-scrollbar> -->
 </div>
 
 <div *ngIf="isLoading$ | async">cargando...</div>
-
-<!-- </ng-container> -->

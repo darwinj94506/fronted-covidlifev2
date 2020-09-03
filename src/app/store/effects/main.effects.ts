@@ -1,18 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType  } from '@ngrx/effects';
-import { catchError, map, switchMap, tap} from 'rxjs/operators';
+import { catchError, map, switchMap, tap, exhaustMap} from 'rxjs/operators';
 import { Observable, from, of} from 'rxjs';
+import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { GuardService } from '../../services/guard.service';
 import * as mainActions  from '../actions/main.actions';
 import { ToastService } from '../../services';
-import { LogoutUsecase, ListarUsuariosUseCase } from '../../core/usecases';
-import { VerHospitalesPorLugarUseCase, VerLugaresPorTipoCaseUse } from '../../core/usecases/root';
+import { LogoutUsecase,
+         VerDetalleEspacioUseCase, 
+         ListarUsuariosUseCase } from '../../core/usecases';
+import { VerHospitalesPorLugarUseCase, 
+         VerLugaresPorTipoCaseUse } from '../../core/usecases/root';
 import { AuthService } from 'src/app/authentication/auth.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EspacioService } from 'src/app/modules/root-user/services';
+import { FilterModalComponent } from 'src/app/modules/director/components/filter-modal/filter-modal.component';
+import { EstadisticasFacade } from 'src/app/modules/director/store/estadisticas.facade';
 
 @Injectable()
 export class MainEffects {
+    modalFiltro: NgbModalRef;
     constructor( private actions$: Actions, 
         private _toastService: ToastService,
         private _guardService: GuardService,
@@ -22,7 +29,10 @@ export class MainEffects {
         private _authService: AuthService,
         private _verHospitalesPorLugar : VerHospitalesPorLugarUseCase,
         private _verLugaresPorTipo: VerLugaresPorTipoCaseUse,
-        private _espacioService: EspacioService
+        private _espacioService: EspacioService,
+        private _verDetalleEspacioUseCase: VerDetalleEspacioUseCase,
+        private modalService: NgbModal,
+        private _estadisticasFacade: EstadisticasFacade
          ) { }
 
     @Effect({dispatch:false})
@@ -109,7 +119,51 @@ export class MainEffects {
             )
         )))
 
+    @Effect()
+    verDetalleEspacio: Observable<any> = this.actions$.pipe(
+    ofType(mainActions.verDetalleEspacio),
+    switchMap(payload => this._verDetalleEspacioUseCase.execute(payload.filtro)
+        .pipe(
+            map(espacio => mainActions.verDetalleEspacioSuccess({espacio})),
+            catchError( error => {
+                this._espacioService.showError(`Error al cargar entidad, Error:${error.message}`);
+                return of( mainActions.verDetalleEspacioError({error}))
+                }
+            )
+        )))
 
+    @Effect({dispatch: false})
+    openModalFiltro: Observable<any> = this.actions$.pipe(
+    ofType(mainActions.openModalFiltrarEspacio),
+    tap(_=> this._spinner.show()),
+    switchMap(payload => this._verDetalleEspacioUseCase.execute(payload.filtro)
+        .pipe(
+            map(espacio => {
+                
+                this._spinner.hide();
+                this.modalFiltro = this.modalService.open(FilterModalComponent);
+                this.modalFiltro.componentInstance.espacio = {...espacio};
+                this.modalFiltro.componentInstance.idHospital =  payload.filterEvolucion.idHospital
+                // this.modalFiltro.result.then(idEspacioPadre=>{
+                // this._estadisticasFacade.distpachActionLoadEvolucionDiariaPacientes({...payload.filterEvolucion, idEspacioPadre});
+                // this._estadisticasFacade.distpachActionLoadPacientesPorDiagnostico({...payload.filterDiagnosticos, idEspacioPadre});
+                // this._estadisticasFacade.distpachActionLoadUsuariosPorRol({...payload.filterTotalPacientes, idEspacioPadre});
+                // this._estadisticasFacade.distpachActionLoadUsuariosPorRol({...payload.filterTotalDoctores, idEspacioPadre});
+                // }).catch(err=>{ 
+
+                // })
+                return true;
+            }),
+            catchError( error => {
+                console.log(error);
+                this._espacioService.showError(`Error al cargar entidad xxx, Error:${error.message}`);
+                // return of( mainActions.verDetalleEspacioError({error}))
+                return of(false);
+                }
+            )
+        )),
+    tap(_=> this._spinner.hide())
+    )
 }
 
 

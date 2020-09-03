@@ -62,6 +62,3 @@ export const loadCoordenadasPorDiagnosticoError = createAction(
   '[Estadisticas] Load coordenadas Por Diagnostico Error',
   props<{ error }>()
 )
-
-
-

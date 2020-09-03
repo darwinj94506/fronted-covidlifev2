@@ -55,7 +55,7 @@ export class FormHospitalComponent extends Formulario implements OnInit{
   create(){
     let hospital: IHospitalEntity = {
       nombre: this.formulario.get('nombre').value,
-      descripcion : this.formulario.get('descripcion').value,
+      description : this.formulario.get('description').value,
       idEspacio : this.getLastSpaceSelected()
     }
     this._hospitalFacade.crearHospital(hospital);
@@ -65,7 +65,7 @@ export class FormHospitalComponent extends Formulario implements OnInit{
     let hospital: IHospitalEntity = {
       _id:this.hospital._id,
       nombre: this.formulario.get('nombre').value,
-      descripcion : this.formulario.get('descripcion').value,
+      description : this.formulario.get('description').value,
       idEspacio : this.getLastSpaceSelected()
     } 
     this._hospitalFacade.actualizarHospital(hospital);  
@@ -74,7 +74,7 @@ export class FormHospitalComponent extends Formulario implements OnInit{
   initForm(){
     this.formulario = this.fb.group({
       nombre: [ this.hospital.nombre , Validators.required],
-      descripcion : this.hospital.descripcion,
+      description : this.hospital.description,
       provincia: [null, Validators.required],
       canton:null,
       parroquia:null,

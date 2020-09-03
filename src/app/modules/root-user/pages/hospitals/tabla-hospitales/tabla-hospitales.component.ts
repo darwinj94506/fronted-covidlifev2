@@ -27,7 +27,7 @@ hospitales = [];
   openModalCreateUpdate(data: IHospitalEntity) {
     let hospital: IHospitalEntity;
     if(!data)
-       hospital = { nombre: '', descripcion:'', idEspacio:'' }
+       hospital = { nombre: '', description:'', idEspacio:'' }
     else
        hospital = data
     this._hospitalFacade.abriModalCrear_Actualizar(hospital)

@@ -20,7 +20,7 @@ export interface EstadisticasState {
   totalDoctores:number;
   totalPacientes:number;
   isLoadingCoordenadasPorDiagnostico:boolean;
-  coordenasPorDiagnostico: MapasDatosOut
+  coordenadasPorDiagnostico: MapasDatosOut
 }
 
 const contadoresInit: ContadoresEstadisticaOut = {
@@ -46,7 +46,7 @@ export const initialState: EstadisticasState = {
     totalDoctores: 0,
     totalPacientes: 0,
     isLoadingCoordenadasPorDiagnostico:false,
-    coordenasPorDiagnostico:mapasOutInit
+    coordenadasPorDiagnostico:mapasOutInit
   }
  
 const estadisticasReducer = createReducer(
@@ -123,7 +123,7 @@ const estadisticasReducer = createReducer(
   })),
   on(estadisticasActions.loadCoordenadasPorDiagnosticoSuccess, (state, payload) => ({
     ...state,
-    coordenadasPorDiagnostico: payload.output.mapaPacientesPorDiagnostico,
+    coordenadasPorDiagnostico: payload.output,
     isLoadingCoordenadasPorDiagnostico: false
   })),
   on(estadisticasActions.loadCoordenadasPorDiagnosticoError, state => ({
@@ -149,5 +149,5 @@ export const selectIsloadingCountPacientesPorDiagnosticoDiario = createSelector(
 export const selectTotalPacientes = createSelector(selectEstadisticasState, (state) => state.totalPacientes);
 export const selectTotalDoctores = createSelector(selectEstadisticasState, (state) => state.totalDoctores);
 
-export const selectCoordenasPorDiagnostico = createSelector(selectEstadisticasState, (state) => state.coordenasPorDiagnostico);
+export const selectCoordenasPorDiagnostico = createSelector(selectEstadisticasState, (state) => state.coordenadasPorDiagnostico);
 export const selectIsLoadingCoordenasPorDiagnostico = createSelector(selectEstadisticasState, (state) => state.isLoadingCoordenadasPorDiagnostico);

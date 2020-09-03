@@ -1,32 +1,53 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { MainFacade } from '../../../../store/facade';
 import { EstadisticasFacade } from '../../store/estadisticas.facade';
+import { MapasDatosIn } from '../../../../core/domain/inputs';
+import { EstadisticaTipoEnum, DiagnosticoActualEnum } from '../../../../core/domain/enums';
+import { MapasPacientesPorDiagnosticoOut } from '../../../../core/domain/outputs';
+import { SeguimientoMapsOut } from 'src/app/core/domain/outputs/seguimiento-maps.out';
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
 
-export class MapsComponent implements AfterViewInit {
- 
+export class MapsComponent implements AfterViewInit, OnInit {
+hospital;
+coordenadasPorDiagnostico: MapasPacientesPorDiagnosticoOut[] = [];
 map: google.maps.Map;
 heatmap: google.maps.visualization.HeatmapLayer;
 @ViewChild('mapWrapper', {static: false}) mapElement: ElementRef;
 
 constructor( private _mainFacade: MainFacade,
              private _estadisticaFacade: EstadisticasFacade){
-
 }
 
 ngAfterViewInit() {
   this.initMap();
 }
+
+ngOnInit(){
+  this._estadisticaFacade.getCoordenadasPorDiagnosticoFromStorage()
+    .subscribe(data=>{
+      console.log(data);
+      this.coordenadasPorDiagnostico = data.mapaPacientesPorDiagnostico;
+  })
+
+  this._mainFacade.getHospitalSesion().subscribe(hospital=> {
+    this.hospital = hospital;
+    let filtro: MapasDatosIn = {
+      tipo: EstadisticaTipoEnum.COUNT_PACIENTES_POR_DIAGNOSTICO,
+      idHospital: hospital.idHospital._id }
+    this._estadisticaFacade.distpachActionLoadCoordenadasPorDiagnostico(filtro)
+  })
+}
   
 initMap(): void {
   this.map = new google.maps.Map(this.mapElement.nativeElement, {
     zoom: 13,
-    center: { lat: 37.775, lng: -122.434 },
+    center: { lat: -0.929675, lng: -78.605851 },
     mapTypeId: "satellite"
+    
   });
 
   this.heatmap = new google.maps.visualization.HeatmapLayer({
@@ -40,33 +61,6 @@ toggleHeatmap() {
   this.heatmap.setMap(this.heatmap.getMap() ? null : this.map);
 }
 
-changeGradient() {
-  const gradient = [
-    "rgba(0, 255, 255, 0)",
-    "rgba(0, 255, 255, 1)",
-    "rgba(0, 191, 255, 1)",
-    "rgba(0, 127, 255, 1)",
-    "rgba(0, 63, 255, 1)",
-    "rgba(0, 0, 255, 1)",
-    "rgba(0, 0, 223, 1)",
-    "rgba(0, 0, 191, 1)",
-    "rgba(0, 0, 159, 1)",
-    "rgba(0, 0, 127, 1)",
-    "rgba(63, 0, 91, 1)",
-    "rgba(127, 0, 63, 1)",
-    "rgba(191, 0, 31, 1)",
-    "rgba(255, 0, 0, 1)"
-  ];
-  this.heatmap.set("gradient", this.heatmap.get("gradient") ? null : gradient);
-}
-
-changeRadius() {
-  this.heatmap.set("radius", this.heatmap.get("radius") ? null : 20);
-}
-
-changeOpacity() {
-  this.heatmap.set("opacity", this.heatmap.get("opacity") ? null : 0.2);
-}
 
 // Heatmap data: 500 Points
   getPoints() {
@@ -76,33 +70,51 @@ changeOpacity() {
   }
 
   confirmados(){
-    this.setMap([...CONFIRMADOS]);
+    this.configMap(DiagnosticoActualEnum.CONFIRMADO);
   } 
 
   sospechosos(){
-    this.setMap([...SOSPECHOSOS])
+   this.configMap(DiagnosticoActualEnum.SOSPECHOSO);
+  }
+
+  configMap(diagnostico: DiagnosticoActualEnum): void{
+    let arrayCoords = this.coordenadasPorDiagnostico.find(item=> item.agrupadoPor.diagnostico_enum === diagnostico);
+    let gMCoords = []
+    let bounds  = new google.maps.LatLngBounds();
+    arrayCoords.contador.forEach(item=>{
+      if(item.latitud!=null && item.longitud!=null){
+        let coord = new google.maps.LatLng(item.latitud, item.longitud);
+        bounds.extend(coord);
+        gMCoords.push(coord);
+      }
+    })
+    if (gMCoords.length >0 ){
+      this.map.fitBounds(bounds);          
+      this.map.panToBounds(bounds);   
+      this.setMap([...gMCoords])
+    } else {
+      // si no existen coordenadas
+      let coordenada = new google.maps.LatLng(-0.929675, -78.605851)
+      bounds.extend(coordenada);
+      this.map.fitBounds(bounds);  
+      this.map.setZoom(13);              
+    }
   }
 
   recuperados(){
-    this.setMap([...RECUPERADOS])
+    this.configMap(DiagnosticoActualEnum.RECUPERADO);
   }
 
   fallecidos(){
-    this.setMap([...FALLECIDOS])
+    this.configMap(DiagnosticoActualEnum.FALLECIDO);
   }
 
   hospitalizados(){
-    this.setMap([...HOSPITALIZADOS])
+    this.configMap(DiagnosticoActualEnum.HOSPITALIZADO);
   }
 
   setMap(data: google.maps.LatLng[]){
     this.heatmap.setData(data);
-
-
-    // this.heatmap = new google.maps.visualization.HeatmapLayer({
-    //   data: data,
-    //   map: this.map
-    // });
   }
   
 }

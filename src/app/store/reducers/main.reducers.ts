@@ -1,7 +1,10 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as authActions  from '../actions/main.actions';
 import { IUsuarioEntity, IHospitalEntity } from '../../core/domain/entities';
-import { LoginOut, VORoleHospitalPopulateLoginOut, FilterUserOut } from '../../core/domain/outputs';
+import { LoginOut, 
+         VORoleHospitalPopulateLoginOut,
+         VerEspacioOut, 
+         FilterUserOut } from '../../core/domain/outputs';
 import { IEspacioEntity } from '../../core/domain/entities'
 import { EspacioEnum } from '../../core/domain/enums';
 export interface MainState {
@@ -21,7 +24,8 @@ export interface MainState {
   isLoadingCantones: boolean;
   isLoadingParroquias: boolean;
   isLoadingBarrios: boolean;
-  
+  detalleEspacio:VerEspacioOut,
+  isLoadingDetalleEspacio:boolean
 }
 
 const initUser: LoginOut = {
@@ -42,6 +46,9 @@ const initVORoleHospital: VORoleHospitalPopulateLoginOut = {
   },
   roles:[]
 }
+const detalleEspacio : VerEspacioOut = {
+  nombre: ''
+}
 
 export const initialState: MainState = {
   userLogged: { ...initUser },
@@ -59,7 +66,9 @@ export const initialState: MainState = {
   isLoadingProvincias: false,
   isLoadingCantones: false,
   isLoadingParroquias: false,
-  isLoadingBarrios: false
+  isLoadingBarrios: false,
+  detalleEspacio,
+  isLoadingDetalleEspacio:false
 };
 
 const mainReducer = createReducer(
@@ -180,6 +189,19 @@ const mainReducer = createReducer(
             return { ...state, isLoadingBarrios:false, barrios:[] }
     }
   }),
+  on(authActions.verDetalleEspacio, state => ({
+    ...state,
+    isLoadingDetalleEspacio: true,
+  })),
+  on(authActions.verDetalleEspacioSuccess, (state, payload) => ({
+    ...state,
+    isLoadingDetalleEspacio: false,
+    detalleEspacio: payload.espacio
+  })),
+  on(authActions.verDetalleEspacioError, (state) => ({
+    ...state,
+    isLoadingDetalleEspacio: false
+  })),
 );
 
 export function reducer(state: MainState | undefined, action: Action) {

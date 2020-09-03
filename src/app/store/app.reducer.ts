@@ -38,7 +38,8 @@ export const selectIsLoadingCantones = createSelector(selectMainState,(state: Ma
 export const selectIsLoadingParroquias = createSelector(selectMainState,(state: MainState) => state.isLoadingParroquias);
 export const selectIsLoadingBarrios = createSelector(selectMainState,(state: MainState) => state.isLoadingBarrios);
 
-
+export const selectDetalleEspacio = createSelector(selectMainState,(state: MainState) => state.detalleEspacio);
+export const selectIsLoagingDetalleEspacio = createSelector(selectMainState,(state: MainState) => state.isLoadingDetalleEspacio);
 
 export const selectUserState = (state: AppState) => state.user;
 export const selectMiPerfil = createSelector(selectUserState,(state: UserState) => state.miPerfil);
