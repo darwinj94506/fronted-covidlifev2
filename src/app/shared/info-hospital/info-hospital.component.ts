@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { VerDetalleEspacioUseCase} from '../../../../core/usecases';
-import { MainFacade } from '../../../../store/facade';
-import { EspacioEnum } from '../../../../core/domain/enums';
-import { ToastService} from '../../../../services';
+import { VerDetalleEspacioUseCase} from '../../core/usecases';
+import { MainFacade } from '../../store/facade';
+import { EspacioEnum } from '../../core/domain/enums';
+import { ToastService} from '../../services';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { flatMap, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-hospital',
-  templateUrl: './hospital.component.html',
-  styleUrls: ['./hospital.component.css']
+  selector: 'app-info-hospital',
+  templateUrl: './info-hospital.component.html',
+  styleUrls: ['./info-hospital.component.css']
 })
-export class HospitalComponent implements OnInit {
+export class InfoHospitalComponent implements OnInit {
+
   lugar = [null, null, null, null]; 
   hospital;
   constructor(  private _verDetalleEspacioUseCase: VerDetalleEspacioUseCase,

@@ -7,20 +7,16 @@ const routes: Routes = [
     children:[
       { 
         path:'mapas', component:MapsComponent, data: {
-          title: 'Mapas',
-          urls: [
-              { title: 'Dashboard', url: '/dashboard' },
-              { title: 'Mapas' }
-          ]
+          title: 'Mapas'
+          // urls: [
+          //     { title: 'Dashboard', url: '/dashboard' },
+          //     { title: 'Mapas' }
+          // ]
         }
       },
       { 
         path:'estadisticas', component:StatisticsComponent, data: {
-          title: 'Estadísticas',
-          urls: [
-              { title: 'Dashboard', url: '/dashboard' },
-              { title: 'Ticket List' }
-          ]
+          title: 'Estadísticas'          
         }
       }
 

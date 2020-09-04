@@ -12,40 +12,24 @@ const routes: Routes = [
       { path:'pacientes', component: PatientsComponent,
         data: {
           title: 'Pacientes',
-          urls: [
-              { title: 'Dashboard', url: '/dashboard' },
-              { title: 'Taskboard' }
-          ]
         }
       },
    
       { path:'estado-diario', component : DailyStatusComponent,
-      data: {
-        title: 'Estado diario de pacientes',
-        urls: [
-            { title: 'Dashboard', url: '/dashboard' },
-            { title: 'Taskboard' }
-        ]
-      }
+        data: {
+          title: 'Seguimientos'
+        }
     },
       { path:'video-llamada', component : VideoCallComponent,
-        data: {
-          title: 'Video llamada',
-          urls: [
-              { title: 'Dashboard', url: '/dashboard' },
-              { title: 'Taskboard' }
-          ]
-        }
+          data: {
+            title: 'Video llamada'
+          }
       },
 
       { path:'seguimientos', component : SeguimientosComponent,
-      data: {
-        title: 'Seguimientos',
-        urls: [
-            { title: 'Dashboard', url: '/dashboard' },
-            { title: 'Taskboard' }
-        ]
-      }
+        data: {
+          title: 'Seguimientos'
+        }
     },
       
     ]

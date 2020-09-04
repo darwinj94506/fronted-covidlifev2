@@ -6,7 +6,8 @@ import { BlankComponent } from './layouts/blank/blank.component';
 import { InitComponent } from './init/init.component';
 import { LoginGuard } from './login.guard';
 import { RoleGuardService } from './services';
-import { RolesUserEnum } from './core/domain/enums'
+import { RolesUserEnum } from './core/domain/enums';
+import { InfoHospitalComponent } from './shared/info-hospital/info-hospital.component';
 export const Approutes: Routes = [
 	{
 		path: '',
@@ -65,6 +66,11 @@ export const Approutes: Routes = [
 				canActivate:[ RoleGuardService ],
 				data: { expectedRole: RolesUserEnum.ADMIN },  
 				loadChildren: () => import('./modules/administrator/administrator.module').then(m => m.AdministratorModule) 
+			},
+			{
+				data: { title: 'Información del hospital' } ,
+				path:'informacion-general',
+				component: InfoHospitalComponent
 			},
 			{ 
 				path: 'doctor', 

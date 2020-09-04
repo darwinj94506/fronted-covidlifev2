@@ -6,10 +6,16 @@ const routes: Routes = [
   {
     path:'', children:[
       {
-        path:'enviar-sintomas', component: MedicalAppointmentsComponent
+        path:'enviar-sintomas', component: MedicalAppointmentsComponent,
+        data: {
+          title: 'Enviar seguimiento'          
+        }
       },
       {
-        path:'citas', component: CitasComponent
+        path:'citas', component: CitasComponent,
+        data: {
+          title: 'Seguimientos Enviados'          
+        }
       }
     ]
   }

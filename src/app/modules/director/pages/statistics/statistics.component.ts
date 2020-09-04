@@ -8,11 +8,16 @@ import { ContadoresEstadisticaOut,
 		 CountPacientesPorDiaPorDiagnosticoOut, 
 		 VORoleHospitalPopulateLoginOut } from '../../../../core/domain/outputs';
 import { EstadisticaTipoEnum, RolesUserEnum, DiagnosticoActualEnum } from '../../../../core/domain/enums';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import * as _ from "lodash";
 import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { VerDetalleEspacioUseCase } from '../../../../core/usecases';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastService } from '../../../../services';
 
-// import { FilterModalComponent } from '../../../../modules/director/components/filter-modal/filter-modal.component';
+import { FilterModalComponent } from '../../../../modules/director/components/filter-modal/filter-modal.component';
 
 declare var require: any;
 // const data: any = require('./data.json');
@@ -29,12 +34,17 @@ interface ItemChart {
 })
 
 export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
-	suscriptionEvolucionDiaria: Subscription;
-	suscriptionPacientesPorDiagnostico:Subscription;
+	private _destroyed$ = new Subject();
+
+	// suscriptionEvolucionDiaria: Subscription;
+	// suscriptionPacientesPorDiagnostico: Subscription;
+	// suscriptionEspacio: Subscription;
 
 	contadoresEstadisticas$: Observable<ContadoresEstadisticaOut>;
 	isLoadingChartEvolucionDiariaPacietes$:Observable<boolean>;
 	isLoadingPacientesPorDiagnostico$:Observable<boolean>;
+	isLoadingTotalDoctores$:Observable<boolean>;
+	isLoadingTotalPacientes$:Observable<boolean>;
 	totalDoctores$: Observable <number>;
 	totalPacientes$: Observable <number>;
 	subtitle: string;
@@ -43,6 +53,9 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 
 	constructor( private _estadisticasFacade: EstadisticasFacade,
 				 private _modalService: NgbModal,
+				 private _verDetalleEspacioUseCase: VerDetalleEspacioUseCase,
+				 private _spinner: NgxSpinnerService,
+				 private _toast: ToastService,
 				 private _mainFacade: MainFacade) {
 		this.subtitle = 'This is some text within a card block.';
 	}
@@ -179,13 +192,15 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 		})
 		
 		
-		this.suscriptionEvolucionDiaria = this._estadisticasFacade.getCountPacientesPorDiagnosticoDiarioFromStorage()
+		this._estadisticasFacade.getCountPacientesPorDiagnosticoDiarioFromStorage()
+			.pipe(takeUntil(this._destroyed$))
 			.subscribe(data=> {
 				console.log(data);
 				this.buildLineChartData(data)
 		})
 
-		this.suscriptionPacientesPorDiagnostico = this._estadisticasFacade.getCountPacientesPorDiagnosticoFromStorage()
+		this._estadisticasFacade.getCountPacientesPorDiagnosticoFromStorage()
+			.pipe(takeUntil(this._destroyed$))
 			.subscribe(data=>{
 				let NConfirmados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.CONFIRMADO);
 				let NSospechosos = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.SOSPECHOSO);
@@ -205,6 +220,9 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 		this.isLoadingChartEvolucionDiariaPacietes$ = this._estadisticasFacade.getIsloadingCountDiagnoticoDiarioFromStorage();
 		this.totalDoctores$ = this._estadisticasFacade.getTotalDoctoresFromStorage();
 		this.totalPacientes$ = this._estadisticasFacade.getTotalPacientesFromStorage();
+		this.isLoadingTotalDoctores$ = this._estadisticasFacade.getIsLoadingTotalDoctoresFromStorage();
+		this.isLoadingTotalPacientes$ = this._estadisticasFacade.getIsLoadingTotalPacientesFromStorage();
+		// this.isLoadingTotalPorRol = this._estadisticasFacade.getIs
 		
 	}
 	
@@ -258,10 +276,9 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 		  this.lineChartLabelsDays = dias; 
 
 	  }
-	ngOnDestroy(){
-		this.suscriptionEvolucionDiaria.unsubscribe();
-		this.suscriptionPacientesPorDiagnostico.unsubscribe();
-	}
+	
+	  
+	 
 
 	calcularPorcentaje(valor, total): number{
 		if(valor<1)
@@ -270,51 +287,24 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 	}
 
 	openModalFilter(){
-		
-		// this.modalFilter = this._modalService.open(FilterModalComponent);
-		// this.modalFilter.componentInstance.espacio = {}
-		// this.modalFilter.result.then(result => {
-			let espacio: VerEspacioIn = {
-				idEspacio:this.hospital.idHospital.idEspacio
-			}
-			let filterEvolucion: ContadoresEstadisticaIn = {
-				idHospital: this.hospital.idHospital._id,
-				role: RolesUserEnum.PACIENTE,
-				tipo: EstadisticaTipoEnum.COUNT_PACIENTES_POR_DIA_POR_DIAGNOSTICO,
-				idEspacioPadre:''
-			}
-			let filterDiagnosticos: ContadoresEstadisticaIn = {
-				idHospital: this.hospital.idHospital._id,
-				role: RolesUserEnum.PACIENTE,
-				tipo: EstadisticaTipoEnum.COUNT_PACIENTES_POR_DIAGNOSTICO,
-				idEspacioPadre:''
-			}
-			let filterTotalPacientes: ContadoresEstadisticaIn = {
-				idHospital: this.hospital.idHospital._id,
-				role: RolesUserEnum.PACIENTE,
-				tipo: EstadisticaTipoEnum.COUNT_USER_POR_ROLE_AND_HOSPITAL,
-				idEspacioPadre:''
-			}
-			let filterTotalDoctores: ContadoresEstadisticaIn = {
-				idHospital: this.hospital.idHospital._id,
-				role: RolesUserEnum.DOCTOR,
-				tipo: EstadisticaTipoEnum.COUNT_USER_POR_ROLE_AND_HOSPITAL,
-				idEspacioPadre:''
-			} 
-
-			this._mainFacade.distatchActionOpenModalFiltro(espacio,
-				filterEvolucion,
-				filterDiagnosticos,
-				filterTotalPacientes,
-				filterTotalDoctores)
-
-		// 	this._estadisticasFacade.distpachActionLoadEvolucionDiariaPacientes(filterEvolucion);
-		// 	this._estadisticasFacade.distpachActionLoadPacientesPorDiagnostico(filterDiagnosticos);
-		// 	this._estadisticasFacade.distpachActionLoadUsuariosPorRol(filterTotalPacientes);
-		// 	this._estadisticasFacade.distpachActionLoadUsuariosPorRol(filterTotalDoctores);
-		
-		// },()=>console.log("cancelar"));
+		this._spinner.show();
+		this._verDetalleEspacioUseCase.execute({idEspacio:this.hospital.idHospital.idEspacio})
+			.pipe(takeUntil(this._destroyed$))
+			.subscribe(data=>{
+				this._spinner.hide()
+				this.modalFilter = this._modalService.open(FilterModalComponent);
+				this.modalFilter.componentInstance.espacio = {...data};
+				this.modalFilter.componentInstance.idHospital = this.hospital.idHospital._id;
+			}, error=>{
+				this._toast.showError('Error el cargar, error:'+error.message);
+				this._spinner.hide()
+			});	
 	  } 
+
+	  ngOnDestroy(){
+		this._destroyed$.next();
+		this._destroyed$.complete();
+	  }
 
 
 }

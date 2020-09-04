@@ -54,6 +54,7 @@ import { InitComponent } from './init/init.component';
 import { NgxAgoraModule } from 'ngx-agora';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { AuthInterceptor } from './services/auth.interceptor';
+import { InfoHospitalComponent } from './shared/info-hospital/info-hospital.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -71,7 +72,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NavigationComponent,
     BreadcrumbComponent,
     SidebarComponent,
-    InitComponent
+    InitComponent,
+    InfoHospitalComponent
   ],
   imports: [
     CommonModule,

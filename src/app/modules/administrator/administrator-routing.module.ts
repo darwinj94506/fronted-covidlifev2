@@ -6,12 +6,16 @@ const routes: Routes = [
   {
     path:'', children: [
       { 
-        path: 'personal', component: StaffComponent
-        
+        path: 'personal', component: StaffComponent,
+        data: {
+          title: 'Usuarios'          
+        }
       },
       { 
-        path: 'hospital', component: HospitalComponent 
-      
+        path: 'hospital', component: HospitalComponent,
+        data: {
+          title: 'Información del hospital'          
+        } 
       }
     ]
   }

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy} from '@angular/core';
 import { IEspacioEntity } from '../../../../core/domain/entities';
 import { MainFacade } from '../../../../store/facade';
 import { Observable, Subject } from 'rxjs';
-import { FilterEspaceIn, VerEspacioIn, ContadoresEstadisticaIn } from 'src/app/core/domain/inputs';
+import { FilterEspaceIn, VerEspacioIn, ContadoresEstadisticaIn, MapasDatosIn } from 'src/app/core/domain/inputs';
 import { EspacioEnum, RolesUserEnum, EstadisticaTipoEnum } from 'src/app/core/domain/enums';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,6 +18,8 @@ export class FilterModalComponent implements OnInit, OnDestroy{
   private _destroyed$ = new Subject();
   @Input() espacio: VerEspacioOut;
   @Input() idHospital: String; 
+  @Input() forMapas: boolean = false;
+
   formulario: FormGroup;
   provincias: IEspacioEntity[];
   cantones: IEspacioEntity[];
@@ -34,12 +36,7 @@ export class FilterModalComponent implements OnInit, OnDestroy{
     public activeModal: NgbActiveModal ) { }
 
   ngOnInit(): void {
-    // this.initForm();
-    // this._mainFacade.getHospitalSesion()
-    //   .subscribe(data=>{
-    //     this.loadProvinces(data.idHospital._id);
-    //   })
-    console.log(this.espacio);
+
     this._mainFacade.getProvinciasFromStorage().pipe(takeUntil(this._destroyed$)).subscribe(data=> this.provincias = data);
     this._mainFacade.getCantonesFromStorage().pipe(takeUntil(this._destroyed$)).subscribe(data=> this.cantones = data);
     this._mainFacade.getParroquiasFromStorage().pipe(takeUntil(this._destroyed$)).subscribe(data=> this.parroquias = data);
@@ -53,8 +50,8 @@ export class FilterModalComponent implements OnInit, OnDestroy{
       case EspacioEnum.PROVINCIA:
         this.provincias = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
         this.formulario = this.fb.group({
-          provincia: [{value: this.espacio._id, disabled:true}],
-          canton:[null, Validators.required],
+          provincia: [this.espacio._id, Validators.required],
+          canton:[null],
           parroquia:null,
           barrio:null        
         });
@@ -64,8 +61,8 @@ export class FilterModalComponent implements OnInit, OnDestroy{
         this.cantones = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
         this.formulario = this.fb.group({
           provincia: {value:null, disabled:true},
-          canton: {value: this.espacio._id, disabled: true},
-          parroquia:[null, Validators.required],
+          canton: [this.espacio._id, Validators.required],
+          parroquia:[null],
           barrio:null        
         });
         this._mainFacade.distatchActionLoadEspacios(EspacioEnum.PARROQUIA, { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
@@ -77,8 +74,8 @@ export class FilterModalComponent implements OnInit, OnDestroy{
         this.formulario = this.fb.group({
           provincia: [{value:null, disabled:true}],
           canton: [{value:null, disabled:true}],
-          parroquia: [{value: this.espacio._id, disabled: true}],
-          barrio: [null, Validators.required],        
+          parroquia: [this.espacio._id, Validators.required],
+          barrio: [null],        
         });
         this._mainFacade.distatchActionLoadEspacios(EspacioEnum.BARRIO, { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
       break;
@@ -147,8 +144,10 @@ export class FilterModalComponent implements OnInit, OnDestroy{
 
 
   onSubmit(){
+    if(this.forMapas)
+      this.filterMap(this.getLastSpaceSelected())
+    else this.consultar(this.getLastSpaceSelected());
     this.activeModal.close();
-    this.consultar(this.getLastSpaceSelected());
   }
 
   getLastSpaceSelected(){
@@ -193,14 +192,17 @@ export class FilterModalComponent implements OnInit, OnDestroy{
 
 		
     } 
-    
+    filterMap(idEspacioPadre:String){
+      let filtro: MapasDatosIn = {
+        tipo: EstadisticaTipoEnum.COUNT_PACIENTES_POR_DIAGNOSTICO,
+        idHospital: this.idHospital,
+        idEspacioPadre
+      }
+      this._estadisticasFacade.distpachActionLoadCoordenadasPorDiagnostico(filtro)
+    }   
     ngOnDestroy(){
       this._destroyed$.next();
       this._destroyed$.complete();
     }
-  
-
-
-
   
 }

@@ -6,7 +6,11 @@
                     <div class="m-r-20 align-self-center"><span class="lstick"></span><img src="assets/images/icon/staff.png" alt="Income" /></div>
                     <div class="align-self-center">
                         <h6 class="text-muted m-t-10 m-b-0">Confirmados</h6>
-                        <h2 class="m-t-0">{{datosPorDiagnostico[0]}}</h2>
+                        <h2 class="m-t-0" *ngIf="isLoading$ | async; else confirmados">cargando...</h2>
+                        <ng-template #confirmados>
+                            <h2 class="m-t-0">{{datosPorDiagnostico[0]}}</h2>
+                        </ng-template>
+
                     </div>
                 </div>
             </div>
@@ -19,7 +23,11 @@
                     <div class="m-r-20 align-self-center"><span class="lstick"></span><img src="assets/images/icon/staff.png" alt="Income" /></div>
                     <div class="align-self-center">
                         <h6 class="text-muted m-t-10 m-b-0">Sospechosos</h6>
-                        <h2 class="m-t-0">{{datosPorDiagnostico[1]}}</h2>
+                        <h2 class="m-t-0" *ngIf="isLoading$ | async; else sospechosos">cargando...</h2>
+                        <ng-template #sospechosos>
+                            <h2 class="m-t-0">{{datosPorDiagnostico[1]}}</h2>
+                        </ng-template>
+
                     </div>
                 </div>
             </div>
@@ -33,7 +41,11 @@
                     <div class="m-r-20 align-self-center"><span class="lstick"></span><img src="assets/images/icon/staff.png" alt="Income" /></div>
                     <div class="align-self-center">
                         <h6 class="text-muted m-t-10 m-b-0">Aislados</h6>
-                        <h2 class="m-t-0">{{datosPorDiagnostico[2]}}</h2>
+                        <h2 class="m-t-0" *ngIf="isLoading$ | async; else asilados">cargando...</h2>
+                        <ng-template #asilados>
+                            <h2 class="m-t-0" *ngIf="!isLoading">{{datosPorDiagnostico[2]}}</h2>
+                        </ng-template>
+
                     </div>
                 </div>
             </div>
@@ -46,7 +58,10 @@
                     <div class="m-r-20 align-self-center"><span class="lstick"></span><img src="assets/images/icon/staff.png" alt="Income" /></div>
                     <div class="align-self-center">
                         <h6 class="text-muted m-t-10 m-b-0">Total Pacientes</h6>
-                        <h2 class="m-t-0" *ngIf="totalPacientes$ | async as totalPacientes">{{totalPacientes}}</h2>
+                        <h2 class="m-t-0" *ngIf="isLoadingTotalPacientes$ | async; else pacientes">cargando...</h2>
+                        <ng-template #pacientes>
+                            <h2 class="m-t-0" *ngIf="totalPacientes$ | async as totalPacientes">{{totalPacientes}}</h2>
+                        </ng-template>
                     </div>
                 </div>
             </div>
@@ -63,7 +78,11 @@
                     <div class="m-r-20 align-self-center"><span class="lstick"></span><img src="assets/images/icon/staff.png" alt="Income" /></div>
                     <div class="align-self-center">
                         <h6 class="text-muted m-t-10 m-b-0">Recuperados</h6>
-                        <h2 class="m-t-0">{{datosPorDiagnostico[3]}}</h2>
+                        <h2 class="m-t-0" *ngIf="isLoading$ | async; else recuperados">cargando...</h2>
+                        <ng-template #recuperados>
+                            <h2 class="m-t-0" *ngIf="!isLoading">{{datosPorDiagnostico[3]}}</h2>
+                        </ng-template>
+
                     </div>
                 </div>
             </div>
@@ -76,7 +95,11 @@
                     <div class="m-r-20 align-self-center"><span class="lstick"></span><img src="assets/images/icon/staff.png" alt="Income" /></div>
                     <div class="align-self-center">
                         <h6 class="text-muted m-t-10 m-b-0">Hospitalizados</h6>
-                        <h2 class="m-t-0">{{datosPorDiagnostico[4]}}</h2>
+                        <h2 class="m-t-0" *ngIf="isLoading$ | async; else hospitalizados">cargando...</h2>
+                        <ng-template #hospitalizados>
+                            <h2 class="m-t-0" *ngIf="!isLoading">{{datosPorDiagnostico[4]}}</h2>
+                        </ng-template>
+
                     </div>
                 </div>
             </div>
@@ -89,7 +112,11 @@
                     <div class="m-r-20 align-self-center"><span class="lstick"></span><img src="assets/images/icon/staff.png" alt="Income" /></div>
                     <div class="align-self-center">
                         <h6 class="text-muted m-t-10 m-b-0">Fallecidos</h6>
-                        <h2 class="m-t-0">{{datosPorDiagnostico[5]}}</h2>
+                        <h2 class="m-t-0" *ngIf="isLoading$ | async; else fallecidos">cargando...</h2>
+                        <ng-template #fallecidos>
+                            <h2 class="m-t-0" *ngIf="!isLoading">{{datosPorDiagnostico[5]}}</h2>
+                        </ng-template>
+
                     </div>
                 </div>
             </div>
@@ -102,7 +129,10 @@
                     <div class="m-r-20 align-self-center"><span class="lstick"></span><img src="assets/images/icon/staff.png" alt="Income" /></div>
                     <div class="align-self-center">
                         <h6 class="text-muted m-t-10 m-b-0">Doctores</h6>
-                        <h2 class="m-t-0" *ngIf="totalDoctores$ | async as total">{{total}}</h2>
+                        <h2 class="m-t-0" *ngIf="isLoadingTotalDoctores$ | async; else doctores ">cargando...</h2>
+                        <ng-template #doctores>
+                            <h2 class="m-t-0" *ngIf="totalDoctores$ | async as total">{{total}}</h2>
+                        </ng-template>
                     </div>
                 </div>
             </div>

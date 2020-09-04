@@ -148,6 +148,8 @@ export const selectIsloadingCountPacientesPorDiagnosticoDiario = createSelector(
                                                             (state) => state.isLoadingPacientesPorDiagnosticoDiario);
 export const selectTotalPacientes = createSelector(selectEstadisticasState, (state) => state.totalPacientes);
 export const selectTotalDoctores = createSelector(selectEstadisticasState, (state) => state.totalDoctores);
+export const selectIsLoadingTotalPacientes = createSelector(selectEstadisticasState, (state) => state.isLoadingTotalPacientes);
+export const selectIsLoadingTotalDoctores = createSelector(selectEstadisticasState, (state) => state.isLoadingTotalDoctores);
 
 export const selectCoordenasPorDiagnostico = createSelector(selectEstadisticasState, (state) => state.coordenadasPorDiagnostico);
 export const selectIsLoadingCoordenasPorDiagnostico = createSelector(selectEstadisticasState, (state) => state.isLoadingCoordenadasPorDiagnostico);

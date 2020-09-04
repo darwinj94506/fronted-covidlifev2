@@ -1,11 +1,11 @@
 <nav class="sidebar-nav">
     <ul id="sidebarnav">
         <li class="sidebar-item user-profile" [class.active]="showMenu === 'user'">
-            <a class="sidebar-link waves-effect waves-dark" aria-expanded="false">
+            <a class="sidebar-link waves-effect waves-dark" aria-expanded="false" [routerLink]="['/informacion-general']">
                 <span>    
                     {{hospitalSession?.idHospital?.nombre}}
-            </span></a>
-
+                </span>
+            </a>
         </li>
         <!-- User Profile-->
         <li class="sidebar-item user-profile" [class.active]="showMenu === 'user'">

@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-12">
         <!-- You can find this in the dashboard-component -->
-        <app-project-counter [totalDoctores$]="totalDoctores$" [totalPacientes$]="totalPacientes$" [datosPorDiagnostico]="doughnutChartDataDiagnostico"></app-project-counter>
+        <app-project-counter [isLoading$]="isLoadingPacientesPorDiagnostico$" [isLoadingTotalPacientes$]="isLoadingTotalPacientes$" [isLoadingTotalDoctores$]="isLoadingTotalDoctores$" [totalDoctores$]="totalDoctores$" [totalPacientes$]="totalPacientes$" [datosPorDiagnostico]="doughnutChartDataDiagnostico"></app-project-counter>
     </div>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Formulario } from '../../../../../core/domain/class/formulario';
 import { Observable } from 'rxjs';
@@ -17,9 +17,10 @@ const VALIDATION_MESSAGE =  {
   templateUrl: './form-hospital.component.html',
   styleUrls: ['./form-hospital.component.css']
 })
-export class FormHospitalComponent extends Formulario implements OnInit{
+export class FormHospitalComponent extends Formulario implements OnInit, AfterViewInit{
 
   @Input() hospital: IHospitalEntity;
+  // @ViewChild('mapWrapper', {static: false}) mapElement: ElementRef;
 
   formulario: FormGroup;
   isLoading$: Observable<boolean>;
@@ -42,7 +43,11 @@ export class FormHospitalComponent extends Formulario implements OnInit{
     this._espacioFacade.getCantones().subscribe(data=>this.cantones=data);
     this._espacioFacade.getParroquias().subscribe(data =>this.parroquias=data);
     this._espacioFacade.getBarrios().subscribe(data=>this.barrios=data);
+    // this.initMap();
     
+  }
+  ngAfterViewInit() {
+    // this.loadMap();
   }
 
   onSubmit(){
@@ -58,6 +63,7 @@ export class FormHospitalComponent extends Formulario implements OnInit{
       description : this.formulario.get('description').value,
       idEspacio : this.getLastSpaceSelected()
     }
+
     this._hospitalFacade.crearHospital(hospital);
   }
 
@@ -135,5 +141,48 @@ export class FormHospitalComponent extends Formulario implements OnInit{
       this._espacioFacade.cargarEspacios(EspacioEnum.BARRIO, filtro)
     }
   }
+
+  // para mapas
+  // map: google.maps.Map;
+  // markers: google.maps.Marker[] = [null];
+
+  // loadMap(){
+  //   navigator.geolocation.getCurrentPosition(position=> {
+  //     this.initMap(position.coords.latitude, position.coords.longitude)
+  //   }, err=> this.initMap());
+  // }
+  
+  // initMap(lat = null, lng = null){
+  //   navigator.geolocation.getCurrentPosition(position=>position)
+  //   const coords = { lat: lat ? lat : -0.929675, lng: lng ? lng : -78.605851 };
+  //   this.map = new google.maps.Map(this.mapElement.nativeElement, {
+  //     zoom: 13,
+  //     center: coords,
+  //     mapTypeId: "terrain"
+  //   });
+  
+  //   this.map.addListener("click", event => {
+  //     this.addMarker(event.latLng);
+  //   });
+
+  // }
+  // setMapOnAll(map: google.maps.Map | null) {
+  //   for (let i = 0; i < this.markers.length; i++) {
+  //     this.markers[i].setMap(map);
+  //   }
+  // }
+  
+
+  // addMarker(location) {
+  //   if(this.markers[0]) this.setMapOnAll(null);
+  //   const marker = new google.maps.Marker({
+  //     position: location,
+  //     map: this.map
+  //   });
+  //   console.log(location)
+  //   this.markers[0]= marker;
+  //   console.log(this.markers[0].getPosition().lat());
+  //   console.log(this.markers[0].getPosition().lng());
+  // }
 
 }

@@ -1,15 +1,17 @@
+<div><button (click)="openModalFilter()">Filtrar</button></div>
+
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Mapa de calor</h4>
+                <h4 class="card-title">{{title}}</h4>
                 <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" #map1></agm-map> -->
                 <div id="floating-panel">
-                    <button (click)="confirmados()">Confirmados</button>
-                    <button (click)="sospechosos()">Sospechosos</button>
-                    <button (click)="recuperados()">Recuperados</button>
-                    <button (click)="fallecidos()">Facellidos</button>
-                    <button (click)="hospitalizados()">Hospitalizados</button>
+                    <button class="btn btn-outline-secondary" (click)="confirmados()">Confirmados</button>
+                    <button class="btn btn-outline-secondary" (click)="sospechosos()">Sospechosos</button>
+                    <button class="btn btn-outline-secondary" (click)="recuperados()">Recuperados</button>
+                    <button class="btn btn-outline-secondary" (click)="fallecidos()">Facellidos</button>
+                    <button class="btn btn-outline-secondary" (click)="hospitalizados()">Hospitalizados</button>
                 </div>
                 <div #mapWrapper id="map"></div>
             </div>

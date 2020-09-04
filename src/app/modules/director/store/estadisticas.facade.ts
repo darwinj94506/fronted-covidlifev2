@@ -13,7 +13,9 @@ import { EstadisticasState,
          selectTotalDoctores,
          selectTotalPacientes,
          selectCoordenasPorDiagnostico,
-         selectIsLoadingCoordenasPorDiagnostico
+         selectIsLoadingCoordenasPorDiagnostico,
+         selectIsLoadingTotalPacientes,
+         selectIsLoadingTotalDoctores
         } from './estadisticas.reducer';
 import { Observable } from 'rxjs';
 @Injectable({
@@ -69,5 +71,13 @@ export class EstadisticasFacade {
 
   distpachActionLoadCoordenadasPorDiagnostico(input: MapasDatosIn){
     this.store.dispatch(estadisticasActions.loadCoordenadasPorDiagnostico({input}))
+  }
+
+  getIsLoadingTotalPacientesFromStorage():Observable<boolean>{
+    return this.store.select(selectIsLoadingTotalPacientes)
+  }
+
+  getIsLoadingTotalDoctoresFromStorage():Observable<boolean>{
+    return this.store.select(selectIsLoadingTotalDoctores)
   }
 }

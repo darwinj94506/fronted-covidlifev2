@@ -5,3 +5,4 @@ export interface  MapasDatosIn {
     idEspacioPadre?: String;
     role?: RolesUserEnum;
 }
+

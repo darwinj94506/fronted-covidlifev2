@@ -7,6 +7,10 @@ import { Observable } from 'rxjs';
 })
 
 export class ProjectCounterComponent {
+
+  @Input() isLoadingTotalDoctores$:Observable<boolean>;
+  @Input() isLoadingTotalPacientes$:Observable<boolean>;
+  @Input() isLoading$:Observable<boolean>;
   @Input() totalPacientes$: Observable<number>;
   @Input() totalDoctores$: Observable<number>;
   @Input() datosPorDiagnostico: number[]

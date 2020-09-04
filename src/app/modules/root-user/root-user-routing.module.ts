@@ -8,15 +8,24 @@ const routes: Routes = [
     children: [
       {
         path: 'hospitales',
-        component: HospitalsComponent
+        component: HospitalsComponent,
+        data: {
+          title: 'Hospitales'          
+        }
       },
       {
         path: 'administradores',
-        component: AdministratorsComponent
+        component: AdministratorsComponent,
+        data: {
+          title: 'Administradores'          
+        }
       },
       {
         path: 'lugares',
-        component:PlacesComponent
+        component:PlacesComponent,
+        data: {
+          title: 'Lugares'          
+        }
       }
     ]
   }
