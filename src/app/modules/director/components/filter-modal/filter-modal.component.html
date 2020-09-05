@@ -77,7 +77,7 @@
                             <small> {{item.nombre}}</small>
                         </ng-template>
                     </ng-select> -->
-                    <select placeholder="Selecione un barrio" formControlName="barrio">
+                    <select #selBarr placeholder="Selecione un barrio" formControlName="barrio" (change)="onChangeBarrio(selBarr.value)">
                         <option [value]="barr._id" *ngFor="let barr of barrios" >{{barr.nombre}}</option>
                     </select>
                 </ng-container>

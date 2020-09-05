@@ -24,7 +24,7 @@ export class PatientsComponent implements OnInit {
 
   loadUsers(){    
     forkJoin(this._mainFacade.getUserLogged(), this._mainFacade.getHospitalSesion())
-      .subscribe(([userLogged,hospitaSession])=>{
+      .subscribe(([userLogged, hospitaSession])=>{
         let filter : FilterUserIn =  {
           roleHospital:{
             idHospital: hospitaSession.idHospital._id, 

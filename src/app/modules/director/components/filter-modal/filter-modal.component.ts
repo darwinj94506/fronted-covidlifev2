@@ -30,6 +30,7 @@ export class FilterModalComponent implements OnInit, OnDestroy{
   isLoadingParroquias$:Observable<boolean>;
   isLoadingBarrios$:Observable<boolean>;
   lugares = [null, null, null, null];
+  objectLugares = [null, null, null, null];
   constructor( private _mainFacade: MainFacade, 
     private fb: FormBuilder,
     private _estadisticasFacade: EstadisticasFacade,
@@ -48,6 +49,7 @@ export class FilterModalComponent implements OnInit, OnDestroy{
 
     switch(this.espacio.tipo){
       case EspacioEnum.PROVINCIA:
+        this.objectLugares[0] = this.espacio
         this.provincias = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
         this.formulario = this.fb.group({
           provincia: [this.espacio._id, Validators.required],
@@ -58,6 +60,7 @@ export class FilterModalComponent implements OnInit, OnDestroy{
       this._mainFacade.distatchActionLoadEspacios(EspacioEnum.CANTON, { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
       break;
       case EspacioEnum.CANTON:
+        this.objectLugares[1] = this.espacio
         this.cantones = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
         this.formulario = this.fb.group({
           provincia: {value:null, disabled:true},
@@ -68,7 +71,7 @@ export class FilterModalComponent implements OnInit, OnDestroy{
         this._mainFacade.distatchActionLoadEspacios(EspacioEnum.PARROQUIA, { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
       break;
       case EspacioEnum.PARROQUIA:
-        console.log("Parroquia");
+        this.objectLugares[2] = this.espacio
         this.parroquias = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
         console.log(this.parroquias);
         this.formulario = this.fb.group({
@@ -80,6 +83,7 @@ export class FilterModalComponent implements OnInit, OnDestroy{
         this._mainFacade.distatchActionLoadEspacios(EspacioEnum.BARRIO, { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
       break;
       case EspacioEnum.BARRIO:
+        this.objectLugares[3] = this.espacio
         this.formulario = this.fb.group({
           provincia: [null],
           canton: null,
@@ -121,6 +125,8 @@ export class FilterModalComponent implements OnInit, OnDestroy{
   }
 
   onChangeCanton(value){
+    let canton = this.cantones.find(i=>i._id === value)
+    this.objectLugares[1] = canton;
     // console.log($event);
     this.formulario.patchValue({
        parroquia:null,
@@ -133,6 +139,8 @@ export class FilterModalComponent implements OnInit, OnDestroy{
   }
 
   onChangeParroquia(value){
+    let parroquia = this.parroquias.find(i=>i._id === value)
+    this.objectLugares[2] = parroquia;
      this.formulario.patchValue({
        barrio:null
     })
@@ -142,12 +150,17 @@ export class FilterModalComponent implements OnInit, OnDestroy{
     }
   }
 
+  onChangeBarrio(value){
+    let barrio = this.barrios.find(i=>i._id === value)
+    this.objectLugares[3] = barrio;
+  }
+
 
   onSubmit(){
     if(this.forMapas)
       this.filterMap(this.getLastSpaceSelected())
     else this.consultar(this.getLastSpaceSelected());
-    this.activeModal.close();
+    this.activeModal.close(this.objectLugares);
   }
 
   getLastSpaceSelected(){

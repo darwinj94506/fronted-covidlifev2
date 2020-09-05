@@ -62,6 +62,7 @@ const estadisticasReducer = createReducer(
   })),
   on(estadisticasActions.loadPacientesPorDiagnosticoError, state => ({
     ...state,
+    countPacientesPorDiagnostico:[],
     isLoadingPacientesPorDiagnostico:false,
   })),
 
@@ -76,6 +77,7 @@ const estadisticasReducer = createReducer(
   })),
   on(estadisticasActions.loadEvolucionDiariaPacientesError, state => ({
     ...state,
+    countPacientesPorDiaPorDiagnostico: [],
     isLoadingPacientesPorDiagnosticoDiario: false,
   })),
 
@@ -109,11 +111,13 @@ const estadisticasReducer = createReducer(
     if(payload.role === RolesUserEnum.DOCTOR)
       return {
         ...state,
+        totalDoctores:0,
         isLoadingTotalDoctores: false,
       }
     if(payload.role === RolesUserEnum.PACIENTE)
       return {
         ...state,
+        totalPacientes:0,
         isLoadingTotalPacientes: false,
       }
   }),
@@ -128,6 +132,7 @@ const estadisticasReducer = createReducer(
   })),
   on(estadisticasActions.loadCoordenadasPorDiagnosticoError, state => ({
     ...state,
+    coordenadasPorDiagnostico: mapasOutInit,
     isLoadingCoordenadasPorDiagnostico: false,
   })),
   

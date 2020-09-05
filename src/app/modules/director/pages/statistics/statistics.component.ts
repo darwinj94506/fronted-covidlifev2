@@ -19,7 +19,7 @@ import { ToastService } from '../../../../services';
 
 import { FilterModalComponent } from '../../../../modules/director/components/filter-modal/filter-modal.component';
 
-declare var require: any;
+// declare var require: any;
 // const data: any = require('./data.json');
 
 interface ItemChart {
@@ -35,10 +35,7 @@ interface ItemChart {
 
 export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 	private _destroyed$ = new Subject();
-
-	// suscriptionEvolucionDiaria: Subscription;
-	// suscriptionPacientesPorDiagnostico: Subscription;
-	// suscriptionEspacio: Subscription;
+	espacios = [];
 
 	contadoresEstadisticas$: Observable<ContadoresEstadisticaOut>;
 	isLoadingChartEvolucionDiariaPacietes$:Observable<boolean>;
@@ -59,14 +56,6 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 				 private _mainFacade: MainFacade) {
 		this.subtitle = 'This is some text within a card block.';
 	}
-	// This is for the dashboar line chart
-	// lineChart
-	// public lineChartData: Array<any> = [
-	// 	{ data: [0, 50, 30, 60, 180, 120, 180, 80], label: 'Confirmados' },
-	// 	{ data: [0, 100, 70, 100, 240, 180, 220, 140], label: 'Sospechosos' },
-	// 	{ data: [0, 150, 110, 240, 200, 200, 300, 200], label: 'Aislados' },
-	// 	{ data: [0, 150, 110, 240, 200, 200, 300, 200], label: 'Fallecidos' }
-	// ];
 
 	public dataDiaDiagnostico: Array<any> = [];
 
@@ -77,8 +66,6 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 		// { data: [], label: 'Aislados' }
 	];
 	public lineChartLabelsDays : Array<String>;
-
-	// public lineChartLabels: Array<any> = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto'];
 	public lineChartOptions: any = {
 		scales: {
 			yAxes: [
@@ -153,7 +140,6 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 		maintainAspectRatio: false
 	};
 	public doughnutChartDataDiagnostico: number[] = [0, 0, 0, 0, 0, 0];
-	// public doughnutChartData: number[] = [150, 450, 200];
 	public doughnutChartType = 'doughnut';
 	public doughnutChartLegend = false;
 
@@ -277,9 +263,6 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 
 	  }
 	
-	  
-	 
-
 	calcularPorcentaje(valor, total): number{
 		if(valor<1)
 			return 0
@@ -295,6 +278,10 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 				this.modalFilter = this._modalService.open(FilterModalComponent);
 				this.modalFilter.componentInstance.espacio = {...data};
 				this.modalFilter.componentInstance.idHospital = this.hospital.idHospital._id;
+				this.modalFilter.result.then(espacios=>{
+					this.espacios = espacios;
+				}).catch(_=> console.log("salio"))
+
 			}, error=>{
 				this._toast.showError('Error el cargar, error:'+error.message);
 				this._spinner.hide()

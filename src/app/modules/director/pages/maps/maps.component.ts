@@ -21,6 +21,7 @@ import { FilterModalComponent } from '../../../../modules/director/components/fi
 
 export class MapsComponent implements AfterViewInit, OnInit, OnDestroy{
 title: String = 'Seleccione una opción'
+espacios = [];
 hospital;
 coordenadasPorDiagnostico: MapasPacientesPorDiagnosticoOut[] = [];
 map: google.maps.Map;
@@ -165,6 +166,9 @@ toggleHeatmap() {
 				this.modalFilter.componentInstance.espacio = {...data};
         this.modalFilter.componentInstance.idHospital = this.hospital.idHospital._id;
         this.modalFilter.componentInstance.forMapas = true;
+        this.modalFilter.result.then(espacios=>{
+					this.espacios = espacios;
+				}).catch(_=> console.log("salio"))
 			}, error=>{
 				this._toast.showError('Error el cargar, error:'+error.message);
 				this._spinner.hide()
