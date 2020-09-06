@@ -12,7 +12,7 @@
             <label for="nombre" class="col-sm-4 col-form-label">Provincia</label>
             <!-- <label for="nombre" class="col-sm-4 col-form-label" *ngIf="isLoadingProvincias | async">cargando provincias...</label> -->
             <div class="col-sm-8">
-                <ng-container *ngIf="!(isLoadingProvinciass | async); else loadingPro">
+                <ng-container *ngIf="!(isLoadingProvincias$ | async); else loadingPro">
                     <!-- <ng-select [items]="provincias" #select bindLabel="nombre" dropdownPosition="auto" bindValue="_id" labelForId="album" placeholder="Selecione una provincia" [virtualScroll]="true" (change)="onChangeProvince($event)" formControlName="provincia">
                         <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
                             <small>{{item.nombre}}</small>

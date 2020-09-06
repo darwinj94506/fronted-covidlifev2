@@ -111,14 +111,6 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 
 			pointHoverBackgroundColor: '#fff',
 			pointHoverBorderColor: '#06d79c'
-			
-			// backgroundColor: 'rgba(117,91,241,1)',
-			// borderColor: 'rgba(117,91,241,1)',
-			// pointBackgroundColor: 'rgba(117,91,241,1)',
-			// pointBorderColor: '#fff',
-
-			// pointHoverBackgroundColor: '#fff',
-			// pointHoverBorderColor: 'rgba(117,91,241,1)'
 		},
 		{
 			// dark grey
@@ -213,9 +205,12 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 	}
 	
 	transformDate(t){
+		console.log(t);
 		return new Date(new Date(t).getFullYear(), (new Date(t).getMonth()), new Date(t).getUTCDate())
 	}
-	buildLineChartData(data: CountPacientesPorDiaPorDiagnosticoOut []){   
+	buildLineChartData(data: CountPacientesPorDiaPorDiagnosticoOut []){ 
+		this.dataDiaDiagnostico = [];
+		this.lineChartLabelsDays = [];
 		let seguimientosPorDia = _.chain(data)
 			.map(item=>({...item, 
 						agrupadoPor: { fecha_creacion:item.agrupadoPor.fecha_creacion,
@@ -224,6 +219,8 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 						}}))
 			.orderBy(item=> item.agrupadoPor.fecha_creacion)
 			.groupBy(item=>item.agrupadoPor.fecha_trasformada).value();
+
+		console.log(seguimientosPorDia);
 		let dias = []
 		for (const dia in seguimientosPorDia) {    
 			dias.push(dia);
@@ -245,6 +242,7 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 		  let dataConfirmados = [];
 		  let dataAislados = [];
 		  this.dataDiaDiagnostico.forEach((item, index)=>{
+			  console.log(index);
 			if(index > 0){
 			  dataSospechosos.push(item.data[0] + dataSospechosos[index-1])
 			  dataConfirmados.push(item.data[1] + dataConfirmados[index-1])
@@ -256,8 +254,8 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 			}
 		  })
 	
-		  this.lineChartDataPacientes[0].data = dataSospechosos;
-		  this.lineChartDataPacientes[1].data = dataConfirmados;
+		  this.lineChartDataPacientes[0].data = dataConfirmados;
+		  this.lineChartDataPacientes[1].data = dataSospechosos;
 		//   this.lineChartDataPacientes[2].data = dataAislados;
 		  this.lineChartLabelsDays = dias; 
 

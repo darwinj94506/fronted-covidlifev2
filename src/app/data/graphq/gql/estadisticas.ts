@@ -47,4 +47,6 @@ query mapasEstadisticos($data:MapasDatosIn!){
 `;
 
 
-  
+// const i = {tipo:"COUNT_PACIENTES_POR_DIAGNOSTICO",
+// idHospital:"5f501affc285b2001e58f1e6",
+// idEspacioPadre:"5f123cbd05b4fe3eed94f729"}
