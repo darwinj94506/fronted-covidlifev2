@@ -22,7 +22,6 @@ export const initialState: SeguimientoState = {
 
 const mainReducer = createReducer(
   initialState,
-  
   on(seguimientosActions.createSeguimiento, (state) => ({
     ...state,
     isLoadingSeguimiento: true

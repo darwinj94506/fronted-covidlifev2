@@ -201,7 +201,6 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 		this.isLoadingTotalDoctores$ = this._estadisticasFacade.getIsLoadingTotalDoctoresFromStorage();
 		this.isLoadingTotalPacientes$ = this._estadisticasFacade.getIsLoadingTotalPacientesFromStorage();
 		// this.isLoadingTotalPorRol = this._estadisticasFacade.getIs
-		
 	}
 	
 	transformDate(t){
@@ -293,3 +292,13 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 
 
 }
+
+
+
+
+// {
+// 	idHospital:"5f501affc285b2001e58f1e6",
+// 	role:"PACIENTE",
+// 	tipo:"COUNT_USER_POR_ROLE_AND_HOSPITAL",
+// 	idEspacioPadre:"5f1b0ec7638897001e34a9ca"
+// }

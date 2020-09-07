@@ -3,9 +3,7 @@ import { SeguimientoCompletoPacienteOut } from '../../../../core/domain/outputs'
 import { SeguimientoCompletoPacienteIn } from '../../../../core/domain/inputs';
 import { Observable } from 'rxjs';
 import { SeguimientoFacade } from '../../../../store/facade';
-import { PerfectScrollbarConfigInterface,
-         PerfectScrollbarComponent, 
-         PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-time-line',
@@ -29,6 +27,10 @@ export class TimeLineComponent implements OnInit {
   loadSeguimientosCompletos(idPaciente:String){
     let params: SeguimientoCompletoPacienteIn = { idPaciente }
     this._seguimientoFacade.dispatchActionLoadSeguimientosCompletos(params);
+  }
+
+  transformDate(t){
+    return new Date(new Date(t).getFullYear(), (new Date(t).getMonth()), new Date(t).getUTCDate())
   }
 
 }
