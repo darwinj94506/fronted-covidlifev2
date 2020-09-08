@@ -3,14 +3,11 @@
         <button (click)="openModalFilter()">Filtrar</button>
     </div>
     <div class="col col-md-11">
-        <h4 *ngIf="espacios.length > 0">Filtro:
-            <ng-contanier *ngFor="let espacio of espacios;let i=index">
+            <ng-container *ngFor="let espacio of espacios;let i=index">
                 {{espacio?.tipo}}
                 <ng-container *ngIf="espacio">:</ng-container> {{espacio?.nombre}}
-
-                <ng-container *ngIf="espacio">/</ng-container>
-            </ng-contanier>
-        </h4>
+                <ng-container *ngIf="espacio && i < espacios.length-1">/</ng-container>
+            </ng-container>
     </div>
 </div>
 

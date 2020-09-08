@@ -3,13 +3,11 @@
         <button (click)="openModalFilter()">Filtrar</button>
     </div>
     <div class="col col-md-11">
-        <h4 *ngIf="espacios.length > 0">Filtro:
-            <ng-contanier *ngFor="let espacio of espacios;let i=index">
-                {{espacio?.tipo}}
-                <ng-container *ngIf="espacio">:</ng-container> {{espacio?.nombre}}
-                <ng-container *ngIf="espacio">/</ng-container>
-            </ng-contanier>
-        </h4>
+        <ng-container *ngFor="let espacio of espacios;let i=index">
+            {{espacio?.tipo}}
+            <ng-container *ngIf="espacio">:</ng-container> {{espacio?.nombre}}
+            <ng-container *ngIf="espacio && i < espacios.length-1">/</ng-container>
+        </ng-container>
     </div>
 </div>
 
@@ -23,11 +21,11 @@
                 <h4 class="card-title">{{title}}</h4>
                 <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" #map1></agm-map> -->
                 <div id="floating-panel">
-                    <button class="btn btn-outline-secondary" (click)="confirmados()">Confirmados</button>
-                    <button class="btn btn-outline-secondary" (click)="sospechosos()">Sospechosos</button>
-                    <button class="btn btn-outline-secondary" (click)="recuperados()">Recuperados</button>
-                    <button class="btn btn-outline-secondary" (click)="fallecidos()">Facellidos</button>
-                    <button class="btn btn-outline-secondary" (click)="hospitalizados()">Hospitalizados</button>
+                    <button class="btn btn-outline-secondary" (click)="configMap('CONFIRMADO')">Confirmados</button>
+                    <button class="btn btn-outline-secondary" (click)="configMap('SOSPECHOSO')">Sospechosos</button>
+                    <button class="btn btn-outline-secondary" (click)="configMap('RECUPERADO')">Recuperados</button>
+                    <button class="btn btn-outline-secondary" (click)="configMap('FALLECIDO')">Facellidos</button>
+                    <button class="btn btn-outline-secondary" (click)="configMap('HOSPITALIZADO')">Hospitalizados</button>
                 </div>
                 <div #mapWrapper id="map"></div>
             </div>

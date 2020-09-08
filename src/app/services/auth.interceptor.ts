@@ -8,8 +8,13 @@ intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
 if (!token) {
       return next.handle(req);
     }
+console.log(req.url);
+if (req.url === 'https://fcm.googleapis.com/fcm/send'){
+  const headers = req.clone({});
+  return next.handle(headers);
+}
 const headers = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${token}`)
+      headers: req.headers.set('authorization', `Bearer ${token}`)
     });
 return next.handle(headers);
   }

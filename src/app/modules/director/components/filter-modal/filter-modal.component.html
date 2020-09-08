@@ -10,38 +10,20 @@
 
         <div class="form-group row">
             <label for="nombre" class="col-sm-4 col-form-label">Provincia</label>
-            <!-- <label for="nombre" class="col-sm-4 col-form-label" *ngIf="isLoadingProvincias | async">cargando provincias...</label> -->
             <div class="col-sm-8">
-                <ng-container *ngIf="!(isLoadingProvincias$ | async); else loadingPro">
-                    <!-- <ng-select [items]="provincias" #select bindLabel="nombre" dropdownPosition="auto" bindValue="_id" labelForId="album" placeholder="Selecione una provincia" [virtualScroll]="true" (change)="onChangeProvince($event)" formControlName="provincia">
-                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-                            <small>{{item.nombre}}</small>
-                        </ng-template>
-                    </ng-select> -->
-                    <select placeholder="Selecione una provincia" (change)="onChangeProvince($event)" formControlName="provincia">
-                        <option *ngFor="let pro of provincias" [value]="pro._id">{{pro.nombre}}</option>
-                    </select>
-                </ng-container>
-                <ng-template #loadingPro>
-                    <div>Cargando provincias...</div>
-                </ng-template>
+                <select placeholder="Selecione una provincia" (change)="onChangeProvince($event)" formControlName="provincia">
+                    <option *ngFor="let pro of provincias" [value]="pro._id">{{pro.nombre}}</option>
+                </select>
             </div>
         </div>
         <div class="form-group row">
             <label for="nombre" class="col-sm-4 col-form-label">Canton</label>
-            <!-- <label for="nombre" class="col-sm-4 col-form-label" *ngIf="(isLoadingCantones$ | async)">cargando cantones...</label> -->
             <div class="col-sm-8">
                 <ng-container *ngIf="!(isLoadingCantones$ | async); else loadingCan">
-                    <!-- <ng-select [items]="cantones" #select bindLabel="nombre" dropdownPosition="auto" bindValue="_id" labelForId="album" placeholder="Selecione un canton" [virtualScroll]="true" (change)="onChangeCanton($event)" formControlName="canton">
-                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-                            <small>{{item.nombre}}</small>
-                        </ng-template>
-                    </ng-select> -->
                     <select #select placeholder="Selecione un cantón" (change)="onChangeCanton(select.value)" formControlName="canton">
                         <option *ngFor="let can of cantones" [value]="can._id">{{can.nombre}}</option>
                     </select>
                 </ng-container>
-
                 <ng-template #loadingCan>
                     <div>Cargando cantones...</div>
                 </ng-template>
@@ -49,14 +31,8 @@
         </div>
         <div class="form-group row">
             <label for="nombre" class="col-sm-4 col-form-label">Parroquia</label>
-            <!-- <label for="nombre" class="col-sm-4 col-form-label" *ngIf="(isLoadingParroquias$ | async)">cargando parroquias...</label> -->
             <div class="col-sm-8">
                 <ng-container *ngIf="!(isLoadingParroquias$ | async); else loadingParr">
-                    <!-- <ng-select [items]="parroquias" #select bindLabel="nombre" dropdownPosition="auto" bindValue="_id" labelForId="album" placeholder="Selecione una parroquia" [virtualScroll]="true" (change)="onChangeParroquia($event)" formControlName="parroquia">
-                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-                            <small> {{item.nombre}}</small>
-                        </ng-template>
-                    </ng-select> -->
                     <select #selParr placeholder="Selecione una parroquia" (change)="onChangeParroquia(selParr.value)" formControlName="parroquia">
                         <option [value]="parr._id" *ngFor="let parr of parroquias">{{parr.nombre}}</option>
                     </select>
@@ -64,19 +40,12 @@
                 <ng-template #loadingParr>
                     <div>Cargando parroquias...</div>
                 </ng-template>
-
             </div>
         </div>
         <div class="form-group row">
             <label for="nombre" class="col-sm-4 col-form-label">Barrio</label>
-            <!-- <label for="nombre" class="col-sm-4 col-form-label" *ngIf="(isLoadingBarrios$ | async)">cargando barrios...</label> -->
             <div class="col-sm-8">
                 <ng-container *ngIf="!(isLoadingBarrios$ | async); else loadingBarr">
-                    <!-- <ng-select [items]="barrios" #select bindLabel="nombre" dropdownPosition="auto" bindValue="_id" labelForId="album" placeholder="Selecione un barrio" [virtualScroll]="true" formControlName="barrio">
-                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
-                            <small> {{item.nombre}}</small>
-                        </ng-template>
-                    </ng-select> -->
                     <select #selBarr placeholder="Selecione un barrio" formControlName="barrio" (change)="onChangeBarrio(selBarr.value)">
                         <option [value]="barr._id" *ngFor="let barr of barrios" >{{barr.nombre}}</option>
                     </select>

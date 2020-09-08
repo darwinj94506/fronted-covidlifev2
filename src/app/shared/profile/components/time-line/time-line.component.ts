@@ -3,7 +3,6 @@ import { SeguimientoCompletoPacienteOut } from '../../../../core/domain/outputs'
 import { SeguimientoCompletoPacienteIn } from '../../../../core/domain/inputs';
 import { Observable } from 'rxjs';
 import { SeguimientoFacade } from '../../../../store/facade';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-time-line',
@@ -14,8 +13,6 @@ export class TimeLineComponent implements OnInit {
   @Input() idPaciente: String;
   seguimientos$ : Observable<SeguimientoCompletoPacienteOut[]>;
   isLoading$: Observable<boolean>;
-  public config: PerfectScrollbarConfigInterface = {};
-
   constructor(private _seguimientoFacade: SeguimientoFacade) { }
 
   ngOnInit(): void {
@@ -30,7 +27,11 @@ export class TimeLineComponent implements OnInit {
   }
 
   transformDate(t){
-    return new Date(new Date(t).getFullYear(), (new Date(t).getMonth()), new Date(t).getUTCDate())
-  }
+    let today = new Date(t);
+
+    return new Date(
+      today.getFullYear(), today.getMonth(), today.getUTCDate(),
+      today.getUTCHours(), today.getUTCMinutes(), today.getUTCSeconds())
+	}
 
 }

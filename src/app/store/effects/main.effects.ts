@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType  } from '@ngrx/effects';
-import { catchError, map, switchMap, tap, exhaustMap} from 'rxjs/operators';
+import { catchError, map, switchMap, tap, exhaustMap, mergeMap} from 'rxjs/operators';
 import { Observable, from, of} from 'rxjs';
 import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { GuardService } from '../../services/guard.service';
@@ -109,7 +109,7 @@ export class MainEffects {
     @Effect()
     loadEspacio: Observable<any> = this.actions$.pipe(
     ofType(mainActions.cargarEspacios),
-    switchMap(payload => this._verLugaresPorTipo.execute(payload.filtro)
+    mergeMap(payload => this._verLugaresPorTipo.execute(payload.filtro)
         .pipe(
             map(espacios => mainActions.cargarEspacioExito({espacios:espacios, tipo :payload.tipo})),
             catchError( error => {

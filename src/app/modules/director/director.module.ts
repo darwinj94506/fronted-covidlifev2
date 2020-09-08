@@ -13,6 +13,7 @@ import { EstadisticasEffects } from "./store/estadisticas.effects";
 import { reducer } from './store/estadisticas.reducer';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+// import { LineaEvolucionComponent } from './components/linea-evolucion/linea-evolucion.component';
 
 @NgModule({
   declarations: [

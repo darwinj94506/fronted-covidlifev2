@@ -32,7 +32,11 @@
                             <app-time-line [idPaciente]="seguimiento.idPaciente._id" *ngIf="showResumen"></app-time-line>
                         </ng-template>
                     </ngb-tab>
-
+                    <ngb-tab title="Temperatura" id="temperatura">
+                        <ng-template ngbTabContent>
+                            <app-linea-evolucion [idPaciente]="seguimiento.idPaciente._id" *ngIf="showTemperatura"> </app-linea-evolucion>
+                        </ng-template>
+                    </ngb-tab>
                 </ngb-tabset>
             </div>
         </div>

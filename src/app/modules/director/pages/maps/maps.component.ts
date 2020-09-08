@@ -2,9 +2,8 @@ import { Component, AfterViewInit, ViewChild, ElementRef, OnInit, OnDestroy } fr
 import { MainFacade } from '../../../../store/facade';
 import { EstadisticasFacade } from '../../store/estadisticas.facade';
 import { MapasDatosIn } from '../../../../core/domain/inputs';
-import { EstadisticaTipoEnum, DiagnosticoActualEnum } from '../../../../core/domain/enums';
+import { EstadisticaTipoEnum, DiagnosticoActualEnum, EspacioEnum } from '../../../../core/domain/enums';
 import { MapasPacientesPorDiagnosticoOut } from '../../../../core/domain/outputs';
-import { SeguimientoMapsOut } from 'src/app/core/domain/outputs/seguimiento-maps.out';
 import { VerDetalleEspacioUseCase } from 'src/app/core/usecases';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastService } from 'src/app/services';
@@ -22,6 +21,7 @@ import { FilterModalComponent } from '../../../../modules/director/components/fi
 export class MapsComponent implements AfterViewInit, OnInit, OnDestroy{
 title: String = 'Seleccione una opción'
 espacios = [];
+
 hospital;
 coordenadasPorDiagnostico: MapasPacientesPorDiagnosticoOut[] = [];
 map: google.maps.Map;
@@ -47,6 +47,7 @@ ngOnInit(){
     .subscribe(data=>{
       console.log(data);
       this.coordenadasPorDiagnostico = data.mapaPacientesPorDiagnostico;
+      // this.configMap();
   })
 
   this._mainFacade.getHospitalSesion().subscribe(hospital=> {
@@ -63,39 +64,30 @@ initMap(): void {
     zoom: 13,
     center: { lat: -0.929675, lng: -78.605851 },
     mapTypeId: "satellite"
-    
   });
 
   this.heatmap = new google.maps.visualization.HeatmapLayer({
-    data: this.getPoints(),
+    data: [],
     map: this.map
   });
+
 }
 
+  configMap(diagnostico: DiagnosticoActualEnum = null): void{
+    let arrayCoords: MapasPacientesPorDiagnosticoOut;
+    console.log([this.coordenadasPorDiagnostico, arrayCoords])
+    if(!diagnostico){
+      arrayCoords = {agrupadoPor: {
+        diagnostico_enum: DiagnosticoActualEnum.CONFIRMADO}, contador:[]
+      }
+      this.coordenadasPorDiagnostico.forEach(item=>{
+        arrayCoords.contador = [...arrayCoords.contador, ...item.contador]
+      })
+      console.log(arrayCoords);
+    }else{
+      arrayCoords= this.coordenadasPorDiagnostico.find(item=> item.agrupadoPor.diagnostico_enum === diagnostico);
+    }
 
-toggleHeatmap() {
-  this.heatmap.setMap(this.heatmap.getMap() ? null : this.map);
-}
-
-
-// Heatmap data: 500 Points
-  getPoints() {
-    return [
-    
-    ];
-  }
-
-  confirmados(){
-    this.configMap(DiagnosticoActualEnum.CONFIRMADO);
-  } 
-
-  sospechosos(){
-   this.configMap(DiagnosticoActualEnum.SOSPECHOSO);
-  }
-
-  configMap(diagnostico: DiagnosticoActualEnum): void{
-    let arrayCoords = this.coordenadasPorDiagnostico.find(item=> item.agrupadoPor.diagnostico_enum === diagnostico);
-    
     let gMCoords = []
     let bounds  = new google.maps.LatLngBounds();
     if(arrayCoords !=undefined && arrayCoords !=null){
@@ -119,18 +111,6 @@ toggleHeatmap() {
       this.map.fitBounds(bounds);  
       this.map.setZoom(13);              
     }
-  }
-
-  recuperados(){
-    this.configMap(DiagnosticoActualEnum.RECUPERADO);
-  }
-
-  fallecidos(){
-    this.configMap(DiagnosticoActualEnum.FALLECIDO);
-  }
-
-  hospitalizados(){
-    this.configMap(DiagnosticoActualEnum.HOSPITALIZADO);
   }
 
   setMap(data: google.maps.LatLng[]){
@@ -166,8 +146,24 @@ toggleHeatmap() {
 				this.modalFilter.componentInstance.espacio = {...data};
         this.modalFilter.componentInstance.idHospital = this.hospital.idHospital._id;
         this.modalFilter.componentInstance.forMapas = true;
+        switch(data.tipo){
+					case EspacioEnum.PROVINCIA:
+						this.espacios[0] = data
+					break;
+					case EspacioEnum.CANTON:
+						this.espacios[1] = data
+					break;
+					case EspacioEnum.PARROQUIA:
+						this.espacios[2] = data
+					break;
+					case EspacioEnum.BARRIO:
+						this.espacios[3] = data
+					break;
+				}
+        this.modalFilter.componentInstance.objectLugares = this.espacios;
+        
         this.modalFilter.result.then(espacios=>{
-					this.espacios = espacios;
+          this.espacios = espacios;
 				}).catch(_=> console.log("salio"))
 			}, error=>{
 				this._toast.showError('Error el cargar, error:'+error.message);
@@ -178,8 +174,6 @@ toggleHeatmap() {
       this._destroyed$.next();
       this._destroyed$.complete();
       }
-
-  
 }
 
 

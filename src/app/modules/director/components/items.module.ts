@@ -23,7 +23,6 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { FilterModalComponent } from './filter-modal/filter-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-
 @NgModule({
   imports: [  
     FormsModule, 
@@ -51,7 +50,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     FeedsComponent,
     EarningComponent,
     ActivityComponent,
-    FilterModalComponent
+    FilterModalComponent,
+    
   ],
   exports:[
     IncomeCounterComponent,
@@ -73,7 +73,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ChartsModule, 
     ChartistModule, 
     PerfectScrollbarModule,
-    NgSelectModule
+    NgSelectModule,
+    
   ],
   entryComponents:[
     FilterModalComponent

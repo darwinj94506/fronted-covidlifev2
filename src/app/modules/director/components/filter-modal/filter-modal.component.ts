@@ -19,7 +19,7 @@ export class FilterModalComponent implements OnInit, OnDestroy{
   @Input() espacio: VerEspacioOut;
   @Input() idHospital: String; 
   @Input() forMapas: boolean = false;
-
+  @Input() objectLugares: VerEspacioOut[];
   formulario: FormGroup;
   provincias: IEspacioEntity[];
   cantones: IEspacioEntity[];
@@ -29,81 +29,107 @@ export class FilterModalComponent implements OnInit, OnDestroy{
   isLoadingCantones$:Observable<boolean>;
   isLoadingParroquias$:Observable<boolean>;
   isLoadingBarrios$:Observable<boolean>;
-  lugares = [null, null, null, null];
-  objectLugares = [null, null, null, null];
+  
   constructor( private _mainFacade: MainFacade, 
     private fb: FormBuilder,
     private _estadisticasFacade: EstadisticasFacade,
     public activeModal: NgbActiveModal ) { }
 
   ngOnInit(): void {
-
     this._mainFacade.getProvinciasFromStorage().pipe(takeUntil(this._destroyed$)).subscribe(data=> this.provincias = data);
     this._mainFacade.getCantonesFromStorage().pipe(takeUntil(this._destroyed$)).subscribe(data=> this.cantones = data);
     this._mainFacade.getParroquiasFromStorage().pipe(takeUntil(this._destroyed$)).subscribe(data=> this.parroquias = data);
     this._mainFacade.getBarriosFromStorage().pipe(takeUntil(this._destroyed$)).subscribe(data=> this.barrios = data);
-    this.isLoadingProvincias$=this._mainFacade.getIsLoadingParroquias();
     this.isLoadingCantones$=this._mainFacade.getIsLoadingCantones();
     this.isLoadingParroquias$=this._mainFacade.getIsLoadingParroquias();
     this.isLoadingBarrios$=this._mainFacade.getIsLoadingBarrios();
+    this.initForm();
 
-    switch(this.espacio.tipo){
-      case EspacioEnum.PROVINCIA:
-        this.objectLugares[0] = this.espacio
-        this.provincias = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
-        this.formulario = this.fb.group({
-          provincia: [this.espacio._id, Validators.required],
-          canton:[null],
-          parroquia:null,
-          barrio:null        
-        });
-      this._mainFacade.distatchActionLoadEspacios(EspacioEnum.CANTON, { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
-      break;
-      case EspacioEnum.CANTON:
-        this.objectLugares[1] = this.espacio
-        this.cantones = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
-        this.formulario = this.fb.group({
-          provincia: {value:null, disabled:true},
-          canton: [this.espacio._id, Validators.required],
-          parroquia:[null],
-          barrio:null        
-        });
-        this._mainFacade.distatchActionLoadEspacios(EspacioEnum.PARROQUIA, { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
-      break;
-      case EspacioEnum.PARROQUIA:
-        this.objectLugares[2] = this.espacio
-        this.parroquias = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
-        console.log(this.parroquias);
-        this.formulario = this.fb.group({
-          provincia: [{value:null, disabled:true}],
-          canton: [{value:null, disabled:true}],
-          parroquia: [this.espacio._id, Validators.required],
-          barrio: [null],        
-        });
-        this._mainFacade.distatchActionLoadEspacios(EspacioEnum.BARRIO, { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
-      break;
-      case EspacioEnum.BARRIO:
-        this.objectLugares[3] = this.espacio
-        this.formulario = this.fb.group({
-          provincia: [null],
-          canton: null,
-          parroquia: null,
-          barrio:null        
-        });
-        alert("Solo puede ver las estadísticas de este grupo");
-        this.activeModal.dismiss()
-      break;
-    }
+    // switch(this.espacio.tipo){
+    //   case EspacioEnum.PROVINCIA:
+    //     this.objectLugares[0] = this.espacio
+    //     this.provincias = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
+    //     this.formulario = this.fb.group({
+    //       provincia: [this.espacio._id, Validators.required],
+    //       canton: this.objectLugares[1]? this.objectLugares[1]._id: null,
+    //       parroquia: this.objectLugares[2]? this.objectLugares[2]._id: null,
+    //       barrio: this.objectLugares[3]? this.objectLugares[3]._id: null        
+    //     });
+    //   this._mainFacade.distatchActionLoadEspacios(EspacioEnum.CANTON, { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
+    //   if(this.objectLugares[2]) 
+    //     this._mainFacade.distatchActionLoadEspacios(EspacioEnum.PARROQUIA, 
+    //       { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
+    //     this.parroquias =  [{ nombre: this.objectLugares[2].nombre.toString(), _id: this.objectLugares[2]._id.toString(), tipo: this.objectLugares[2].tipo }];
+    //   if(this.objectLugares[3]) 
+    //   this.barrios = [{ nombre:this.objectLugares[3].nombre.toString(), _id: this.objectLugares[3]._id.toString(), tipo:this.objectLugares[3].tipo }];
+    //   break;
+    //   case EspacioEnum.CANTON:
+    //     this.objectLugares[1] = this.espacio
+    //     this.cantones = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
+    //     this.formulario = this.fb.group({
+    //       provincia: {value:null, disabled:true},
+    //       canton: [this.espacio._id, Validators.required],
+    //       parroquia: this.objectLugares[2]?this.objectLugares[2]._id: null,
+    //       barrio: this.objectLugares[3]?this.objectLugares[3]._id: null        
+    //     });
+    //     this._mainFacade.distatchActionLoadEspacios(EspacioEnum.PARROQUIA, { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
+    //     if(this.objectLugares[3]) this.barrios = [{ nombre:this.objectLugares[3].nombre.toString(), _id: this.objectLugares[3]._id.toString(), tipo:this.objectLugares[3].tipo }];
+  
+    //   break;
+    //   case EspacioEnum.PARROQUIA:
+    //     this.objectLugares[2] = this.espacio
+    //     this.parroquias = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
+    //     this.formulario = this.fb.group({
+    //       provincia: [{value:null, disabled:true}],
+    //       canton: [{value:null, disabled:true}],
+    //       parroquia: [this.espacio._id, Validators.required],
+    //       barrio: this.objectLugares[3]?this.objectLugares[3]._id:null        
+    //     });
+    //     this._mainFacade.distatchActionLoadEspacios(EspacioEnum.BARRIO, { idEspacioPadre: this.espacio._id.toString(), idHospital:this.idHospital })
+    //   break;
+    //   case EspacioEnum.BARRIO:
+    //     this.objectLugares[3] = this.espacio
+    //     this.formulario = this.fb.group({
+    //       provincia: [null],
+    //       canton: null,
+    //       parroquia: null,
+    //       barrio:null        
+    //     });
+    //     alert("Solo puede ver las estadísticas de este grupo");
+    //     this.activeModal.dismiss()
+    //   break;
+    // }
 
   }
 
+
   initForm(){
     this.formulario = this.fb.group({
-      provincia: this.lugares[0],
-      canton:null,
-      parroquia:null,
-      barrio:null        
+      provincia: [this.objectLugares[0]? this.objectLugares[0]._id:null],
+      canton: this.objectLugares[1]? this.objectLugares[1]._id: null,
+      parroquia: this.objectLugares[2]? this.objectLugares[2]._id: null,
+      barrio: this.objectLugares[3]? this.objectLugares[3]._id: null        
     });
+
+    if(this.objectLugares[0]){
+      this.provincias = [{ nombre:this.espacio.nombre.toString(), _id: this.espacio._id.toString(), tipo:this.espacio.tipo }]
+      this._mainFacade.distatchActionLoadEspacios(EspacioEnum.CANTON, {
+         idEspacioPadre: this.objectLugares[0]._id.toString(), idHospital:this.idHospital })
+    }
+    if(this.objectLugares[1]){
+      this._mainFacade.distatchActionLoadEspacios(EspacioEnum.PARROQUIA, 
+        { idEspacioPadre: this.objectLugares[1]._id.toString(), idHospital:this.idHospital })
+    }
+
+    if(this.objectLugares[2]){
+      this._mainFacade.distatchActionLoadEspacios(EspacioEnum.BARRIO, 
+        { idEspacioPadre: this.objectLugares[2]._id.toString(), idHospital:this.idHospital })
+    }
+
+    // if(this.objectLugares[3]){
+        // alert("Solo puede ver las estadísticas de este grupo");
+        // this.activeModal.dismiss()
+    // }
   }
 
   loadProvinces(idHospital){
@@ -127,7 +153,8 @@ export class FilterModalComponent implements OnInit, OnDestroy{
   onChangeCanton(value){
     let canton = this.cantones.find(i=>i._id === value)
     this.objectLugares[1] = canton;
-    // console.log($event);
+    this.objectLugares.splice(2,2);
+    console.log(this.objectLugares);
     this.formulario.patchValue({
        parroquia:null,
        barrio:null
@@ -141,6 +168,7 @@ export class FilterModalComponent implements OnInit, OnDestroy{
   onChangeParroquia(value){
     let parroquia = this.parroquias.find(i=>i._id === value)
     this.objectLugares[2] = parroquia;
+    this.objectLugares.splice(3,1);
      this.formulario.patchValue({
        barrio:null
     })

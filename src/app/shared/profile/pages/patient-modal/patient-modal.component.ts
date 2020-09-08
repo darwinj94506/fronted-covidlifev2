@@ -13,7 +13,7 @@ export class PatientModalComponent implements OnInit {
   @Input() seguimiento: FiltrarSeguimientoOut;
   isLoadingPerfilUser$: Observable<boolean>;
   showResumen:boolean = false;
-  
+  showTemperatura:boolean = false;
   userPerfil$: Observable<UserPerfilOut>;
 
   constructor( public modal: NgbActiveModal, 
@@ -30,7 +30,8 @@ export class PatientModalComponent implements OnInit {
     }
     if(nextId === 'resumen')
       this.showResumen = true;
-    
+    if(nextId == 'temperatura')
+      this.showTemperatura = true;
   }
 
 }

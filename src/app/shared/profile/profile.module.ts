@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfilePageComponent } from './pages/profile/profile-page.component';
-// import { ProfileComponent } from './components/profile/profile.component';
 import { TimeLineComponent } from './components/time-line/time-line.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -18,9 +17,12 @@ import { SearchInviteModalComponent } from './pages/search-invite-modal/search-i
 import { DatosPacienteComponent } from './components/datos-paciente/datos-paciente.component';
 import { DatosUsuarioComponent } from './components/datos-usuario/datos-usuario.component';
 import { DatosPacienteModalComponent } from './pages/datos-paciente-modal/datos-paciente-modal.component';
+import { LineaEvolucionComponent } from './components/linea-evolucion/linea-evolucion.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { ChartsModule } from 'ng2-charts';
+
  
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -46,13 +48,15 @@ export const PROFILE_ROUTES: Routes = [
      SearchInviteModalComponent,
      DatosPacienteComponent,
      DatosUsuarioComponent,
-     DatosPacienteModalComponent ],
+     DatosPacienteModalComponent,
+     LineaEvolucionComponent ],
   imports: [
     CommonModule,
     NgbModule,
     FormsModule, ReactiveFormsModule,
     RouterModule.forChild(PROFILE_ROUTES),
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    ChartsModule
   ],
   exports:[
     PatientModalComponent,
@@ -71,7 +75,8 @@ export const PROFILE_ROUTES: Routes = [
     SearchInviteModalComponent,
     DatosUsuarioComponent,
     DatosPacienteComponent,
-    DatosPacienteModalComponent
+    DatosPacienteModalComponent,
+    LineaEvolucionComponent
   ],
   providers:[
     {

@@ -1,0 +1,7 @@
+<ng-container class="row" *ngIf="!(isLoading$ | async)">
+    <div style="height:370px;">
+        <canvas baseChart [datasets]="lineChartDataPacientes" [labels]="lineChartLabelsDays" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"> </canvas>
+    </div>
+</ng-container>
+
+<div *ngIf="isLoading$ | async">cargando...</div>

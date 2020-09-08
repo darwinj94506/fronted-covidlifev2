@@ -7,7 +7,7 @@ import { ContadoresEstadisticaIn,
 import { ContadoresEstadisticaOut, 
 		 CountPacientesPorDiaPorDiagnosticoOut, 
 		 VORoleHospitalPopulateLoginOut } from '../../../../core/domain/outputs';
-import { EstadisticaTipoEnum, RolesUserEnum, DiagnosticoActualEnum } from '../../../../core/domain/enums';
+import { EstadisticaTipoEnum, RolesUserEnum, DiagnosticoActualEnum, EspacioEnum } from '../../../../core/domain/enums';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -168,12 +168,10 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 			this._estadisticasFacade.distpachActionLoadUsuariosPorRol(inputTotalPacientes);
 			this._estadisticasFacade.distpachActionLoadUsuariosPorRol(inputTotalDoctores);
 		})
-		
-		
 		this._estadisticasFacade.getCountPacientesPorDiagnosticoDiarioFromStorage()
 			.pipe(takeUntil(this._destroyed$))
 			.subscribe(data=> {
-				console.log(data);
+				// console.log(data);
 				this.buildLineChartData(data)
 		})
 
@@ -200,13 +198,12 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 		this.totalPacientes$ = this._estadisticasFacade.getTotalPacientesFromStorage();
 		this.isLoadingTotalDoctores$ = this._estadisticasFacade.getIsLoadingTotalDoctoresFromStorage();
 		this.isLoadingTotalPacientes$ = this._estadisticasFacade.getIsLoadingTotalPacientesFromStorage();
-		// this.isLoadingTotalPorRol = this._estadisticasFacade.getIs
 	}
 	
 	transformDate(t){
-		console.log(t);
 		return new Date(new Date(t).getFullYear(), (new Date(t).getMonth()), new Date(t).getUTCDate())
 	}
+
 	buildLineChartData(data: CountPacientesPorDiaPorDiagnosticoOut []){ 
 		this.dataDiaDiagnostico = [];
 		this.lineChartLabelsDays = [];
@@ -218,8 +215,6 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 						}}))
 			.orderBy(item=> item.agrupadoPor.fecha_creacion)
 			.groupBy(item=>item.agrupadoPor.fecha_trasformada).value();
-
-		console.log(seguimientosPorDia);
 		let dias = []
 		for (const dia in seguimientosPorDia) {    
 			dias.push(dia);
@@ -241,7 +236,6 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 		  let dataConfirmados = [];
 		  let dataAislados = [];
 		  this.dataDiaDiagnostico.forEach((item, index)=>{
-			  console.log(index);
 			if(index > 0){
 			  dataSospechosos.push(item.data[0] + dataSospechosos[index-1])
 			  dataConfirmados.push(item.data[1] + dataConfirmados[index-1])
@@ -255,9 +249,7 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 	
 		  this.lineChartDataPacientes[0].data = dataConfirmados;
 		  this.lineChartDataPacientes[1].data = dataSospechosos;
-		//   this.lineChartDataPacientes[2].data = dataAislados;
 		  this.lineChartLabelsDays = dias; 
-
 	  }
 	
 	calcularPorcentaje(valor, total): number{
@@ -275,6 +267,21 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 				this.modalFilter = this._modalService.open(FilterModalComponent);
 				this.modalFilter.componentInstance.espacio = {...data};
 				this.modalFilter.componentInstance.idHospital = this.hospital.idHospital._id;
+				switch(data.tipo){
+					case EspacioEnum.PROVINCIA:
+						this.espacios[0] = data
+					break;
+					case EspacioEnum.CANTON:
+						this.espacios[1] = data
+					break;
+					case EspacioEnum.PARROQUIA:
+						this.espacios[2] = data
+					break;
+					case EspacioEnum.BARRIO:
+						this.espacios[3] = data
+					break;
+				}
+				this.modalFilter.componentInstance.objectLugares = this.espacios;
 				this.modalFilter.result.then(espacios=>{
 					this.espacios = espacios;
 				}).catch(_=> console.log("salio"))

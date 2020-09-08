@@ -8,7 +8,7 @@ const ValidationMessage = {
   email: { required: 'El Nombre es obligatorio', email:'El correo ingresado es inválido' },
   password: { required: 'La contraseña es obligatoria', minlength:'Una contraseña tiene al menos 6 caracteres' }
 }
-
+ 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'
