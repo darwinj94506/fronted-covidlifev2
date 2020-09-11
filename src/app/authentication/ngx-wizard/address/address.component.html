@@ -1,0 +1,89 @@
+<!-- Address Tab form Starts -->
+<form [formGroup]="hospitalForm" (ngSubmit)="onSubmit()">
+    <div class="tab-pane active">
+        <h4 class="head text-center">{{title}}</h4>
+        <br/>
+        <!-- <div class='row'> -->
+            <!-- <div class='col-sm-12'> --> 
+                <div class="row">
+                    <div class='col-12 col-sm-3'>
+                        <div class="form-group">
+                            <label class="form-control-label" for="city">Provincia</label>  
+                            <!-- <input class="form-control input-md" type="text" (blur)=logValidationErrors(hospitalForm) formControlName="provincia">                             -->
+                            <ng-container *ngIf="!(isLoadingProvincias$ | async); else loadingProv">
+                                <select class="form-control input-md" placeholder="Selecione una provincia" (blur)=logValidationErrors(hospitalForm) (change)="onChangeProvince($event)" formControlName="provincia">
+                                    <option *ngFor="let pro of provincias" [value]="pro._id">{{pro.nombre}}</option>
+                                </select>
+                            </ng-container>
+                            <ng-template #loadingProv>
+                                <div>Cargando Provincias...</div>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class='col-4 col-sm-3'>
+                        <div class="form-group">
+                            <label class="form-control-label" for="state">Cantón</label>  
+                            <!-- <input class="form-control input-md" type="text" (blur)=logValidationErrors(hospitalForm) formControlName="canton">                             -->
+                            <ng-container *ngIf="!(isLoadingCantones$ | async); else loadingCan">
+                                <select #select class="form-control input-md" placeholder="Selecione un cantón" (change)="onChangeCanton(select.value)" 
+                                    (blur)=logValidationErrors(hospitalForm) formControlName="canton">
+                                    <option *ngFor="let can of cantones" [value]="can._id">{{can.nombre}}</option>
+                                </select>
+                            </ng-container>
+                            <ng-template #loadingCan>
+                                <div>Cargando cantones...</div>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class='col-12 col-sm-3'>
+                        <div class="form-group">
+                            <label class="form-control-label" for="zip">Parroquia</label>  
+                            <!-- <input class="form-control input-md" type="text" (blur)=logValidationErrors(hospitalForm) formControlName="parroquia">                             -->
+                            <ng-container *ngIf="!(isLoadingParroquias$ | async); else loadingParr">
+                                <select #selParr class="form-control input-md" placeholder="Selecione una parroquia" (change)="onChangeParroquia(selParr.value)" (blur)=logValidationErrors(hospitalForm) formControlName="parroquia">
+                                    <option [value]="parr._id" *ngFor="let parr of parroquias">{{parr.nombre}}</option>
+                                </select>
+                            </ng-container>
+                            <ng-template #loadingParr>
+                                <div>Cargando parroquias...</div>
+                            </ng-template>
+                        </div>  
+                    </div> 
+                    <div class='col-12 col-sm-3'>
+                        <div class="form-group">
+                            <label class="form-control-label" for="zip">Barrio</label>  
+                            <!-- <input class="form-control input-md" type="text" (blur)=logValidationErrors(hospitalForm) formControlName="barrio">                             -->
+                            <ng-container *ngIf="!(isLoadingBarrios$ | async); else loadingBarr">
+                                <select #selBarr class="form-control input-md" placeholder="Selecione un barrio" formControlName="barrio" (blur)=logValidationErrors(hospitalForm) (change)="onChangeBarrio(selBarr.value)">
+                                    <option [value]="barr._id" *ngFor="let barr of barrios" >{{barr.nombre}}</option>
+                                </select>
+                            </ng-container>
+                            <ng-template #loadingBarr>
+                                <div>Cargando barrios...</div>
+                            </ng-template>
+                        </div>  
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="idHospital">Elija un grupo</label>  
+                            <input class="form-control input-md" id="idHospital" type="text"  (blur)=logValidationErrors(hospitalForm) formControlName="idHospital" name="idHospital">
+                            <small class="form-text text-muted danger" *ngIf="formsErrors.idHospital">{{formsErrors.idHospital}}</small>
+                        </div>  
+                        <!-- </div> -->
+                        <!-- <div class="row"> -->
+                        <div class="form-group text-center">
+                            <button uiSref="work" type="button" class="btn btn-raised btn-secondary mr-1" (click)="cancel()">Atrás</button>
+                            <button uiSref="result" type="submit" class="btn btn-raised btn-info" [disabled]="hospitalForm.invalid"> Siguiente </button>
+                        </div>
+                    </div>
+                </div>
+                
+            <!-- </div> -->
+        <!-- </div> -->
+    
+    </div>
+</form>
+<!-- Address Tab form Ends -->

@@ -13,7 +13,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 })
 
 export class PersonalComponent implements OnInit {
-    title = 'Please tell us about yourself.';
+    title = 'Por favor d.';
     personal: Personal;
     form: any;
 

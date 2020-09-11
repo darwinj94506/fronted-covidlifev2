@@ -16,6 +16,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
                     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="form-horizontal m-t-20" action="index.html">
                         <div class="form-group row">
                             <div class="col-12">
@@ -97,7 +101,6 @@
                                 <input class="form-control" type="text" formControlName="direccion" (blur)=logValidationErrors(signupForm) placeholder="Dirección">
                             </div>
                         </div>
-                        <app-datos-paciente *ngIf="showDatosMedico" (enviarForm)="recibirFormPaciente($event)"> </app-datos-paciente>
                         <div class="form-group row ">
                             <div class="col-md-12 ">
                                 <div class="custom-control custom-checkbox ">
@@ -117,12 +120,13 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
-            </div>
+                <div class="col-md-6">
+                    <app-datos-paciente *ngIf="showDatosMedico" (enviarForm)="recibirFormPaciente($event)"> </app-datos-paciente>
+                </div>     
         </div>
     </div>
-</div>
+    </div>
 
 <!-- modales términos y condiciones-->
 <ng-template #content let-modal>

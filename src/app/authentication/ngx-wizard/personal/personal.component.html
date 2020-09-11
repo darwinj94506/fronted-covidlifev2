@@ -1,0 +1,97 @@
+<!-- Personal Tab Form Starts -->
+<!-- <form #personalForm="ngForm" class="editForm" novalidate> -->
+    <div class="tab-pane active">
+        <p class="font-medium-2 text-center">{{title}}</p>
+        <br/>
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="form-horizontal m-t-20">
+            <div class="row">
+                <div class='col-12 col-sm-6'>
+                    <div class="form-group">
+                        <label class="form-control-label" for="firstname">Nombres</label>  
+                        <input class="form-control input-md" (blur)=logValidationErrors(signupForm) placeholder="Nombres" type="text" formControlName="name">   
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.name">{{formsErrors.name}}</small>
+                    </div>
+                </div>
+                <div class='col-12 col-sm-6'>
+                    <div class="form-group">
+                        <label class="form-control-label" for="lastname">Apellidos</label>  
+                        <input class="form-control input-md" formControlName="lastname" (blur)=logValidationErrors(signupForm) type="text" placeholder="Apellidos">
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.lastname">{{formsErrors.lastname}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col-12 col-sm-6'>
+                    <div class="form-group">
+                        <label class="form-control-label" for="firstname">Email</label>  
+                        <input class="form-control input-md" formControlName="email" (blur)=logValidationErrors(signupForm) type="text" placeholder="Correo">   
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.email">{{formsErrors.email}}</small>
+                    </div>
+                </div>
+                <div class='col-12 col-sm-6'>
+                    <div class="form-group">
+                        <label class="form-control-label" for="lastname">Contraseña</label>  
+                        <input class="form-control input-md" formControlName="password" (blur)=logValidationErrors(signupForm)  type="password" placeholder="Contraseña">
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.password">{{formsErrors.password}}</small>
+                    </div>
+                </div>
+            </div> 
+            <div class="row">
+                <div class='col-12 col-sm-6'>
+                    <div class="form-group">
+                        <label class="form-control-label" for="firstname">Cédula</label>  
+                        <input class="form-control input-md" formControlName="ci" (blur)=logValidationErrors(signupForm) type="text" placeholder="Cédula o pasaporte">   
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.ci">{{formsErrors.ci}}</small>
+                    </div>
+                </div>
+                <div class='col-12 col-sm-6'>
+                    <div class="form-group">
+                        <label class="form-control-label" for="lastname">Fecha de nacimiento</label>  
+                        <input class="form-control input-md" formControlName="fechaNacimiento" (blur)=logValidationErrors(signupForm) type="date" placeholder="Fecha de nacimiento">
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.fechaNacimiento">{{formsErrors.fechaNacimiento}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col-12 col-sm-6'>
+                    <div class="form-group">
+                        <label class="form-control-label" for="firstname">Género</label>  
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="materialUnchecked2" [value]="MASCULINO" (blur)=logValidationErrors(signupForm) formControlName="genero" name="genero">
+                            <label class="form-check-label" for="materialUnchecked2">Masculino</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="materialChecked2" [value]="FEMENINO" (blur)=logValidationErrors(signupForm) formControlName="genero" name="genero">
+                            <label class="form-check-label" for="materialChecked2">Femenino</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="materialChecked3" [value]="PREFIERO_NO_DECIRLO" (blur)=logValidationErrors(signupForm) formControlName="genero" name="genero">
+                            <label class="form-check-label" for="materialChecked3">Prefiero no decirlo</label>
+                        </div>
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.genero">{{formsErrors.genero}}</small>
+                    </div>
+                </div>
+                <div class='col-12 col-sm-6'>
+                    <div class="form-group">
+                        <label class="form-control-label" for="lastname">Teléfono</label>  
+                        <input class="form-control input-md" formControlName="telefono" (blur)=logValidationErrors(signupForm) type="text" placeholder="Teléfono">
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.telefono">{{formsErrors.telefono}}</small>
+                    </div>
+                </div>
+            </div>   
+            <div class="row">
+                <div class='col-12'>
+                    <div class="form-group">
+                        <label class="form-control-label" for="firstname">Dirección</label>  
+                        <input class="form-control input-md" type="text" formControlName="direccion" (blur)=logValidationErrors(signupForm) placeholder="Dirección">   
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.direccion">{{formsErrors.direccion}}</small>
+                    </div>
+                </div>
+            </div>                    
+            <div class="form-group text-center">
+                <button type="submit" uiSref="work" class="btn btn-success btn-raised" [disabled]="signupForm.invalid"> Siguiente </button>
+            </div>
+        </form>
+    </div>
+<!-- </form> -->
+<!-- Personal Tab Form Ends -->

@@ -22,7 +22,8 @@ export const AuthenticationRoutes: Routes = [
       },
       {
         path: 'signup',
-        component: SignupComponent
+        loadChildren: () => import('./ngx-wizard/ngx-wizard.module').then(m => m.NGXFormWizardModule)
+
       }
     ]
   }

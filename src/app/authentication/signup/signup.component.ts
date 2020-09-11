@@ -39,7 +39,7 @@ export class SignupComponent  extends Formulario implements OnInit {
   showDatosMedico:boolean = true;
 
   constructor( private fb: FormBuilder, private _authFacade: AuthFacade, private modalService: NgbModal ) {
-    super({...ValidationMessage}, )
+    super({...ValidationMessage} )
   }
 
   ngOnInit(){
@@ -122,7 +122,7 @@ export class SignupComponent  extends Formulario implements OnInit {
 
     }
 
-    console.log(userToRegister);
+    // console.log(userToRegister);
     this._authFacade.register(userToRegister)
   }
 
