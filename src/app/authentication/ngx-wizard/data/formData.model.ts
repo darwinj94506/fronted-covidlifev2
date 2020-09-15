@@ -1,5 +1,5 @@
 import { VORoleHospitalIn } from "src/app/core/domain/inputs/vo-role-hospital.in";
-import { UserGeneroEnum, UserAisladoPorEnum } from "src/app/core/domain/enums";
+import { UserGeneroEnum, UserAisladoPorEnum, RolesUserEnum } from "src/app/core/domain/enums";
 import { VOPacienteIn } from "src/app/core/domain/inputs";
 
 //Wizard form data class Starts
@@ -9,7 +9,7 @@ export class FormUserData {
     ci: String = '';
     email: String = '';
     password: String = '';   
-    roles: VORoleHospitalIn [];
+    roles: VORoleHospitalIn [] = [];
     telefono?: String = '';
     fechaNacimiento: Date = null ;
     genero: UserGeneroEnum = null;
@@ -20,6 +20,7 @@ export class FormUserData {
     token_notificacion_movil?: String
     token_notificacion_web?: String
 }
+
 export class FormDataPaciente{
     aislado_por: UserAisladoPorEnum = null;
     alergia_medicamentos: String ='';
@@ -35,7 +36,10 @@ export class FormDataPaciente{
     id_seguimiento_inicial?: String ='';
 }
 
-
+export class VORoleHospital{
+    idHospital: string = '';
+    roles: RolesUserEnum [] = []
+} 
 
 export class FormData {
     firstName: string = '';

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { FormData, Personal, Address, FormDataPaciente, FormUserData } from './formData.model';
+import { FormData, Personal, Address, FormDataPaciente, FormUserData, VORoleHospital} from './formData.model';
 import { WorkflowService } from '../workflow/workflow.service';
 import { STEPS } from '../workflow/workflow.model';
 import { RolesUserEnum } from 'src/app/core/domain/enums';
 
 @Injectable()
 export class FormDataService {
+    isDoctor: boolean = false;
     private formData: FormData = new FormData();
     private isPersonalFormValid: boolean = false;
     private isWorkFormValid: boolean = false;
@@ -13,10 +14,29 @@ export class FormDataService {
     // 
     private formDataPaciente: FormDataPaciente = new FormDataPaciente();
     private formUserData: FormUserData = new FormUserData();
-
+    private hospitalRol: VORoleHospital = new VORoleHospital();
+    // private rolHospital: 
 
     constructor(private workflowService: WorkflowService) {
     }
+
+    setHospitalRol(idHospital){
+        this.hospitalRol.idHospital = idHospital;
+        this.hospitalRol.roles = [RolesUserEnum.PACIENTE]
+    }
+
+    getHospitalRol(){
+        var rol : VORoleHospital = {
+            idHospital: this.hospitalRol.idHospital,
+            roles: this.hospitalRol.roles
+        }
+        return rol;
+    }
+   
+    setIsDoctor(){
+        this.isDoctor = !this.isDoctor
+    }
+
     // FormUserData
     getDataUser(): FormUserData {
         var user: FormUserData = {
@@ -45,7 +65,7 @@ export class FormDataService {
         this.formUserData.ci = data.ci;
         this.formUserData.fechaNacimiento = data.fechaNacimiento;
         this.formUserData.genero = data.genero;
-        this.formUserData.roles = data.roles;
+        this.formUserData.roles = [];
         this.formUserData.direccion = data.direccion;
         // Validate Personal Step in Workflow
         this.workflowService.validateStep(STEPS.personal);
@@ -54,7 +74,7 @@ export class FormDataService {
     setPacienteHospital(idHospital:string){
         this.formUserData.roles = [{
             idHospital: idHospital, 
-            roles:[RolesUserEnum.PACIENTE]
+            roles: [RolesUserEnum.PACIENTE]
           }]
     }
 
@@ -75,6 +95,7 @@ export class FormDataService {
         return paciente;
     }
 
+
     setDataPaciente(data:FormDataPaciente){
         this.formDataPaciente.aislado_por = data.aislado_por;
         this.formDataPaciente.alergia_medicamentos=data.alergia_medicamentos;
@@ -87,7 +108,7 @@ export class FormDataService {
         this.formDataPaciente.tiene_diabetes=data.tiene_diabetes;
         this.formDataPaciente.tiene_diagnosticado_enfermedad=data.tiene_diagnosticado_enfermedad;
         this.formDataPaciente.tiene_presion_alta=data.tiene_presion_alta;
-        this.formUserData.datos_paciente = {...this.formDataPaciente};
+        // this.formUserData.datos_paciente = {...this.formDataPaciente};
         this.isWorkFormValid = true;
         this.workflowService.validateStep(STEPS.work);
     }

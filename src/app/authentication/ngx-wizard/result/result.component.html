@@ -20,7 +20,7 @@
             <div class="row">
                 <div class='col-3 col-sm-2'>
                     <div class="form-group">
-                        <label class="form-control-label" for="email">Correo electrónico: </label> 
+                        <label class="form-control-label" for="email">Correo: </label> 
                     </div> 
                 </div> 
                 <div class='col-9 col-sm-10'>
@@ -59,8 +59,75 @@
             </div>
         </div>
     </div>
+    <div class="form-group row ">
+        <div class="col-md-12 ">
+            <div class="custom-control custom-checkbox ">
+                <input type="checkbox" class="custom-control-input" id="customCheck1" (change)="onCheckboxChange($event)">
+                <label class="custom-control-label" for="customCheck1">Estoy de acuerdo con los  <a href="javascript:void(0)" (click)="verTerminosCondiciones()">términos y condiciones</a></label>
+            </div>
+        </div>
+    </div>
     <div class="text-center">
-        <button class="btn btn-success btn-raised" [disabled]="!isFormValid" (click)="submit()"> Enviar <span style="margin-left:10px;"><i class="ft-chevron-right"></i></span></button>
+        <button class="btn btn-success btn-raised" (click)="submit()"> Enviar <span style="margin-left:10px;"><i class="ft-chevron-right"></i></span></button>
     </div>
 </div>
 <!-- Result tab Form ends -->
+
+
+<!-- modales términos y condiciones-->
+<ng-template #content let-modal>
+    <div class="modal-header ">
+        <h4 class="modal-title ">Advertencia</h4>
+        <button type="button " class="close " aria-label="close " (click)="modal.dismiss( 'Cross click') ">
+        <span aria-hidden="true ">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body ">
+        <p>Antes de continuar, tiene que aceptar los términos y condiciones</p>
+    </div>
+    <div class="modal-footer ">
+        <button type="button " class="btn btn-light " (click)="modal.close( 'Close click') ">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #longContent let-modal>
+    <div class="modal-header ">
+        <h4 class="modal-title ">Términos y condiciones</h4>
+        <button type="button " class="close " aria-label="Close " (click)="modal.dismiss( 'Cross click') ">
+        <span aria-hidden="true ">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body ">
+        <h3>TÉRMINOS DE USO APLICATIVO COVID-LIFE</h3>
+        <p>Por favor, lea detenidamente los términos legales de uso, antes de hacer uso de la aplicación, este es un acuerdo entre el usuarioy elaplicativoCovid-Life.</p>
+        <p>
+            Nuestra aplicaciónCovid-Liferecoge informaciónpersonal, por ejemplo: número de cédula, nombres, apellidos, correo electrónico, localización (GPS), fecha de nacimiento, teléfono, empresa/organización, provincia, cantón, parroquia, dirección, información
+            sobre asilamiento domiciliario: afiliación seguro social; genero (si es mujer, le solicita información sobre si está embarazada, si está en período de lactancia), factores de riesgo: si sufre de presión alta, diabetes, si es fumador, diagnóstico
+            de cáncer, carnet de discapacitado emitido por el Ministerio de Salud Pública, si le han diagnosticado alguna enfermedad, tiene alergia a medicamentos, cuantos familiares están en el cerco epidemiológico. Además, se le solicitarápor tres veces
+            al día los signos vitales (temperatura, ritmo cardíaco, saturación del oxígeno) y su estado de salud, con el fin de conocer de manera real su estado de salud y poder tomar una decisión rápida y oportuna.
+        </p>
+        <p>
+            Al hacer uso de la App Covid-Life, usted (usuario) acepta y está de acuerdo con las condiciones establecidas en estos términos de uso.
+        </p>
+        <ol>
+            <li>
+                Fin yalcance
+                <ul>
+                    <li>
+                        El usuario ingresa sus datos personales para fineslícitos.
+                    </li>
+                    <li>
+                        Al proporcionar sus datos, al aplicativo Covid-Lifeestá de acuerdo que sus datos puedan ser utilizados por el Estado Ecuatoriano para tomar medidas para enfrentar la emergencia de saludpública.
+                    </li>
+
+                </ul>
+            </li>
+        </ol>
+
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click') ">Cerrar</button>
+    </div>
+</ng-template>

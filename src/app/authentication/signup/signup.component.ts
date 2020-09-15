@@ -140,7 +140,6 @@ export class SignupComponent  extends Formulario implements OnInit {
     } else {
       this.showDatosMedico=true;
     }
-
   }
 
 }

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params, NavigationEnd } from "@angular/router";
-import { filter } from 'rxjs/operators';
-
+// import { filter } from 'rxjs/operators';
+import { FormDataService } from '../data/formData.service';
+ 
 @Component({
     selector: 'msw-navbar',
     templateUrl: './navbar.component.html',
@@ -10,6 +11,7 @@ import { filter } from 'rxjs/operators';
 
 export class NavbarComponent {
     constructor(private router: Router,
+        public formDataService: FormDataService,
         private route: ActivatedRoute) {
     }
     page: string = "Personal";

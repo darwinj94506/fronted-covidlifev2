@@ -45,12 +45,11 @@ export class WorkComponent extends Formulario implements OnInit {
         UserAisladoPorEnum.MPS,
         UserAisladoPorEnum.PRIVADO
     ]
-  pacienteForm: FormGroup;
-
-
+    pacienteForm: FormGroup;
     constructor(private router: Router,
         private fb: FormBuilder,
-        private route: ActivatedRoute, private formDataService: FormDataService,
+        private route: ActivatedRoute, 
+        private formDataService: FormDataService,
         private workflowService: WorkflowService) {
             super({...ValidationMessage})
     }
@@ -60,12 +59,16 @@ export class WorkComponent extends Formulario implements OnInit {
         this.initForm();
     }
     onSubmit(){
-        if (this.pacienteForm.invalid){
-            alert("datos inconrrectos");
-            return false;
+        if(this.formDataService.isDoctor)
+            this.router.navigate(['result'], { relativeTo: this.route.parent, skipLocationChange: true });
+        else{   
+            if(this.pacienteForm.invalid){
+                alert("datos inconrrectos");
+                return false;
+            }
+            this.formDataService.setDataPaciente(this.pacienteForm.value);
+            this.router.navigate(['address'], { relativeTo: this.route.parent, skipLocationChange: true });
         }
-        this.formDataService.setDataPaciente(this.pacienteForm.value);
-        this.router.navigate(['address'], { relativeTo: this.route.parent, skipLocationChange: true });
     }
 
     //Save button event Starts
@@ -85,6 +88,7 @@ export class WorkComponent extends Formulario implements OnInit {
     initForm(){
         let paciente = this.formDataService.getDataPaciente();
         this.pacienteForm = this.fb.group({
+          isDoctor: this.formDataService.isDoctor,
         //   idHospital: ['', [Validators.required]],
           aislado_por: [paciente.aislado_por, [Validators.required]],
           alergia_medicamentos: [paciente.alergia_medicamentos, [Validators.required]],
@@ -98,5 +102,8 @@ export class WorkComponent extends Formulario implements OnInit {
           tiene_diagnosticado_enfermedad: [paciente.tiene_diagnosticado_enfermedad, [Validators.required]],
           tiene_presion_alta: [paciente.tiene_presion_alta, [Validators.required]],
         });
+      }
+      onCheckboxChangeMedico(e){
+          this.formDataService.setIsDoctor()
       }
 }

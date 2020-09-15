@@ -17,7 +17,7 @@
                 </span> 
             </a>
         </li>
-        <li class="flex-fill">
+        <li class="flex-fill" *ngIf="!formDataService.isDoctor">
             <a [ngClass]="(page==='Address')?'nav-link active':'nav-link'" uiSrefActive="active" uiSref="address" data-toggle="tab" title="address">
                 <span class="round-tabs three">
                     <i class=" icon-location-pin"></i>

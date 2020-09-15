@@ -6,7 +6,7 @@ import { STEPS } from "../workflow/workflow.model";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Formulario } from '../../../core/domain/class/formulario';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IEspacioEntity } from 'src/app/core/domain/entities';
+import { IEspacioEntity, IHospitalEntity } from 'src/app/core/domain/entities';
 import { Observable, Subject } from 'rxjs';
 import { MainFacade } from 'src/app/store/facade';
 import { takeUntil } from 'rxjs/operators';
@@ -31,10 +31,12 @@ export class AddressComponent extends Formulario implements OnInit, OnDestroy {
     cantones: IEspacioEntity[];
     parroquias: IEspacioEntity[];
     barrios: IEspacioEntity[];
+    hospitales: IHospitalEntity[];
     isLoadingProvincias$:Observable<boolean>;
     isLoadingCantones$:Observable<boolean>;
     isLoadingParroquias$:Observable<boolean>;
     isLoadingBarrios$:Observable<boolean>;
+    isLoadingHospitales$:Observable<boolean>;
 
     constructor(private router: Router,
         private fb: FormBuilder,
@@ -50,10 +52,13 @@ export class AddressComponent extends Formulario implements OnInit, OnDestroy {
         this._mainFacade.getCantonesFromStorage().pipe(takeUntil(this._destroyed$)).subscribe(data=> this.cantones = data);
         this._mainFacade.getParroquiasFromStorage().pipe(takeUntil(this._destroyed$)).subscribe(data=> this.parroquias = data);
         this._mainFacade.getBarriosFromStorage().pipe(takeUntil(this._destroyed$)).subscribe(data=> this.barrios = data);
+        this._mainFacade.getHospitales().pipe(takeUntil(this._destroyed$)).subscribe(data=> this.hospitales = data);
+        this._mainFacade.dispatchActionLoadHospitales({});
         this.isLoadingProvincias$=this._mainFacade.getIsLoadingProvinciasFromStorage()
         this.isLoadingCantones$=this._mainFacade.getIsLoadingCantones();
         this.isLoadingParroquias$=this._mainFacade.getIsLoadingParroquias();
         this.isLoadingBarrios$=this._mainFacade.getIsLoadingBarrios();
+        this.isLoadingHospitales$=this._mainFacade.getLoadingHospitales();
         this.loadProvinces();
         this.initForm();
     }
@@ -100,16 +105,16 @@ export class AddressComponent extends Formulario implements OnInit, OnDestroy {
       this._mainFacade.distatchActionLoadEspacios(EspacioEnum.PROVINCIA, filtro);
     }
 
-    onChangeProvince($event) {
+    onChangeProvince(value) {
         this.hospitalForm.patchValue({
            canton: null,
            parroquia: null,
            barrio: null
         });  
-        
-        if($event){
-          let filtro : FilterEspaceIn = { idEspacioPadre : $event._id }
+        if(value){
+          let filtro : FilterEspaceIn = { idEspacioPadre : value }
           this._mainFacade.distatchActionLoadEspacios(EspacioEnum.CANTON, filtro)
+          this._mainFacade.dispatchActionLoadHospitales({idEspacio: value})
         }
       }
     
@@ -125,6 +130,7 @@ export class AddressComponent extends Formulario implements OnInit, OnDestroy {
         if(value){
           let filtro : FilterEspaceIn = { idEspacioPadre : value }
           this._mainFacade.distatchActionLoadEspacios(EspacioEnum.PARROQUIA, filtro)
+          this._mainFacade.dispatchActionLoadHospitales({idEspacio: value})
         }
       }
     
@@ -138,17 +144,43 @@ export class AddressComponent extends Formulario implements OnInit, OnDestroy {
         if(value){
           let filtro : FilterEspaceIn = { idEspacioPadre : value }
           this._mainFacade.distatchActionLoadEspacios(EspacioEnum.BARRIO, filtro)
+          this._mainFacade.dispatchActionLoadHospitales({idEspacio: value})
+
         }
       }
     
       onChangeBarrio(value){
-        let barrio = this.barrios.find(i=>i._id === value)
+        // let barrio = this.barrios.find(i=>i._id === value)
+        if(value){
+          this._mainFacade.dispatchActionLoadHospitales({idEspacio: value})
+        }
         // this.objectLugares[3] = barrio;
       }
-      
+      onChangeHospital(value){
+
+      }
+
+      loadHospital(idEspacio: string){
+        this._mainFacade.dispatchActionLoadHospitales({idEspacio})
+      }
+
       ngOnDestroy(){
         this._destroyed$.next();
         this._destroyed$.complete();
       }
     
 }
+
+
+// {
+//   name:"xyx",
+//   lastname:"xyz",
+//   telefono:"123123123",
+//   email:"xyz@admin.com",
+//   password:"123456",
+//   ci:"991000666029",
+//   fechaNacimiento:"2005-02-11",
+//   genero:"M",
+//   roles:[],
+//   direccion:"12321321"
+// }

@@ -11,7 +11,7 @@
                             <label class="form-control-label" for="city">Provincia</label>  
                             <!-- <input class="form-control input-md" type="text" (blur)=logValidationErrors(hospitalForm) formControlName="provincia">                             -->
                             <ng-container *ngIf="!(isLoadingProvincias$ | async); else loadingProv">
-                                <select class="form-control input-md" placeholder="Selecione una provincia" (blur)=logValidationErrors(hospitalForm) (change)="onChangeProvince($event)" formControlName="provincia">
+                                <select #selectProv class="form-control input-md" placeholder="Selecione una provincia" (blur)=logValidationErrors(hospitalForm) (change)="onChangeProvince(selectProv.value)" formControlName="provincia">
                                     <option *ngFor="let pro of provincias" [value]="pro._id">{{pro.nombre}}</option>
                                 </select>
                             </ng-container>
@@ -68,9 +68,19 @@
                     <div class="col-12">
 
                         <div class="form-group">
-                            <label class="form-control-label" for="idHospital">Elija un grupo</label>  
-                            <input class="form-control input-md" id="idHospital" type="text"  (blur)=logValidationErrors(hospitalForm) formControlName="idHospital" name="idHospital">
-                            <small class="form-text text-muted danger" *ngIf="formsErrors.idHospital">{{formsErrors.idHospital}}</small>
+                            <label class="form-control-label" for="idHospital">Elija un lugar de atención</label>  
+                            <!-- <input class="form-control input-md" id="idHospital" type="text"  (blur)=logValidationErrors(hospitalForm) formControlName="idHospital" name="idHospital">
+                            <small class="form-text text-muted danger" *ngIf="formsErrors.idHospital">{{formsErrors.idHospital}}</small> -->
+                            <ng-container *ngIf="!(isLoadingHospitales$ | async); else loadingHosp">
+                                <select #selHos class="form-control input-md" placeholder="Selecione un barrio" formControlName="idHospital" (blur)=logValidationErrors(hospitalForm) (change)="onChangeHospital(selHos.value)">
+                                    <option [value]="hos._id" *ngFor="let hos of hospitales" >{{hos.nombre}}</option>
+                                </select>
+                            </ng-container>
+                            <ng-template #loadingHosp>
+                                <div>Cargando lugares de atención...</div>
+                            </ng-template>
+                            <small class="form-text text-muted danger" *ngIf="formsErrors.idHospital">{{formsErrors.idHospital}}</small> 
+
                         </div>  
                         <!-- </div> -->
                         <!-- <div class="row"> -->
