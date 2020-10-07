@@ -59,7 +59,7 @@ export class SidebarComponent implements OnInit {
           if(userLogged.isRoot)
              this.sidebarnavItems = this.getMenu([RolesUserEnum.ROOT]);
           else this.sidebarnavItems = this.getMenu(hospitalSesion.roles);
-          this.sidebarnavItems=[...ROUTES, ...this.sidebarnavItems]
+          // this.sidebarnavItems=[...ROUTES, ...this.sidebarnavItems]
 
         })
     }
