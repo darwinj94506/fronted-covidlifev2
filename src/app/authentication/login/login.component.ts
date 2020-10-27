@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthFacade } from '../store/auth.facade';
 import { Formulario } from '../../core/domain/class/formulario'
 import { ICredentialsInput } from '../../core/domain/inputs';
-
+import { RecuperarContraseniaUsecase } from '../../core/usecases';
+import { NgxSpinnerService } from 'ngx-spinner'; 
 const ValidationMessage = {
   email: { required: 'El Nombre es obligatorio', email:'El correo ingresado es inválido' },
   password: { required: 'La contraseña es obligatoria', minlength:'Una contraseña tiene al menos 6 caracteres' }
@@ -17,10 +18,12 @@ export class LoginComponent extends Formulario implements OnInit{
   loginForm: FormGroup;
   loginform = true;
   recoverform = false;
-
- 
+  emailRecupCont: String = '';
   
-  constructor( private fb: FormBuilder, private _authFacade: AuthFacade) {
+  constructor( private fb: FormBuilder,
+               private _spinner: NgxSpinnerService,
+               private _recuperarContraseniaUsecase:RecuperarContraseniaUsecase,
+               private _authFacade: AuthFacade) {
     super({...ValidationMessage})
   }
 
@@ -32,7 +35,6 @@ export class LoginComponent extends Formulario implements OnInit{
     this.loginform = !this.loginform;
     this.recoverform = !this.recoverform;
   }
-
 
   initForm(){
     this.loginForm = this.fb.group({
@@ -49,4 +51,17 @@ export class LoginComponent extends Formulario implements OnInit{
     this._authFacade.login(userToLogin)
   }
 
+  recuperarContrasenia(){
+    this._spinner.show();
+    this._recuperarContraseniaUsecase.execute({email: this.emailRecupCont})
+      .subscribe(data=>{
+        this._spinner.hide();
+        alert("Se ha enviado un mensaje a su correo");
+      },err=>{
+        this._spinner.hide();
+        alert(err);
+        console.log(err);
+      })
+  }
+  
 }

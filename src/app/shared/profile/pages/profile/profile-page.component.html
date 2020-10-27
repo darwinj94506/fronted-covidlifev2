@@ -13,7 +13,13 @@
                         <app-over-view [userPerfil$]="userPerfil$"></app-over-view>
                     </ng-template>
                 </ngb-tab>
-
+                <ngb-tab title="Datos">
+                    <ng-template ngbTabContent>
+                        <ng-container>
+                            <app-settings></app-settings>
+                        </ng-container>
+                    </ng-template>
+                </ngb-tab>
                 <ngb-tab title="Resumen">
                     <ng-template ngbTabContent>
                         <ng-container *ngIf="userPerfil$ | async as userPerfil">

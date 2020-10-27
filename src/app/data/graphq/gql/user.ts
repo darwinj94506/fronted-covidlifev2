@@ -116,3 +116,18 @@ export const TOGGLE_ROLE = gql `
       name
     }
 }`; 
+
+export const RECUPERAR_CONTRASENIA = gql `
+  mutation recuperarContrasenia($data:RecuperarContraseniaIn!){
+    recuperarContrasenia(data:$data){
+        msg
+      }
+}`;
+
+export const RESETEAR_CONTRASENIA = gql `
+  mutation reseteoContrasenia($data:ReseteoContraseniaIn!){
+    reseteoContrasenia(data:$data){
+      msg
+    }
+}`; 
+

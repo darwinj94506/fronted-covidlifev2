@@ -86,6 +86,7 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
   }
 
   initForm(){
+    console.log(this.seguimiento);
     this.seguimientoForm = this.fb.group({
       temperatura: [{ value: this.seguimiento.temperatura, disabled:true }],
       ritmo_cardiaco: [ { value: this.seguimiento.ritmo_cardiaco, disabled: this.isDisabled() }, [Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],
@@ -93,7 +94,7 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
       dificultad_respirar: [{ value: this.seguimiento.dificultad_respirar, disabled: this.isDisabled()}],
       examen: [{value: this.seguimiento.examen, disabled: this.isDisabled()}],
       nota_paciente: [ {value: this.seguimiento.nota_paciente, disabled:true}],
-      observacion_doctor: [ {value:'', disabled: this.isDisabled()}, [ Validators.maxLength(250)] ],
+      observacion_doctor: [ {value:this.seguimiento.observacion_doctor, disabled: this.isDisabled()}, [ Validators.maxLength(250)] ],
       diagnostico_actual: [{value: this.seguimiento.diagnostico_actual, disabled:this.isDisabled()}]
     });
   }

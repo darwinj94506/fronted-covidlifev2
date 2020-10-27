@@ -74,21 +74,39 @@
             <div class="logo">
                 <span class="db"><img src="assets/images/logo-icon.png" alt="logo" /></span>
                 <h5 class="font-medium m-b-20">Recuperar contraseña</h5>
-                <span>Enter your Email and instructions will be sent to you!</span>
+                <span>Ingrese su correo electrónico, y siga las intrucciones que le llegarán a su correo</span>
             </div>
             <div class="row m-t-20">
                 <!-- Form -->
-                <form class="col-12">
+                <form class="col-12" (ngSubmit)="recuperarContrasenia()" #recForm="ngForm">
                     <!-- email -->
                     <div class="form-group row">
                         <div class="col-12">
-                            <input class="form-control form-control-lg" type="email" required="" placeholder="Username">
+                            <input class="form-control form-control-lg" 
+                                type="email"  
+                                placeholder="Correo electrónico" 
+                                name="emailRecupCont2"
+                                required
+                                #emailRecupCont2="ngModel"
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" 
+                                [(ngModel)]="emailRecupCont">
+                        </div>
+                        <div class="row" >
+                            <div class="col col-md-12">
+                                <span class="help-block" *ngIf="emailRecupCont2.touched && emailRecupCont2.errors?.required">
+                                    El Correo es obligatorio
+                                </span>
+                                <span class="help-block" *ngIf="emailRecupCont2.touched && emailRecupCont2.errors?.pattern">
+                                    El Correo es inválido
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <!-- pwd -->
                     <div class="row m-t-20">
                         <div class="col-12">
-                            <button class="btn btn-block btn-lg btn-danger" type="submit" name="action">Reset</button>
+                            <button class="btn btn-block btn-lg btn-danger"
+                            type="submit" name="action" [disabled]="!recForm.valid">Enviar</button>
                         </div>
                     </div>
                 </form>

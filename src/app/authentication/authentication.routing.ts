@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 import { NotfoundComponent } from './404/not-found.component';
 import { LockComponent } from './lock/lock.component';
 import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
+// import { SignupComponent } from './signup/signup.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export const AuthenticationRoutes: Routes = [
   {
@@ -21,9 +22,12 @@ export const AuthenticationRoutes: Routes = [
         component: LoginComponent
       },
       {
+        path: 'reset-password',
+        component: ResetPasswordComponent
+      },
+      {
         path: 'signup',
         loadChildren: () => import('./ngx-wizard/ngx-wizard.module').then(m => m.NGXFormWizardModule)
-
       }
     ]
   }

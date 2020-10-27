@@ -28,3 +28,5 @@ export { MapasDatosOut } from './mapas-datos.out';
 export { EditarSeguimientoOut } from './editar-seguimiento.out';
 export { MapasPacientesPorDiagnosticoOut } from './mapas-pacientes-por-diagnostico.out';
 export { VerEspacioOut } from './ver-espacio.out';
+export { RecuperarContraseniaOut } from './recuperar-contrasenia.out';
+export { ReseteoContraseniaOut } from './reseteo-contrasenia.out';

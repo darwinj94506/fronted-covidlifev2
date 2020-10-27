@@ -1,5 +1,11 @@
 import { IOperations, IOperation} from '../interfaces/operation.interface';
-import { REGISTER, LOGIN, LOGOUT, FILTER_USERS, PERFIL, TOGGLE_ROLE} from '../gql/user';
+import { REGISTER, LOGIN, 
+        LOGOUT, 
+        FILTER_USERS, 
+        PERFIL, 
+        TOGGLE_ROLE,
+        RESETEAR_CONTRASENIA, 
+        RECUPERAR_CONTRASENIA} from '../gql/user';
 
 export interface IUserOperationsAuth extends IOperations{
     login: IOperation;
@@ -8,6 +14,8 @@ export interface IUserOperationsAuth extends IOperations{
     filterUsers:IOperation;
     perfil:IOperation;
     toggle: IOperation;
+    recuperar_contrasenia:IOperation;
+    resetear_contrasenia:IOperation;
 }  
 
 export const USER_OPERATIONS : IUserOperationsAuth = {
@@ -48,6 +56,14 @@ export const USER_OPERATIONS : IUserOperationsAuth = {
     toggle:{
         resolve:'toggleRole',
         gql:TOGGLE_ROLE
+    },
+    recuperar_contrasenia:{
+        resolve:'recuperarContrasenia',
+        gql:RECUPERAR_CONTRASENIA
+    },
+    resetear_contrasenia:{
+        resolve:'reseteoContrasenia',
+        gql:RESETEAR_CONTRASENIA
     }
 }
 

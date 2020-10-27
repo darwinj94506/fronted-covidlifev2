@@ -1,12 +1,23 @@
 import { Injectable, Injector} from '@angular/core';
 import { UsuarioRepository } from '../../../../core/repositories/usuario.repository';
-import { ICredentialsInput, SignupIn, FilterUserIn, IdIn, AsignarRoleIn } from '../../../../core/domain/inputs';
+import { ICredentialsInput, 
+         SignupIn, 
+         FilterUserIn, 
+         IdIn,
+         ReseteoContraseniaIn,
+         RecuperarContraseniaIn, 
+         AsignarRoleIn } from '../../../../core/domain/inputs';
 import { MongoDBRepository} from '../mongo-repository';
 import { USER_OPERATIONS } from '../../../graphq';
 import { IUsuarioEntity } from '../../../../core/domain/entities';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LoginOut, UserPerfilOut, AsignarRoleOut, FilterUserOut} from 'src/app/core/domain/outputs';
+import { LoginOut, 
+         UserPerfilOut,
+         RecuperarContraseniaOut, 
+         AsignarRoleOut, 
+         ReseteoContraseniaOut,
+         FilterUserOut} from 'src/app/core/domain/outputs';
 
 @Injectable({ providedIn:'root'})
 export class UserMDBRepository extends MongoDBRepository<IUsuarioEntity> implements UsuarioRepository{
@@ -79,6 +90,26 @@ export class UserMDBRepository extends MongoDBRepository<IUsuarioEntity> impleme
         }).pipe(
             map(( { data } )=> data[USER_OPERATIONS.toggle.resolve] )) 
 
+    }
+
+    recuperarContrasenia(input:RecuperarContraseniaIn):Observable<RecuperarContraseniaOut>{
+        return this.apollo.mutate({
+            mutation: USER_OPERATIONS.recuperar_contrasenia.gql,
+            variables:{
+                data: input
+            },
+        }).pipe(
+            map(({data})=>data[USER_OPERATIONS.recuperar_contrasenia.resolve]))
+    }
+
+    resetearContrasenia(input:ReseteoContraseniaIn):Observable<ReseteoContraseniaOut>{
+        return this.apollo.mutate({
+            mutation: USER_OPERATIONS.resetear_contrasenia.gql,
+            variables:{
+                data: input
+            },
+        }).pipe(
+            map(({data})=>data[USER_OPERATIONS.resetear_contrasenia.resolve]))
     }
 
 }

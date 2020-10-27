@@ -15,6 +15,7 @@ import { reducer } from './store/auth.reducers';
 import { AuthEffects } from './store/auth.effects';
 import { DatosPacienteComponent } from './signup/datos-paciente.component';
 import { DatosUserComponent } from './signup/datos-user.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 // import { AuthService } from './auth.service';
 
 @NgModule({
@@ -34,6 +35,7 @@ import { DatosUserComponent } from './signup/datos-user.component';
     LockComponent,
     DatosPacienteComponent,
     DatosUserComponent,
+    ResetPasswordComponent,
   ],
   providers:[
    
