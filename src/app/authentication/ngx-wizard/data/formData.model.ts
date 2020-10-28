@@ -25,13 +25,13 @@ export class FormDataPaciente{
     aislado_por: UserAisladoPorEnum = null;
     alergia_medicamentos: String ='';
     tiene_diagnosticado_enfermedad: String ='';
-    es_diagnosticado_cancer: Boolean = null;
-    es_embarazada: Boolean = null;
-    esta_dando_lactar: Boolean = null;
-    fue_es_fumador: Boolean = null;
-    tiene_carnet_discapacidad: Boolean = null;
-    tiene_diabetes: Boolean = null;
-    tiene_presion_alta: Boolean = null;
+    es_diagnosticado_cancer: boolean = null;
+    es_embarazada: boolean = null;
+    esta_dando_lactar: boolean = null;
+    fue_es_fumador: boolean = null;
+    tiene_carnet_discapacidad: boolean = null;
+    tiene_diabetes: boolean = null;
+    tiene_presion_alta: boolean = null;
     familiares_cerco: number = null;
     id_seguimiento_inicial?: String ='';
 }

@@ -8,23 +8,25 @@
     <div class="col-lg-12 col-xlg-12 col-md-12">
         <div class="card">
             <ngb-tabset type="pills" class="custom-pills">
-                <ngb-tab title="Datos personales">
+                <!-- <ngb-tab title="Datos personales">
                     <ng-template ngbTabContent>
                         <app-over-view [userPerfil$]="userPerfil$"></app-over-view>
                     </ng-template>
-                </ngb-tab>
+                </ngb-tab> -->
                 <ngb-tab title="Datos">
                     <ng-template ngbTabContent>
-                        <ng-container>
-                            <app-settings></app-settings>
+                        <!-- <ng-container *ngIf="userPerfil$ | async as userPerfil"> -->
+                        <ng-container *ngIf="!(isLoadingPerfil$ | async)">
+                            <app-settings [userPerfil]="userPerfil"></app-settings>
                         </ng-container>
+                        <!-- </ng-container> -->
                     </ng-template>
                 </ngb-tab>
                 <ngb-tab title="Resumen">
                     <ng-template ngbTabContent>
-                        <ng-container *ngIf="userPerfil$ | async as userPerfil">
+                        <!-- <ng-container *ngIf="userPerfil$ | async as userPerfil"> -->
                             <app-time-line [idPaciente]="userPerfil._id"></app-time-line>
-                        </ng-container>
+                        <!-- </ng-container> -->
                     </ng-template>
                 </ngb-tab>
 

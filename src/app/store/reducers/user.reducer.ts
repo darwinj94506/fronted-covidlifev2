@@ -7,9 +7,9 @@ export interface UserState {
   isSearchingUsers:boolean;
   miPerfil: UserPerfilOut,
   userPerfil: UserPerfilOut,
-  findedUsers: FilterUserOut[]
+  findedUsers: FilterUserOut[],
+  actualizandoUsuario:boolean;
 }
-
 
 const userInit: UserPerfilOut = {
   _id:'',
@@ -32,7 +32,8 @@ export const initialState: UserState = {
   isSearchingUsers:false,
   miPerfil: {...userInit},
   userPerfil: { ...userInit},
-  findedUsers: []
+  findedUsers: [],
+  actualizandoUsuario:false
 };
 
 const userReducer = createReducer(
@@ -77,7 +78,51 @@ const userReducer = createReducer(
     ...state,
     isSearchingUsers:false,
   })),
-
+  on(userActions.updateUser, (state) => ({
+    ...state,
+    actualizandoUsuario:true,
+  })),
+  on(userActions.updateUserSuccess, (state, payload) => {
+    console.log(payload.user);
+    return {
+    ...state,
+    miPerfil: { 
+      _id: state.miPerfil._id,
+      name: payload.user.name,
+      lastname: payload.user.lastname,
+      ci: payload.user.ci,
+      email: payload.user.email,
+      state: state.miPerfil.state,
+      roles: state.miPerfil.roles,
+      telefono: payload.user.telefono,
+      isRoot: state.miPerfil.isRoot,
+      ultimoAcceso: state.miPerfil.ultimoAcceso, 
+      motivo_alta_sistema:state.miPerfil.motivo_alta_sistema,
+      direccion: payload.user.direccion,
+      fechaNacimiento: payload.user.fechaNacimiento,
+      genero: payload.user.genero,
+      latitud: payload.user.latitud,
+      longitud: payload.user.longitud,
+      datos_paciente: payload.user.datos_paciente?{
+        aislado_por:payload.user.datos_paciente.aislado_por,
+        alergia_medicamentos:payload.user.datos_paciente.alergia_medicamentos,
+        tiene_diagnosticado_enfermedad:payload.user.datos_paciente.tiene_diagnosticado_enfermedad,
+        es_diagnosticado_cancer:payload.user.datos_paciente.es_diagnosticado_cancer,
+        es_embarazada: payload.user.datos_paciente.es_embarazada,
+        esta_dando_lactar: payload.user.datos_paciente.esta_dando_lactar,
+        fue_es_fumador:payload.user.datos_paciente.fue_es_fumador,
+        tiene_carnet_discapacidad: payload.user.datos_paciente.tiene_carnet_discapacidad,
+        tiene_diabetes: payload.user.datos_paciente.tiene_diabetes,
+        tiene_presion_alta: payload.user.datos_paciente.tiene_presion_alta,
+        familiares_cerco: payload.user.datos_paciente.familiares_cerco
+      }: null
+    },
+    actualizandoUsuario:false
+  }}),
+  on(userActions.updateUserError, state => ({
+    ...state,
+    actualizandoUsuario:false
+  })),
 );
 
 export function reducer(state: UserState | undefined, action: Action) {

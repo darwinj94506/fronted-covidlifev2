@@ -23,3 +23,4 @@ export { EditarSeguimientoIn } from './editar-seguimiento.in';
 export { VerEspacioIn } from './ver-espacio.in';
 export { RecuperarContraseniaIn } from './recuperar-contrasenia.in';
 export { ReseteoContraseniaIn } from './reseteo-contrasenia.in';
+export { UpdateUserIn } from './update-user.in';

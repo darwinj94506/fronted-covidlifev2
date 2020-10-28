@@ -129,5 +129,20 @@ export const RESETEAR_CONTRASENIA = gql `
     reseteoContrasenia(data:$data){
       msg
     }
-}`; 
+}`;
+
+export const EDITAR_USUARIO = gql `
+  mutation editarUser($data:UpdateUserIn!){
+    updateUserMut(data:$data){
+      _id
+      name
+      lastname
+      ci
+      email
+      token
+      token_notificacion_movil
+      token_notificacion_web
+    }
+  }`;
+
 

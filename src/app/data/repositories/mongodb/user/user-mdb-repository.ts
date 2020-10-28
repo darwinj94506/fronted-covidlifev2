@@ -5,7 +5,8 @@ import { ICredentialsInput,
          FilterUserIn, 
          IdIn,
          ReseteoContraseniaIn,
-         RecuperarContraseniaIn, 
+         RecuperarContraseniaIn,
+         UpdateUserIn, 
          AsignarRoleIn } from '../../../../core/domain/inputs';
 import { MongoDBRepository} from '../mongo-repository';
 import { USER_OPERATIONS } from '../../../graphq';
@@ -17,6 +18,7 @@ import { LoginOut,
          RecuperarContraseniaOut, 
          AsignarRoleOut, 
          ReseteoContraseniaOut,
+         EditUserOut,
          FilterUserOut} from 'src/app/core/domain/outputs';
 
 @Injectable({ providedIn:'root'})
@@ -102,7 +104,7 @@ export class UserMDBRepository extends MongoDBRepository<IUsuarioEntity> impleme
             map(({data})=>data[USER_OPERATIONS.recuperar_contrasenia.resolve]))
     }
 
-    resetearContrasenia(input:ReseteoContraseniaIn):Observable<ReseteoContraseniaOut>{
+    resetearContrasenia(input: ReseteoContraseniaIn):Observable<ReseteoContraseniaOut>{
         return this.apollo.mutate({
             mutation: USER_OPERATIONS.resetear_contrasenia.gql,
             variables:{
@@ -110,6 +112,16 @@ export class UserMDBRepository extends MongoDBRepository<IUsuarioEntity> impleme
             },
         }).pipe(
             map(({data})=>data[USER_OPERATIONS.resetear_contrasenia.resolve]))
+    }
+
+    editarUsuario(input: UpdateUserIn):Observable<EditUserOut>{
+        return this.apollo.mutate({
+            mutation: USER_OPERATIONS.editar_usuario.gql,
+            variables:{
+                data: input
+            },
+        }).pipe(
+            map(({data})=>data[USER_OPERATIONS.editar_usuario.resolve]))
     }
 
 }

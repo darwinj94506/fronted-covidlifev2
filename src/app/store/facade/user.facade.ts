@@ -1,11 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as userActions from '../actions/user.actions';
-import { IdIn, AsignarRoleIn, FilterUserIn } from '../../core/domain/inputs';
+import { IdIn, 
+        AsignarRoleIn,
+        UpdateUserIn, 
+        FilterUserIn } from '../../core/domain/inputs';
 import { RolesUserEnum } from '../../core/domain/enums';
-import { UserPerfilOut, FiltrarSeguimientoOut, VORoleHospitalPopulateLoginOut, FilterUserOut } from '../../core/domain/outputs';
-import { AppState, selectUserPerfil, selectLoadingUserPerfile, selectIsLogged, 
-        selectLoadingMiPerfil, selectMiPerfil, selectSearchingUsers, selectFindedUsers} from '../app.reducer';
+import { UserPerfilOut, 
+        FiltrarSeguimientoOut, 
+        VORoleHospitalPopulateLoginOut,
+        EditUserOut, 
+        FilterUserOut } from '../../core/domain/outputs';
+import { AppState, 
+        selectUserPerfil, 
+        selectLoadingUserPerfile, 
+        selectIsLogged, 
+        selectLoadingMiPerfil, 
+        selectMiPerfil, 
+        selectSearchingUsers, 
+        selectFindedUsers} from '../app.reducer';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -75,6 +88,10 @@ export class UserFacade {
 
   dispatchActionOpenModalDatosPaciente(paciente: FilterUserOut){
     return this.store.dispatch(userActions.openModalDatosPaciente({paciente}))
+  }
+
+  dispatchEditUser(user: UpdateUserIn){
+    this.store.dispatch(userActions.updateUser({user}))
   }
 
 }

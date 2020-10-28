@@ -78,7 +78,6 @@ const mainReducer = createReducer(
       isLoading:true,
   })),
   on(authActions.loadUserLoggedSuccess, (state, payload) => { 
-    // console.log(payload.userLogged)
     return({
     ...state,
     isLoading:false,

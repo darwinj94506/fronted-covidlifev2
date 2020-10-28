@@ -1,7 +1,14 @@
 import { createAction, props } from '@ngrx/store';
-import { IdIn, AsignarRoleIn, FilterUserIn } from '../../core/domain/inputs';
-import { UserPerfilOut, FiltrarSeguimientoOut, AsignarRoleOut,VORoleHospitalPopulateLoginOut,
-  FilterUserOut } from '../../core/domain/outputs';
+import { IdIn, 
+         AsignarRoleIn,
+         UpdateUserIn, 
+         FilterUserIn } from '../../core/domain/inputs';
+import { UserPerfilOut, 
+         FiltrarSeguimientoOut, 
+         AsignarRoleOut,
+         EditUserOut,
+         VORoleHospitalPopulateLoginOut,
+         FilterUserOut } from '../../core/domain/outputs';
 import { RolesUserEnum } from '../../core/domain/enums';
 
 export const loadMiPerfil = createAction(
@@ -88,4 +95,19 @@ export const searchUserError = createAction(
 export const openModalDatosPaciente = createAction(
   '[User] Open Modal Datos Paciente',
   props<{ paciente: FilterUserOut }>()
+)
+
+export const updateUser = createAction(
+  '[User] Update User',
+  props<{ user: UpdateUserIn }>()
+)
+
+export const updateUserSuccess = createAction(
+  '[User] Update User Success',
+  props<{ user: UpdateUserIn }>()
+)
+
+export const updateUserError = createAction(
+  '[User] Update User Error',
+  props<{ error: any }>()
 )

@@ -4,7 +4,8 @@ import { REGISTER, LOGIN,
         FILTER_USERS, 
         PERFIL, 
         TOGGLE_ROLE,
-        RESETEAR_CONTRASENIA, 
+        RESETEAR_CONTRASENIA,
+        EDITAR_USUARIO, 
         RECUPERAR_CONTRASENIA} from '../gql/user';
 
 export interface IUserOperationsAuth extends IOperations{
@@ -16,6 +17,7 @@ export interface IUserOperationsAuth extends IOperations{
     toggle: IOperation;
     recuperar_contrasenia:IOperation;
     resetear_contrasenia:IOperation;
+    editar_usuario:IOperation;
 }  
 
 export const USER_OPERATIONS : IUserOperationsAuth = {
@@ -64,6 +66,10 @@ export const USER_OPERATIONS : IUserOperationsAuth = {
     resetear_contrasenia:{
         resolve:'reseteoContrasenia',
         gql:RESETEAR_CONTRASENIA
+    },
+    editar_usuario:{
+        resolve:'updateUserMut',
+        gql:EDITAR_USUARIO
     }
 }
 

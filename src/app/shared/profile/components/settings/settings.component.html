@@ -1,57 +1,75 @@
 <div class="card-body">
-    <form class="form-horizontal form-material">
+    <form class="form-horizontal form-material" [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="col-md-12">Full Name</label>
+                    <label class="col-md-12">Nombres</label>
                     <div class="col-md-12">
-                        <input type="text" placeholder="Johnathan Doe" class="form-control form-control-line">
+                        <input type="text" placeholder="Nombres" class="form-control form-control-line" (blur)=logValidationErrors(form) formControlName="name">
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.name">{{formsErrors.name}}</small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="example-email" class="col-md-12">Email</label>
+                    <label class="col-md-12">Apellidos</label>
                     <div class="col-md-12">
-                        <input type="email" placeholder="johnathan@admin.com" class="form-control form-control-line" name="example-email" id="example-email">
+                        <input type="text" placeholder="Apellidos" class="form-control form-control-line" (blur)=logValidationErrors(form) formControlName="lastname">
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.lastname">{{formsErrors.lastname}}</small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-12">Password</label>
+                    <label for="example-email" class="col-md-12">Correo electrónico</label>
                     <div class="col-md-12">
-                        <input type="password" value="password" class="form-control form-control-line">
+                        <input type="email" placeholder="Correo Electrónico" class="form-control form-control-line" (blur)=logValidationErrors(form) formControlName="email">
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.email">{{formsErrors.email}}</small>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="col-md-12">Phone No</label>
+                    <label class="col-md-12">Cédula</label>
                     <div class="col-md-12">
-                        <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
+                        <input type="text" placeholder="Cédula" class="form-control form-control-line" (blur)=logValidationErrors(form) formControlName="ci">
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.ci">{{formsErrors.ci}}</small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-md-12">Message</label>
+                    <label class="col-md-12">Dirección</label>
                     <div class="col-md-12">
-                        <textarea rows="5" class="form-control form-control-line"></textarea>
+                        <textarea rows="2" class="form-control form-control-line" (blur)=logValidationErrors(form) formControlName="direccion"></textarea>
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.direccion">{{formsErrors.direccion}}</small>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-12">Select Country</label>
+                    <label class="col-sm-12">Género</label>
                     <div class="col-sm-12">
-                        <select class="form-control form-control-line">
-                                    <option>London</option>
-                                    <option>India</option>
-                                    <option>Usa</option>
-                                    <option>Canada</option>
-                                    <option>Thailand</option>
-                                </select>
+                        <select class="form-control form-control-line" (blur)=logValidationErrors(form) formControlName="genero">
+                            <option [value]="MASCULINO">Masculino</option>
+                            <option [value]="FEMENINO">Femenino</option>
+                            <option [value]="PREFIERO_NO_DECIRLO">Prefiero No Decirlo</option>
+                        </select>
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.genero">{{formsErrors.genero}}</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-12">Fecha de nacimiento</label>
+                    <div class="col-md-12">
+                        <input type="date" class="form-control form-control-line" formControlName="fechaNacimiento" (blur)=logValidationErrors(form)/>
+                        <small class="form-text text-muted danger" *ngIf="formsErrors.fechaNacimiento">{{formsErrors.fechaNacimiento}}</small>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="form-group">
+                <!-- <div class="col-sm-12">
+                    <button class="btn btn-info" (click)="editar()" *ngIf="showEditar">Editar</button>
+                </div>
                 <div class="col-sm-12">
-                    <button class="btn btn-success">Guardar</button>
+                    <button class="btn btn-success" type="submit" *ngIf="!showEditar">Guardar</button>
+                </div> -->
+              
+                <div class="col-sm-12">
+                    <button class="btn btn-success" type="submit">Editar</button>
                 </div>
             </div>
         </div>

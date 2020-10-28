@@ -30,3 +30,4 @@ export { MapasPacientesPorDiagnosticoOut } from './mapas-pacientes-por-diagnosti
 export { VerEspacioOut } from './ver-espacio.out';
 export { RecuperarContraseniaOut } from './recuperar-contrasenia.out';
 export { ReseteoContraseniaOut } from './reseteo-contrasenia.out';
+export { EditUserOut } from './edit-user.out';

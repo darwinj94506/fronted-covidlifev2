@@ -4,7 +4,10 @@ import { catchError, map, switchMap, tap} from 'rxjs/operators';
 import { Observable, from, of} from 'rxjs';
 import * as userActions  from '../actions/user.actions';
 import { ToastService } from '../../services';
-import { VerPerfilUseCase, AsignarRolesUseCase, BuscarUsuarioUseCase  } from '../../core/usecases';
+import { VerPerfilUseCase, 
+         AsignarRolesUseCase,
+         EditarUsuarioUsecase, 
+         BuscarUsuarioUseCase  } from '../../core/usecases';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { PatientModalComponent } from '../../shared/profile/pages/patient-modal/patient-modal.component';
@@ -12,6 +15,7 @@ import { UserModalComponent } from '../../shared/profile/pages/user-modal/user-m
 import { RoleModalComponent } from '../../shared/profile/pages/role-modal/role-modal.component';
 import { DatosPacienteModalComponent } from '../../shared/profile/pages/datos-paciente-modal/datos-paciente-modal.component';
 import { SearchInviteModalComponent } from '../../shared/profile/pages/search-invite-modal/search-invite-modal.component';
+import { data } from 'jquery';
 @Injectable()
 export class UserEffects {
     modalAtenderPaciente: NgbModalRef;
@@ -24,7 +28,8 @@ export class UserEffects {
         private _verPerfilUseCase:VerPerfilUseCase,
         private modalService: NgbModal,
         private _asignarRolesUseCase:AsignarRolesUseCase,
-        private _buscarUsuarioUseCase:BuscarUsuarioUseCase
+        private _buscarUsuarioUseCase:BuscarUsuarioUseCase,
+        private _editarUsuarioUsecase:EditarUsuarioUsecase
          ) { }
    
     @Effect()
@@ -160,5 +165,22 @@ export class UserEffects {
                 }
             )
         )))
+
+    @Effect()
+    editarUser: Observable<any> = this.actions$.pipe(
+        ofType(userActions.updateUser),
+            tap(_=>this._spinner.show()),
+            switchMap(({ user }) => this._editarUsuarioUsecase.execute(user).pipe(
+                map(data=>{
+                    this._toastService.showSuccess(`Accion realizada con éxito`);
+                    return userActions.updateUserSuccess({user})
+                }),
+                catchError(error=>{
+                    this._toastService.showError(`Error al actualizar:${error.message}`);
+                    return of(userActions.asignarRolesError({error}))
+                })
+            )),
+            tap(_=>this._spinner.hide()) 
+    )
 }
 

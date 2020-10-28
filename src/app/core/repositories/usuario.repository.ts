@@ -6,10 +6,12 @@ import { Observable } from 'rxjs';
 import { FilterUserIn, 
          AsignarRoleIn,
          ReseteoContraseniaIn, 
+         UpdateUserIn,
          RecuperarContraseniaIn } from '../domain/inputs';
 import { LoginOut, AsignarRoleOut, 
          FilterUserOut, 
          ReseteoContraseniaOut,
+         EditUserOut,
          RecuperarContraseniaOut } from '../domain/outputs';
 
 export abstract class UsuarioRepository extends GenericRepository<IUsuarioEntity> {
@@ -32,6 +34,8 @@ export abstract class UsuarioRepository extends GenericRepository<IUsuarioEntity
     abstract recuperarContrasenia(input: RecuperarContraseniaIn):Observable<RecuperarContraseniaOut>;
 
     abstract resetearContrasenia(input: ReseteoContraseniaIn):Observable<ReseteoContraseniaOut>;
+    
+    abstract editarUsuario(input: UpdateUserIn):Observable<EditUserOut>;
 
     
 }

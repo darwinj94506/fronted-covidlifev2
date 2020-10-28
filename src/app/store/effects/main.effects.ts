@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType  } from '@ngrx/effects';
-import { catchError, map, switchMap, tap, exhaustMap, mergeMap} from 'rxjs/operators';
+import { catchError, map, switchMap, tap, exhaustMap, mergeMap } from 'rxjs/operators';
 import { Observable, from, of} from 'rxjs';
 import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { GuardService } from '../../services/guard.service';
@@ -71,7 +71,7 @@ export class MainEffects {
     saveHospitalSession: Observable<any> = this.actions$.pipe(
         ofType(mainActions.saveHospitalSession),
         tap(({hospitalSession})=>{
-                console.log(hospitalSession);
+                // console.log(hospitalSession);
                 this._authService.saveHospitalSesion(hospitalSession);
                 this._authService.navigateToDashboard(hospitalSession)})
     ) 

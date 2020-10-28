@@ -86,7 +86,7 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
   }
 
   initForm(){
-    console.log(this.seguimiento);
+    // console.log(this.seguimiento);
     this.seguimientoForm = this.fb.group({
       temperatura: [{ value: this.seguimiento.temperatura, disabled:true }],
       ritmo_cardiaco: [ { value: this.seguimiento.ritmo_cardiaco, disabled: this.isDisabled() }, [Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],

@@ -59,7 +59,6 @@ export class PersonalComponent extends Formulario implements OnInit {
           fechaNacimiento: [ user.fechaNacimiento, [Validators.required] ],
           genero: [ user.genero, [Validators.required] ],
           direccion: [ user.direccion, [Validators.maxLength(200)] ],
-        //   terminosCondiciones: [false]
         });
       }
       onSubmit(){

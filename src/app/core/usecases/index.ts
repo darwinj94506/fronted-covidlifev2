@@ -11,3 +11,4 @@ export { VerSeguimientoDetalleUseCase } from './ver-seg-detalle.usecase';
 export { VerDetalleEspacioUseCase } from './ver-detalle-espacio.usecase'; 
 export { RecuperarContraseniaUsecase } from './recuperar-contrasenia.usecase'; 
 export { ResetearContraseniaUsecase } from './resetear-contrasenia.usecase';
+export { EditarUsuarioUsecase } from './editar-usuario.usecase';
