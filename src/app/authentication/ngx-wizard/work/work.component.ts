@@ -49,7 +49,7 @@ export class WorkComponent extends Formulario implements OnInit {
     constructor(private router: Router,
         private fb: FormBuilder,
         private route: ActivatedRoute, 
-        private formDataService: FormDataService,
+        public formDataService: FormDataService,
         private workflowService: WorkflowService) {
             super({...ValidationMessage})
     }

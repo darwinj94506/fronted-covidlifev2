@@ -19,6 +19,12 @@ import { FilterModalComponent } from '../../../../modules/director/components/fi
 })
 
 export class MapsComponent implements AfterViewInit, OnInit, OnDestroy{
+CONFIRMADO: DiagnosticoActualEnum=DiagnosticoActualEnum.CONFIRMADO;
+SOSPECHOSO: DiagnosticoActualEnum=DiagnosticoActualEnum.SOSPECHOSO;
+RECUPERADO: DiagnosticoActualEnum=DiagnosticoActualEnum.RECUPERADO;
+FALLECIDO: DiagnosticoActualEnum=DiagnosticoActualEnum.FALLECIDO;
+HOSPITALIZADO: DiagnosticoActualEnum=DiagnosticoActualEnum.HOSPITALIZADO;
+
 title: String = 'Seleccione una opción'
 espacios = [];
 

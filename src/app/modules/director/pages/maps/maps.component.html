@@ -21,11 +21,11 @@
                 <h4 class="card-title">{{title}}</h4>
                 <!-- <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" #map1></agm-map> -->
                 <div id="floating-panel">
-                    <button class="btn btn-outline-secondary" (click)="configMap('CONFIRMADO')">Confirmados</button>
-                    <button class="btn btn-outline-secondary" (click)="configMap('SOSPECHOSO')">Sospechosos</button>
-                    <button class="btn btn-outline-secondary" (click)="configMap('RECUPERADO')">Recuperados</button>
-                    <button class="btn btn-outline-secondary" (click)="configMap('FALLECIDO')">Facellidos</button>
-                    <button class="btn btn-outline-secondary" (click)="configMap('HOSPITALIZADO')">Hospitalizados</button>
+                    <button class="btn btn-outline-secondary" (click)="configMap(CONFIRMADO)">Confirmados</button>
+                    <button class="btn btn-outline-secondary" (click)="configMap(SOSPECHOSO)">Sospechosos</button>
+                    <button class="btn btn-outline-secondary" (click)="configMap(RECUPERADO)">Recuperados</button>
+                    <button class="btn btn-outline-secondary" (click)="configMap(FALLECIDO)">Facellidos</button>
+                    <button class="btn btn-outline-secondary" (click)="configMap(HOSPITALIZADO)">Hospitalizados</button>
                 </div>
                 <div #mapWrapper id="map"></div>
             </div>
