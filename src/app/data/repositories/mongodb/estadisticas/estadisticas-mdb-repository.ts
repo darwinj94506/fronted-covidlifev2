@@ -3,8 +3,8 @@ import { EstadisticasRepository } from '../../../../core/repositories';
 import { MongoDBRepository} from '../mongo-repository';
 import { ESTADISTICAS_OPERATIONS } from '../../../graphq';
 import { IEntity } from '../../../../core/domain/entities';
-import { ContadoresEstadisticaIn, MapasDatosIn } from '../../../../core/domain/inputs';
-import { ContadoresEstadisticaOut, MapasDatosOut } from '../../../../core/domain/outputs';
+import { ContadoresEstadisticaIn, MapasDatosIn, UsuarioSinSeguimientoPorDiaIn } from '../../../../core/domain/inputs';
+import { ContadoresEstadisticaOut, MapasDatosOut, UsuarioSinSeguimientoPorDiaOut } from '../../../../core/domain/outputs';
 import { map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 @Injectable({ providedIn:'root'})
@@ -40,5 +40,19 @@ export class EstaditicasMDBRepository extends MongoDBRepository<IEntity> impleme
             map(( { data } ) => data[ESTADISTICAS_OPERATIONS.getEstadisticasMapas.resolve] ))
 
     }
+
+    getUsuarioSinSeguimientosPorDia(filter: UsuarioSinSeguimientoPorDiaIn): Observable<UsuarioSinSeguimientoPorDiaOut[]>{
+        return this.apollo
+        .watchQuery(
+        { 
+            query: ESTADISTICAS_OPERATIONS.getPacientesSinSeguimientos.gql,
+            variables:{
+                data:filter
+            }
+        })
+        .valueChanges.pipe(
+            map(( { data } ) => data[ESTADISTICAS_OPERATIONS.getPacientesSinSeguimientos.resolve] ))
+    }
+
 
 }

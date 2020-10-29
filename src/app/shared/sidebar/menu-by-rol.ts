@@ -148,6 +148,7 @@ export const ROUTES_DIRECTOR: RouteInfo[] = [
 				extralink: false,
 				submenu: []
 			},
+			
 			{
 				path: '/director/estadisticas',
 				title: 'Estadísticas',
@@ -158,7 +159,16 @@ export const ROUTES_DIRECTOR: RouteInfo[] = [
 				extralink: false,
 				submenu: []
 			},
-			
+			{
+				path: '/director/pacientes-sin-seguimiento',
+				title: 'Reporte',
+				icon: 'mdi mdi-adjust',
+				class: '',
+				label: '',
+				labelClass: '',
+				extralink: false,
+				submenu: []
+			}
 		]
 	},
 

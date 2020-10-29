@@ -1,9 +1,10 @@
 import { IOperations, IOperation } from '../interfaces/operation.interface';
-import { COUNT_PACIENTES, ESTADISTICAS_MAPAS } from '../gql/estadisticas';
+import { COUNT_PACIENTES, ESTADISTICAS_MAPAS, PACIENTES_SIN_SEGUIMENTOS } from '../gql/estadisticas';
 
 export interface EstadisticasOPerations extends IOperations{
     getCountPacientes: IOperation,
     getEstadisticasMapas: IOperation
+    getPacientesSinSeguimientos: IOperation
 }
 
 export const ESTADISTICAS_OPERATIONS: EstadisticasOPerations = {
@@ -14,6 +15,10 @@ export const ESTADISTICAS_OPERATIONS: EstadisticasOPerations = {
     getEstadisticasMapas:{
         resolve:'mapasEstadisticos',
         gql: ESTADISTICAS_MAPAS
+    },
+    getPacientesSinSeguimientos: {
+        gql: PACIENTES_SIN_SEGUIMENTOS,
+        resolve: 'mostrarUsuarioSinSeguimientoPorHoyHospital'  
     },
     create:{
         resolve:'',

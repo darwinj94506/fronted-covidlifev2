@@ -24,3 +24,4 @@ export { VerEspacioIn } from './ver-espacio.in';
 export { RecuperarContraseniaIn } from './recuperar-contrasenia.in';
 export { ReseteoContraseniaIn } from './reseteo-contrasenia.in';
 export { UpdateUserIn } from './update-user.in';
+export { UsuarioSinSeguimientoPorDiaIn } from './usuario-sin-seguimiento-por-dia.in';

@@ -1,0 +1,15 @@
+<div class="row">
+    <input type="date" placeholder="Ingrese el día" #fecha>
+    <button (click)="buscar(fecha.value)">Generar reporte</button>
+</div>
+<br>
+<br>
+
+<div class="row">
+    <!-- <h5>Pacientes que no han enviado los seguimientos</h5>  -->
+    <ol>
+       <li *ngFor="let paciente of pacientes">
+           {{ paciente?.name }} {{ paciente?.lastname }}
+       </li> 
+    </ol>
+</div>

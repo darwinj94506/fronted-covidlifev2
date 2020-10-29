@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MapsComponent, StatisticsComponent } from './pages';
+import { MapsComponent, StatisticsComponent, SinSeguimientoComponent } from './pages';
 
 const routes: Routes = [
   { path:'', 
@@ -15,8 +15,13 @@ const routes: Routes = [
         }
       },
       { 
-        path:'estadisticas', component:StatisticsComponent, data: {
+        path:'estadisticas', component: StatisticsComponent, data: {
           title: 'Estadísticas'          
+        }
+      },
+      { 
+        path:'pacientes-sin-seguimiento', component: SinSeguimientoComponent, data: {
+          title: 'Reporte de Pacientes Sin Seguimientos'          
         }
       }
 
