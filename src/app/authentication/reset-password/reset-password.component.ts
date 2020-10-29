@@ -21,12 +21,7 @@ export class ResetPasswordComponent implements OnInit {
                private rutaActiva: ActivatedRoute) { }
 
   ngOnInit(): void {
-    // console.log(this.rutaActiva.snapshot.url);
-    // this.rutaActiva.queryParams.subscribe(params=>{
-    //   this.resetLink = params['token'];
-    // });
     this.resetLink = document.location.href;
-    // console.log(this.resetLink);
   }
 
   cambiarContrasenia(){
