@@ -177,6 +177,7 @@ export const RESUMEN_SEGUIMIENTOS_COMPLETOS = gql`
     getSeguimientoCompletoPaciente(data:$data){
       _id
       seguimientos{
+        _id
         idPaciente{
         name
         lastname
@@ -324,6 +325,5 @@ export const SUSCRIPTIONS_NOTIFICATIONS = gql `
     }
   }`;
 
-  // export const 
   
   

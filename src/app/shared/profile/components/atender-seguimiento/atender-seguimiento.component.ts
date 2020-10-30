@@ -6,7 +6,6 @@ import { FiltrarSeguimientoOut, LoginOut } from '../../../../core/domain/outputs
 import { ExamenTipoEnum,  DificultadRespirarEnum, SeguimientoEstadoEnum, 
   DiagnosticoActualEnum, RolesUserEnum } from '../../../../core/domain/enums';
 import { SeguimientoFacade, MainFacade } from '../../../../store/facade'
-// const ROLE_DOCTOR: RolesUserEnum = RolesUserEnum.DOCTOR; 
 const ValidationMessage = {
   observacion_doctor: { maxlength:'Una nota no puede tener más de 250 caracteres'}
 }
@@ -52,11 +51,17 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
    }
 
   ngOnInit(): void {
+    console.log(this.seguimiento);
     this.initForm();
     this._mainFacade.getUserLogged().subscribe(data=> this.doctor = {...data})
   }
 
   onSubmit(){
+    if(!this.isEditable() && this.getTextButton()==="Editar"){
+      return false
+    }
+  
+
     let seguimiento: AtenderSolicitudSeguimientoIn = {
       _id:this.seguimiento._id,
       ritmo_cardiaco: Number(this.seguimientoForm.get('ritmo_cardiaco').value),
@@ -86,7 +91,6 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
   }
 
   initForm(){
-    // console.log(this.seguimiento);
     this.seguimientoForm = this.fb.group({
       temperatura: [{ value: this.seguimiento.temperatura, disabled:true }],
       ritmo_cardiaco: [ { value: this.seguimiento.ritmo_cardiaco, disabled: this.isDisabled() }, [Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],
@@ -95,7 +99,9 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
       examen: [{value: this.seguimiento.examen, disabled: this.isDisabled()}],
       nota_paciente: [ {value: this.seguimiento.nota_paciente, disabled:true}],
       observacion_doctor: [ {value:this.seguimiento.observacion_doctor, disabled: this.isDisabled()}, [ Validators.maxLength(250)] ],
-      diagnostico_actual: [{value: this.seguimiento.diagnostico_actual, disabled:this.isDisabled()}]
+      diagnostico_actual: [{value: this.seguimiento.diagnostico_actual, disabled:this.isDisabled()}],
+      doctor:[ {value: this.getNameDoctor(), disabled:true}],
+      evolucion: [{value: this.seguimiento.estado_diario_paciente, disabled: true}]
     });
   }
 
@@ -104,7 +110,15 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
       return true
     return false
   }
-
+  getNameDoctor(){
+    if(this.seguimiento.idDoctor){
+      if(this.seguimiento.idDoctor.name && this.seguimiento.idDoctor.name)
+        return `${this.seguimiento.idDoctor.name} ${this.seguimiento.idDoctor.lastname}`
+    }
+    return 'SEGUIMIENTO SIN ATENDER'
+     
+  }
+  
   getTextButton(): String{
     switch(this.seguimiento.estado){
       case SeguimientoEstadoEnum.AGENDADO:
@@ -118,6 +132,28 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
       case SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA:
         return 'Editar'
     }
+  }
+
+  isEditable(): boolean{
+    let hoy = new Date();
+    let fechaSeguimiento = this.transformDate(this.seguimiento.createAt);
+  
+    if(hoy.toDateString() != fechaSeguimiento.toDateString()){
+      alert("Este seguimiento solo se lo puede editar el mismo día de envío");
+      return false;
+    }
+    if(!this.seguimiento.idDoctor){
+      alert("Este seguimiento aún no ha sido atendido");
+      return false;
+    }
+    return true;
+  }
+
+  transformDate(t){
+    let today = new Date(t);
+    return new Date(
+      today.getFullYear(), today.getMonth(), today.getUTCDate(),
+      today.getUTCHours(), today.getUTCMinutes(), today.getUTCSeconds())
   }
   
 }

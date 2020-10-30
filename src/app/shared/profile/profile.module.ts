@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfilePageComponent } from './pages/profile/profile-page.component';
-import { TimeLineComponent } from './components/time-line/time-line.component';
+import { TimeLineComponent,NgbdModal1Content} from './components/time-line/time-line.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { Routes, RouterModule } from '@angular/router';
 import { OverViewComponent } from './components/over-view/over-view.component';
@@ -49,6 +49,7 @@ export const PROFILE_ROUTES: Routes = [
      DatosPacienteComponent,
      DatosUsuarioComponent,
      DatosPacienteModalComponent,
+     NgbdModal1Content,
      LineaEvolucionComponent ],
   imports: [
     CommonModule,
@@ -76,7 +77,8 @@ export const PROFILE_ROUTES: Routes = [
     DatosUsuarioComponent,
     DatosPacienteComponent,
     DatosPacienteModalComponent,
-    LineaEvolucionComponent
+    LineaEvolucionComponent,
+    NgbdModal1Content
   ],
   providers:[
     {
@@ -89,8 +91,8 @@ export const PROFILE_ROUTES: Routes = [
     UserModalComponent,
     RoleModalComponent,
     SearchInviteModalComponent,
-    DatosPacienteModalComponent
-    
+    DatosPacienteModalComponent,
+    NgbdModal1Content
   ]
 })
 export class ProfileModule { }
