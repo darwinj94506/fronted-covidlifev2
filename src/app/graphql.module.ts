@@ -10,8 +10,9 @@ import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 // import { onError } from 'apollo-link-error';
 
+// const uri = 'https://atencionmedic.herokuapp.com/graphql';
 
-const uri = 'https://atencionmedic.herokuapp.com/graphql';
+const uri = 'http//localhost:3000/graphql';
 
 export function createApollo(httpLink: HttpLink) {
   const token = localStorage.getItem('token');
@@ -34,9 +35,11 @@ export function createApollo(httpLink: HttpLink) {
         }
   });
   // const http = ApolloLink.from([basic, auth, httpLink.create({ uri })]);
+  // uri:"wss://atencionmedic.herokuapp.com/graphql",
+
   const http = ApolloLink.from([auth, httpLink.create({ uri })]);
   const ws = new WebSocketLink({
-    uri:"wss://atencionmedic.herokuapp.com/graphql",
+    uri:"wss://localhost:3000/graphql",
     options: {
       reconnect: true,
       connectionParams: {
