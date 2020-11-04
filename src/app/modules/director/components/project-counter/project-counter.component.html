@@ -40,7 +40,7 @@
                 <div class="d-flex no-block">
                     <div class="m-r-20 align-self-center"><span class="lstick"></span><img src="assets/images/icon/staff.png" alt="Income" /></div>
                     <div class="align-self-center">
-                        <h6 class="text-muted m-t-10 m-b-0">Aislados</h6>
+                        <h6 class="text-muted m-t-10 m-b-0">Probables</h6>
                         <h2 class="m-t-0" *ngIf="isLoading$ | async; else asilados">cargando...</h2>
                         <ng-template #asilados>
                             <h2 class="m-t-0" *ngIf="!isLoading">{{datosPorDiagnostico[2]}}</h2>

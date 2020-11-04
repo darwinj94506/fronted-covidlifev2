@@ -1,82 +1,127 @@
 <div class="card-body">
     <form class="form-horizontal form-material" [formGroup]="seguimientoForm" (ngSubmit)="onSubmit()" novalidate>
-        <div class="form-group">
-            <label class="col-md-12" for="temperatura">Evolución (No editable)</label>
-            <div class="col-md-12">
-                <input type="text" id="temperatura" class="form-control form-control-line" formControlName="evolucion">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="col-md-12" for="temperatura">Evolución (No editable)</label>
+                    <div class="col-md-12">
+                        <input type="text" id="temperatura" class="form-control form-control-line" formControlName="evolucion">
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label class="col-md-12" for="temperatura">Temperatura (No editable)</label>
+                    <div class="col-md-12">
+                        <input type="text" id="temperatura" class="form-control form-control-line" formControlName="temperatura">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-md-12" for="temperatura">Temperatura (No editable)</label>
-            <div class="col-md-12">
-                <input type="text" id="temperatura" class="form-control form-control-line" formControlName="temperatura">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="col-md-12" for="ritmo_cardiaco">Rítmo cardiaco (Opcional)</label>
+                    <div class="col-md-12">
+                        <input type="text" placeholder="Ingrese el rítmo cardiaco" class="form-control form-control-line" formControlName="ritmo_cardiaco">
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label class="col-md-12" for="saturacion_oxigeno">Saturación de oxígeno (Opcional)</label>
+                    <div class="col-md-12">
+                        <input type="text" id="saturacion_oxigeno" placeholder="Ingrese el rítmo cardiaco" class="form-control form-control-line" formControlName="saturacion_oxigeno">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-md-12" for="ritmo_cardiaco">Rítmo cardiaco (Opcional)</label>
-            <div class="col-md-12">
-                <input type="text" placeholder="Ingrese el rítmo cardiaco" class="form-control form-control-line" formControlName="ritmo_cardiaco">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="dificultad_respirar">Dificultad para respirar (Opcional)</label>
+                    <div class="form-check col-md-12">
+                        <input type="radio" class="form-check-input form-control-line" id="dificultad_respirar1" [value]="SI" formControlName="dificultad_respirar" name="dificultad_respirar">
+                        <label class="form-check-label" for="dificultad_respirar1">Sí</label>
+                    </div>
+                    <div class="form-check col-md-12">
+                        <input type="radio" class="form-check-input form-control-line" id="dificultad_respirar2" [value]="NO" formControlName="dificultad_respirar" name="dificultad_respirar">
+                        <label class="form-check-label " for="dificultad_respirar2">No</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="examen">Exámen (Opcional)</label>
+                    <div class="col-md-12">
+                        <select type="text" class="form-control form-control-line" id="examen" formControlName="examen" placeholder="Seleccione">
+                            <option *ngFor="let tipo of tiposExamen" [value]="tipo">{{tipo}}</option>
+                        </select>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-md-12" for="saturacion_oxigeno">Saturación de oxígeno (Opcional)</label>
-            <div class="col-md-12">
-                <input type="text" id="saturacion_oxigeno" placeholder="Ingrese el rítmo cardiaco" class="form-control form-control-line" formControlName="saturacion_oxigeno">
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="col-md-12" for="nota_paciente">Nota enviada por el paciente (No editable)</label>
+                    <div class="col-md-12">
+                        <textarea rows="5" class="form-control form-control-line" id="nota_paciente" formControlName="nota_paciente"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label class="col-md-12" for="observacion_doctor">Escriba una breve observación (Opcional)</label>
+                    <div class="col-md-12">
+                        <textarea rows="5" class="form-control form-control-line" id="observacion_doctor" formControlName="observacion_doctor" (keyup)=logValidationErrors(seguimientoForm)></textarea>
+                        <small class="form-text text-danger" *ngIf="formsErrors?.observacion_doctor">{{formsErrors.observacion_doctor}}</small>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="dificultad_respirar">Dificultad para respirar (Opcional)</label>
-            <div class="form-check col-md-12">
-                <input type="radio" class="form-check-input form-control-line" id="dificultad_respirar1" [value]="SI" formControlName="dificultad_respirar" name="dificultad_respirar">
-                <label class="form-check-label" for="dificultad_respirar1">Sí</label>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label class="col-md-12">Aislado desde (opcional)</label>
+                    <div class="col-md-12">
+                        <input class="form-control form-control-line" type="date" formControlName="aislamiento_desde"/>
+                    </div>
+                </div>
             </div>
-            <div class="form-check col-md-12">
-                <input type="radio" class="form-check-input form-control-line" id="dificultad_respirar2" [value]="NO" formControlName="dificultad_respirar" name="dificultad_respirar">
-                <label class="form-check-label " for="dificultad_respirar2">No</label>
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="examen">Exámen (Opcional)</label>
-            <div class="col-md-12">
-                <select type="text" class="form-control form-control-line" id="examen" formControlName="examen" placeholder="Seleccione">
-                    <option *ngFor="let tipo of tiposExamen" [value]="tipo">{{tipo}}</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-md-12" for="nota_paciente">Nota enviada por el paciente (No editable)</label>
-            <div class="col-md-12">
-                <textarea rows="5" class="form-control form-control-line" id="nota_paciente" formControlName="nota_paciente"></textarea>
+            <div class="col">
+                <div class="form-group">
+                    <label class="col-md-12">Aislado hasta (opcional)</label>
+                    <div class="col-md-12">
+                        <input class="form-control form-control-line" type="date" formControlName="aislamiento_hasta"/>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label class="col-md-12" for="observacion_doctor">Escriba una breve observación (Opcional)</label>
-            <div class="col-md-12">
-                <textarea rows="5" class="form-control form-control-line" id="observacion_doctor" formControlName="observacion_doctor" (keyup)=logValidationErrors(seguimientoForm)></textarea>
-                <small class="form-text text-danger" *ngIf="formsErrors?.observacion_doctor">{{formsErrors.observacion_doctor}}</small>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="diagnostico">Diagnóstico actual (Obligatorio)</label>
+                    <div class="col-md-12">
+                        <select type="text" class="form-control form-control-line" id="diagnostico_actual" formControlName="diagnostico_actual" placeholder="Seleccione">
+                            <option *ngFor="let diagnostico of diagnosticos" [value]="diagnostico">{{diagnostico}}</option>
+                        </select>
+                        <small class="form-text text-danger" *ngIf="formsErrors?.diagnostico_actual">{{formsErrors.diagnostico_actual}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label class="col-md-12" for="ritmo_cardiaco">Atendido por:</label>
+                    <div class="col-md-12">
+                        <input type="text" placeholder="" class="form-control form-control-line" formControlName="doctor">
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="diagnostico">Diagnóstico actual (Opcional)</label>
-            <div class="col-md-12">
-                <select type="text" class="form-control form-control-line" id="diagnostico_actual" formControlName="diagnostico_actual" placeholder="Seleccione">
-                    <option *ngFor="let diagnostico of diagnosticos" [value]="diagnostico">{{diagnostico}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-md-12" for="ritmo_cardiaco">Atendido por:</label>
-            <div class="col-md-12">
-                <input type="text" placeholder="" class="form-control form-control-line" formControlName="doctor">
-            </div>
-        </div>
-
         <div class="form-group">
             <div class="col-sm-12">
-                <button type="submit" class="btn btn-success">{{getTextButton()}}</button>
+                <button *ngIf="!seguimiento?.soloVer" type="submit" class="btn btn-success">{{getTextButton()}}</button>
             </div>
         </div>
     </form>

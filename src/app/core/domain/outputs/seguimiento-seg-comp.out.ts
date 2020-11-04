@@ -23,4 +23,6 @@ export interface SeguimientoSegCompOut {
     latitud?: number;
     longitud?: number;
     createAt: Date;
-    }
+    aislamiento_desde: Date;
+    aislamiento_hasta: Date;
+}

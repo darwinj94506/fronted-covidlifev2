@@ -180,7 +180,7 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 			.subscribe(data=>{
 				let NConfirmados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.CONFIRMADO);
 				let NSospechosos = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.SOSPECHOSO);
-				let NAislados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.AISLAMIENTO_PREVENTIVO);
+				let NAislados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.PROBABLE);
 				let NRecuperados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.RECUPERADO);
 				let NHospitalizados = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.HOSPITALIZADO);
 				let NFallecidos = data.find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.FALLECIDO);
@@ -221,7 +221,7 @@ export class StatisticsComponent implements AfterViewInit, OnInit, OnDestroy {
 			let sospechosos = seguimientosPorDia[dia].find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.SOSPECHOSO)
 			let confirmados = seguimientosPorDia[dia].find(item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.CONFIRMADO)
 			let aislados = seguimientosPorDia[dia].find(
-			  	item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.AISLAMIENTO_PREVENTIVO)
+			  	item=>item.agrupadoPor.diagnostico_enum === DiagnosticoActualEnum.PROBABLE)
 			let contSosp: number = sospechosos?sospechosos.contador:0
 			let contConf: number = confirmados?confirmados.contador:0
 			let contAis: number = aislados?aislados.contador:0

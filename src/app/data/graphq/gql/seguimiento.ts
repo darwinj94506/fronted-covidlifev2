@@ -60,6 +60,8 @@ query filterSeguimiento($data:FiltrarSeguimientoIn!){
     estado_diario_paciente
     fecha_atencion_medica
     diagnostico_actual
+    aislamiento_desde
+    aislamiento_hasta
     latitud
     longitud
     createAt
@@ -105,6 +107,8 @@ query consultarUnSeguimiento($data:ConsultarUnSeguimientoIn!){
     estado_diario_paciente
     fecha_atencion_medica
     diagnostico_actual
+    aislamiento_desde
+    aislamiento_hasta
     latitud
     longitud
   }
@@ -151,6 +155,8 @@ export const SUSCRIPTION = gql`
       estado_diario_paciente
       fecha_atencion_medica
       diagnostico_actual
+      aislamiento_desde
+      aislamiento_hasta
       latitud
       longitud
       createAt
@@ -204,6 +210,8 @@ export const RESUMEN_SEGUIMIENTOS_COMPLETOS = gql`
       estado_diario_paciente
       fecha_atencion_medica
       diagnostico_actual
+      aislamiento_desde
+      aislamiento_hasta
       latitud
       longitud
       createAt

@@ -33,3 +33,4 @@ export { ReseteoContraseniaOut } from './reseteo-contrasenia.out';
 export { EditUserOut } from './edit-user.out';
 export { VORoleHospitalUserWithoutSegOut } from './vo-role-hospital-user-without-seg.out';
 export { UsuarioSinSeguimientoPorDiaOut } from './usuario-sin-seguimiento-por-dia.out';
+export { SeguimientoSegCompOut } from './seguimiento-seg-comp.out';

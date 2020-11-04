@@ -139,24 +139,15 @@ export class MainEffects {
     switchMap(payload => this._verDetalleEspacioUseCase.execute(payload.filtro)
         .pipe(
             map(espacio => {
-                
                 this._spinner.hide();
                 this.modalFiltro = this.modalService.open(FilterModalComponent);
                 this.modalFiltro.componentInstance.espacio = {...espacio};
                 this.modalFiltro.componentInstance.idHospital =  payload.filterEvolucion.idHospital
-                // this.modalFiltro.result.then(idEspacioPadre=>{
-                // this._estadisticasFacade.distpachActionLoadEvolucionDiariaPacientes({...payload.filterEvolucion, idEspacioPadre});
-                // this._estadisticasFacade.distpachActionLoadPacientesPorDiagnostico({...payload.filterDiagnosticos, idEspacioPadre});
-                // this._estadisticasFacade.distpachActionLoadUsuariosPorRol({...payload.filterTotalPacientes, idEspacioPadre});
-                // this._estadisticasFacade.distpachActionLoadUsuariosPorRol({...payload.filterTotalDoctores, idEspacioPadre});
-                // }).catch(err=>{ 
-
-                // })
                 return true;
             }),
             catchError( error => {
                 console.log(error);
-                this._espacioService.showError(`Error al cargar entidad xxx, Error:${error.message}`);
+                this._espacioService.showError(`Error al cargar entidad , Error:${error.message}`);
                 // return of( mainActions.verDetalleEspacioError({error}))
                 return of(false);
                 }

@@ -70,10 +70,10 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   convertDate(t){
     let today = new Date(t);
 		return new Date(
-      today.getFullYear(), today.getMonth(), today.getUTCDate(),
+      today.getFullYear(), today.getUTCMonth(), today.getUTCDate(),
       today.getUTCHours(), today.getUTCMinutes(), today.getUTCSeconds())
-	}
- 
+  }
+  
   ngOnInit(){
     this.subscribeToSeguimientosSinLlamada();
     this.subscribeToSeguimientosConLlamada();
@@ -103,14 +103,12 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
       console.log(response);
       this.segAtendidos = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
     })
-
   }
   
   ngOnDestroy(){
     this._destroyed$.next();
     this._destroyed$.complete();
   }
-
 
   queryAgendados(hospital: VORoleHospitalPopulateLoginOut, userLogged: LoginOut){
     let date=new Date();
@@ -176,6 +174,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         AndEstado: SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA 
       }
     }
+
     this.segAtendidosQueryRef = this._suscriptionService.filterSeguimiento(filterAtendidos);
     this.segAtendidos$ = this.segAtendidosQueryRef.valueChanges
       .pipe(

@@ -7,7 +7,8 @@ import { ToastService } from '../../services';
 import { VerPerfilUseCase, 
          AsignarRolesUseCase,
          EditarUsuarioUsecase, 
-         BuscarUsuarioUseCase  } from '../../core/usecases';
+         BuscarUsuarioUseCase } from '../../core/usecases';
+import { VerResumenSeguimientosPacienteUseCase } from '../../core/usecases/doctor'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 import { PatientModalComponent } from '../../shared/profile/pages/patient-modal/patient-modal.component';
@@ -15,7 +16,6 @@ import { UserModalComponent } from '../../shared/profile/pages/user-modal/user-m
 import { RoleModalComponent } from '../../shared/profile/pages/role-modal/role-modal.component';
 import { DatosPacienteModalComponent } from '../../shared/profile/pages/datos-paciente-modal/datos-paciente-modal.component';
 import { SearchInviteModalComponent } from '../../shared/profile/pages/search-invite-modal/search-invite-modal.component';
-import { data } from 'jquery';
 @Injectable()
 export class UserEffects {
     modalAtenderPaciente: NgbModalRef;
@@ -29,7 +29,8 @@ export class UserEffects {
         private modalService: NgbModal,
         private _asignarRolesUseCase:AsignarRolesUseCase,
         private _buscarUsuarioUseCase:BuscarUsuarioUseCase,
-        private _editarUsuarioUsecase:EditarUsuarioUsecase
+        private _editarUsuarioUsecase:EditarUsuarioUsecase,
+        private _verResumenSeguimientosPacienteUseCase: VerResumenSeguimientosPacienteUseCase
          ) { }
    
     @Effect()
@@ -65,37 +66,25 @@ export class UserEffects {
             ))
         )
 
-    // @Effect()
-    // openModalAtenderPaciente: Observable<any> = this.actions$.pipe(
-    //     ofType(userActions.openModalPatient),
-    //     switchMap(({seguimiento}) => {
-    //         let idUser: IdIn = { _id: seguimiento.idPaciente._id } 
-    //         return this._verPerfilUseCase.execute(idUser)
-    //         .pipe(
-    //             map(userPerfil => {
-    //                 this.modalAtenderPaciente = this.modalService.open(PatientModalComponent, { size: 'xl', scrollable: true});
-    //                 this.modalAtenderPaciente.componentInstance.userPerfil = {...userPerfil}
-    //                 this.modalAtenderPaciente.componentInstance.seguimiento = {...seguimiento}
-    //                 return userActions.loadPerfilUserSuccess({userPerfil})
-    //             }),
-    //             catchError( error => {
-    //                 this._toastService.showError(`Error al abrir modal. Por favor Vuelva a itentarlo, Error:${error.message}`);
-    //                 return of( userActions.loadPerfilUserError({error: error.message}))
-    //                 }
-    //             )
-    //         )}),
-    //     )
-
     @Effect({dispatch:false})
     openModalAtenderPaciente: Observable<any> = this.actions$.pipe(
-        ofType(userActions.openModalPatient),
-        tap(({seguimiento}) => {
-                    // this.modalAtenderPaciente = this.modalService.open(PatientModalComponent, { size: 'xl' });
+    ofType(userActions.openModalPatient),
+    tap(_=> this._spinner.show()),
+    switchMap(({seguimiento})=>this._verResumenSeguimientosPacienteUseCase
+            .execute({idPaciente:seguimiento.idPaciente._id})
+            .pipe(
+                map(data => {
                     this.modalAtenderPaciente = this.modalService.open(PatientModalComponent, { size: 'xl', scrollable: true});
-// 
-                    this.modalAtenderPaciente.componentInstance.seguimiento = {...seguimiento}
-                })
-        )
+                    this.modalAtenderPaciente.componentInstance.seguimiento = {...seguimiento,data};
+                    return true;
+                }),catchError(err=>{
+                    this._toastService.showError(`Error al cargar entidad, Error:${err.message}`);
+                    return of(false)
+            }),
+            )
+        ),tap(_=>this._spinner.hide()))
+
+      
 
     @Effect({dispatch:false})
     openModalDatosPaciente: Observable<any> = this.actions$.pipe(

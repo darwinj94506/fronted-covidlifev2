@@ -21,4 +21,6 @@ export interface FiltrarSeguimientoOut {
     latitud?: number;
     longitud?: number; 
     createAt:Date;
+    aislamiento_desde: Date;
+    aislamiento_hasta: Date;
 } 

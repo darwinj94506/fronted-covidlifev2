@@ -81,7 +81,7 @@ export class SettingsComponent extends Formulario implements OnInit {
   transformDate(t){
     let today = new Date(t);  
     return new Date(
-      today.getFullYear(), today.getMonth(), today.getUTCDate(),
+      today.getFullYear(), today.getUTCMonth(), today.getUTCDate(),
       today.getUTCHours(), today.getUTCMinutes(), today.getUTCSeconds()).toISOString().split('T')[0]
   }
   editar(){

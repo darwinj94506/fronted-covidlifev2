@@ -21,6 +21,7 @@ export class SinSeguimientoComponent implements OnInit {
   ngOnInit(): void {
     this._mainFacade.getHospitalSesion()
       .subscribe(data=>{
+        console.log(data);
         this.hospitalSesion = data
       })
   }
@@ -35,6 +36,7 @@ export class SinSeguimientoComponent implements OnInit {
     this._verPacientesSinSeguimientosPorDiaUseCase.execute(filter)
       .subscribe(data=>{
         this._spinner.hide();
+        console.log(data);
         this.pacientes = data;
       },err=>{
         this._spinner.hide();

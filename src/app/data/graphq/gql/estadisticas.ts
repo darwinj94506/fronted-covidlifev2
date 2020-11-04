@@ -47,7 +47,19 @@ query mapasEstadisticos($data:MapasDatosIn!){
 export const PACIENTES_SIN_SEGUIMENTOS = gql`
   query mostrarUsuarioSinSeguimiento($data:UsuarioSinSeguimientoPorDiaIn!){
     mostrarUsuarioSinSeguimientoPorHoyHospital(data:$data){
+      _id
       name
       lastname
+      ci
+      email
+      ultimoSeguimiento{
+        _id
+        idPaciente
+        diagnostico_actual
+      }
+      roles{
+        idHospital
+        roles
+      }
     }
-  } `;
+  }`;

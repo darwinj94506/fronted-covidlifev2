@@ -10,6 +10,12 @@
     <ol>
        <li *ngFor="let paciente of pacientes">
            {{ paciente?.name }} {{ paciente?.lastname }}
+           <!-- <strong class="estilo"></strong> -->
+           <label [ngClass]="{'success': paciente?.ultimoSeguimiento?.diagnostico_actual == 'PROBABLE', 
+            'warning': paciente?.ultimoSeguimiento?.diagnostico_actual == 'SOSPECHOSO', 
+            'danger': paciente?.ultimoSeguimiento?.diagnostico_actual == 'CONFIRMADO'}">
+            {{paciente?.ultimoSeguimiento?.diagnostico_actual}}
+            </label>
        </li> 
     </ol>
 </div>
