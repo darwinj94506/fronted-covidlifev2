@@ -30,13 +30,16 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   
   segSinLlamada = [];
   segConLlamada = [];
-  segAtendidos = [];
   segAgendados = [];
+  segAtendidos = [];
+  segAtendidosConLlamada = [];
+
   
   segAgendados$: Observable<FiltrarSeguimientoOut[]>;
   segSinLlamada$ : Observable<FiltrarSeguimientoOut[]>;
   segConLlamada$ : Observable<FiltrarSeguimientoOut[]>;
   segAtendidos$ : Observable<FiltrarSeguimientoOut[]>;
+  segAtendidosConLlamada$ : Observable<FiltrarSeguimientoOut[]>;
 
   segSinLlamadaQueryRef: QueryRef<any>;
   segConLlamadaQueryRef: QueryRef<any>;
@@ -64,6 +67,8 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         this.queryConLlamada(hospital);
         this.queryAgendados(hospital, userLogged);
         this.queryAtendidos(hospital, userLogged);
+        this.queryAtendidosConLlamada(hospital);
+
       })
   }
 
@@ -82,26 +87,36 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.segSinLlamada$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
       
       this.segSinLlamada = [];
-      console.log(response);
+      // console.log(response);
       this.segSinLlamada = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
     })
 
     this.segConLlamada$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
       this.segConLlamada = [];
-      console.log(response);
+      // console.log(response);
       this.segConLlamada = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
     })
 
     this.segAgendados$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
       this.segAgendados = [];
-      console.log(response);
+      // console.log(response);
       this.segAgendados = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
     })
 
     this.segAtendidos$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
       this.segAtendidos = [];
-      console.log(response);
+      // console.log(response);
       this.segAtendidos = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
+      this.segAtendidos = [...this.segAtendidosConLlamada, ...this.segAtendidos];
+    })
+
+    this.segAtendidosConLlamada$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
+      this.segAtendidosConLlamada = [];
+      // console.log(response);
+      // console.log(this.segAtendidos);
+      this.segAtendidosConLlamada = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
+      this.segAtendidos = [...this.segAtendidosConLlamada, ...this.segAtendidos];
+      // console.log(this.segAtendidos);
     })
   }
   
@@ -170,7 +185,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
       { createAt: date, 
         isUltimos: false, 
         AndIdHospital: hospital.idHospital._id,
-        AndIdDoctor: userLogged._id,
+        // AndIdDoctor: userLogged._id,
         AndEstado: SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA 
       }
     }
@@ -179,6 +194,24 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.segAtendidos$ = this.segAtendidosQueryRef.valueChanges
       .pipe(
       map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.filter.resolve] ))
+
+  }
+
+  queryAtendidosConLlamada(hospital: VORoleHospitalPopulateLoginOut){
+    let date=new Date();
+    date.setHours(0,0,0);
+    let filterAtendidos:FiltrarSeguimientoIn = {  fechaUltimos: 
+      { createAt: date, 
+        isUltimos: false, 
+        AndIdHospital: hospital.idHospital._id,
+        // AndIdDoctor: userLogged._id,
+        AndEstado: SeguimientoEstadoEnum.REVISADO_CON_LLAMADA 
+      }
+    }
+    this.segAtendidosConLlamada$ = this._suscriptionService.filterSeguimiento2(filterAtendidos)
+    // this.segAtendidos$ = this.segAtendidosQueryRef.valueChanges
+    //   .pipe(
+    //   map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.filter.resolve] ))
 
   }
 
@@ -282,7 +315,9 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.segAtendidosQueryRef.subscribeToMore({
       document: SEGUIMIENTO_OPERATIONS.suscription.gql,
       updateQuery: (prev, {subscriptionData}) => {
-        if (!subscriptionData.data || subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA) {
+        if (!subscriptionData.data || 
+          subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA && 
+          subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA) {
           return prev;
         }
         const newDataQuery = [subscriptionData.data.cambioSeguimientoNotificacion, ...prev.filterSeguimiento]

@@ -27,6 +27,23 @@ export class SuscriptionService {
         //        map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.filter.resolve] ))
    }
 
+   
+   filterSeguimiento2(filter: FiltrarSeguimientoIn): Observable<FiltrarSeguimientoOut[]>{
+    return this.apollo
+        .watchQuery(
+        { 
+            query: SEGUIMIENTO_OPERATIONS.filter.gql,
+            variables:{
+                data:filter
+            }
+        })
+        .valueChanges.pipe(
+            map(( { data } ) => data[SEGUIMIENTO_OPERATIONS.filter.resolve] ))
+}
+
+  
+
+
    getNotificationesEnviadas(filter: ObtenerNotificacionesEnviadasIn): QueryRef<any>{
         return this.apollo
             .watchQuery(
