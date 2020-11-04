@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType  } from '@ngrx/effects';
-import { catchError, map, switchMap, tap, concatMap} from 'rxjs/operators';
+import { catchError, map, switchMap, tap, concatMap, exhaustMap, exhaust} from 'rxjs/operators';
 import { Observable, of} from 'rxjs';
 import * as seguimientoActions  from '../actions/seguimiento.actions';
 import { ToastService, NotificationService } from '../../services';
@@ -150,7 +150,7 @@ export class SeguimientoEffects {
     atender: Observable<any> = this.actions$.pipe(
         ofType(seguimientoActions.atenderSeguimiento),
         tap( _=> this._spinner.show()),
-        switchMap((payload) => this._macarSeguimientoComoAtendido.execute(payload.seguimiento)
+        exhaustMap((payload) => this._macarSeguimientoComoAtendido.execute(payload.seguimiento)
             .pipe(
                 map(attendedSeguimiento => {
                     this._toastService.showSuccess(`Atendido con éxito`);

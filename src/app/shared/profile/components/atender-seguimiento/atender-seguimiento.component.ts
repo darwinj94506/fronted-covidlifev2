@@ -109,8 +109,8 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
     console.log(this.getLastFechaAislamiento(this.seguimiento.data).aislamiento_hasta)
     this.seguimientoForm = this.fb.group({
       temperatura: [{ value: this.seguimiento.temperatura, disabled:true }],
-      ritmo_cardiaco: [ { value: this.seguimiento.ritmo_cardiaco, disabled: this.isDisabled() }, [Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],
-      saturacion_oxigeno: [{ value: this.seguimiento.saturacion_oxigeno, disabled: this.isDisabled() }, [Validators.pattern("^[0-9]*$"), Validators.min(20), Validators.max(200)] ],
+      ritmo_cardiaco: [ { value: this.getRitmoSaturacion(this.seguimiento.ritmo_cardiaco), disabled: this.isDisabled() }, [Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],
+      saturacion_oxigeno: [{ value: this.getRitmoSaturacion(this.seguimiento.saturacion_oxigeno), disabled: this.isDisabled() }, [Validators.pattern("^[0-9]*$"), Validators.min(20), Validators.max(200)] ],
       dificultad_respirar: [{ value: this.seguimiento.dificultad_respirar, disabled: this.isDisabled()}],
       examen: [{value: this.seguimiento.examen, disabled: this.isDisabled()}],
       nota_paciente: [ {value: this.seguimiento.nota_paciente, disabled:true}],
@@ -123,6 +123,12 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
       aislamiento_hasta: [this.getLastFechaAislamiento(this.seguimiento.data).aislamiento_hasta],
     });
     // console.log(this.seguimientoForm.getRawValue());
+  }
+  getRitmoSaturacion(value){
+    if (value === 0 || value === "0"){
+        return null
+    }
+    else return value;
   }
 
   isDisabled():boolean{
