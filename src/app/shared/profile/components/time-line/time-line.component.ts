@@ -73,21 +73,16 @@ export class TimeLineComponent implements OnInit, OnDestroy {
             createAtString: this.transformDate(item.createAt).toLocaleDateString() 
             }
         )).value();
-      //   console.log(filtrado);
     let fechas = this.getFechasEnCuarentena(Object.keys(_.groupBy(filtrado,i=>i.desde_hasta)));
-    // console.log(fechas);
     let final = _.chain(filtrado)
     .map(i=>({...i, enCuarenta: this.enCuanrentena(fechas,i)}))
-   //  .orderBy(i=>i.createAtCeroHoras)
     .groupBy(i=>i.createAtString)
     .value();
     console.log(final);
     (Object.keys(final)).forEach(i=>{
       let obj = { _id: i, seguimientos: final[i]};
-      // obj[i] = final[i];
       this.seguimientos.push(obj);
     })
-    console.log(this.seguimientos);
   }
 
    getFechasEnCuarentena(fechas){
@@ -97,7 +92,6 @@ export class TimeLineComponent implements OnInit, OnDestroy {
           arrayFechas.push({ desde: new Date(i.split('/')[0]), hasta: new Date(i.split('/')[1]) })
           }
     })
-   //  console.log(arrayFechas);
     return arrayFechas
   }
   enCuanrentena(fechas, seguimiento:any){

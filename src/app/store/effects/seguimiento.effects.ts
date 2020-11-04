@@ -153,13 +153,14 @@ export class SeguimientoEffects {
         switchMap((payload) => this._macarSeguimientoComoAtendido.execute(payload.seguimiento)
             .pipe(
                 map(attendedSeguimiento => {
-                    if(payload.estado === SeguimientoEstadoEnum.AGENDADO)
-                        this._router.navigate(['/doctor/seguimientos'])
-                    
                     this._toastService.showSuccess(`Atendido con éxito`);
+                    if(payload.estado === SeguimientoEstadoEnum.AGENDADO){
+                        this._router.navigate(['/doctor/seguimientos'])
+                    }
                     return seguimientoActions.atenderSeguimientoSuccess({attendedSeguimiento})
                 }),
                 catchError( error => {
+                    console.log(error);
                     this._toastService.showError(`Error al atender, por inténtelo nuevamente, Error:${error.message}`);
                     return of( seguimientoActions.atenderSeguimientoError({error: error.message}))
                     }

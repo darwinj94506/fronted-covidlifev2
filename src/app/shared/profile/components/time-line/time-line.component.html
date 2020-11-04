@@ -15,7 +15,7 @@
                                 <th>Dia y Fecha</th>
                                 <th *ngFor="let seg of seguimientos; let i=index;">
                                     <label>Día {{ i + 1}} </label><br>
-                                    <label>{{ transformDate(seg?._id) | date : 'shortDate' }}</label>
+                                    <label>{{ seg?._id  }}</label>
                                 </th>
                             </thead>
                             <tbody>
@@ -27,7 +27,7 @@
                                             [ngClass]="{'table-success': seg?.seguimientos[0]?.estado_diario_paciente==='MEJOR_EVOLUCION', 
                                                 'table-warning': seg?.seguimientos[0]?.estado_diario_paciente==='IGUAL_EVOLUCION', 
                                                 'table-danger': seg?.seguimientos[0]?.estado_diario_paciente==='EMPEORANDO'}">
-                                            {{transformDate(seg?.seguimientos[0]?.createAt) | date:'shortTime'}} - 
+                                            {{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - 
                                             ({{seg?.seguimientos[0]?.estado_diario_paciente}})
                                         </label>
                                         <label (click)="open(seg?.seguimientos[1])" class="observacion" 
@@ -35,7 +35,7 @@
                                             [ngClass]="{'table-success': seg?.seguimientos[1]?.estado_diario_paciente==='MEJOR_EVOLUCION', 
                                                 'table-warning': seg?.seguimientos[1]?.estado_diario_paciente==='IGUAL_EVOLUCION', 
                                                 'table-danger': seg?.seguimientos[1]?.estado_diario_paciente==='EMPEORANDO'}">
-                                            {{transformDate(seg?.seguimientos[1]?.createAt) | date:'shortTime'}} - 
+                                            {{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - 
                                             ({{seg?.seguimientos[1]?.estado_diario_paciente}})</label>
 
                                         <label (click)="open(seg?.seguimientos[2])" class="observacion" 
@@ -43,7 +43,7 @@
                                             [ngClass]="{'table-success': seg?.seguimientos[2]?.estado_diario_paciente==='MEJOR_EVOLUCION', 
                                                 'table-warning': seg?.seguimientos[2]?.estado_diario_paciente==='IGUAL_EVOLUCION', 
                                                 'table-danger': seg?.seguimientos[2]?.estado_diario_paciente==='EMPEORANDO'}">
-                                            {{transformDate(seg?.seguimientos[2]?.createAt) | date:'shortTime'}} - 
+                                            {{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - 
                                             ({{seg?.seguimientos[2]?.estado_diario_paciente}})</label>
                                     </td>
                                 </tr>
@@ -55,21 +55,21 @@
                                             [ngClass]="{'table-success': seg?.seguimientos[0]?.temperatura <= 37.4, 
                                              'table-warning': seg?.seguimientos[0]?.temperatura > 37.4 && seg?.seguimientos[0]?.temperatura <= 37.9, 
                                              'table-danger': seg?.seguimientos[0]?.temperatura > 37.9}">
-                                            {{transformDate(seg?.seguimientos[0]?.createAt) | date:'shortTime'}} - 
+                                            {{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - 
                                             ({{seg?.seguimientos[0]?.temperatura}})</label><br>
                                         <label (click)="open(seg?.seguimientos[1])" class="observacion" 
                                             *ngIf="seg?.seguimientos[1]?.createAt"
                                             [ngClass]="{'table-success': seg?.seguimientos[1]?.temperatura <= 37.4, 
                                                 'table-warning': seg?.seguimientos[1]?.temperatura > 37.4 && seg?.seguimientos[0]?.temperatura <= 37.9, 
                                                'table-danger': seg?.seguimientos[1]?.temperatura > 37.9}">
-                                               {{transformDate(seg?.seguimientos[1]?.createAt) | date:'shortTime'}} - 
+                                               {{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - 
                                                ({{seg?.seguimientos[1]?.temperatura}})</label><br>
                                         <label (click)="open(seg?.seguimientos[2])" class="observacion"
                                             *ngIf="seg?.seguimientos[2]?.createAt"
                                             [ngClass]="{'table-success': seg?.seguimientos[2]?.temperatura <= 37.4, 
                                             'table-warning': seg?.seguimientos[2]?.temperatura > 37.4 && seg?.seguimientos[0]?.temperatura <= 37.9, 
                                             'table-danger': seg?.seguimientos[2]?.temperatura > 37.9}">
-                                                {{transformDate(seg?.seguimientos[2]?.createAt) | date:'shortTime'}} - 
+                                                {{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - 
                                                 ({{seg?.seguimientos[2]?.temperatura}})</label>
                                     </td>
                                 </tr>
@@ -82,11 +82,11 @@
                                         </label><br>
                                         <label (click)="open(seg?.seguimientos[1])" class="observacion" 
                                             *ngIf="seg?.seguimientos[1]?.createAt">
-                                            {{transformDate(seg?.seguimientos[1]?.createAt) | date:'shortTime'}} - ({{seg?.seguimientos[1]?.ritmo_cardiaco}})
+                                            {{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.ritmo_cardiaco}})
                                         </label><br>
                                         <label (click)="open(seg?.seguimientos[2])" class="observacion" 
                                             *ngIf="seg?.seguimientos[2]?.createAt">
-                                            {{transformDate(seg?.seguimientos[2]?.createAt) | date:'shortTime'}} - ({{seg?.seguimientos[2]?.ritmo_cardiaco}})</label>
+                                            {{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.ritmo_cardiaco}})</label>
                                     </td>
                                 </tr>
                                 <tr>
@@ -94,13 +94,13 @@
                                     <td *ngFor="let seg of seguimientos; let i=index;">
                                         <label (click)="open(seg?.seguimientos[0])" class="observacion" 
                                             *ngIf="seg?.seguimientos[0]?.createAt">
-                                            {{transformDate(seg?.seguimientos[0]?.createAt) | date:'shortTime'}} - ({{seg?.seguimientos[0]?.saturacion_oxigeno}})</label><br>
+                                            {{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.saturacion_oxigeno}})</label><br>
                                         <label (click)="open(seg?.seguimientos[1])" class="observacion" 
                                             *ngIf="seg?.seguimientos[1]?.createAt">
-                                            {{transformDate(seg?.seguimientos[1]?.createAt) | date:'shortTime'}} - ({{seg?.seguimientos[1]?.saturacion_oxigeno}})</label><br>
+                                            {{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.saturacion_oxigeno}})</label><br>
                                         <label (click)="open(seg?.seguimientos[2])" class="observacion" 
                                             *ngIf="seg?.seguimientos[2]?.createAt">
-                                            {{transformDate(seg?.seguimientos[2]?.createAt) | date:'shortTime'}} - ({{seg?.seguimientos[2]?.saturacion_oxigeno}})</label>
+                                            {{tseg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.saturacion_oxigeno}})</label>
                                     </td>
                                 </tr>
                                 <tr>
@@ -108,13 +108,13 @@
                                     <td *ngFor="let seg of seguimientos; let i=index;">
                                         <label (click)="open(seg?.seguimientos[0])" class="observacion" 
                                             *ngIf="seg?.seguimientos[0]?.createAt">
-                                            {{transformDate(seg?.seguimientos[0]?.createAt) | date:'shortTime'}} - ({{seg?.seguimientos[0]?.dificultad_respirar}})</label><br>
+                                            {{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.dificultad_respirar}})</label><br>
                                         <label (click)="open(seg?.seguimientos[1])" class="observacion" 
                                             *ngIf="seg?.seguimientos[1]?.createAt">
-                                            {{transformDate(seg?.seguimientos[1]?.createAt) | date:'shortTime'}} - ({{seg?.seguimientos[1]?.dificultad_respirar}})</label><br>
+                                            {{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.dificultad_respirar}})</label><br>
                                         <label (click)="open(seg?.seguimientos[2])" class="observacion" 
                                             *ngIf="seg?.seguimientos[2]?.createAt">
-                                            {{transformDate(seg?.seguimientos[2]?.createAt) | date:'shortTime'}} - ({{seg?.seguimientos[2]?.dificultad_respirar}})</label>
+                                            {{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.dificultad_respirar}})</label>
                                     </td>
                                 </tr>
 
@@ -123,13 +123,13 @@
                                     <td *ngFor="let seg of seguimientos; let i=index;">
                                         <label (click)="open(seg?.seguimientos[0])" class="observacion" 
                                             *ngIf="seg?.seguimientos[0]?.createAt">
-                                            {{transformDate(seg?.seguimientos[0]?.createAt) | date:'shortTime'}} - ({{seg?.seguimientos[0]?.diagnostico_actual}})</label><br>
+                                            {{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[0]?.diagnostico_actual}})</label><br>
                                         <label (click)="open(seg?.seguimientos[1])" class="observacion" 
                                             *ngIf="seg?.seguimientos[1]?.createAt">
-                                            {{transformDate(seg?.seguimientos[1]?.createAt) | date:'shortTime'}} - ({{seg?.seguimientos[1]?.diagnostico_actual}})</label><br>
+                                            {{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[1]?.diagnostico_actual}})</label><br>
                                         <label (click)="open(seg?.seguimientos[2])" class="observacion" 
                                             *ngIf="seg?.seguimientos[2]?.createAt">
-                                            {{transformDate(seg?.seguimientos[2]?.createAt) | date:'shortTime'}} - ({{seg?.seguimientos[2]?.diagnostico_actual}})</label>
+                                            {{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - ({{seg?.seguimientos[2]?.diagnostico_actual}})</label>
                                     </td>
                                 </tr>
                                 <tr>
@@ -137,7 +137,7 @@
                                     <td *ngFor="let seg of seguimientos; let i=index;">
                                         <label (click)="open(seg?.seguimientos[0])" class="observacion" 
                                             *ngIf="seg?.seguimientos[0]?.createAt">
-                                            <label>({{seg?.seguimientos[0]?.enCuarenta}})</label>
+                                            <label>{{estaCuarentena(seg?.seguimientos[0]?.enCuarenta)}}</label>
                                         </label>
                                     </td>
                                 </tr>
@@ -146,13 +146,13 @@
                                     <td *ngFor="let seg of seguimientos; let i=index;">
                                         <label *ngIf="seg?.seguimientos[0]?.createAt"
                                             (click)="open(seg?.seguimientos[0])" class="observacion" data-title={{seg?.seguimientos[0]?.observacion_doctor}}>
-                                            {{transformDate(seg?.seguimientos[0]?.createAt) | date:'shortTime'}} - (<label>{{cortar(seg?.seguimientos[0]?.observacion_doctor)}}</label>)</label><br>
+                                            {{seg?.seguimientos[0]?.createAt | date:'shortTime'}} - (<label>{{cortar(seg?.seguimientos[0]?.observacion_doctor)}}</label>)</label><br>
                                         <label *ngIf="seg?.seguimientos[1]?.createAt"
                                             (click)="open(seg?.seguimientos[1])" class="observacion" data-title={{seg?.seguimientos[1]?.observacion_doctor}}>
-                                            {{transformDate(seg?.seguimientos[1]?.createAt) | date:'shortTime'}} - (<label>{{cortar(seg?.seguimientos[1]?.observacion_doctor)}}</label>)</label><br>
+                                            {{seg?.seguimientos[1]?.createAt | date:'shortTime'}} - (<label>{{cortar(seg?.seguimientos[1]?.observacion_doctor)}}</label>)</label><br>
                                         <label *ngIf="seg?.seguimientos[2]?.createAt"
                                         (click)="open(seg?.seguimientos[2])" class="observacion" data-title={{seg?.seguimientos[2]?.observacion_doctor}}>
-                                            {{transformDate(seg?.seguimientos[2]?.createAt) | date:'shortTime'}} - (<label>{{cortar(seg?.seguimientos[2]?.observacion_doctor)}}</label>)</label>
+                                            {{seg?.seguimientos[2]?.createAt | date:'shortTime'}} - (<label>{{cortar(seg?.seguimientos[2]?.observacion_doctor)}}</label>)</label>
                                     </td>
                                 </tr>
                             </tbody>

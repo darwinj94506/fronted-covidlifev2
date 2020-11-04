@@ -121,7 +121,8 @@
         </div>
         <div class="form-group">
             <div class="col-sm-12">
-                <button *ngIf="!seguimiento?.soloVer" type="submit" class="btn btn-success">{{getTextButton()}}</button>
+                <button *ngIf="!seguimiento?.soloVer" [disabled]="!seguimientoForm.valid"
+                    type="submit" class="btn btn-success">{{getTextButton()}}</button>
             </div>
         </div>
     </form>

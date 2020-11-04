@@ -337,7 +337,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
         }
     }
     this._seguimientoFacade.dispatchActionSendNotificationVideoLlamada(seguimiento, this.userLogged, notification)
-    this._router.navigate(['/sala/llamada', seguimiento._id,  RolesUserEnum.DOCTOR], {state: {data: {...seguimiento}}});
+    this._router.navigate(['/sala/llamada', seguimiento._id,  RolesUserEnum.DOCTOR, seguimiento.idPaciente._id ], {state: {data: {...seguimiento}}});
   }
 
 }

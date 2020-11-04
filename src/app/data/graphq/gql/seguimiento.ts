@@ -111,6 +111,7 @@ query consultarUnSeguimiento($data:ConsultarUnSeguimientoIn!){
     aislamiento_hasta
     latitud
     longitud
+    createAt
   }
 }
 `;
