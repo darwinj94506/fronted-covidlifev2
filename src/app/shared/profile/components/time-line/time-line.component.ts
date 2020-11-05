@@ -79,6 +79,7 @@ export class TimeLineComponent implements OnInit, OnDestroy {
     .groupBy(i=>i.createAtString)
     .value();
     console.log(final);
+    this.seguimientos = [];
     (Object.keys(final)).forEach(i=>{
       let obj = { _id: i, seguimientos: final[i]};
       this.seguimientos.push(obj);

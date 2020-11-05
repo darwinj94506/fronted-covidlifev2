@@ -8,14 +8,16 @@
 <div class="row">
     <!-- <h5>Pacientes que no han enviado los seguimientos</h5>  -->
     <ol>
-       <li *ngFor="let paciente of pacientes">
-           {{ paciente?.name }} {{ paciente?.lastname }}
-           <!-- <strong class="estilo"></strong> -->
-           <label [ngClass]="{'success': paciente?.ultimoSeguimiento?.diagnostico_actual == 'PROBABLE', 
-            'warning': paciente?.ultimoSeguimiento?.diagnostico_actual == 'SOSPECHOSO', 
-            'danger': paciente?.ultimoSeguimiento?.diagnostico_actual == 'CONFIRMADO'}">
-            {{paciente?.ultimoSeguimiento?.diagnostico_actual}}
-            </label>
-       </li> 
+       <container *ngFor="let paciente of pacientes">
+           <li *ngIf="show(paciente.roles)">
+               {{ paciente?.name }} {{ paciente?.lastname }}
+               <!-- <strong class="estilo"></strong> -->
+               <label [ngClass]="{'success': paciente?.ultimoSeguimiento?.diagnostico_actual == 'PROBABLE', 
+                    'warning': paciente?.ultimoSeguimiento?.diagnostico_actual == 'SOSPECHOSO', 
+                    'danger': paciente?.ultimoSeguimiento?.diagnostico_actual == 'CONFIRMADO'}">
+                    {{paciente?.ultimoSeguimiento?.diagnostico_actual}}
+                </label>
+           </li>
+       </container> 
     </ol>
 </div>
