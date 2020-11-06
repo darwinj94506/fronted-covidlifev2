@@ -6,7 +6,10 @@ import { AuthService } from '../auth.service';
 import * as authActions  from './auth.actions';
 import { MainFacade } from '../../store/facade/main.facade';
 import { UserRegisterUsecase, LoginUsecase, LogoutUsecase } from '../../core/usecases';
+import { RolesUserEnum } from '../../core/domain/enums';
+
 import { NgxSpinnerService } from 'ngx-spinner';
+
 @Injectable()
 export class AuthEffects {
 
@@ -47,8 +50,11 @@ export class AuthEffects {
     register: Observable<any> = this.actions$.pipe(
         ofType(authActions.register),
         tap(_=>this._spinner.show()),
-        exhaustMap(({user}) => this._userRegisterUseCase.execute(user).pipe(
+        exhaustMap((data) => this._userRegisterUseCase.execute(data.user).pipe(
             map((user) => {
+                if(data.user.roles.length == 0){
+                    alert("SOLICITE AL ADMINISTRADOR EL INGRESO AL SISTEMA");
+                }
                 return authActions.registerSuccess({user})
             }),
             catchError( (error) => {
