@@ -33,33 +33,13 @@ export class ResultComponent implements OnInit {
         this.isFormValid = this.formDataService.isFormValid();
         this.formDataUser = this.formDataService.getDataUser();
     }
-
-    // submit() {
-    //     if(!this.terminosCondiciones){
-    //         this.modalService.open(this.content, { centered: true });
-    //         return false 
-    //     }
-    //     this.formData = this.formDataService.resetFormData ();
-    //     this.isFormValid = false;
-    // }
-
+    
     submit(){
         if(!this.terminosCondiciones){
           this.modalService.open(this.content, { centered: true });
           return false 
         }
-
         let userToRegister : SignupIn = this.formDataService.getDataUser()
-    
-        if(!this.formDataService.isDoctor){      
-          let datosPaciente : VOPacienteIn = this.formDataService.getDataPaciente()
-          let rol= this.formDataService.getHospitalRol();
-          userToRegister = {
-            ...userToRegister,
-            roles:[{...rol}],
-            datos_paciente: { ...datosPaciente }
-          }
-        }
         this._authFacade.register(userToRegister)
       }
     

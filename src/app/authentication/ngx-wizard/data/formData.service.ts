@@ -72,10 +72,12 @@ export class FormDataService {
     }
 
     setPacienteHospital(idHospital:string){
+        
         this.formUserData.roles = [{
             idHospital: idHospital, 
             roles: [RolesUserEnum.PACIENTE]
           }]
+        //   console.log(this.formDataPaciente)
     }
 
     getDataPaciente(): FormDataPaciente{
@@ -164,7 +166,6 @@ export class FormDataService {
         return address;
     }
     
-    //Set Address Tab Data
     setAddress(data: Address) {
         // Update the Address data only when the Address Form had been validated successfully
         this.isAddressFormValid = true;

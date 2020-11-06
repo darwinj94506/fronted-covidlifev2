@@ -11,7 +11,7 @@ import { Observable, Subject } from 'rxjs';
 import { MainFacade } from 'src/app/store/facade';
 import { takeUntil } from 'rxjs/operators';
 import { FilterEspaceIn } from 'src/app/core/domain/inputs';
-import { EspacioEnum } from 'src/app/core/domain/enums';
+import { EspacioEnum, RolesUserEnum } from 'src/app/core/domain/enums';
 const ValidationMessage = {
   idHospital: { required: 'Campo obligatorio'},
 }
@@ -85,11 +85,13 @@ export class AddressComponent extends Formulario implements OnInit, OnDestroy {
       }
     //Save button event Starts
     save(form: any) {
-        if (!form.valid)
-            return;
-
-        this.formDataService.setAddress(this.address);
-        let firstState = this.workflowService.getFirstInvalidStep(STEPS.work);
+        if (!form.valid){
+          alert("Eliga un lugar de atención")  
+          return;
+        }
+        // this.formDataService.setAddress(this.address);
+        this.formDataService.setPacienteHospital(this.hospitalForm.get('idHospital').value);
+        // let firstState = this.workflowService.getFirstInvalidStep(STEPS.work);
         this.router.navigate(['result'], { relativeTo: this.route.parent, skipLocationChange: true });
     }
     //Save button event Ends
@@ -109,7 +111,8 @@ export class AddressComponent extends Formulario implements OnInit, OnDestroy {
         this.hospitalForm.patchValue({
            canton: null,
            parroquia: null,
-           barrio: null
+           barrio: null,
+           idHospital:null
         });  
         if(value){
           let filtro : FilterEspaceIn = { idEspacioPadre : value }
@@ -119,13 +122,11 @@ export class AddressComponent extends Formulario implements OnInit, OnDestroy {
       }
     
       onChangeCanton(value){
-        // let canton = this.cantones.find(i=>i._id === value)
-        // this.objectLugares[1] = canton;
-        // this.objectLugares.splice(2,2);
-        // console.log(this.objectLugares);
         this.hospitalForm.patchValue({
            parroquia:null,
-           barrio:null
+           barrio:null,
+           idHospital:null
+
         });
         if(value){
           let filtro : FilterEspaceIn = { idEspacioPadre : value }
@@ -135,11 +136,10 @@ export class AddressComponent extends Formulario implements OnInit, OnDestroy {
       }
     
       onChangeParroquia(value){
-        // let parroquia = this.parroquias.find(i=>i._id === value)
-        // this.objectLugares[2] = parroquia;
-        // this.objectLugares.splice(3,1);
          this.hospitalForm.patchValue({
-           barrio:null
+           barrio:null,
+           idHospital:null
+
         })
         if(value){
           let filtro : FilterEspaceIn = { idEspacioPadre : value }
@@ -150,12 +150,14 @@ export class AddressComponent extends Formulario implements OnInit, OnDestroy {
       }
     
       onChangeBarrio(value){
-        // let barrio = this.barrios.find(i=>i._id === value)
+        this.hospitalForm.patchValue({
+          idHospital:null
+       })
         if(value){
           this._mainFacade.dispatchActionLoadHospitales({idEspacio: value})
         }
-        // this.objectLugares[3] = barrio;
       }
+
       onChangeHospital(value){
 
       }
@@ -172,15 +174,3 @@ export class AddressComponent extends Formulario implements OnInit, OnDestroy {
 }
 
 
-// {
-//   name:"xyx",
-//   lastname:"xyz",
-//   telefono:"123123123",
-//   email:"xyz@admin.com",
-//   password:"123456",
-//   ci:"991000666029",
-//   fechaNacimiento:"2005-02-11",
-//   genero:"M",
-//   roles:[],
-//   direccion:"12321321"
-// }
