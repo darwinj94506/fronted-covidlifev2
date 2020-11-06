@@ -186,4 +186,8 @@ export class NavigationComponent implements AfterViewInit, OnInit {
           this._router.navigate(['/sala/llamada', notification.idSeguimiento, RolesUserEnum.PACIENTE]);
   }
   
+  goToPerfil(){
+    this._router.navigate(['/perfil']);
+  }
+  
 }
