@@ -93,19 +93,19 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
 
     this.segConLlamada$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
       this.segConLlamada = [];
-      // console.log(response);
+      console.log(response);
       this.segConLlamada = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
     })
 
     this.segAgendados$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
       this.segAgendados = [];
-      // console.log(response);
+      console.log(response);
       this.segAgendados = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
     })
 
     this.segAtendidos$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
       this.segAtendidos = [];
-      // console.log(response);
+      console.log(response);
       this.segAtendidos = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
       this.segAtendidos = [...this.segAtendidosConLlamada, ...this.segAtendidos];
     })
@@ -271,7 +271,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     if(entrySeguimiento.estado === SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA){
       let index = previousSeguimientos.findIndex(item => item.idPaciente._id === entrySeguimiento.idPaciente._id)
       if(index === -1)
-        return [entrySeguimiento, ...previousSeguimientos]
+        return [{...entrySeguimiento}, ...previousSeguimientos]
       
         previousSeguimientos.splice(index,1)
       return [...previousSeguimientos, {...entrySeguimiento}]
@@ -283,7 +283,8 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     this.segAgendadosQueryRef.subscribeToMore({
       document: SEGUIMIENTO_OPERATIONS.suscription.gql,
       updateQuery: (prev, {subscriptionData}) => {
-        if (!subscriptionData.data) {
+        if (!subscriptionData.data || !subscriptionData.data.cambioSeguimientoNotificacion.idDoctor 
+            || subscriptionData.data.cambioSeguimientoNotificacion.idDoctor._id!==this.userLogged._id) {
           return prev;
         }
         const newDataQuery = this.getDataForSegAgendadosQuery(subscriptionData.data.cambioSeguimientoNotificacion, prev.filterSeguimiento)
@@ -303,7 +304,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
     if(entrySeguimiento.estado === SeguimientoEstadoEnum.AGENDADO){
       let index = previousSeguimientos.findIndex(item => item.idPaciente._id === entrySeguimiento.idPaciente._id)
       if(index === -1)
-        return [entrySeguimiento, ...previousSeguimientos]
+        return [{...entrySeguimiento}, ...previousSeguimientos]
       
         previousSeguimientos.splice(index,1)
       return [...previousSeguimientos, {...entrySeguimiento}]
@@ -316,8 +317,10 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
       document: SEGUIMIENTO_OPERATIONS.suscription.gql,
       updateQuery: (prev, {subscriptionData}) => {
         if (!subscriptionData.data || 
-          subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA ||
+          subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.REVISADO_SIN_LLAMADA &&
           subscriptionData.data.cambioSeguimientoNotificacion.estado !== SeguimientoEstadoEnum.REVISADO_CON_LLAMADA) {
+            // console.log("entro");
+            // console.log(subscriptionData.data);
           return prev;
         }
         const newDataQuery = [subscriptionData.data.cambioSeguimientoNotificacion, ...prev.filterSeguimiento]
