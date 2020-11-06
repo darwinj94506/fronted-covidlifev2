@@ -22,5 +22,24 @@ export class DatosUsuarioComponent implements OnInit {
       return 'No'
   }
 
+  convertDate(t): Date{
+    let today = new Date(t);
+		return new Date(
+      today.getFullYear(), today.getUTCMonth(), today.getUTCDate(),
+      today.getUTCHours(), today.getUTCMinutes(), today.getUTCSeconds())
+  }
+
+  getAnios(date: String){
+    var today = new Date();
+    var birthDate = this.convertDate(date);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age = age - 1;
+    }
+    return age;
+  }
+  
+
 
 }

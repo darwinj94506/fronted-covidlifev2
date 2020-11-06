@@ -13,12 +13,12 @@
             <h6> {{ userPerfil?.direccion }} </h6>
             <small class="text-muted p-t-30 db">Cédula</small>
             <h6> {{ userPerfil?.ci }} </h6>
-            <small class="text-muted p-t-30 db">Fecha de nacimiento</small>
-            <h6> {{ userPerfil?.fechaNacimiento | date: 'short' }} </h6>
+            <small class="text-muted p-t-30 db">Edad</small>
+            <h6> {{ getAnios(userPerfil?.fechaNacimiento) }} años </h6>
             <small class="text-muted p-t-30 db">Género</small>
             <h6> {{ userPerfil?.genero }} </h6>
             <small class="text-muted p-t-30 db">último acceso</small>
-            <h6> {{ userPerfil?.ultimoAcceso | date : 'short' }} </h6>
+            <h6> {{ convertDate(userPerfil?.ultimoAcceso) | date : 'short' }} </h6>
         </div>
     </div>
 

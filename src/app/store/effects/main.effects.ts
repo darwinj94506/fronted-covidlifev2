@@ -136,7 +136,7 @@ export class MainEffects {
     openModalFiltro: Observable<any> = this.actions$.pipe(
     ofType(mainActions.openModalFiltrarEspacio),
     tap(_=> this._spinner.show()),
-    switchMap(payload => this._verDetalleEspacioUseCase.execute(payload.filtro)
+    exhaustMap(payload => this._verDetalleEspacioUseCase.execute(payload.filtro)
         .pipe(
             map(espacio => {
                 this._spinner.hide();

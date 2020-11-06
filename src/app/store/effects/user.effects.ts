@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType  } from '@ngrx/effects';
-import { catchError, map, switchMap, tap} from 'rxjs/operators';
+import { catchError, exhaustMap, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import { Observable, from, of} from 'rxjs';
 import * as userActions  from '../actions/user.actions';
 import { ToastService } from '../../services';
@@ -83,8 +83,6 @@ export class UserEffects {
             }),
             )
         ),tap(_=>this._spinner.hide()))
-
-      
 
     @Effect({dispatch:false})
     openModalDatosPaciente: Observable<any> = this.actions$.pipe(
