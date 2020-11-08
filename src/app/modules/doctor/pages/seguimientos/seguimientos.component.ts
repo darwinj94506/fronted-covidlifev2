@@ -93,19 +93,19 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
 
     this.segConLlamada$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
       this.segConLlamada = [];
-      console.log(response);
+      // console.log(response);
       this.segConLlamada = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
     })
 
     this.segAgendados$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
       this.segAgendados = [];
-      console.log(response);
+      // console.log(response);
       this.segAgendados = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
     })
 
     this.segAtendidos$.pipe(takeUntil(this._destroyed$)).subscribe(response=>{
       this.segAtendidos = [];
-      console.log(response);
+      // console.log(response);
       this.segAtendidos = response.map(item=>({...item, createAt: this.convertDate(item.createAt)}));
       this.segAtendidos = [...this.segAtendidosConLlamada, ...this.segAtendidos];
     })
@@ -264,9 +264,11 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   }
 
   getDataForSegConLlamadaQuery(entrySeguimiento: FiltrarSeguimientoOut, previousSeguimientos: FiltrarSeguimientoOut []): FiltrarSeguimientoOut[]{
+    console.log([entrySeguimiento, previousSeguimientos])
     let indexMutado = previousSeguimientos.findIndex(item => item._id === entrySeguimiento._id);
+    console.log(indexMutado);
     if (indexMutado !== -1 ) 
-      previousSeguimientos = previousSeguimientos.splice(indexMutado, 1)
+      previousSeguimientos.splice(indexMutado, 1)
       
     if(entrySeguimiento.estado === SeguimientoEstadoEnum.SOLICITADO_CON_LLAMADA){
       let index = previousSeguimientos.findIndex(item => item.idPaciente._id === entrySeguimiento.idPaciente._id)
@@ -299,7 +301,7 @@ export class SeguimientosComponent implements OnInit, OnDestroy {
   getDataForSegAgendadosQuery(entrySeguimiento: FiltrarSeguimientoOut, previousSeguimientos: FiltrarSeguimientoOut []): FiltrarSeguimientoOut[]{
     let indexMutado = previousSeguimientos.findIndex(item => item._id === entrySeguimiento._id);
     if (indexMutado !== -1 ) 
-      previousSeguimientos = previousSeguimientos.splice(indexMutado, 1)
+        previousSeguimientos.splice(indexMutado, 1)
       
     if(entrySeguimiento.estado === SeguimientoEstadoEnum.AGENDADO){
       let index = previousSeguimientos.findIndex(item => item.idPaciente._id === entrySeguimiento.idPaciente._id)

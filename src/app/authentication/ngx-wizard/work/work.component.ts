@@ -66,7 +66,12 @@ export class WorkComponent extends Formulario implements OnInit {
                 alert("datos inconrrectos");
                 return false;
             }
-            this.formDataService.setDataPaciente(this.pacienteForm.value);
+            // this.pacienteForm.patchValue({ familiares_cerco: parseInt(this.pacienteForm.get('familiares_cerco').value) })
+            // console.log({...this.pacienteForm.value, 
+            //             familiares_cerco: parseInt(this.pacienteForm.get('familiares_cerco').value )});
+            
+            this.formDataService.setDataPaciente({...this.pacienteForm.value, 
+                familiares_cerco: parseInt(this.pacienteForm.get('familiares_cerco').value )});
             this.router.navigate(['address'], { relativeTo: this.route.parent, skipLocationChange: true });
         }
     }

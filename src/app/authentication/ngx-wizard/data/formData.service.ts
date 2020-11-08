@@ -67,6 +67,7 @@ export class FormDataService {
         this.formUserData.genero = data.genero;
         this.formUserData.roles = [];
         this.formUserData.direccion = data.direccion;
+        this.formUserData.datos_paciente = null;
         // Validate Personal Step in Workflow
         this.workflowService.validateStep(STEPS.personal);
     }
@@ -97,6 +98,7 @@ export class FormDataService {
         return paciente;
     }
 
+    // parseInt("17", 8);
 
     setDataPaciente(data:FormDataPaciente){
         this.formDataPaciente.aislado_por = data.aislado_por;

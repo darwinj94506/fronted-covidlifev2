@@ -29,9 +29,13 @@ export class DatosUsuarioComponent implements OnInit {
       today.getUTCHours(), today.getUTCMinutes(), today.getUTCSeconds())
   }
 
-  getAnios(date: String){
+  getAnios(date){
+    let b = date.split(/\D/);
+    // console.log(date);
+    // console.log(this.convertDate(date));
     var today = new Date();
-    var birthDate = this.convertDate(date);
+    var birthDate = new Date(b[0], --b[1], b[2]);
+
     var age = today.getFullYear() - birthDate.getFullYear();
     var m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {

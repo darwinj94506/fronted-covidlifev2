@@ -39,20 +39,16 @@ export class ResultComponent implements OnInit {
           this.modalService.open(this.content, { centered: true });
           return false 
         }
-        let userToRegister : SignupIn = this.formDataService.getDataUser()
+
+        let userToRegister : SignupIn = this.formDataService.getDataUser();
+        if(!this.formDataService.isDoctor){
+          let datos_paciente = this.formDataService.getDataPaciente();
+          userToRegister.datos_paciente = {...datos_paciente}
+        }
+        console.log(userToRegister);
         this._authFacade.register(userToRegister)
       }
     
-
-
-
-
-
-
-
-
-
-
     //Submit button event Ends
     onCheckboxChange(e) {
         if (e.target.checked) {
