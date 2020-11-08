@@ -6,8 +6,16 @@ export const environment = {
   production: false,
   agora: {
     appId: 'f213610ccad442b789b700738eae4157'
-  }
+  },
+  http: "https://atencionmedic.herokuapp.com/graphql",
+  wss: "wss://atencionmedic.herokuapp.com/graphql"
 };
+
+
+// const uri = 'http://localhost:3000/graphql';
+// uri:"wss://localhost:3000/graphql",
+
+
 
 /*
  * In development mode, to ignore zone related error stack frames such as

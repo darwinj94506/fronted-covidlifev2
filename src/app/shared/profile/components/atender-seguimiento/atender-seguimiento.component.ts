@@ -30,8 +30,6 @@ interface HistorialSeguimiento extends FiltrarSeguimientoOut{
 
 export class AtenderSeguimientoComponent extends Formulario implements OnInit {
   @Input() seguimiento : HistorialSeguimiento;
-  // soloVer : boolean = false;
-
   seguimientoForm : FormGroup;
   doctor : LoginOut;
   SI: DificultadRespirarEnum = DificultadRespirarEnum.SI;
@@ -64,14 +62,12 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
    }
 
   ngOnInit(): void {
-    // console.log(this.seguimiento);
     this.initForm();
     this._mainFacade.getUserLogged()
     .subscribe(data=> this.doctor = {...data})
   }
 
   onSubmit(){
-    // console.log(this.seguimientoForm.getRawValue());
     if(!this.isEditable() && this.getTextButton()==="Editar"){
       return false
     }
@@ -106,7 +102,6 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
   }
 
   initForm(){
-    console.log(this.getLastFechaAislamiento(this.seguimiento.data).aislamiento_hasta)
     this.seguimientoForm = this.fb.group({
       temperatura: [{ value: this.seguimiento.temperatura, disabled:true }],
       ritmo_cardiaco: [ { value: this.getRitmoSaturacion(this.seguimiento.ritmo_cardiaco), disabled: this.isDisabled() }, [Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],
@@ -122,7 +117,6 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
       aislamiento_desde: [this.getLastFechaAislamiento(this.seguimiento.data).aislamiento_desde],
       aislamiento_hasta: [this.getLastFechaAislamiento(this.seguimiento.data).aislamiento_hasta],
     });
-    // console.log(this.seguimientoForm.getRawValue());
   }
   getRitmoSaturacion(value){
     if (value === 0 || value === "0"){
@@ -138,7 +132,6 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
   }
   // si el seguimiento no tiene diagnostico significa que el doctor no ha atendido ese seguimiento
   // se necesita mostrar el último diagnóstico del paciente siempre y cuando se lo abra desde la vista de seguimientos
-  // 
   getLastDiagnostico(): DiagnosticoActualEnum | null{
     /*  cuando se abre el modal desde el resumen de seguimientos, 
         debe mostrar el seguimiento como está en la bdd
@@ -154,7 +147,7 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
         if(lastSegumiento){
           return lastSegumiento.diagnostico_actual
         }
-        return null
+        return DiagnosticoActualEnum.PROBABLE
       }
       else
         //cuando ya ha sido atendido

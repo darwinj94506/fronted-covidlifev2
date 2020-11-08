@@ -8,10 +8,11 @@ import { getMainDefinition } from 'apollo-utilities';
 import { HttpClientModule } from '@angular/common/http';
 import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
+import { environment } from '../environments/environment'; 
 
 // const uri = 'https://atencionmedic.herokuapp.com/graphql';
 
-const uri = 'http://localhost:3000/graphql';
+// const uri = 'http://localhost:3000/graphql';
 
 export function createApollo(httpLink: HttpLink) {
   const token = localStorage.getItem('token');
@@ -35,10 +36,12 @@ export function createApollo(httpLink: HttpLink) {
   });
   // const http = ApolloLink.from([basic, auth, httpLink.create({ uri })]);
   // uri:"wss://atencionmedic.herokuapp.com/graphql",
+  // uri:"wss://localhost:3000/graphql",
 
-  const http = ApolloLink.from([auth, httpLink.create({ uri })]);
+
+  const http = ApolloLink.from([auth, httpLink.create({ uri:environment.http })]);
   const ws = new WebSocketLink({
-    uri:"wss://localhost:3000/graphql",
+    uri: environment.wss,
     options: {
       reconnect: true,
       connectionParams: {
