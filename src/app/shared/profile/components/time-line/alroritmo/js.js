@@ -14,8 +14,6 @@ function reporte(valor){
            }
        )).value();
    let fechas = getRealDates(getFechasEnCuarentena(Object.keys(_.groupBy(filtrado,i=>i.desde_hasta))));
-   // console.log(fechas);
-   // console.log(JSON.stringify(fechas, null, 4));
 
    let final = _.chain(filtrado)
    .map(i=>({...i, enCuarenta: enCuanrentena(fechas,i)}))
@@ -37,7 +35,6 @@ function reporte(valor){
          arrayFechas.push({ desde: new Date(i.split('/')[0]), hasta: new Date(i.split('/')[1]) })
       }
    })
-   // console.log(JSON.stringify(arrayFechas, null, 4));
    return arrayFechas
  }
 
@@ -90,5 +87,4 @@ function reporte(valor){
        today.getUTCHours(), today.getUTCMinutes(), today.getUTCSeconds())
  }
 
-//  reporte(data);
  reporte(data3);

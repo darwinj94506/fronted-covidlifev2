@@ -180,9 +180,9 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
 
   isEditable(): boolean{
     let hoy = new Date();
-    let fechaSeguimiento = this.transformDate(this.seguimiento.createAt);
-  
-    if(hoy.toDateString() != fechaSeguimiento.toDateString()){
+    // let fechaSeguimiento = this.transformDate(this.seguimiento.createAt);
+    // console.log([hoy.toDateString(), this.seguimiento.createAt.toDateString()]);
+    if(hoy.toDateString() != this.seguimiento.createAt.toDateString()){
       alert("Este seguimiento solo se lo puede editar el mismo día de envío");
       return false;
     }
@@ -221,7 +221,6 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
     .value();
     for(let i=0;i<segOrd.length; i++){
       if(segOrd[i].aislamiento_desde && segOrd[i].aislamiento_hasta){
-        // console.log([segOrd[i].aislamiento_desde, segOrd[i].aislamiento_hasta])
         seguimiento = {...segOrd[i]}; 
         break;
       }
@@ -229,11 +228,7 @@ export class AtenderSeguimientoComponent extends Formulario implements OnInit {
     return seguimiento
   }
 
-  getLastFechaAislamiento(seguimientos: SeguimientoCompletoPacienteOut[]):{ aislamiento_desde: string, aislamiento_hasta:string}{
-    // console.log(this.transformDate(this.seguimiento.aislamiento_desde));
-    // console.log(this.transformDate(this.seguimiento.aislamiento_desde).toISOString().split('T')[0]);
-    // console.log(this.seguimiento.soloVer);
-    
+  getLastFechaAislamiento(seguimientos: SeguimientoCompletoPacienteOut[]):{ aislamiento_desde: string, aislamiento_hasta:string}{    
     if(this.seguimiento.soloVer){ 
       return {
         aislamiento_desde: this.seguimiento.aislamiento_desde? 
