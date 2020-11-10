@@ -137,7 +137,7 @@
                                     <td *ngFor="let seg of seguimientos; let i=index;">
                                         <label (click)="open(seg?.seguimientos[0])" class="observacion" 
                                             *ngIf="seg?.seguimientos[0]?.createAt">
-                                            <label>{{estaCuarentena(seg?.seguimientos[0]?.enCuarenta)}}</label>
+                                            <label>{{seg?.seguimientos[0]?.enCuarenta? 'SÍ': 'NO'}}</label>
                                         </label>
                                     </td>
                                 </tr>

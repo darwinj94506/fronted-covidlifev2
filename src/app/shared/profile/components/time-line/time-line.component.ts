@@ -61,82 +61,115 @@ export class TimeLineComponent implements OnInit, OnDestroy {
       return ''  
   }
   // funciones para ver cuando un paciente esta en cuarentena
+  // reporte(){
+  //   let filtrado = _.chain(this.seguimientosSinProcesar)
+  //   .flatMap(i=>i.seguimientos)
+  //   .map(item=>({...item,
+  //           desde_hasta: this.concatFechas(item.aislamiento_desde,item.aislamiento_hasta),
+  //           aislamiento_desde: this.transformDate(item.aislamiento_desde)?(this.transformDate(item.aislamiento_desde)): null,
+  //           aislamiento_hasta: this.transformDate(item.aislamiento_hasta)?(this.transformDate(item.aislamiento_hasta)): null,
+  //           createAt: this.transformDate(item.createAt),
+  //           createAtCeroHoras: new Date(this.transformDate(item.createAt).getFullYear(),this.transformDate(item.createAt).getMonth(),this.transformDate(item.createAt).getDate(),0,0,0),
+  //           createAtString: this.transformDate(item.createAt).toLocaleDateString() 
+  //           }
+  //       )).value();
+  //   let fechas = this.getFechasEnCuarentena(Object.keys(_.groupBy(filtrado,i=>i.desde_hasta)));
+  //   let final = _.chain(filtrado)
+  //   .map(i=>({...i, enCuarenta: this.enCuanrentena(fechas,i)}))
+  //   .groupBy(i=>i.createAtString)
+  //   .value();
+  //   console.log(final);
+  //   this.seguimientos = [];
+  //   (Object.keys(final)).forEach(i=>{
+  //     let obj = { _id: i, seguimientos: final[i]};
+  //     this.seguimientos.push(obj);
+  //   })
+  // }
+
   reporte(){
     let filtrado = _.chain(this.seguimientosSinProcesar)
     .flatMap(i=>i.seguimientos)
     .map(item=>({...item,
             desde_hasta: this.concatFechas(item.aislamiento_desde,item.aislamiento_hasta),
-            aislamiento_desde: this.transformDate(item.aislamiento_desde)?(this.transformDate(item.aislamiento_desde)): null,
-            aislamiento_hasta: this.transformDate(item.aislamiento_hasta)?(this.transformDate(item.aislamiento_hasta)): null,
+            aislamiento_desde: (item.aislamiento_desde)?(this.transformDate(item.aislamiento_desde)): null,
+            aislamiento_hasta: (item.aislamiento_hasta)?(this.transformDate(item.aislamiento_hasta)): null,
             createAt: this.transformDate(item.createAt),
-            createAtCeroHoras: new Date(this.transformDate(item.createAt).getFullYear(),this.transformDate(item.createAt).getMonth(),this.transformDate(item.createAt).getDate(),0,0,0),
+            createAtCeroHoras:this.setTimeToZero(this.transformDate(item.createAt)), 
             createAtString: this.transformDate(item.createAt).toLocaleDateString() 
             }
         )).value();
-    let fechas = this.getFechasEnCuarentena(Object.keys(_.groupBy(filtrado,i=>i.desde_hasta)));
+    let fechas = this.getRealDates(this.getFechasEnCuarentena(Object.keys(_.groupBy(filtrado,i=>i.desde_hasta))));
     let final = _.chain(filtrado)
     .map(i=>({...i, enCuarenta: this.enCuanrentena(fechas,i)}))
     .groupBy(i=>i.createAtString)
     .value();
-    console.log(final);
     this.seguimientos = [];
     (Object.keys(final)).forEach(i=>{
       let obj = { _id: i, seguimientos: final[i]};
       this.seguimientos.push(obj);
-    })
+    }) 
+    // console.log(JSON.stringify(ordered, null, 4));
   }
 
-   getFechasEnCuarentena(fechas){
+getFechasEnCuarentena(fechas){
     let arrayFechas = [];
     _.forEach(fechas,i=>{
       if(i!="null"){
           arrayFechas.push({ desde: new Date(i.split('/')[0]), hasta: new Date(i.split('/')[1]) })
-          }
+       }
     })
     return arrayFechas
   }
-  enCuanrentena(fechas, seguimiento:any){
-    let cuarentena = false;
-      for(let i=0;i<fechas.length; i++){
-        console.table([[fechas[i].desde], [seguimiento.createAt], [fechas[i].hasta]])
-          if(seguimiento.createAt >= fechas[i].desde && seguimiento.createAt <= fechas[i].hasta){
-            console.log(true);
-              cuarentena = true;
-              break;
-          } 
-      }
-    return cuarentena;
-  }
 
-  concatFechas(fecha1, fecha2){
-    if(fecha1!=null && fecha2 != undefined){
-        let f1 = this.transformDate(fecha1);
-        f1.setHours(0);
-        f1.setMinutes(0);
-        f1.setSeconds(0);
-        let f2 = this.transformDate(fecha2);
-        f2.setHours(23);
-        f2.setMinutes(59);
-        f2.setSeconds(59);    
-        return `${f1}/${f2}`
-    }
-    return null;
+  enCuanrentena(fechas, seguimiento){
+   let cuarentena = false;
+     for(let i=0;i<fechas.length; i++){
+         if(seguimiento.createAtCeroHoras >= fechas[i].desde && seguimiento.createAtCeroHoras <= fechas[i].hasta){
+             cuarentena = true;
+             break;
+         } 
+     }
+   return cuarentena;
+ }
+
+concatFechas(fecha1, fecha2){
+  if(fecha1!=null && fecha1 != undefined){
+      let f1 = this.setTimeToZero(this.transformDate(fecha1));
+      let f2 = this.setTimeToZero(this.transformDate(fecha2));
+      return `${f1}/${f2}`
   }
-  transformDate(t){
-    if(!t){
-        return null
-    }
-    let today = new Date(t);
-    return new Date(
-        today.getFullYear(), today.getUTCMonth(), today.getUTCDate(),
-        today.getUTCHours(), today.getUTCMinutes(), today.getUTCSeconds())
+  return null;
+}
+
+getRealDates(arrayDesdeHasta){
+  for(let i=0; i < arrayDesdeHasta.length; i++){
+     for(let j=i+1; j< arrayDesdeHasta.length; j++){
+        if(JSON.stringify(arrayDesdeHasta[i].desde) === JSON.stringify(arrayDesdeHasta[j].desde)){
+           if(arrayDesdeHasta[i].hasta < arrayDesdeHasta[j].hasta){
+              arrayDesdeHasta.splice(j,1);
+           }else{
+              arrayDesdeHasta.splice(i,1);
+           }
+        }
+     }
   }
-  estaCuarentena(estaCuarentena:boolean): String{
-     if(estaCuarentena)
-         return 'Sí';
-      else
-         return 'No'
-  }
+  return arrayDesdeHasta;
+}
+
+setTimeToZero(date){
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  return date
+}
+
+transformDate(t){
+  let today = new Date(t);
+  return new Date(
+      today.getFullYear(), today.getUTCMonth(), today.getUTCDate(),
+      today.getUTCHours(), today.getUTCMinutes(), today.getUTCSeconds())
+}
+
 }
 
 @Component({

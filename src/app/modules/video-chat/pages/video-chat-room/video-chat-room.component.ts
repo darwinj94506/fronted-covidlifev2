@@ -40,6 +40,7 @@ export class VideoChatRoomComponent implements OnInit, OnDestroy {
               }
 
   ngOnInit(): void {
+    console.log(this.route.snapshot.data.historial);
     this.userProfile$ = this._userFacade.getPerfilUser();
     this.isLoading$ = this._userFacade.getLoadingPerfilUserStore();
     this.seguimientoPorAtender = {
