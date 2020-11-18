@@ -184,8 +184,10 @@ export class NavigationComponent implements AfterViewInit, OnInit {
     // this._router.navigate(['/sala/llamada', seguimiento._id,  RolesUserEnum.DOCTOR, seguimiento.idPaciente._id ], {state: {data: {...seguimiento}}});
 
     // console.log(notification);
-    if(notification.body && notification.body.tipo === TipoNotificacionEnum.DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA
-          || notification.body.tipo === TipoNotificacionEnum.HA_SIDO_AGENDADA )
+
+    // if(notification.body && notification.body.tipo === TipoNotificacionEnum.DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA
+    //   || notification.body.tipo === TipoNotificacionEnum.HA_SIDO_AGENDADA )
+    if(notification.body && notification.body.tipo === TipoNotificacionEnum.DOCTOR_SE_HA_UNIDO_A_LA_LLAMADA)
           this._router.navigate(['/sala/llamada', notification.idSeguimiento, RolesUserEnum.PACIENTE,'123456']);
   }
   
