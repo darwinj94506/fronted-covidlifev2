@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card card-body">
-            <h4 class="card-title">Seguimientos</h4>
+            <h4 class="card-title">Seguimientos de hoy</h4>
             <h5 class="card-subtitle">Seguimientos enviados por usted</h5>
             <div class="d-flex mb-3 mt-3">
                 <!-- <input type="text" class="form-control w-25" placeholder="Buscar por cédula o pasaporte" [(ngModel)]='searchTerm'> -->
@@ -54,6 +54,17 @@
                                     </div>
                                 </td>
 
+                            </tr>
+                            <tr  *ngIf="citas.length<=0">
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <h4>
+                                        Hoy no ha enviado seguimientos
+                                    </h4>
+                                </td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
