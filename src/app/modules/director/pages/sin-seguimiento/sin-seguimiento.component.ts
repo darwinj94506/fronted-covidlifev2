@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { VerPacientesSinSeguimientosPorDiaUseCase } from '../../../../core/usecases/estadisticas';
 import { UsuarioSinSeguimientoPorDiaIn } from '../../../../core/domain/inputs';
 import { UsuarioSinSeguimientoPorDiaOut, VORoleHospitalPopulateLoginOut } from '../../../../core/domain/outputs';
@@ -15,7 +15,9 @@ interface RolHospital{
   templateUrl: './sin-seguimiento.component.html',
   styleUrls: ['./sin-seguimiento.component.css']
 })
-export class SinSeguimientoComponent implements OnInit {
+export class SinSeguimientoComponent implements OnInit   {
+  // @ViewChild("fecha") fecha: ElementRef;
+  initDate;
   hospitalSesion: VORoleHospitalPopulateLoginOut;
   pacientes: UsuarioSinSeguimientoPorDiaOut [];
 
@@ -23,16 +25,20 @@ export class SinSeguimientoComponent implements OnInit {
               VerPacientesSinSeguimientosPorDiaUseCase, 
               private _spinner: NgxSpinnerService,
               private _mainFacade: MainFacade) { }
-
-  ngOnInit(): void {
+  ngOnInit(): void {  
+    this.initDate = this.getToday();
     this._mainFacade.getHospitalSesion()
       .subscribe(data=>{
-        // console.log(data);
         this.hospitalSesion = data
       })
   }
+  getToday(){
+    let hoy = new Date();
+    return `${hoy.getFullYear()}-${hoy.getMonth()+1}-${hoy.getDate()}`
+  }
 
   buscar(fecha){
+    console.log(fecha);
     let b = fecha.split(/\D/);
      let date = new Date(b[0], --b[1], b[2]);
     //  console.log(date);   
