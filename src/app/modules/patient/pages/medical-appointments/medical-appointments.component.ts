@@ -7,9 +7,9 @@ import { MainFacade, SeguimientoFacade } from '../../../../store/facade';
 import { VORoleHospitalPopulateLoginOut } from '../../../../core/domain/outputs';
 const ValidationMessage = {
     temperatura: { required: 'La temperatura es ogligatoria', min:'Es un número muy bajo para ser una temperatura válida', max:'Es un número muy alto para ser una temperatura válida', pattern:'Sólo se admiten números' },
-    ritmo_cardiaco: { min:'Es un número muy bajo para ser válido', max:'Es un número muy alto para ser válido', pattern:'Sólo se admiten números'},
-    saturacion_oxigeno: { min:'Es un número muy bajo para ser válido', max:'Es un número muy alto para ser válido', pattern:'Sólo se admiten números' },
-    dificultad_respirar: { required: 'Es un campo obligatorio' },
+    ritmo_cardiaco: { required: 'Este campo es obligatorio', min:'Es un número muy bajo para ser válido', max:'Es un número muy alto para ser válido', pattern:'Sólo se admiten números'},
+    saturacion_oxigeno: { required: 'Este campo es obligatorio', min:'Es un número muy bajo para ser válido', max:'Es un número muy alto para ser válido', pattern:'Sólo se admiten números' },
+    dificultad_respirar: { required: 'Este campo es obligatorio' },
     nota_paciente: { maxlength:'Una nota no puede tener más de 250 caracteres'},
     estado:{ required: 'Campo obligatorio' },
     estado_diario_paciente:{ required: 'El estado diario es un campo obligatorio'},
@@ -54,9 +54,9 @@ export class MedicalAppointmentsComponent extends Formulario implements OnInit {
 
   initForm(){
     this.seguimientoForm = this.fb.group({
-        temperatura: [ '', [ Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+"), Validators.min(20), Validators.max(50)] ],
-        ritmo_cardiaco: [ null, [Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],
-        saturacion_oxigeno: [ null, [Validators.pattern("^[0-9]*$"), Validators.min(20), Validators.max(200)] ],
+        temperatura: [ '', [ Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+"), Validators.min(30), Validators.max(45)] ],
+        ritmo_cardiaco: [ null, [Validators.required, Validators.pattern("^[0-9]*$"), Validators.min(40), Validators.max(200)] ],
+        saturacion_oxigeno: [ null, [Validators.required, Validators.pattern("^[0-9]*$"), Validators.min(2), Validators.max(100)] ],
         dificultad_respirar: [ '', [Validators.required]],
         examen: [null],
         nota_paciente: [ '', [ Validators.maxLength(250)] ],
